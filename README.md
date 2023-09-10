@@ -1,2 +1,2 @@
 # kTweaks
- Gameplay tweaks
+ Gameplay tweaks for Arma 3
