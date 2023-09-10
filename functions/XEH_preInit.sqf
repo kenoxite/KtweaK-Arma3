@@ -9,7 +9,7 @@
     // Stop if being healed
     _unit addEventHandler ["HandleHeal", {
         // Only apply to local units
-        if (!KTWK_SFH_opt_enabled || !local _this#0) exitwith {};
+        if (!KTWK_SFH_opt_enabled || !local (_this#0)) exitwith {};
         _this spawn {
             // Wait a bit before applying this EH to make sure it's applied, even if all EHs are deleted from the unit (by a mission or other means)
             sleep 3;
