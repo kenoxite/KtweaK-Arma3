@@ -7,25 +7,29 @@
 ["CAManBase", "initPost", {
     params ["_unit"];
     // Stop if being healed
-    _unit addEventHandler ["HandleHeal", {
-        // Only apply to local units
-        if (!KTWK_SFH_opt_enabled || !local (_this#0)) exitwith {};
-        _this spawn {
-            // Wait a bit before applying this EH to make sure it's applied, even if all EHs are deleted from the unit (by a mission or other means)
-            sleep 3;
+    _unit spawn {
+        // Wait a bit before applying this EH to make sure it's applied, even if all EHs are deleted from the unit (by a mission or other means)
+        sleep 3;
+        _this addEventHandler ["HandleHeal", {
+            if (!KTWK_SFH_opt_enabled) exitwith {};
             params ["_injured", "_healer"];
-            private _damage = damage _injured;
-            private _startTime = time;
-            if (_healer == p1) then {
+            // Only apply when healer is a player or a player controlled unit and also if injured unit is local to the player
+            private _players = allPlayers - entities "HeadlessClient_F";
+            if (!local _injured || (!(_healer in _players) && !(remoteControlled _healer in _players))) exitwith {};
+            _this spawn {
+                params ["_injured", "_healer"];
+                private _damage = damage _injured;
+                private _startTime = time;
                 _injured disableAI "MOVE";
                 waitUntil {damage _injured != _damage || !alive _injured || !alive _healer || (time - _startTime) > 30};
                 _injured enableAI "MOVE";
+                // Add some mission rating to the player to reward being an active healer, based on amount healed
                 if (damage _injured != _damage) then {
                     _healer addRating (round (200 * _damage));
                 };
             };
-        };
-    }];
+        }];
+    };
 }] call CBA_fnc_addClassEventHandler;
 
 
