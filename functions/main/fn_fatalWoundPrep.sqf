@@ -1,6 +1,5 @@
 // Fatal Wounds - Preparation by kenoxite
 
-
 params [["_unit", objNull], ["_stance", ""], ["_selection", ""], ["_damage", -1], ["_instigator", objNull], ["_EHindex", -1], ["_grp", grpNull]];
 
 if (isNull _unit) exitwith {true};

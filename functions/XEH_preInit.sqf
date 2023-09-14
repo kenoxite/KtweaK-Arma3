@@ -29,6 +29,16 @@
                 };
             };
         }];
+        _this addEventHandler ["Fired", {
+            if (!KTWK_laser_opt_enabled) exitwith {};
+            // Enable IR laser
+            (_this#0) enableIRLasers true;
+            _this spawn {
+                sleep 2;
+                // Disable IR laser
+                (_this#0) enableIRLasers false;
+            };
+        }];
     };
 }] call CBA_fnc_addClassEventHandler;
 
@@ -66,9 +76,128 @@ Parameters:
 [
     "KTWK_SFH_opt_enabled", 
     "CHECKBOX",
-    ["Enable Stop for Healing", "If enabled, AI infantry will stop moving when being healed, even when the group leader hasn't issued a heal unit order (which is the only way they stop for heals by default).\n"],
-    ["kTweaks", "Stop for Healing"],
+    ["Enable", "If enabled, AI infantry will stop moving when being healed, even when the group leader hasn't issued a heal order (which is the only way they stop for heals by default).\n"],
+    ["kTweaks", "AI Stop for Healing"],
     [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+// -----------------------------------------------------------------------------------------------
+// BettIR AUTOENABLE
+// -----------------------------------------------------------------------------------------------
+[
+    "KTWK_BIR_NVG_illum_opt_enabled", 
+    "LIST",
+    ["Auto enable NVG illuminator", "Automatically enable the NVG illuminator for all AI units, in the specified conditions. It has no effect if BettIR isn't installed.\n"],
+    ["kTweaks", "BettIR Auto Enable for AI"],
+    [[0,1,2], ["Never", "Always", "When too dark or in building"], 2],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_BIR_wpn_illum_opt_enabled", 
+    "LIST",
+    ["Auto enable weapon illuminator", "Automatically enable the weapon illuminator, in the specified conditions. It has no effect if BettIR isn't installed.\n"],
+    ["kTweaks", "BettIR Auto Enable for AI"],
+    [[0,1,2,3], ["Never", "Always", "When too dark or in building", "When too dark or in building and in combat"], 3],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_BIR_stealth_opt_enabled", 
+    "LIST",
+    ["Disable illuminators in stealth mode", "Toggle the use of illuminators by the AI when in stealth mode, in the specified conditions. It has no effect if BettIR isn't installed.\n"],
+    ["kTweaks", "BettIR Auto Enable for AI"],
+    [[0,1,2,3], ["Always", "Never", "Disable NVG illuminators", "Disable weapon illuminators"], 2],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+// -----------------------------------------------------------------------------------------------
+// AI AUTO LASER
+// -----------------------------------------------------------------------------------------------
+[
+    "KTWK_laser_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, infantry AI will briefly enable their IR laser when firing.\n"],
+    ["kTweaks", "AI Auto IR Laser"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+// -----------------------------------------------------------------------------------------------
+// HEALTH HUD
+// -----------------------------------------------------------------------------------------------
+[
+    "KTWK_HUD_health_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, a HUD displaying the damage suffered by the player will briefly appear in the bottom right corner. It will be displayed whenever the health status changes, or as long as the player inventory is opened.\n"],
+    ["kTweaks", "Health HUD"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HUD_health_opt_showInjured", 
+    "CHECKBOX",
+    ["Display when health changes", "If enabled, the health HUD will be briefly displayed whenever the health of any body part changes.\n"],
+    ["kTweaks", "Health HUD"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HUD_health_opt_showInv", 
+    "CHECKBOX",
+    ["Display when inventory is opened", "If enabled, the health HUD will be displayed as long as the player has the inventory opened.\n"],
+    ["kTweaks", "Health HUD"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HUD_health_opt_ColorHealthy", 
+    "COLOR",
+    ["Healthy color", "Color for healthy body parts.\n"],
+    ["kTweaks", "Health HUD"],
+    [0.5,0.5,0.5],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HUD_health_opt_ColorLightWound", 
+    "COLOR",
+    ["Light Wound color", "Color for lightly wounded body parts.\n"],
+    ["kTweaks", "Health HUD"],
+    [1,1,0],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HUD_health_opt_ColorModerateWound", 
+    "COLOR",
+    ["Moderate Wound color", "Color for moderately wounded body parts.\n"],
+    ["kTweaks", "Health HUD"],
+    [1,0.5,0],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HUD_health_opt_ColorSevereWound", 
+    "COLOR",
+    ["Severe Wound color", "Color for severely wounded body parts.\n"],
+    ["kTweaks", "Health HUD"],
+    [0.6,0,0],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -79,8 +208,8 @@ Parameters:
 [
     "KTWK_HFX_opt_enabled", 
     "CHECKBOX",
-    ["Enable Humidity Effects", "If enabled, blurry visuals and muffled sounds will be applied depending on the current fog settings and the location of the player respective to the fog.\nThe effect is increased the deeper the player is into the fog and is lowered when inside a covered vehicle or building.\n"],
-    ["kTweaks", "Humidity Effects"],
+    ["Enable", "If enabled, blurry visuals and muffled sounds will be applied depending on the current fog settings and the location of the player respective to the fog.\nThe effect is increased the deeper the player is into the fog and is lowered when inside a covered vehicle or building.\n"],
+    ["kTweaks", "XPERIMENTAL Humidity Effects"],
     [true],
     nil,
     {} 
@@ -89,7 +218,7 @@ Parameters:
     "KTWK_HFX_opt_intensity", 
     "LIST",
     ["Effect Intensity", "Strength of the blur effect and the dampening of sounds.\n"],
-    ["kTweaks", "Humidity Effects"],
+    ["kTweaks", "XPERIMENTAL Humidity Effects"],
     [[3, 2, 1], ["Low", "Moderate", "Strong"], 1],
     nil,
     {} 
@@ -98,7 +227,7 @@ Parameters:
     "KTWK_HFX_opt_activeEffects", 
     "LIST",
     ["Active Effects", "Choose which effects should be applied.\n"],
-    ["kTweaks", "Humidity Effects"],
+    ["kTweaks", "XPERIMENTAL Humidity Effects"],
     [[0, 1, 2], ["All", "Only visual", "Only auditive"], 1],
     nil,
     {} 
@@ -111,8 +240,8 @@ Parameters:
 [
     "KTWK_FW_opt_enabled", 
     "CHECKBOX",
-    ["Enable Fatal Wounds", "If enabled, dead units will play a fatally wounded animation.\nThe animation played is random, but based on the location of the body part that killed the unit.\nUnits have a chance of being instantly dead (no fatally wounded animation will be played) if the head or chest is severely wounded.\nIn both cases, the unit is actually killed and, if not instantly dead, a clone (an agent) will be spawned to play the fatally wounded animation.\n\nFatally wounded units will scream in pain if using mods like 'SSD Death Screams' or 'Project Human'.\n"],
-    ["kTweaks", "Fatal Wounds"],
+    ["Enable", "If enabled, dead units will play a fatally wounded animation.\nThe animation played is random, but based on the location of the body part that killed the unit.\nUnits have a chance of being instantly dead (no fatally wounded animation will be played) if the head or chest is severely wounded.\nIn both cases, the unit is actually killed and, if not instantly dead, a clone (an agent) will be spawned to play the fatally wounded animation.\n\nFatally wounded units will scream in pain if using mods like 'SSD Death Screams' or 'Project Human'.\n"],
+    ["kTweaks", "XPERIMENTAL Fatal Wounds"],
     [true],
     nil,
     {} 
@@ -122,7 +251,7 @@ Parameters:
     "KTWK_FW_opt_mode", 
     "LIST",
     ["Animation mode", "Delete original corpse: The dead unit is deleted and a clone is created, which will be the one playing the fatally wounded animation.\n\nKeep original corpse: The dead unit is hidden and a clone is created, which will play the fatally wounded animation.\n Once the animation is done,the clone will be deleted and the original dead unit will be repositioned on the last position of the clone.\n Use this option for better compatibility with some missions and mods.\n"],
-    ["kTweaks", "Fatal Wounds"],
+    ["kTweaks", "XPERIMENTAL Fatal Wounds"],
     [["delete", "keep"], ["Delete original corpse", "Keep original corpse"], 1],
     nil,
     {} 
@@ -132,7 +261,7 @@ Parameters:
     "KTWK_FW_opt_maxRange", 
     "SLIDER",
     ["Animation range", "Max distance from the player at which units will play fatally wounded animations, in meters."],
-    ["kTweaks", "Fatal Wounds"],
+    ["kTweaks", "XPERIMENTAL Fatal Wounds"],
     [0, 5000, 500, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -142,7 +271,7 @@ Parameters:
     "KTWK_FW_opt_deleteTimer", 
     "SLIDER",
     ["Time until corpse deletion", "Time until the cloned corpse is 'buried' (hideBody), in seconds. Set to 0 to not delete.\nIt only applies if 'Delete original corpse' is selected and will only delete the clone, so it won't hide the original corpse if it was instant death and no clone was created.\n"],
-    ["kTweaks", "Fatal Wounds"],
+    ["kTweaks", "XPERIMENTAL Fatal Wounds"],
     [0, 3600, 0, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 

@@ -37,12 +37,28 @@ class CfgFunctions
         class Main
         {
             file = "kTweaks\functions\main";
+            preInit = 1;
 
             class inBuilding {};
             class fatalWoundPrep {};
             class cloneDead {};
             class checkBodySlam {};
             class FW_checkUnits {};
+            class BIR_checkUnits {};
+            class playerUnit {};
         };
+
+        class Melee
+        {
+            file = "kTweaks\functions\melee";
+            preInit = 1;
+
+            class inMelee {};
+        };
+
     };
 };
+
+#include "control_defines.inc"
+#include "dialogs\dialog_default.hpp"
+#include "dialogs\dialog_hud.hpp"

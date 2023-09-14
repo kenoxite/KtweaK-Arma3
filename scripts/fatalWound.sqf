@@ -1,4 +1,5 @@
 // Fatal Wounds by kenoxite
+scriptName "Fatal Wounds";
 
 params [["_unit", objNull], ["_stance", ""], ["_selection", ""], ["_damage", -1], ["_instigator", objNull], ["_EHindex", -1], ["_grp", grpNull], ["_clone", objNull]];
 
@@ -48,8 +49,8 @@ private _dir = getDir _clone;
 
 private _currentSide = "back";
 private _anim = "";
-private _scream_SSD = [true, false] select (isNil "SSD_fnc_playSound");
-private _scream_ProjectHuman = [true, false] select (isNil "L_fnc_DeathScream");
+private _scream_SSD = isNil "SSD_fnc_playSound";
+private _scream_ProjectHuman = isNil "L_fnc_DeathScream";
 private _scream = _scream_SSD || _scream_ProjectHuman;
 
 // if (_scream_ProjectHuman) then { [_clone] spawn L_fnc_DeathScream };
@@ -233,7 +234,8 @@ if (_selection == "hands") then {
 
 // Body
 if (_selection == "" || _selection == "body") then {
-    private _inBuilding = [_clone] call KTWK_fnc_inBuilding;
+    // private _inBuilding = [_clone] call KTWK_fnc_inBuilding;
+    private _inBuilding = insideBuilding _clone > 0.9;
     private _type = [ selectRandom ["still", "move"], "still"] select _inBuilding;
     // _type = "still";
     if (_type == "still") then {

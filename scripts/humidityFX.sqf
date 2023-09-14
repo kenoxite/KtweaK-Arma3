@@ -1,4 +1,6 @@
 // Humidity FX by kenoxite
+scriptName "Humidity Effects";
+
 params [["_fog", []]];
 
 if (count _fog > 0) then {
@@ -29,7 +31,8 @@ private _sleepTime = 0.5;
 while {KTWK_HFX_opt_enabled} do {
     _scriptTimer = _scriptTimer + _sleepTime;
     private _altitude = (getPosASL (vehicle player)) #2;
-    private _inBuilding = [player] call KTWK_fnc_inBuilding;
+    // private _inBuilding = [player] call KTWK_fnc_inBuilding;
+    private _inBuilding = insideBuilding player > 0.9;
     private _isOnFoot = isNull objectParent player;
     private _insideVehicle = [false, true] select (!_isOnFoot && !isTurnedOut player && cameraView != "EXTERNAL" && cameraView != "GROUP" && cameraView != "GUNNER" && count (lineIntersectsWith [ (getPosASL player) vectorAdd [0, 0, -0.07], (getPosASL player) vectorAdd [0, 0, 3], player]) > 0);
     private _fogParams = fogParams;
