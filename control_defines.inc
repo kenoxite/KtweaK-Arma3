@@ -1,13 +1,16 @@
 #define IDC_OK            1
 #define IDC_CANCEL        2
 
-// DIALOG - GROUPS
-#define IDC_GRP_HUD_BODYHEALTH 30000
-
 // DIALOG - HUD
 // HUD - Body Health
 #define IDD_HUD_BODYHEALTH 177611
 
+// DIALOG - GROUPS
+// HUD - Body Health
+#define IDC_GRP_HUD_BODYHEALTH 30000
+
+// DIALOG - ELEMENTS
+// HUD - Body Health
 #define IDC_IMG_HUD_HEALTH_BG1 150020
 #define IDC_IMG_HUD_HEALTH_BG2 150021
 #define IDC_IMG_HUD_HEALTH_FG1 150022

@@ -49,8 +49,8 @@ private _dir = getDir _clone;
 
 private _currentSide = "back";
 private _anim = "";
-private _scream_SSD = isNil "SSD_fnc_playSound";
-private _scream_ProjectHuman = isNil "L_fnc_DeathScream";
+private _scream_SSD = !isNil "SSD_fnc_playSound";
+private _scream_ProjectHuman = !isNil "L_fnc_DeathScream";
 private _scream = _scream_SSD || _scream_ProjectHuman;
 
 // if (_scream_ProjectHuman) then { [_clone] spawn L_fnc_DeathScream };
@@ -237,7 +237,7 @@ if (_selection == "" || _selection == "body") then {
     // private _inBuilding = [_clone] call KTWK_fnc_inBuilding;
     private _inBuilding = insideBuilding _clone > 0.9;
     private _type = [ selectRandom ["still", "move"], "still"] select _inBuilding;
-    // _type = "still";
+    _type = "still"; // Disable moving animations (slowly crawling away)
     if (_type == "still") then {
         private _animData = selectRandom [
                                         ["Acts_InjuredLyingRifle01", 10, -30, "back"],

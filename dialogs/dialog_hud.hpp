@@ -7,7 +7,7 @@ class RscTitles
     {
         idd = IDD_HUD_BODYHEALTH;
         name = "HUD_bodyHealth";
-        movingEnable = false;
+        movingEnable = true;
         enableSimulation = true;
         onLoad = "uiNamespace setVariable ['KTWK_GUI_Display_HUD_bodyHealth', _this #0];";
         onUnLoad = "uiNamespace setVariable ['KTWK_GUI_Display_HUD_bodyHealth', nil]";
@@ -20,8 +20,8 @@ class RscTitles
             class KTWK_Grp_HUD_bodyHealth: KTWK_Controls_Group {
                 idc = IDC_GRP_HUD_BODYHEALTH; 
 
-                x = SafeZoneX + (SafeZoneW - (4 * pixelGridNoUIScale * pixelW));
-                y = SafeZoneY + (SafeZoneH - (9 * pixelGridNoUIScale * pixelH));
+                x = SafeZoneX + (SafeZoneW - (3.5 * pixelGridNoUIScale * pixelW));
+                y = SafeZoneY + (SafeZoneH - (7.4 * pixelGridNoUIScale * pixelH));
                 w = 4 * pixelGridNoUIScale * pixelW;
                 h = 8 * pixelGridNoUIScale * pixelH;
 

@@ -1,13 +1,150 @@
-// HUD health
+// HUD health - Init
 scriptName "Health HUD";
-
 #include "..\control_defines.inc";
 
-disableSerialization; 
-// "KTWK_GUI_HUD_bodyHealth" cutRsc ["KTWK_GUI_Display_HUD_bodyHealth", "PLAIN"];
-("KTWK_GUI_HUD_bodyHealth" call BIS_fnc_rscLayer) cutRsc ["KTWK_GUI_Dialog_HUD_bodyHealth","PLAIN", 0, false]; 
+// ----------------------------
+// FUNCTIONS
 
-private _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth"; 
+// Display full HUD while in inventory
+KTWK_fnc_HUD_health_InvEH = {
+    params [["_player", call KTWK_fnc_playerUnit]];
+    KTWK_HUD_health_EH_InvOpened = _player addEventHandler ["InventoryOpened", {
+        if (!KTWK_HUD_health_opt_enabled || !KTWK_HUD_health_opt_showInv) exitwith {false};
+        params ["_unit", "_container"];
+        KTWK_HUD_health_invOpened = true;
+        _this spawn {
+            waitUntil {!isNull (findDisplay 602)}; // Wait until the inventory is opened
+            // Display health HUD
+            KTWK_HUD_health_alpha = 0.6;
+            (_this#0) addEventHandler ["InventoryClosed", {
+                KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
+                KTWK_HUD_health_alphaTemp = 0;
+                KTWK_HUD_health_invOpened = false;
+                {if ((_x #0) == 0) then {_x set [1, 0]} else {_x set [1, (_x #0) max 0.6]}} forEach KTWK_HUD_health_dmgTracker;
+                (_this#0) removeEventHandler ["InventoryClosed", _thisEventHandler];
+            }];
+        };
+    }];
+};
+
+KTWK_fnc_HUD_health_resetDmgTracker = {
+    KTWK_HUD_health_dmgTracker = [];
+    {KTWK_HUD_health_dmgTracker pushback [0, KTWK_HUD_health_opt_alpha]} forEach KTWK_HUD_health_bodyParts; 
+};
+
+KTWK_fnc_HUD_health_reset = {
+    params ["_display"];
+    KTWK_HUD_health_invOpened = false;
+    KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
+    KTWK_HUD_health_alphaTemp = 0;
+    call KTWK_fnc_HUD_health_resetDmgTracker;
+    call KTWK_fnc_HUD_health_update;
+};
+
+KTWK_fnc_HUD_health_update = {
+    #include "..\control_defines.inc";
+    disableSerialization;
+    private _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth";
+    for "_i" from 0 to (count KTWK_HUD_health_bodyParts - 1) do {
+        private _part = KTWK_HUD_health_bodyParts select _i;
+        private _dmg = KTWK_HUD_health_player getHitPointDamage format ["Hit%1", _part];
+
+        private _ctrl = _display displayCtrl (KTWK_HUD_health_ctrlIDCs #_i);
+        private _healthStatus = call {
+            if (_dmg <= 0.1) exitWith { 0 };
+            if (_dmg > 0.1 && _dmg <= 0.3) exitWith { 1 };
+            if (_dmg > 0.3 && _dmg <= 0.7) exitWith { 2 };
+            if (_dmg > 0.7) exitWith { 3 };
+        };
+        private _healthColors = [
+            KTWK_HUD_health_opt_ColorHealthy,
+            KTWK_HUD_health_opt_ColorLightWound,
+            KTWK_HUD_health_opt_ColorModerateWound,
+            KTWK_HUD_health_opt_ColorSevereWound
+        ];
+        private _color = +_healthColors #_healthStatus;
+
+        // Flash when damaged or healed
+        if (_dmg isEqualTo ((KTWK_HUD_health_dmgTracker #_i) #0)) then {
+            // Fade out back to normal alpha
+            KTWK_HUD_health_alphaTemp = (((KTWK_HUD_health_dmgTracker #_i) #1) - 0.005) max KTWK_HUD_health_alpha;
+        } else {
+            KTWK_HUD_health_alphaTemp = 1;
+        };
+
+        // Make it visible while in IMS melee mode
+        if ([KTWK_HUD_health_player] call KTWK_fnc_inMelee) then {
+            KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alphaTemp max 0.5;
+        };
+
+        _color pushBack KTWK_HUD_health_alphaTemp;
+        _ctrl ctrlSetTextColor _color;
+
+        KTWK_HUD_health_dmgTracker set [_i, [_dmg, KTWK_HUD_health_alphaTemp]];
+
+        // Outline
+        private _outlineAlpha = 0;
+        { if ((_x #1) > _outlineAlpha) then {_outlineAlpha = (_x #1)}} forEach KTWK_HUD_health_dmgTracker;
+        _ctrl = _display displayCtrl IDC_IMG_HUD_HEALTH_FG1;
+        _ctrl ctrlSetTextColor [0, 0, 0 , _outlineAlpha];
+    };
+};
+/*
+Common IDDs:
+
+    46: Mission display
+    312: Zeus display
+    49: Pause menu
+    602: Inventory
+    24: Chat box
+    300: Weapon state
+    12: Map
+    160: UAV Terminal
+*/
+
+KTWK_fnc_HUD_health_moveDialog = {
+    // Make HUD visible while moving
+    KTWK_HUD_health_alpha = 1;
+    disableSerialization;
+    private _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth";
+    private _ctrl = _display displayCtrl 30000;
+    _ctrl ctrlSetPosition[
+        SafeZoneX + (SafeZoneW - ((3.5 + KTWK_HUD_health_opt_xPos) * pixelGridNoUIScale * pixelW)),
+        SafeZoneY + (SafeZoneH - ((7.4 + KTWK_HUD_health_opt_yPos) * pixelGridNoUIScale * pixelH)),
+        4 * pixelGridNoUIScale * pixelW,
+        8 * pixelGridNoUIScale * pixelH 
+    ]; 
+    _ctrl ctrlCommit 0;
+    // Reset HUD to default alpha
+    call KTWK_fnc_HUD_health_update;
+    0 spawn {
+        waituntil {IsNull (findDisplay 49)};
+        KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
+        call KTWK_fnc_HUD_health_update;
+    };
+};
+
+KTWK_fnc_HUD_health_resetDialogPos = {
+    KTWK_HUD_health_opt_xPos = 0;
+    KTWK_HUD_health_opt_yPos = 0;
+    disableSerialization;
+    private _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth";
+    private _ctrl = _display displayCtrl 30000;
+    _ctrl ctrlSetPosition[
+        SafeZoneX + (SafeZoneW - ((4 + KTWK_HUD_health_opt_xPos) * pixelGridNoUIScale * pixelW)),
+        SafeZoneY + (SafeZoneH - ((9 + KTWK_HUD_health_opt_yPos) * pixelGridNoUIScale * pixelH)),
+        4 * pixelGridNoUIScale * pixelW,
+        8 * pixelGridNoUIScale * pixelH 
+    ]; 
+    _ctrl ctrlCommit 0;
+};
+
+
+// ----------------------------
+// INIT HUD DISPLAY
+disableSerialization; 
+("KTWK_GUI_HUD_bodyHealth" call BIS_fnc_rscLayer) cutRsc ["KTWK_GUI_Dialog_HUD_bodyHealth","PLAIN", 0, false]; 
+_display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth"; 
 
 _ctrl = (_display displayCtrl IDC_GRP_HUD_BODYHEALTH);
 _ctrl ctrlShow true;
@@ -71,18 +208,13 @@ _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BODY);
 _img = "kTweaks\img\bodyparts\bodyicon_parts_body.paa";
 _ctrl ctrlSetText _img;
 
-KTWK_HUD_health_alpha = 0;
+// ----------------------------
+// GLOBAL VARS
+KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
 KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alpha;
-// KTWK_HUD_health_opt_ColorHealthy = [0.5,0.5,0.5];  // Healthy
-// KTWK_HUD_health_opt_ColorLightWound = [1,1,0];  // Lightly damaged
-// KTWK_HUD_health_opt_ColorModerateWound = [1,0.5,0];  // Moderately damaged
-// KTWK_HUD_health_opt_ColorSevereWound = [0.6,0,0];  // Severely damaged
-
-KTWK_player = player;
-KTWK_HUD_inventoryOpened = false;
-
-KTWK_HUD_health_dmgTracker = [];
-private _bodyParts = [
+KTWK_HUD_health_player = call KTWK_fnc_playerUnit;
+KTWK_HUD_health_invOpened = false;
+KTWK_HUD_health_bodyParts = [
     "Body",
     "Head",
     "Face",
@@ -95,12 +227,8 @@ private _bodyParts = [
     "Hands",
     "Legs"
 ];
-// Fill the array with default values
-{KTWK_HUD_health_dmgTracker pushback [0, KTWK_HUD_health_alpha]} forEach _bodyParts;
-
-private _ctrlIDCs = [
+KTWK_HUD_health_ctrlIDCs = [
     IDC_IMG_HUD_HEALTH_BODY,
-
     IDC_IMG_HUD_HEALTH_HEAD,
     IDC_IMG_HUD_HEALTH_FACE,
     IDC_IMG_HUD_HEALTH_NECK,
@@ -115,97 +243,43 @@ private _ctrlIDCs = [
 
     IDC_IMG_HUD_HEALTH_LEGS
 ];
+KTWK_HUD_health_dmgTracker = [];
+KTWK_HUD_health_EH_InvOpened = -1;
 
-// Display full HUD while in inventory
-KTWK_fnc_InventoryEH = {
-    params [["_player", call KTWK_fnc_playerUnit]];
-    KTWK_HUD_health_EH_InventoryOpened = _player addEventHandler ["InventoryOpened", {
-        if (!KTWK_HUD_health_opt_enabled || !KTWK_HUD_health_opt_showInv) exitwith {false};
-        params ["_unit", "_container"];
-        [] spawn {
-            waitUntil {!isNull (findDisplay 602)}; // Wait until the right dialog is really open
-            // Display health HUD
-            KTWK_HUD_health_alpha = 0.6;
-            KTWK_HUD_inventoryOpened = true;
-            (_this#0) addEventHandler ["InventoryClosed", {
-                KTWK_HUD_health_alpha = 0;
-                KTWK_HUD_health_alphaTemp = 0;
-                KTWK_HUD_inventoryOpened = false;
-                {if ((_x #0) == 0) then {_x set [1, 0]} else {_x set [1, (_x #0) max 0.6]}} forEach KTWK_HUD_health_dmgTracker;
-                (_this#0) removeEventHandler ["InventoryClosed", _thisEventHandler];
-            }];
-        };
-    }];
-};
 
-KTWK_fnc_resetHUD = {
-    KTWK_HUD_inventoryOpened = false;
-    KTWK_HUD_health_alpha = 0;
-    KTWK_HUD_health_alphaTemp = 0;
-};
+// ----------------------------
+// INIT
+call KTWK_fnc_HUD_health_resetDmgTracker;
+[KTWK_HUD_health_player] call KTWK_fnc_HUD_health_InvEH;
+call KTWK_fnc_HUD_health_moveDialog;
 
-[KTWK_player] call KTWK_fnc_InventoryEH;
-
+// ----------------------------
+// MAIN LOOP
+private _ctrl = (_display displayCtrl IDC_GRP_HUD_BODYHEALTH);
 while {true} do {
-    private _ctrl = (_display displayCtrl IDC_GRP_HUD_BODYHEALTH);
-    private _playerUnit = call KTWK_fnc_playerUnit;
-    if (KTWK_player != call KTWK_fnc_playerUnit) then {
-        KTWK_player = _playerUnit;
-        call KTWK_fnc_resetHUD;
-        [KTWK_player] call KTWK_fnc_InventoryEH;
+    private _playerUnit = call KTWK_fnc_playerUnit; // Check for the current player unit
+    private _isAlive = alive KTWK_HUD_health_player;    // Check if the previously stored player unit is alive
+    if (KTWK_HUD_health_player != call KTWK_fnc_playerUnit || !_isAlive) then {
+        // If stored player unit isn't the same as the current one, the player has switched unit, so let's clean up a bit
+        KTWK_HUD_health_player removeEventHandler ["InventoryOpened", KTWK_HUD_health_EH_InvOpened];   // Remove EH from old unit
+        // Wait until respawn or team switch if dead
+        if (!_isAlive) then {
+            while {!alive player} do {
+                sleep 0.5;
+            };
+        };
+        // Just restart the damn thing to avoid all the headaches I'm having when switching units
+        KTWK_scr_HUD_health = [] execVM "kTweaks\scripts\HUD_health.sqf";
+        break;
     };
-    if (!KTWK_HUD_health_opt_enabled || !alive KTWK_player || !(KTWK_player isKindOf "CAManBase") || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_inventoryOpened)) then {
+    if (!KTWK_HUD_health_opt_enabled || !(KTWK_HUD_health_player isKindOf "CAManBase") || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened)) then {
         _ctrl ctrlShow false;
         sleep 1;
         continue
     };
 
     _ctrl ctrlShow true;
-    for "_i" from 0 to (count _bodyParts - 1) do {
-        private _part = _bodyParts select _i;
-        private _dmg = _playerUnit getHitPointDamage format ["Hit%1", _part];
-
-        private _ctrl = _display displayCtrl (_ctrlIDCs #_i);
-        private _healthStatus = call {
-            if (_dmg <= 0.1) exitWith { 0 };
-            if (_dmg > 0.1 && _dmg <= 0.3) exitWith { 1 };
-            if (_dmg > 0.3 && _dmg <= 0.7) exitWith { 2 };
-            if (_dmg > 0.7) exitWith { 3 };
-        };
-        private _healthColors = [
-            KTWK_HUD_health_opt_ColorHealthy,
-            KTWK_HUD_health_opt_ColorLightWound,
-            KTWK_HUD_health_opt_ColorModerateWound,
-            KTWK_HUD_health_opt_ColorSevereWound
-        ];
-        private _color = +_healthColors #_healthStatus;
-
-        // Flash when damaged or healed
-        if (_dmg isEqualTo ((KTWK_HUD_health_dmgTracker #_i) #0)) then {
-            // Fade out back to normal alpha
-            KTWK_HUD_health_alphaTemp = (((KTWK_HUD_health_dmgTracker #_i) #1) - 0.005) max KTWK_HUD_health_alpha;
-        } else {
-            KTWK_HUD_health_alphaTemp = 1;
-        };
-
-        // Make it visible while in IMS melee mode
-        if ([_playerUnit] call KTWK_fnc_inMelee) then {
-            KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alphaTemp max 0.5;
-        };
-
-        _color pushBack KTWK_HUD_health_alphaTemp;
-        _ctrl ctrlSetTextColor _color;
-
-        KTWK_HUD_health_dmgTracker set [_i, [_dmg, KTWK_HUD_health_alphaTemp]];
-
-        // Outline
-        private _outlineAlpha = 0;
-        { if ((_x #1) > _outlineAlpha) then {_outlineAlpha = (_x #1)}} forEach KTWK_HUD_health_dmgTracker;
-        _ctrl = _display displayCtrl IDC_IMG_HUD_HEALTH_FG1;
-        _ctrl ctrlSetTextColor [0, 0, 0 , _outlineAlpha];
-
-    };
+    call KTWK_fnc_HUD_health_update;
 
     sleep 0.05;
 };
-
