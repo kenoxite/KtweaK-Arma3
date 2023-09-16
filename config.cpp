@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0";
+        version = "1.01";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -48,6 +48,26 @@ class CfgFunctions
             class playerUnit {};
         };
 
+        class HUDhealth
+        {
+            file = "KtweaK\functions\HUDhealth";
+
+            class HUD_health_InvEH {};
+            class HUD_health_resetDmgTracker {};
+            class HUD_health_update {};
+            class HUD_health_reset {};
+            class HUD_health_moveDialog {};
+        };
+
+        class GRdrone
+        {
+            file = "KtweaK\functions\GRdrone";
+
+            class GRdrone_playerInUAV {};
+            class GRdrone_spawnDrone {};
+            class GRdrone_addAction {};
+        };
+
         class Melee
         {
             file = "KtweaK\functions\melee";
@@ -55,7 +75,6 @@ class CfgFunctions
 
             class inMelee {};
         };
-
     };
 };
 
