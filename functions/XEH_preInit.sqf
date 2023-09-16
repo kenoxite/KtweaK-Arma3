@@ -43,7 +43,7 @@ Parameters:
 [
     "KTWK_BIR_NVG_illum_opt_enabled", 
     "LIST",
-    ["Auto enable NVG illuminator", "Automatically enable the NVG illuminator for all AI units, in the specified conditions. It has no effect if BettIR isn't installed.\n"],
+    ["Auto enable NVG illuminator", "Automatically enable the NVG and/or weapon illuminator for all AI units, in the specified conditions. It has no effect if BettIR isn't installed.\n"],
     ["kTweaks - BettIR Auto Enable for AI", ""],
     [[0,1,2], ["Never", "Always", "When too dark or in building"], 2],
     nil,
@@ -76,7 +76,7 @@ Parameters:
 [
     "KTWK_laser_opt_enabled", 
     "CHECKBOX",
-    ["Enable", "If enabled, infantry AI will briefly enable their IR laser when firing.\n"],
+    ["Enable", "If enabled, infantry AI will briefly enable their IR laser when firing, emulating Passive Aiming to some degree.\n"],
     ["kTweaks - AI Auto IR Laser", ""],
     [true],
     nil,
