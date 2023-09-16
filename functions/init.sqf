@@ -1,5 +1,5 @@
 // -----------------------------------------------
-// kTWEAKS - Init
+// KtweaK - Init
 // by kenoxite
 // -----------------------------------------------
 
@@ -10,7 +10,7 @@ KTWK_debug = KTWK_opt_debug;
 waitUntil {!isNull player && time > 1};
 
 // Init - Humidity Effects
-KTWK_scr_HFX = [] execVM "kTweaks\scripts\humidityFX.sqf";
+KTWK_scr_HFX = [] execVM "KtweaK\scripts\humidityFX.sqf";
 
 // Update all infantry units array
 KTWK_allInfantry = [];
@@ -123,14 +123,14 @@ if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // Init - Health HUD
-KTWK_scr_HUD_health = [] execVM "kTweaks\scripts\HUD_health.sqf";
+KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
 
 // Init - Ghost Recon Drone
-KTWK_scr_GRdrone = [] execVM "kTweaks\scripts\reconDrone.sqf";
+KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
 
 addMissionEventHandler ["Loaded", {
     params ["_saveType"];
-    diag_log format[ "kTweaks: Mission loaded from %1", _saveType ];
+    diag_log format[ "KtweaK: Mission loaded from %1", _saveType ];
 
     // HUD Health
     _this spawn {
@@ -139,7 +139,7 @@ addMissionEventHandler ["Loaded", {
         if (!isNil {KTWK_scr_HUD_health}) then {
             terminate KTWK_scr_HUD_health;
             waitUntil {scriptDone KTWK_scr_HUD_health};
-            KTWK_scr_HUD_health = [] execVM "kTweaks\scripts\HUD_health.sqf";
+            KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
         };
     };
 }];
@@ -156,7 +156,7 @@ addMissionEventHandler ["TeamSwitch", {
     terminate KTWK_scr_GRdrone;
     _this spawn {
         waitUntil {scriptDone KTWK_scr_GRdrone};
-        KTWK_scr_GRdrone = [] execVM "kTweaks\scripts\reconDrone.sqf";
+        KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
         player remoteControl (_this#1); // Make double sure control is restored to the player
     };
 }];

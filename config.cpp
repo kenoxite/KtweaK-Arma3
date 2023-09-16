@@ -1,8 +1,8 @@
 class CfgPatches
 {
-	class kTweaks
+	class KtweaK
 	{
-        name = "kTweaks";
+        name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
         version = "1.0";
@@ -17,7 +17,7 @@ class CfgPatches
 
 class Extended_PreInit_EventHandlers {
     class KTWK_settings {
-        init = "call compile preprocessFileLineNumbers 'kTweaks\functions\XEH_preInit.sqf'";
+        init = "call compile preprocessFileLineNumbers 'KtweaK\functions\XEH_preInit.sqf'";
     };
 };
 
@@ -30,13 +30,13 @@ class CfgFunctions
             class postInit
             {
                 postInit = 1;
-                file = "kTweaks\functions\init.sqf";
+                file = "KtweaK\functions\init.sqf";
             };
         };
 
         class Main
         {
-            file = "kTweaks\functions\main";
+            file = "KtweaK\functions\main";
             preInit = 1;
 
             class inBuilding {};
@@ -50,7 +50,7 @@ class CfgFunctions
 
         class Melee
         {
-            file = "kTweaks\functions\melee";
+            file = "KtweaK\functions\melee";
             preInit = 1;
 
             class inMelee {};

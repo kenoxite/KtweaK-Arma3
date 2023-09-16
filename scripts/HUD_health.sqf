@@ -157,55 +157,55 @@ _ctrl ctrlCommit 0;
 
 // Background and foreground
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BG1);
-// _img = "kTweaks\img\bodyparts\bodyicon_parts_base.paa";
+// _img = "KtweaK\img\bodyparts\bodyicon_parts_base.paa";
 _img = "";
 _ctrl ctrlSetText _img;
 
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_FG1);
-_img = "kTweaks\img\bodyparts\bodyicon_outline.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_outline.paa";
 _ctrl ctrlSetText _img;
 
 // Head
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_HEAD);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_head.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_head.paa";
 _ctrl ctrlSetText _img;
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_FACE);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_face.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_face.paa";
 _ctrl ctrlSetText _img;
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_NECK);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_neck.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_neck.paa";
 _ctrl ctrlSetText _img;
 
 // Torso
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_CHEST);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_chest.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_chest.paa";
 _ctrl ctrlSetText _img;
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_DIAPHRAGM);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_diaphragm.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_diaphragm.paa";
 _ctrl ctrlSetText _img;
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_ABDOMEN);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_abdomen.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_abdomen.paa";
 _ctrl ctrlSetText _img;
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_PELVIS);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_pelvis.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_pelvis.paa";
 _ctrl ctrlSetText _img;
 
 // Arms
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_ARMS);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_arms.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_arms.paa";
 _ctrl ctrlSetText _img;
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_HANDS);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_hands.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_hands.paa";
 _ctrl ctrlSetText _img;
 
 // Legs
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_LEGS);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_legs.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_legs.paa";
 _ctrl ctrlSetText _img;
 
 // Body
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BODY);
-_img = "kTweaks\img\bodyparts\bodyicon_parts_body.paa";
+_img = "KtweaK\img\bodyparts\bodyicon_parts_body.paa";
 _ctrl ctrlSetText _img;
 
 // ----------------------------
@@ -269,7 +269,7 @@ while {true} do {
             };
         };
         // Just restart the damn thing to avoid all the headaches I'm having when switching units
-        KTWK_scr_HUD_health = [] execVM "kTweaks\scripts\HUD_health.sqf";
+        KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
         break;
     };
     if (!KTWK_HUD_health_opt_enabled || !(KTWK_HUD_health_player isKindOf "CAManBase") || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened)) then {

@@ -53,4 +53,4 @@ _clone setVariable ["UVO_allowDeathShouts",false,true];
 
 private _params = _this + [_clone];
 
-_params execVM "kTweaks\scripts\fatalWound.sqf";
+_params execVM "KtweaK\scripts\fatalWound.sqf";
