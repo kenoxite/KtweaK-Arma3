@@ -12,7 +12,8 @@ private _instantDeath = (
                 (_selection == "head" || _selection == "neck" || _selection == "face_hub") && random 1 <= (KTWK_FW_opt_instantDeath_head/100)) // High chance of instant death when head is damaged
                 || (_selection == "spine3" && random 1 <= (KTWK_FW_opt_instantDeath_chest/100)); // Medium chance of instant death when chest is damaged
 
-if(!KTWK_FW_opt_enabled || vehicle _unit != _unit || _unit distance player > KTWK_FW_opt_maxRange || isPlayer _unit || _instantDeath) exitWith {
+private _player = call KTWK_fnc_playerUnit;
+if(!KTWK_FW_opt_enabled || vehicle _unit != _unit || _unit distance _player > KTWK_FW_opt_maxRange || isPlayer _unit || _instantDeath) exitWith {
     _unit setVariable ["KTWK_FW_Killed",true]; 
     if (KTWK_debug) then { systemchat "Instant death" };
 };

@@ -354,5 +354,7 @@ if (KTWK_FW_opt_mode == "keep") then {
     addToRemainsCollector [_clone];
 
     // Squad Feedback compatibility
-    if (_grp == group player) then { SQFB_units append [_clone] };
+    if (!isNil {SQFB_player}) then {
+        if (_grp == group SQFB_player) then { SQFB_units append [_clone] };
+    };
 };

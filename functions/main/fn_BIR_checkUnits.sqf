@@ -1,14 +1,16 @@
 //
-private _allInfantry = KTWK_allInfantry - [player];
+private _allInfantry = KTWK_allInfantry - [call KTWK_fnc_playerUnit];
+private _stealth = KTWK_BIR_stealth_opt_enabled;
+private _nvg = KTWK_BIR_NVG_illum_opt_enabled;
+private _wpn = KTWK_BIR_wpn_illum_opt_enabled;
 
 // Check all infantry units
 {
-    private _stealth = KTWK_BIR_stealth_opt_enabled;
-    private _nvg = KTWK_BIR_NVG_illum_opt_enabled;
-    private _wpn = KTWK_BIR_wpn_illum_opt_enabled;
     // Reset illuminators status
     [_x] call BettIR_fnc_nvgIlluminatorOff;
     [_x] call BettIR_fnc_weaponIlluminatorOff;
+    // Skip if nightvision isn't active
+    if (currentVisionMode _x != 1) then {continue};
     private _behaviour = behaviour _x;
     private _inStealth = _behaviour == "STEALTH";
     if (_stealth == 0 && _inStealth) then {continue};   // Disable if in stealth mode
@@ -16,7 +18,6 @@ private _allInfantry = KTWK_allInfantry - [player];
     private _posASL = getPosASL _x;
     private _tooDark = overcast > 0.6 || moonIntensity < 0.1 || insideBuilding _x > 0.9;
     // Enable NVG Illuminator
-    [_x] call BettIR_fnc_nvgIlluminatorOff;
     if (_nvg > 0
         && (
             _stealth == 0 && !_inStealth
@@ -32,7 +33,6 @@ private _allInfantry = KTWK_allInfantry - [player];
         };   
     };
     // Enable weapon Illuminator
-    [_x] call BettIR_fnc_weaponIlluminatorOff;
     if (_wpn > 0
         && (
             _stealth == 0 && !_inStealth

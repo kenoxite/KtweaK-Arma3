@@ -40,7 +40,7 @@ if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
 
 // AI auto enable IR laser
 ["CAManBase", "fired", {
-    if (!KTWK_laser_opt_enabled) exitwith {};
+    if (!KTWK_laser_opt_enabled || {currentVisionMode (_this#0) != 1}) exitwith {};
     // Enable IR laser
     (_this#0) enableIRLasers true;
     _this spawn {
