@@ -1,5 +1,5 @@
-# KtweaK
-Gameplay tweaks for Arma 3.
+![KtweaK](https://i.imgur.com/Qm3qVfA.png)
+#### Gameplay Tweaks for Singleplayer
  
 You can check the already packed version by visiting this mod's [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3036516333) page.
 
