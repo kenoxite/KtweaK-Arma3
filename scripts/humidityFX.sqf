@@ -11,7 +11,6 @@ waituntil { !isNull player };
 
 private _player = call KTWK_fnc_playerUnit;
 KTWK_HFX_inFog = false;
-KTWK_HFX_lastAltitude = (getPosASL (vehicle _player)) #2;
 KTWK_HFX_lastFogParams = fogParams;
 KTWK_HFX_soundVolume = soundVolume;
 KTWK_HFX_environmentVolume = environmentVolume;
@@ -22,6 +21,8 @@ KTWK_HFX_initialEnvironmentVolume = KTWK_HFX_environmentVolume;
 KTWK_HFX_initialSpeechVolume = KTWK_HFX_speechVolume;
 KTWK_HFX_initialRadioVolume = KTWK_HFX_radioVolume;
 KTWK_HFX_fogFXactive = false;
+
+_player setVariable ["KTWK_HFX_altitude", (getPosASL (vehicle _player)) #2];
 
 private _audioEffectWasOn = KTWK_HFX_opt_activeEffects != 1;
 private _scriptTimer = 0;
@@ -47,7 +48,6 @@ while {KTWK_HFX_opt_enabled} do {
     if (_altitudeDiff > (_fogBase * 0.1)) then {KTWK_HFX_effect = _maxEffect};
     if (_insideVehicle || _inBuilding) then { KTWK_HFX_effect = KTWK_HFX_effect min 0.2 };
 
-
     private _wasInFog = KTWK_HFX_inFog;
     private _isUnderwater = (eyePos _player) #2 < 0 && (cameraView == "INTERNAL" || cameraView == "GUNNER");
     KTWK_HFX_inFog = _fogSet && {_altitudeMod > 0 && !_isUnderwater};
@@ -67,10 +67,6 @@ while {KTWK_HFX_opt_enabled} do {
         };
         // Sound
         if (KTWK_HFX_opt_activeEffects == 0 || KTWK_HFX_opt_activeEffects == 2) then {
-            // KTWK_HFX_soundVolume = soundVolume;
-            // KTWK_HFX_environmentVolume = environmentVolume;
-            // KTWK_HFX_speechVolume = speechVolume;
-            // KTWK_HFX_radioVolume = radioVolume;
             _delay fadeSound (1 - _altitudeMod) max 0.05;
             _delay fadeEnvironment (1 - _altitudeMod) max 0;
             _delay fadeSpeech (1 - _altitudeMod) max 0.05;
@@ -81,13 +77,15 @@ while {KTWK_HFX_opt_enabled} do {
     };
 
     // Update effects based on current altitude, inside a vehicle or building
-    if (_fogSet && KTWK_HFX_fogFXactive && KTWK_HFX_inFog && _wasInFog && (abs(_altitude - KTWK_HFX_lastAltitude) > 1 || !(KTWK_HFX_lastFogParams isEqualTo _fogParams)) || ((_player getVariable ["KTWK_inVehicle", false]) != _insideVehicle) || ((_player getVariable ["KTWK_inBuilding", false]) != _inBuilding)) then {
+    if (_fogSet && KTWK_HFX_fogFXactive && KTWK_HFX_inFog && _wasInFog && (abs(_altitude - (_player getVariable ["KTWK_HFX_altitude", 0])) > 1 || !(KTWK_HFX_lastFogParams isEqualTo _fogParams)) || ((_player getVariable ["KTWK_inVehicle", false]) != _insideVehicle) || ((_player getVariable ["KTWK_inBuilding", false]) != _inBuilding)) then {
         private _delay = 1;
         // Visual
         if (KTWK_HFX_opt_activeEffects < 2) then {
-            KTWK_HFX_fog_handle ppEffectEnable true;
-            KTWK_HFX_fog_handle ppEffectAdjust [KTWK_HFX_effect max 0];
-            KTWK_HFX_fog_handle ppEffectCommit _delay;
+            if (!isNil {KTWK_HFX_fog_handle}) then {
+                KTWK_HFX_fog_handle ppEffectEnable true;
+                KTWK_HFX_fog_handle ppEffectAdjust [KTWK_HFX_effect max 0];
+                KTWK_HFX_fog_handle ppEffectCommit _delay;
+            };
         } else {
             KTWK_HFX_fog_handle ppEffectEnable false;
         };
@@ -105,7 +103,7 @@ while {KTWK_HFX_opt_enabled} do {
                 _delay fadeRadio KTWK_HFX_initialRadioVolume;
             };
         };
-        KTWK_HFX_lastAltitude = _altitude;
+        _player setVariable ["KTWK_HFX_altitude", _altitude];
         // waitUntil {ppEffectCommitted KTWK_HFX_fog_handle};
         if (KTWK_debug && (_scriptTimer mod 5) == 0) then { diag_log format ["Humidity FX tweaked - altitude: %1, limit altitude: %2, effect: %3, invehicle: %4", _altitude, _fogBase, KTWK_HFX_effect max 0, _insideVehicle] };
     };
