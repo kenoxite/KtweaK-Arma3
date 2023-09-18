@@ -16,10 +16,6 @@ KTWK_HFX_soundVolume = soundVolume;
 KTWK_HFX_environmentVolume = environmentVolume;
 KTWK_HFX_speechVolume = speechVolume;
 KTWK_HFX_radioVolume = radioVolume;
-KTWK_HFX_initialSoundVolume = KTWK_HFX_soundVolume;
-KTWK_HFX_initialEnvironmentVolume = KTWK_HFX_environmentVolume;
-KTWK_HFX_initialSpeechVolume = KTWK_HFX_speechVolume;
-KTWK_HFX_initialRadioVolume = KTWK_HFX_radioVolume;
 KTWK_HFX_fogFXactive = false;
 
 _player setVariable ["KTWK_HFX_altitude", (getPosASL (vehicle _player)) #2];
@@ -128,11 +124,8 @@ while {KTWK_HFX_opt_enabled} do {
         };
     };
 
-    // KTWK_HFX_wasUnderwater = _isUnderwater;
     _player setVariable ["KTWK_isUnderwater", _isUnderwater];
-    // KTWK_HFX_wasInBuilding = _inBuilding;
     _player setVariable ["KTWK_inBuilding", _inBuilding];
-    // KTWK_HFX_wasInsideVehicle = _insideVehicle;
     _player setVariable ["KTWK_inVehicle", _insideVehicle];
     KTWK_HFX_lastFogParams = _fogParams;
 
@@ -144,10 +137,10 @@ while {KTWK_HFX_opt_enabled} do {
 // Deactivate humidity effects
 if (!isNil "KTWK_HFX_fog_handle") then {
     private _delay = 0;
-    _delay fadeSound KTWK_HFX_initialSoundVolume;
-    _delay fadeEnvironment KTWK_HFX_initialEnvironmentVolume;
-    _delay fadeSpeech KTWK_HFX_initialSpeechVolume;
-    _delay fadeRadio KTWK_HFX_initialRadioVolume;
+    _delay fadeSound KTWK_HFX_soundVolume;
+    _delay fadeEnvironment KTWK_HFX_environmentVolume;
+    _delay fadeSpeech KTWK_HFX_speechVolume;
+    _delay fadeRadio KTWK_HFX_radioVolume;
     sleep _delay;
     KTWK_HFX_fog_handle ppEffectEnable false;
     ppEffectDestroy KTWK_HFX_fog_handle;
