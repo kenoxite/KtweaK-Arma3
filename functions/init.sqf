@@ -15,19 +15,7 @@ KTWK_scr_HFX = [] execVM "KtweaK\scripts\humidityFX.sqf";
 // Update all infantry units array
 KTWK_allInfantry = [];
 KTWK_FW_EH_update = [{
-    private _allInfantry = allUnits select {_x isKindOf "CAManBase"};
-    // Exclude zombies, animals, etc
-    KTWK_allInfantry = _allInfantry select {
-            if (_x isKindOf "zombie"
-                || _x isKindOf "dbo_horse_Base_F"
-                || !(isNil {_x getVariable "WBK_AI_ISZombie"})
-                || faction _x == "dev_mutants"
-                ) then {
-                false //Remove element from array
-            } else {
-                true //Keep element in array
-            };
-        };
+    KTWK_allInfantry = allUnits select {[_x] call KTWK_fnc_isHuman};
 }, 3, []] call CBA_fnc_addPerFrameHandler;
 
 // Fatal Wounds
@@ -121,6 +109,14 @@ if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
     }; 
     if (_item != "") then { _unit addItem _item };
 }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+
+// Disable voice mods from non humans
+KTWK_disableVoices_update = [{
+    private _nonHumans = allUnits select { !(_x in KTWK_allInfantry) };
+    (agents select { !([_x] call KTWK_fnc_isHuman) }) apply { _nonHumans pushBack (agent _x); };
+    { [_x] call KTWK_fnc_disableVoice; _x setVariable ["KTWK_disabledVoice", true]; } forEach (_nonHumans select {!(_x getVariable ["KTWK_disabledVoice", false])});
+}, 3, []] call CBA_fnc_addPerFrameHandler;
 
 // Init - Health HUD
 KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
