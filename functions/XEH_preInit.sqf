@@ -25,13 +25,13 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 // -----------------------------------------------------------------------------------------------
-// DISABLE VOICES FROM NON HUMANS
+// DISABLE VOICES FOR NON HUMANS
 // -----------------------------------------------------------------------------------------------
 [
     "KTWK_disableVoices_opt_enabled", 
     "CHECKBOX",
-    ["Enable", "If enabled, voice mods will be disabled for non humanoid units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse.\nSupported voice mods: Unit Voice-overs, SSD Death Screams, Project SFX.\n"],
-    ["KtweaK - Disable voice mods from non-humans", ""],
+    ["Enable", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse.\nSupported voice mods: Unit Voice-overs, SSD Death Screams, Project SFX.\n"],
+    ["KtweaK - Disable voice mods for non-humans", ""],
     [true],
     nil,
     {} 
