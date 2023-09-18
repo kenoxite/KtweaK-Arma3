@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.3";
+        version = "1.0.4";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -46,6 +46,9 @@ class CfgFunctions
             class FW_checkUnits {};
             class BIR_checkUnits {};
             class playerUnit {};
+            class disableVoice {};
+            class isHuman {};
+            class isZombie {};
         };
 
         class HUDhealth
