@@ -10,12 +10,8 @@ if (count _fog > 0) then {
 waituntil { !isNull player };
 
 private _player = call KTWK_fnc_playerUnit;
-KTWK_HFX_inFog = false;
 KTWK_HFX_lastFogParams = fogParams;
-KTWK_HFX_soundVolume = soundVolume;
-KTWK_HFX_environmentVolume = environmentVolume;
-KTWK_HFX_speechVolume = speechVolume;
-KTWK_HFX_radioVolume = radioVolume;
+KTWK_HFX_inFog = false;
 KTWK_HFX_fogFXactive = false;
 
 _player setVariable ["KTWK_HFX_altitude", (getPosASL (vehicle _player)) #2];
@@ -66,7 +62,6 @@ while {KTWK_HFX_opt_enabled} do {
             _delay fadeSound (1 - _altitudeMod) max 0.05;
             _delay fadeEnvironment (1 - _altitudeMod) max 0;
             _delay fadeSpeech (1 - _altitudeMod) max 0.05;
-            _delay fadeRadio KTWK_HFX_radioVolume;
         };
         waitUntil {ppEffectCommitted KTWK_HFX_fog_handle};
         if (KTWK_debug) then { systemchat "Humidity FX enabled" };
@@ -90,13 +85,12 @@ while {KTWK_HFX_opt_enabled} do {
             _delay fadeSound (1 - _altitudeMod) max 0.05;
             _delay fadeEnvironment (1 - _altitudeMod) max 0;
             _delay fadeSpeech (1 - _altitudeMod) max 0.05;
-            _delay fadeRadio KTWK_HFX_radioVolume;
         } else {
             if (_audioEffectWasOn) then {
-                _delay fadeSound KTWK_HFX_initialSoundVolume;
-                _delay fadeEnvironment KTWK_HFX_initialEnvironmentVolume;
-                _delay fadeSpeech KTWK_HFX_initialSpeechVolume;
-                _delay fadeRadio KTWK_HFX_initialRadioVolume;
+                systemchat "HFX: Restoring sounds";
+                _delay fadeSound 1;
+                _delay fadeEnvironment 1;
+                _delay fadeSpeech 1;
             };
         };
         _player setVariable ["KTWK_HFX_altitude", _altitude];
@@ -109,11 +103,11 @@ while {KTWK_HFX_opt_enabled} do {
         private _delay = [3, 0] select _isUnderwater;
         // Restore sound levels
         if (KTWK_HFX_opt_activeEffects == 0 || KTWK_HFX_opt_activeEffects == 2) then {
-            _delay fadeSound KTWK_HFX_soundVolume;
-            _delay fadeEnvironment KTWK_HFX_environmentVolume;
-            _delay fadeSpeech KTWK_HFX_speechVolume;
-            _delay fadeRadio KTWK_HFX_radioVolume;
-            sleep _delay;
+        systemchat "HFX: Restoring sounds";
+        _delay fadeSound 1;
+        _delay fadeEnvironment 1;
+        _delay fadeSpeech 1;
+        sleep _delay;
         };
         // Destroy blur effect
         if (!isNil {KTWK_HFX_fog_handle}) then {
@@ -136,11 +130,11 @@ while {KTWK_HFX_opt_enabled} do {
 
 // Deactivate humidity effects
 if (!isNil "KTWK_HFX_fog_handle") then {
+    systemchat "HFX: Restoring sounds";
     private _delay = 0;
-    _delay fadeSound KTWK_HFX_soundVolume;
-    _delay fadeEnvironment KTWK_HFX_environmentVolume;
-    _delay fadeSpeech KTWK_HFX_speechVolume;
-    _delay fadeRadio KTWK_HFX_radioVolume;
+    _delay fadeSound 1;
+    _delay fadeEnvironment 1;
+    _delay fadeSpeech 1;
     sleep _delay;
     KTWK_HFX_fog_handle ppEffectEnable false;
     ppEffectDestroy KTWK_HFX_fog_handle;
