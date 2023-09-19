@@ -5,13 +5,15 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.4";
+        version = "1.0.5";
         //url = "";
 
         requiredVersion = 1.60; 
         requiredAddons[] = { "A3_Functions_F", "CBA_Main", "cba_settings", "Extended_Eventhandlers" };
-        units[] = {};
-        weapons[] = {};
+        units[] = {
+        };
+        weapons[] = {
+        };
 	};
 };
 
@@ -47,6 +49,7 @@ class CfgFunctions
             class BIR_checkUnits {};
             class playerUnit {};
             class disableVoice {};
+            class disableVoiceCheck {};
             class isHuman {};
             class isZombie {};
         };
@@ -84,3 +87,21 @@ class CfgFunctions
 #include "control_defines.inc"
 #include "dialogs\dialog_default.hpp"
 #include "dialogs\dialog_hud.hpp"
+
+class CfgMagazines
+{
+    class CA_Magazine;
+    class KTWK_GRdrone: CA_Magazine
+    {
+        displayName = "GR Drone Dispenser";
+        scope = 2;
+        scopeArsenal = 2;
+        scopeCurator = 2;
+        author = "kenoxite";
+        picture ="\KtweaK\weapons\data\ui\drone_icon.paa";
+        model="\A3\Drones_F\Air_F_Gamma\UAV_01\UAV_01_F.p3d";
+        icon = "iconObject_circle"; //Leave as is
+        descriptionShort = "Dispenser of GR Drones, allowing their automatic launch and control.";
+        mass = 80;
+    };
+};

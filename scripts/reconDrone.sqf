@@ -30,7 +30,9 @@ while {true} do {
     };
     // Manage adding and removing of drone action
     private _actionId = KTWK_GRdrone_player getVariable ["KTWK_GRdrone_actionId", -1];
-    if (KTWK_GRdrone_opt_enabled) then {
+    private _droneInInv = "KTWK_GRdrone" in (itemsWithMagazines _playerUnit);
+    private _dronePrereqsMet = !KTWK_GRdrone_opt_itemRequired || {KTWK_GRdrone_opt_itemRequired && _droneInInv};
+    if (KTWK_GRdrone_opt_enabled && _dronePrereqsMet) then {
         if (_actionId < 0) then {
             [KTWK_GRdrone_player] call KTWK_fnc_GRdrone_addAction;
         };

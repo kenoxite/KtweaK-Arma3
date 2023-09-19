@@ -4,29 +4,15 @@ if (isNil {KTWK_GRdrone_player}) then { KTWK_GRdrone_player = call KTWK_fnc_play
     
 private _playerPos = getPos vehicle KTWK_GRdrone_player;
 private _UAV = createVehicle ["B_UAV_01_F", vehicle KTWK_GRdrone_player getRelPos [2, 0], [], 0, "NONE"];
+_UAV setObjectTexture [0, "\KtweaK\drones\air\uav_01\data\uav_01_black_co.paa"];
 createVehicleCrew _UAV;
 private _grp = createGroup playerSide;
 {[_x] joinSilent _grp} count crew _UAV;
-// Disable misc stuff for the drone
-_UAV spawn {
-    // Stalker Voices
-    private _unitsArray = missionNamespace getVariable ["FGSVunits",[]];
-    // Disable voices
-    {
-        _x setSpeaker "NoVoice";
-        // Project SFX
-        _x setVariable ["disableUnitSFX", true];
-        // Disable Stalker Voices
-        if !(isNil {_unitsArray}) then {
-            waitUntil {sleep 1; _x in _unitsArray || !alive _x || isNull _x};
-            if (alive _x) then {
-                private _idx = _unitsArray find _x;
-                _unitsArray deleteAt _idx;
-                missionNamespace setVariable ["FGSVunits",_unitsArray];
-            };
-        };
-    } forEach crew _this;
-};
+
+// Init drone stuff
+if (!KTWK_GRdrone_opt_enableNV) then { _UAV disableNVGEquipment true };
+if (!KTWK_GRdrone_opt_enableTI) then { _UAV disableTIEquipment true };
+
 // Position drone
 _UAV setDir getDir vehicle KTWK_GRdrone_player;
 private _pos = getPos _UAV;
@@ -64,12 +50,6 @@ _UAV switchCamera "internal";
             _disconnect = true;
             hintSilent parseText "<t color='#FF0000'>Signal lost</t>";
         };
-        // // Check for team switch
-        // private _playerUnit = call KTWK_fnc_playerUnit;
-        // if(KTWK_GRdrone_player != _playerUnit && !call KTWK_fnc_GRdrone_playerInUAV) then {
-        //     player remoteControl _playerUnit;
-        //     _disconnect = true;
-        // };
         // Return control to the player unit proper if there's an automatic disconnect
         if (_disconnect) then {
             objNull remoteControl driver _UAV;
@@ -81,14 +61,16 @@ _UAV switchCamera "internal";
     private _batteryLeft = 100;
     while {alive _UAV && alive KTWK_GRdrone_player && call KTWK_fnc_GRdrone_playerInUAV && KTWK_GRdrone_opt_enabled} do
     {
-        // AI won't attack if altitude is over 25m
-        // private _pos = getPosATL _UAV;
-        // private _h = _pos#2;
-        // if (_h > 25) then {
-        //     _UAV setCaptive true;
-        // } else {
-        //     _UAV setCaptive false;
-        // };
+        // AI won't attack if drone is at this altitude
+        if (KTWK_GRdrone_opt_invisibleHeight >= 0) then {
+            private _pos = getPosATL _UAV;
+            private _h = _pos#2;
+            if (_h >= KTWK_GRdrone_opt_invisibleHeight) then {
+                _UAV setCaptive true;
+            } else {
+                _UAV setCaptive false;
+            };
+        };
         // Display current drone status
         private _dist = round ((getPos _UAV) distance2D _playerPos);
         private _timeLeft = (KTWK_GRdrone_opt_maxTime - _timer) max 0;
