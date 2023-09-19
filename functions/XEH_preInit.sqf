@@ -30,7 +30,7 @@ Parameters:
 [
     "KTWK_disableVoices_opt_enabled", 
     "CHECKBOX",
-    ["Enable", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse.\nSupported voice mods: Unit Voice-overs, SSD Death Screams, Project SFX.\n"],
+    ["Enable", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse.\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
     ["KtweaK - Disable voice mods for non-humans", ""],
     [true],
     nil,
@@ -139,7 +139,6 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
-
 [
     "KTWK_HUD_health_opt_xPos", 
     "SLIDER",
@@ -150,7 +149,6 @@ Parameters:
     { call KTWK_fnc_HUD_health_moveDialog; }
 ] call CBA_fnc_addSetting;
 
-
 [
     "KTWK_HUD_health_opt_yPos", 
     "SLIDER",
@@ -160,7 +158,6 @@ Parameters:
     nil,
     { call KTWK_fnc_HUD_health_moveDialog; }
 ] call CBA_fnc_addSetting;
-
 
 [
     "KTWK_HUD_health_opt_ColorHealthy", 
@@ -245,6 +242,46 @@ Parameters:
     { call KTWK_fnc_HUD_health_moveDialog; }
 ] call CBA_fnc_addSetting;
 
+[
+    "KTWK_GRdrone_opt_itemRequired", 
+    "CHECKBOX",
+    ["Require GR Drone in Inventory", "If enabled, the 'GR Drone Dispenser' item (actually a magazine) must be in the player's controlled unit inventory in order to launch the drone.\n"],
+    ["KtweaK - GR Drone", ""],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_GRdrone_opt_enableNV", 
+    "CHECKBOX",
+    ["Enable Night Vision", "If enabled, night vision mode will be enabled for the recon drone.\n"],
+    ["KtweaK - GR Drone", ""],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_GRdrone_opt_enableTI", 
+    "CHECKBOX",
+    ["Enable Thermal Vision", "If enabled, thermal vision mode will be enabled for the recon drone.\n"],
+    ["KtweaK - GR Drone", ""],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_GRdrone_opt_invisibleHeight", 
+    "SLIDER",
+    ["Enemy Attack Height Limit", "AI won't attack if the altitude of the drone is the specified one or above.\nSet to -1 for enemies to always attack, regardless of altitude.\n"],
+    ["KtweaK - GR Drone", ""],
+    [-1, 999, -1, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    nil,
+    {}
+] call CBA_fnc_addSetting;
+
 // -----------------------------------------------------------------------------------------------
 // ACE Map Flashlights
 // -----------------------------------------------------------------------------------------------
@@ -310,6 +347,7 @@ Parameters:
     nil,
     {} 
 ] call CBA_fnc_addSetting;
+
 [
     "KTWK_HFX_opt_intensity", 
     "LIST",
@@ -319,6 +357,7 @@ Parameters:
     nil,
     {} 
 ] call CBA_fnc_addSetting;
+
 [
     "KTWK_HFX_opt_activeEffects", 
     "LIST",
@@ -392,5 +431,3 @@ Parameters:
     nil,
     {} 
 ] call CBA_fnc_addSetting;
-
-
