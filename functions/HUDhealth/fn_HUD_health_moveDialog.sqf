@@ -1,6 +1,6 @@
 // Moves the HUD to the position stated in the settings
 
-KTWK_HUD_health_alpha = 1;
+KTWK_HUD_health_alpha = 0.6;
 disableSerialization;
 private _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth";
 private _ctrl = _display displayCtrl 30000;

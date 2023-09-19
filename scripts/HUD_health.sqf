@@ -110,6 +110,8 @@ while {true} do {
         KTWK_HUD_health_player removeEventHandler ["InventoryOpened", KTWK_HUD_health_EH_InvOpened];   // Remove EH from old unit
         // Wait until respawn or team switch if dead
         if (!_isAlive) then {
+            // Display health HUD
+            KTWK_HUD_health_alpha = 0.6;
             while {!alive player} do {
                 sleep 0.5;
             };
