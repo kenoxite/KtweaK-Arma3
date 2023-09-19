@@ -22,7 +22,7 @@ _id = _unit addAction
                                     ];
                         };
                     } else {
-                        hintSilent parseText "<t color='#FF0000'>Recon Drone not in inventory</t>";
+                        hintSilent parseText "<t color='#FF0000'>Recon Drone Dispenser not in inventory</t>";
                     };
                 } else {
                     hintSilent parseText "<t color='#FF0000'>Recon Drone not available inside vehicles</t>";
