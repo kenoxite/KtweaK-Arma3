@@ -9,22 +9,30 @@ KTWK_debug = KTWK_opt_debug;
 // Wait for player init
 waitUntil {!isNull player && time > 1};
 
+KTWK_allInfantry = [];
+KTWK_allCreatures = [];
+
 // Init - Humidity Effects
 KTWK_scr_HFX = [] execVM "KtweaK\scripts\humidityFX.sqf";
 
-// Update all infantry units array
-KTWK_allInfantry = [];
-KTWK_FW_EH_update = [{
+// Global system loop
+KTWK_scr_update = [{
+    // Update all infantry units array
     KTWK_allInfantry = allUnits select {[_x] call KTWK_fnc_isHuman};
+
+    // Disable voice mods for non humans
+    if (KTWK_disableVoices_opt_enabled) then {
+        call KTWK_fnc_disableVoiceCheck;
+    };
+
+    // Fatal Wounds
+    if (KTWK_FW_opt_enabled && time > 10) then { [] call KTWK_fnc_FW_checkUnits };
+
+    // BettIR - auto enable NVG illuminator for all units
+    if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
+        if ((KTWK_BIR_NVG_illum_opt_enabled > 0 || KTWK_BIR_wpn_illum_opt_enabled > 0)) then { [] call KTWK_fnc_BIR_checkUnits };
+    };
 }, 3, []] call CBA_fnc_addPerFrameHandler;
-
-// Fatal Wounds
-KTWK_FW_EH_update = [{ if (KTWK_FW_opt_enabled && time > 10) then { [] call KTWK_fnc_FW_checkUnits }; }, 5, []] call CBA_fnc_addPerFrameHandler;
-
-// BettIR - auto enable NVG illuminator for all units
-if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
-    KTWK_BIR_update = [{ if ((KTWK_BIR_NVG_illum_opt_enabled > 0 || KTWK_BIR_wpn_illum_opt_enabled > 0)) then { [] call KTWK_fnc_BIR_checkUnits }; }, 3, []] call CBA_fnc_addPerFrameHandler;
-};
 
 // AI auto enable IR laser
 ["CAManBase", "fired", {
@@ -109,14 +117,6 @@ if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
     }; 
     if (_item != "") then { _unit addItem _item };
 }, true, [], true] call CBA_fnc_addClassEventHandler;
-
-
-// Disable voice mods from non humans
-KTWK_disableVoices_update = [{
-    private _nonHumans = allUnits select { !(_x in KTWK_allInfantry) };
-    (agents select { !([_x] call KTWK_fnc_isHuman) }) apply { _nonHumans pushBack (agent _x); };
-    { [_x] call KTWK_fnc_disableVoice; _x setVariable ["KTWK_disabledVoice", true]; } forEach (_nonHumans select {!(_x getVariable ["KTWK_disabledVoice", false])});
-}, 3, []] call CBA_fnc_addPerFrameHandler;
 
 // Init - Health HUD
 KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
