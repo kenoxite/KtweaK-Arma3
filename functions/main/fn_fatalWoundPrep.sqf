@@ -27,23 +27,6 @@ _unit setVariable ["UVO_speaking",nil,true];
 _unit setVariable ["UVO_suppressBuffer",nil,true];
 _unit setVariable ["UVO_allowDeathShouts",false,true];
 
-// Drop weapon, by johnnyboy
-// private _weapon = currentWeapon _unit;
-// if (_weapon != "") then {    
-//     _magazine = currentMagazine _unit;
-//     _unit removeWeapon (currentWeapon _unit);
-//     sleep .1;
-//     private _weaponHolder = "WeaponHolderSimulated" createVehicle [0,0,0];
-//     _weaponHolder addWeaponCargoGlobal [_weapon, 1];
-//     _weaponHolder addMagazineCargoGlobal [_magazine, 1];
-//     _weaponHolder setPos (_unit modelToWorld [0,.2,1.2]);
-//     _weaponHolder disableCollisionWith _unit;
-//     // private _wpnDir = random(360);
-//     private _wpnDir = getDir _unit;
-//     private _speed = 1 + (random 2);
-//     _weaponHolder setVelocity [_speed * sin(_wpnDir), _speed * cos(_wpnDir), 1.5]; 
-// };
-
 private _clone = [_unit, _stance] call KTWK_fnc_cloneDead;
 if (isNull _clone) exitwith {true};
 // Unit Voice-Overs mod compatibility
