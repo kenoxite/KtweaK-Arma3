@@ -48,6 +48,7 @@ while {KTWK_HFX_opt_enabled} do {
 
     private _decayMod = (1 - (_fogDecay * (_altitude - _fogBase))) min 1;
     private _fogDensity = ((_fogValue * _decayMod) min _fogValue) max 0;
+    if (_fogDecay <= 0.03) then { _fogDensity = _fogDensity max (_fogValue * 0.15) };
     KTWK_HFX_effect = _fogDensity * _visualFXMod;
 
     if (_insideVehicle || _inBuilding) then { KTWK_HFX_effect = KTWK_HFX_effect min 0.2 };
