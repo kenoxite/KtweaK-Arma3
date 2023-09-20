@@ -207,7 +207,7 @@ Parameters:
     "CHECKBOX",
     ["Enable", "If enabled, an action will be added to the player unit that will allow to automatically launch and control an AR-2 drone for a brief time.\n"],
     ["KtweaK - GR Drone", ""],
-    [false],
+    [true],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -247,7 +247,7 @@ Parameters:
     "CHECKBOX",
     ["Require GR Drone in Inventory", "If enabled, the 'GR Drone Dispenser' item (actually a magazine) must be in the player's controlled unit inventory in order to launch the drone.\n"],
     ["KtweaK - GR Drone", ""],
-    [false],
+    [true],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
