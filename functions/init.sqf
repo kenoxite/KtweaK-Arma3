@@ -21,7 +21,7 @@ KTWK_scr_update = [{
     KTWK_allInfantry = allUnits select {[_x] call KTWK_fnc_isHuman};
 
     // Disable voice mods for non humans
-    if (KTWK_disableVoices_opt_enabled) then {
+    if (KTWK_disableVoices_opt_creatures) then {
         call KTWK_fnc_disableVoiceCheck;
     };
 
@@ -157,3 +157,7 @@ addMissionEventHandler ["TeamSwitch", {
     };
 }];
 
+// SOG: Disable US voices
+if (!isNil {vn_sam_masteraudioarray} && {KTWK_disableVoices_opt_SOGUS}) then {
+    [] execVM "KtweaK\scripts\SOG_disableUSvoices_JB.sqf";
+};

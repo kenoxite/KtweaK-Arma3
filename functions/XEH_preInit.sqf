@@ -25,14 +25,24 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 // -----------------------------------------------------------------------------------------------
-// DISABLE VOICES FOR NON HUMANS
+// DISABLE VOICES
 // -----------------------------------------------------------------------------------------------
 [
-    "KTWK_disableVoices_opt_enabled", 
+    "KTWK_disableVoices_opt_creatures", 
     "CHECKBOX",
-    ["Enable", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse.\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
-    ["KtweaK - Disable voice mods for non-humans", ""],
+    ["Disable Voice Mods for Creatures", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse.\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
+    ["KtweaK - Disable voices", ""],
     [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_disableVoices_opt_SOGUS", 
+    "CHECKBOX",
+    ["Disable Default Voices for SOG US", "If enabled, the default ambient voices for US troops in S.O.G. Prairie Fire will be disabled. This option has no effect if that CDLC isn't active.\n"],
+    ["KtweaK - Disable voices", ""],
+    [false],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
