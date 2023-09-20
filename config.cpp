@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.5";
+        version = "1.0.6";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -41,7 +41,6 @@ class CfgFunctions
             file = "KtweaK\functions\main";
             preInit = 1;
 
-            class inBuilding {};
             class fatalWoundPrep {};
             class cloneDead {};
             class checkBodySlam {};
