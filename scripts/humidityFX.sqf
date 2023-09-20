@@ -19,7 +19,7 @@ KTWK_HFX_lastFogParams = fogParams;
 KTWK_HFX_inFog = false;
 KTWK_HFX_fogFXactive = false;
 
-private _audioEffectWasOn = KTWK_HFX_opt_activeEffects != 1;
+private _applyAudioFXLast = KTWK_HFX_opt_activeEffects != 1;
 
 private _scriptTimer = 0;
 private _sleepTime = 0.5;
@@ -28,45 +28,56 @@ while {KTWK_HFX_opt_enabled} do {
     private _visualFXMod = [1, 0.5, 0.25] select KTWK_HFX_opt_intensity - 1;
     private _audioFXMod = [1.5, 1, 0.75] select KTWK_HFX_opt_intensity - 1;
     private _player = call KTWK_fnc_playerUnit;
+    private _fogDensityLast = _player getVariable ["KTWK_fogDensity", 0];
+    private _insideVehicleLast = _player getVariable ["KTWK_inVehicle", false];
+    private _inBuildingLast = _player getVariable ["KTWK_inBuilding", false];
+    private _underwaterLast = _player getVariable ["KTWK_isUnderwater", false];
+
+    private _eyePos = (eyePos _player) #2;
     private _alt = (getPosASL (vehicle _player)) #2;
-    // private _inBuilding = [_player] call KTWK_fnc_inBuilding;
     private _inBuilding = insideBuilding _player > 0.9;
     private _isOnFoot = isNull objectParent _player;
-    private _insideVehicle = !_isOnFoot && !isTurnedOut _player && cameraView != "EXTERNAL" && cameraView != "GROUP" && cameraView != "GUNNER" && count (lineIntersectsWith [ (getPosASL _player) vectorAdd [0, 0, -0.07], (getPosASL _player) vectorAdd [0, 0, 3], _player]) > 0;
+    private _thridPerson = cameraView == "EXTERNAL" || cameraView == "GROUP";
+    private _insideVehicle = !_isOnFoot && !isTurnedOut _player && !_thridPerson && cameraView != "GUNNER" && count (lineIntersectsWith [ (getPosASL _player) vectorAdd [0, 0, -0.07], (getPosASL _player) vectorAdd [0, 0, 3], _player]) > 0;
+    private _altitude = [_eyePos, _alt] select _thridPerson;
     private _fogParams = fogParams;
     private _fogValue = _fogParams #0;
     private _fogDecay = _fogParams #1;
     private _fogBase = _fogParams #2;
     private _fogSet = (_fogValue > 0 && _fogDecay > 0) && isNull (uiNamespace getVariable ["BIS_fnc_arsenal_cam", objNull]);
 
-    private _decayMod = (1 - (_fogDecay * (_alt - _fogBase))) min 1;
+    private _decayMod = (1 - (_fogDecay * (_altitude - _fogBase))) min 1;
     private _fogDensity = ((_fogValue * _decayMod) min _fogValue) max 0;
     KTWK_HFX_effect = _fogDensity * _visualFXMod;
 
     if (_insideVehicle || _inBuilding) then { KTWK_HFX_effect = KTWK_HFX_effect min 0.2 };
 
     private _wasInFog = KTWK_HFX_inFog;
-    private _isUnderwater = (eyePos _player) #2 < 0 && (cameraView == "INTERNAL" || cameraView == "GUNNER");
+    private _isUnderwater = _eyePos < 0 && (cameraView == "INTERNAL" || cameraView == "GUNNER");
     KTWK_HFX_inFog = _fogSet && {_fogDensity > 0 && !_isUnderwater};
 
-    private _applyVisuals = KTWK_HFX_opt_activeEffects < 2;
-    private _applyAudio = KTWK_HFX_opt_activeEffects == 0 || KTWK_HFX_opt_activeEffects == 2;
+    private _applyVisualFX = KTWK_HFX_opt_activeEffects < 2;
+    private _applyAudioFX = KTWK_HFX_opt_activeEffects == 0 || KTWK_HFX_opt_activeEffects == 2;
+
+    // ACE compatibility
+    if (!isNil {ace_hearing_enableCombatDeafness} && {ace_hearing_enableCombatDeafness}) then { _applyAudioFX = false };  // Disable audio FX if ACE Hearing is enabled
+    if (!isNil {acex_volume_enabled} && {acex_volume_enabled}) then { _applyAudioFX = false };  // Disable audio FX if ACE Volume is enabled
 
     // Apply humidity effects
     if (KTWK_HFX_inFog && !_wasInFog) then {
-        private _delay = [_sleepTime, 0] select ((!_isUnderwater && (_player getVariable ["KTWK_isUnderwater", false])) || ((_player getVariable ["KTWK_inBuilding", false]) && !_inBuilding));
+        private _delay = [_sleepTime, 0] select ((!_isUnderwater && _underwaterLast) || (_inBuildingLast && !_inBuilding));
         // Visual
         KTWK_HFX_fog_handle = ppEffectCreate ["DynamicBlur", 401];
         KTWK_HFX_fogFXactive = true;
-        if (_applyVisuals) then {
+        if (_applyVisualFX) then {
             KTWK_HFX_fog_handle ppEffectEnable true;
-            KTWK_HFX_fog_handle ppEffectAdjust [KTWK_HFX_effect max 0];
+            KTWK_HFX_fog_handle ppEffectAdjust [KTWK_HFX_effect];
             KTWK_HFX_fog_handle ppEffectCommit _delay;
         } else {
             KTWK_HFX_fog_handle ppEffectEnable false;
         };
         // Sound
-        if (_applyAudio) then {
+        if (_applyAudioFX) then {
             _delay fadeSound (1 - (_fogDensity * _audioFXMod)) max 0.05;
             _delay fadeEnvironment (1 - (_fogDensity * _audioFXMod)) max 0;
             _delay fadeSpeech (1 - (_fogDensity * _audioFXMod)) max 0.05;
@@ -75,7 +86,7 @@ while {KTWK_HFX_opt_enabled} do {
         if (KTWK_debug) then { systemchat "Humidity FX enabled" };
     };
 
-    // Update effects based if values of fog, fog density, inside a vehicle or building have changed
+    // Update effects if values of fog, fog density, inside a vehicle or building have changed
     if (
         _fogSet
         && KTWK_HFX_fogFXactive
@@ -83,43 +94,43 @@ while {KTWK_HFX_opt_enabled} do {
         && _wasInFog
         && (
             !(KTWK_HFX_lastFogParams isEqualTo _fogParams)
-            || (_player getVariable ["KTWK_fogDensity", _fogDensity]) != _fogDensity
-            || ((_player getVariable ["KTWK_inVehicle", false]) != _insideVehicle)
-            || ((_player getVariable ["KTWK_inBuilding", false]) != _inBuilding)
+            || abs (_fogDensityLast - _fogDensity) >= 0.05
+            || _insideVehicleLast != _insideVehicle
+            || _inBuildingLast != _inBuilding
             )
         ) then {
         private _delay = _sleepTime;
         // Visual
-        if (_applyVisuals) then {
+        if (_applyVisualFX) then {
             if (!isNil {KTWK_HFX_fog_handle}) then {
                 KTWK_HFX_fog_handle ppEffectEnable true;
-                KTWK_HFX_fog_handle ppEffectAdjust [KTWK_HFX_effect max 0];
+                KTWK_HFX_fog_handle ppEffectAdjust [KTWK_HFX_effect];
                 KTWK_HFX_fog_handle ppEffectCommit _delay;
             };
         } else {
             KTWK_HFX_fog_handle ppEffectEnable false;
         };
         // Sound
-        if (_applyAudio) then {
+        if (_applyAudioFX) then {
             _delay fadeSound (1 - (_fogDensity * _audioFXMod)) max 0.05;
             _delay fadeEnvironment (1 - (_fogDensity * _audioFXMod)) max 0;
             _delay fadeSpeech (1 - (_fogDensity * _audioFXMod)) max 0.05;
         } else {
-            if (_audioEffectWasOn) then {
+            if (_applyAudioFXLast) then {
                 _delay fadeSound 1;
                 _delay fadeEnvironment 1;
                 _delay fadeSpeech 1;
             };
         };
         // waitUntil {ppEffectCommitted KTWK_HFX_fog_handle};
-        if (KTWK_debug && (_scriptTimer mod 5) == 0) then { diag_log format ["Humidity FX tweaked - altitude: %1, limit altitude: %2, fog density: %3, effect: %4, invehicle: %5", _alt, _fogBase, _fogDensity, KTWK_HFX_effect, _insideVehicle] };
+        if (KTWK_debug && (_scriptTimer mod 5) == 0) then { diag_log format ["Humidity FX tweaked - altitude: %1, fog base: %2, fog density: %3, effect: %4, invehicle: %5", _altitude, _fogBase, _fogDensity, KTWK_HFX_effect, _insideVehicle] };
     };
 
     // Remove effects if player exits foggy area
     if (!_fogSet || {KTWK_HFX_fogFXactive && !KTWK_HFX_inFog && _wasInFog}) then {
         private _delay = [_sleepTime, 0] select _isUnderwater;
         // Restore sound levels
-        if (_applyAudio) then {
+        if (_applyAudioFX) then {
             _delay fadeSound 1;
             _delay fadeEnvironment 1;
             _delay fadeSpeech 1;
@@ -140,7 +151,7 @@ while {KTWK_HFX_opt_enabled} do {
     _player setVariable ["KTWK_fogDensity", _fogDensity];
     KTWK_HFX_lastFogParams = _fogParams;
 
-    _audioEffectWasOn = KTWK_HFX_opt_activeEffects != 1;
+    _applyAudioFXLast = _applyAudioFX;
 
     sleep _sleepTime;
 };
@@ -148,7 +159,7 @@ while {KTWK_HFX_opt_enabled} do {
 // Deactivate humidity effects
 if (!isNil "KTWK_HFX_fog_handle") then {
     private _delay = 0;
-    if (_audioEffectWasOn) then {
+    if (_applyAudioFXLast) then {
         _delay fadeSound 1;
         _delay fadeEnvironment 1;
         _delay fadeSpeech 1;
