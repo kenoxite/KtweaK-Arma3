@@ -38,10 +38,10 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_disableVoices_opt_SOGUS", 
+    "KTWK_disableVoices_opt_SOGUS",
     "CHECKBOX",
     ["Disable Default Voices for SOG US", "If enabled, the default ambient voices for US troops in S.O.G. Prairie Fire will be disabled. This option has no effect if that CDLC isn't active.\n"],
-    ["KtweaK - Disable voices", ""],
+    ["KtweaK - Disable Voices", ""],
     [false],
     nil,
     {} 
