@@ -27,24 +27,46 @@ Parameters:
 // -----------------------------------------------------------------------------------------------
 // DISABLE VOICES
 // -----------------------------------------------------------------------------------------------
+// Creatures
 [
     "KTWK_disableVoices_opt_creatures", 
     "CHECKBOX",
     ["Disable Voice Mods for Creatures", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse.\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
-    ["KtweaK - Disable voices", ""],
+    ["KtweaK - Disable Voices", "Creatures"],
     [true],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
 
+// SOG
 [
-    "KTWK_disableVoices_opt_SOGUS",
-    "CHECKBOX",
-    ["Disable Default Voices for SOG US", "If enabled, the default ambient voices for US troops in S.O.G. Prairie Fire will be disabled. This option has no effect if that CDLC isn't active.\n"],
-    ["KtweaK - Disable Voices", ""],
-    [false],
+    "KTWK_toggleVoices_opt_SOG_US",
+    "LIST",
+    ["Ambient Voices for US units", "The default ambient voices for American troops in S.O.G. Prairie Fire will be enabled or disabled, according to this setting. This option has no effect if that CDLC isn't active.\n"],
+    ["KtweaK - Disable Voices", "S.O.G. Prairie Fire"],
+    [[0,1,2], ["Enable all", "Disable all but death screams", "Disable all"], 0],
     nil,
-    {} 
+    { if (time > 0.1) then { call KTWK_fnc_toggleSOGvoices; } } 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_toggleVoices_opt_SOG_AU",
+    "LIST",
+    ["Ambient Voices for AU units", "The default ambient voices for Australian troops in S.O.G. Prairie Fire will be enabled or disabled, according to this setting. This option has no effect if that CDLC isn't active.\n"],
+    ["KtweaK - Disable Voices", "S.O.G. Prairie Fire"],
+    [[0,1,2], ["Enable all", "Disable all but death screams", "Disable all"], 0],
+    nil,
+    { if (time > 0.1) then { call KTWK_fnc_toggleSOGvoices; } } 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_toggleVoices_opt_SOG_NZ",
+    "LIST",
+    ["Ambient Voices for NZ units", "The default ambient voices for New Zealander troops in S.O.G. Prairie Fire will be enabled or disabled, according to this setting. This option has no effect if that CDLC isn't active.\n"],
+    ["KtweaK - Disable Voices", "S.O.G. Prairie Fire"],
+    [[0,1,2], ["Enable all", "Disable all but death screams", "Disable all"], 0],
+    nil,
+    { if (time > 0.1) then { call KTWK_fnc_toggleSOGvoices; } } 
 ] call CBA_fnc_addSetting;
 
 // -----------------------------------------------------------------------------------------------
@@ -80,7 +102,7 @@ Parameters:
     ["KtweaK - BettIR Auto Enable for AI", ""],
     [[0,1,2,3], ["Never", "Always", "When too dark or in building", "When too dark or in building and in combat"], 3],
     nil,
-    {} 
+    {}
 ] call CBA_fnc_addSetting;
 
 [
@@ -255,9 +277,19 @@ Parameters:
 [
     "KTWK_GRdrone_opt_itemRequired", 
     "CHECKBOX",
-    ["Require GR Drone in Inventory", "If enabled, the 'GR Drone Dispenser' item (actually a magazine) must be in the player's controlled unit inventory in order to launch the drone.\n"],
+    ["Require GR Drone in Inventory", "If enabled, the 'GR Drone Dispenser' item must be in the player controlled unit's inventory in order to launch the drone.\n"],
     ["KtweaK - GR Drone", ""],
     [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_GRdrone_opt_enableLaser", 
+    "CHECKBOX",
+    ["Enable Laser", "If enabled, the default laser will be available in the recon drone.\n"],
+    ["KtweaK - GR Drone", ""],
+    [false],
     nil,
     {} 
 ] call CBA_fnc_addSetting;
@@ -285,7 +317,7 @@ Parameters:
 [
     "KTWK_GRdrone_opt_invisibleHeight", 
     "SLIDER",
-    ["Enemy Attack Height Limit", "AI won't attack if the altitude of the drone is the specified one or above.\nSet to -1 for enemies to always attack, regardless of altitude.\n"],
+    ["Enemy Attack Altitude Limit", "AI won't attack if the altitude of the drone is the specified one or above.\nSet to -1 for enemies to always attack, regardless of altitude.\n"],
     ["KtweaK - GR Drone", ""],
     [-1, 999, -1, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,

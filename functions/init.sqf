@@ -3,20 +3,22 @@
 // by kenoxite
 // -----------------------------------------------
 
-waitUntil {!isNil "KTWK_opt_debug"};
-KTWK_debug = KTWK_opt_debug;
-
 // Wait for player init
 waitUntil {!isNull player && time > 1};
 
 KTWK_allInfantry = [];
 KTWK_allCreatures = [];
 
+// SOG ambient voices
+if (!isNil {vn_sam_masteraudioarray}) then {
+    call KTWK_fnc_toggleSOGvoices;
+};
+
 // Init - Humidity Effects
 KTWK_scr_HFX = [] execVM "KtweaK\scripts\humidityFX.sqf";
 
 // Global system loop
-KTWK_scr_update = [{
+KTWK_scr_update = [{    
     // Update all infantry units array
     KTWK_allInfantry = allUnits select {[_x] call KTWK_fnc_isHuman};
 
@@ -86,28 +88,28 @@ KTWK_scr_update = [{
     private _side = side _unit;
     private _item = "";
     call {
-        if (_side == west && KTWK_ACEfl_opt_BLUFOR > 0) exitWith {
+        if (_side == west && {KTWK_ACEfl_opt_BLUFOR > 0}) exitWith {
             if (KTWK_ACEfl_opt_BLUFOR < 4) then {
                 _item = _fl#(KTWK_ACEfl_opt_BLUFOR-1);
             } else {
                 _item = selectRandom _fl;
             };
         };
-        if (_side == east && KTWK_ACEfl_opt_OPFOR > 0) exitWith {
+        if (_side == east && {KTWK_ACEfl_opt_OPFOR > 0}) exitWith {
             if (KTWK_ACEfl_opt_OPFOR < 4) then {
                 _item = _fl#(KTWK_ACEfl_opt_OPFOR-1);
             } else {
                 _item = selectRandom _fl;
             };
         };
-        if (_side == resistance && KTWK_ACEfl_opt_INDEP > 0) exitWith {
+        if (_side == resistance && {KTWK_ACEfl_opt_INDEP > 0}) exitWith {
             if (KTWK_ACEfl_opt_INDEP < 4) then {
                 _item = _fl#(KTWK_ACEfl_opt_INDEP-1);
             } else {
                 _item = selectRandom _fl;
             };
         };
-        if (_side == civilian && KTWK_ACEfl_opt_CIV > 0) exitWith {
+        if (_side == civilian && {KTWK_ACEfl_opt_CIV > 0}) exitWith {
             if (KTWK_ACEfl_opt_CIV < 4) then {
                 _item = _fl#(KTWK_ACEfl_opt_CIV-1);
             } else {
@@ -156,8 +158,3 @@ addMissionEventHandler ["TeamSwitch", {
         player remoteControl (_this#1); // Make double sure control is restored to the player
     };
 }];
-
-// SOG: Disable US voices
-if (!isNil {vn_sam_masteraudioarray} && {KTWK_disableVoices_opt_SOGUS}) then {
-    [] execVM "KtweaK\scripts\SOG_disableUSvoices_JB.sqf";
-};
