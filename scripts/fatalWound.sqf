@@ -64,7 +64,7 @@ if (_selection == "head" || _selection == "neck" || _selection == "face_hub") th
     private _animTime = _animData select 1;
     private _animDir = _animData select 2;
     private _animSide = _animData select 3;
-    if (KTWK_debug) then { systemchat format ["Head injury anim: %1", _anim] };
+    if (KTWK_opt_debug) then { systemchat format ["Head injury anim: %1", _anim] };
     // if (_currentSide == "front" && _animSide == "back") then {
     //     _clone setUnconscious true;
     //     sleep 0.001;
@@ -104,7 +104,7 @@ if (_selection == "spine3") then {
     private _animTime = _animData select 1;
     private _animDir = _animData select 2;
     private _animSide = _animData select 3;
-    if (KTWK_debug) then { systemchat format ["Chest injury anim: %1", _anim] };
+    if (KTWK_opt_debug) then { systemchat format ["Chest injury anim: %1", _anim] };
     if (_currentSide == "front" && _animSide == "back") then {
         _clone setUnconscious true;
         sleep 0.001;
@@ -145,7 +145,7 @@ if (_selection == "spine1" || _selection == "spine2" || _selection == "pelvis") 
     private _animTime = _animData select 1;
     private _animDir = _animData select 2;
     private _animSide = _animData select 3;
-    if (KTWK_debug) then { systemchat format ["Stomach injury anim: %1", _anim] };
+    if (KTWK_opt_debug) then { systemchat format ["Stomach injury anim: %1", _anim] };
     if (_currentSide == "front" && _animSide == "back") then {
         _clone setUnconscious true;
         sleep 0.001;
@@ -177,7 +177,7 @@ if (_selection == "legs") then {
     private _animTime = _animData select 1;
     private _animDir = _animData select 2;
     private _animSide = _animData select 3;
-    if (KTWK_debug) then { systemchat format ["Leg injury anim: %1", _anim] };
+    if (KTWK_opt_debug) then { systemchat format ["Leg injury anim: %1", _anim] };
     // if (_currentSide == "front" && _animSide == "back") then {
     //     _clone setUnconscious true;
     //     sleep 0.001;
@@ -209,7 +209,7 @@ if (_selection == "hands") then {
     private _animTime = _animData select 1;
     private _animDir = _animData select 2;
     private _animSide = _animData select 3;
-    if (KTWK_debug) then { systemchat format ["Arm injury anim: %1", _anim] };
+    if (KTWK_opt_debug) then { systemchat format ["Arm injury anim: %1", _anim] };
     // if (_currentSide == "front" && _animSide == "back") then {
     //     _clone setUnconscious true;
     //     sleep 0.001;
@@ -258,7 +258,7 @@ if (_selection == "" || _selection == "body") then {
         private _animTime = _animData select 1;
         private _animDir = _animData select 2;
         private _animSide = _animData select 3;
-        if (KTWK_debug) then { systemchat format ["Generic still anim: %1", _anim] };
+        if (KTWK_opt_debug) then { systemchat format ["Generic still anim: %1", _anim] };
         if (_currentSide == "front" && _animSide == "back") then {
             _clone setUnconscious true;
             sleep 0.001;
@@ -302,7 +302,7 @@ if (_selection == "" || _selection == "body") then {
         private _animTime = _animData select 1;
         private _animDir = _animData select 2;
         private _animSide = _animData select 3;
-        if (KTWK_debug) then { systemchat format ["Generic moving anim: %1", _anim] };
+        if (KTWK_opt_debug) then { systemchat format ["Generic moving anim: %1", _anim] };
         if (_currentSide == "front" && _animSide == "back") then {
             _clone setUnconscious true;
             sleep 0.001;
@@ -325,7 +325,7 @@ if (_selection == "" || _selection == "body") then {
 }; 
 
 // Kill unit
-if (KTWK_debug) then { systemchat "Death" };
+if (KTWK_opt_debug) then { systemchat "Death" };
 _clone setUnconscious true;
 sleep 0.01;
 _unit setVariable ["KTWK_FW_Killed",true];

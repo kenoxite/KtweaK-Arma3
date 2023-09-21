@@ -84,7 +84,7 @@ while {KTWK_HFX_opt_enabled} do {
             _delay fadeSpeech (1 - (_fogDensity * _audioFXMod)) max 0.05;
         };
         waitUntil {ppEffectCommitted KTWK_HFX_fog_handle};
-        if (KTWK_debug) then { systemchat "Humidity FX enabled" };
+        if (KTWK_opt_debug) then { systemchat "Humidity FX enabled" };
     };
 
     // Update effects if values of fog, fog density, inside a vehicle or building have changed
@@ -124,7 +124,7 @@ while {KTWK_HFX_opt_enabled} do {
             };
         };
         // waitUntil {ppEffectCommitted KTWK_HFX_fog_handle};
-        if (KTWK_debug && (_scriptTimer mod 5) == 0) then { diag_log format ["Humidity FX tweaked - altitude: %1, fog base: %2, fog density: %3, effect: %4, invehicle: %5", _altitude, _fogBase, _fogDensity, KTWK_HFX_effect, _insideVehicle] };
+        if (KTWK_opt_debug && (_scriptTimer mod 5) == 0) then { diag_log format ["Humidity FX tweaked - altitude: %1, fog base: %2, fog density: %3, effect: %4, invehicle: %5", _altitude, _fogBase, _fogDensity, KTWK_HFX_effect, _insideVehicle] };
     };
 
     // Remove effects if player exits foggy area
@@ -142,7 +142,7 @@ while {KTWK_HFX_opt_enabled} do {
             KTWK_HFX_fog_handle ppEffectEnable false;
             ppEffectDestroy KTWK_HFX_fog_handle;
             KTWK_HFX_fogFXactive = false;
-            if (KTWK_debug) then { systemchat "Humidity FX disabled" };
+            if (KTWK_opt_debug) then { systemchat "Humidity FX disabled" };
         };
     };
 
@@ -170,7 +170,7 @@ if (!isNil "KTWK_HFX_fog_handle") then {
     ppEffectDestroy KTWK_HFX_fog_handle;
     KTWK_HFX_fogFXactive = false; 
 };
-if (KTWK_debug) then { systemchat "Humidity FX terminated" };
+if (KTWK_opt_debug) then { systemchat "Humidity FX terminated" };
 
 waitUntil {sleep 1; KTWK_HFX_opt_enabled};
 
