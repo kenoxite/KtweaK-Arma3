@@ -10,6 +10,7 @@ private _grp = createGroup playerSide;
 {[_x] joinSilent _grp} count crew _UAV;
 
 // Init drone stuff
+if (!KTWK_GRdrone_opt_enableLaser) then { _UAV removeWeapon "Laserdesignator_mounted" };
 if (!KTWK_GRdrone_opt_enableNV) then { _UAV disableNVGEquipment true };
 if (!KTWK_GRdrone_opt_enableTI) then { _UAV disableTIEquipment true };
 
