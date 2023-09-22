@@ -21,6 +21,7 @@ KTWK_scr_HFX = [] execVM "KtweaK\scripts\humidityFX.sqf";
 KTWK_scr_update = [{    
     // Update all infantry units array
     KTWK_allInfantry = allUnits select {[_x] call KTWK_fnc_isHuman};
+    (agents select { [_x] call KTWK_fnc_isHuman && alive agent _x }) apply { KTWK_allInfantry pushBack (agent _x); };
 
     // Disable voice mods for non humans
     if (KTWK_disableVoices_opt_creatures) then {
