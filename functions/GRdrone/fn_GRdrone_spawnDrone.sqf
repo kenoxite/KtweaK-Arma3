@@ -11,6 +11,7 @@ private _grp = createGroup playerSide;
 
 // Init drone stuff
 if (!KTWK_GRdrone_opt_enableLaser) then { _UAV removeWeapon "Laserdesignator_mounted" };
+if (!KTWK_GRdrone_opt_enableRadar) then { {_UAV enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"]; };
 if (!KTWK_GRdrone_opt_enableNV) then { _UAV disableNVGEquipment true };
 if (!KTWK_GRdrone_opt_enableTI) then { _UAV disableTIEquipment true };
 
@@ -93,6 +94,7 @@ _UAV switchCamera "internal";
             _UAV allowDamage true;
             KTWK_GRdrone_player allowDamage KTWK_playerAllowDamage;
         };
+        if (!KTWK_GRdrone_opt_enableRadar) then { {_UAV enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"]; };
         // Project SFX
         KTWK_GRdrone_player setVariable ["disableUnitSFX", true];
         // Update timer and wait

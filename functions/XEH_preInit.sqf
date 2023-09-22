@@ -295,6 +295,16 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "KTWK_GRdrone_opt_enableRadar", 
+    "CHECKBOX",
+    ["Enable Radar", "If enabled, the default radar display to the left or right will be available in the recon drone.\n"],
+    ["KtweaK - GR Drone", ""],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
     "KTWK_GRdrone_opt_enableNV", 
     "CHECKBOX",
     ["Enable Night Vision", "If enabled, night vision mode will be enabled for the recon drone.\n"],
