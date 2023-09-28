@@ -14,12 +14,39 @@ Parameters:
     _script      - Script to execute when setting is changed. (optional) <CODE>
     _needRestart - Setting will be marked as needing mission restart after being changed. (optional, default false) <BOOL>
 */
+
+// -----------------------------------------------------------------------------------------------
+// MISC
+// -----------------------------------------------------------------------------------------------
 [
     "KTWK_opt_debug", 
     "CHECKBOX",
     ["Debug", "Debug Mode"],
     ["KtweaK", ""],
     [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+// -----------------------------------------------------------------------------------------------
+// AI PREDATOR DEFENSE
+// -----------------------------------------------------------------------------------------------
+[
+    "KTWK_opt_AIPredDefense_enable", 
+    "CHECKBOX",
+    ["Enable", "AI units will attack dangerous predators when they get too close. So far it only works with Edaly's crocodrile.\n"],
+    ["KtweaK", "AI Predator Defense"],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_opt_AIPredDefense_dist", 
+    "SLIDER",
+    ["Aggression Distance", "Distance below which a predator will be considered as dangerous to the AI.\n"],
+    ["KtweaK", "AI Predator Defense"],
+    [1, 500, 50, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
 ] call CBA_fnc_addSetting;
