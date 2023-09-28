@@ -34,7 +34,7 @@ Parameters:
 [
     "KTWK_opt_AIPredDefense_enable", 
     "CHECKBOX",
-    ["Enable", "AI units will attack dangerous predators when they get too close. So far it only works with Edaly's crocodrile.\n"],
+    ["Enable", "AI units will attack dangerous predators when they get too close. So far it only works with Edaly's crocodile.\n"],
     ["KtweaK", "AI Predator Defense"],
     [false],
     nil,
