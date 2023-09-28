@@ -1,13 +1,9 @@
 // Disable voice mods for non humans
 private _isUnitDisabled = false;
-private _isDisabledStalker = false;
-private _nonHumans = allUnits select { !(_x in KTWK_allInfantry) };
-(agents select { !([_x] call KTWK_fnc_isHuman) }) apply { _nonHumans pushBack (agent _x); };
-KTWK_allCreatures = +_nonHumans;
 
 // Stalker voices
 private _stalkerArray = missionNamespace getVariable ["FGSVunits",[]];
-private _stalkerInstalled = !isNil {_unitsArray};
+private _stalkerInstalled = !isNil {_stalkerArray};
 {
     [_x] call KTWK_fnc_disableVoice;
     _isUnitDisabled = true;
