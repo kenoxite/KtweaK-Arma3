@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.7";
+        version = "1.0.8";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -48,6 +48,7 @@ class CfgFunctions
             class disableVoice {};
             class disableVoiceCheck {};
             class isHuman {};
+            class isAnimal {};
             class isZombie {};
             class toggleSOGvoices {};
         };
