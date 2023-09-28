@@ -6,7 +6,7 @@ private _animals = [
     // DBO Horse
     "dbo_horse_Base_F",
 
-    // Libertad animals
+    // Edaly animals
     "Edaly_Horse_Base",
     "Edaly_Boar_Base",
     "Edaly_Cattle_Base",
