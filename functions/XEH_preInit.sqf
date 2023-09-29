@@ -29,13 +29,40 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 // -----------------------------------------------------------------------------------------------
+// - STOP FOR HEALING
+// -----------------------------------------------------------------------------------------------
+[
+    "KTWK_SFH_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, AI infantry will stop moving when being healed, even when the group leader hasn't issued a heal order (which is the only way they stop for heals by default).\n"],
+    ["KtweaK", "AI Stop for Healing"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+// -----------------------------------------------------------------------------------------------
+// - AI AUTO LASER
+// -----------------------------------------------------------------------------------------------
+[
+    "KTWK_laser_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, infantry AI will briefly enable their IR laser when firing, emulating Passive Aiming to some degree.\n"],
+    ["KtweaK", "AI Auto IR Laser"],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+
+// -----------------------------------------------------------------------------------------------
 // AI PREDATOR DEFENSE
 // -----------------------------------------------------------------------------------------------
 [
     "KTWK_opt_AIPredDefense_enable", 
     "CHECKBOX",
     ["Enable", "AI units will attack dangerous predators when they get too close. So far it only works with Edaly's crocodile.\n"],
-    ["KtweaK", "AI Predator Defense"],
+    ["KtweaK - AI Predator Defense", ""],
     [false],
     nil,
     {} 
@@ -44,8 +71,8 @@ Parameters:
 [
     "KTWK_opt_AIPredDefense_dist", 
     "SLIDER",
-    ["Aggression Distance", "Distance below which a predator will be considered as dangerous to the AI.\n"],
-    ["KtweaK", "AI Predator Defense"],
+    ["Aggression Distance", "Distance below which a predator will be considered as dangerous by the AI.\n"],
+    ["KtweaK - AI Predator Defense", ""],
     [1, 500, 50, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     nil,
     {} 
@@ -58,7 +85,7 @@ Parameters:
 [
     "KTWK_disableVoices_opt_creatures", 
     "CHECKBOX",
-    ["Disable Voice Mods for Creatures", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse.\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
+    ["Disable Voice Mods for Creatures", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse and all Edaly creatures (dog, tiger, cattle, crab, crocodile, boar, horse).\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
     ["KtweaK - Disable Voices", "Creatures"],
     [true],
     nil,
@@ -69,7 +96,7 @@ Parameters:
 [
     "KTWK_toggleVoices_opt_SOG_US",
     "LIST",
-    ["Ambient Voices for US units", "The default ambient voices for American troops in S.O.G. Prairie Fire will be enabled or disabled, according to this setting. This option has no effect if that CDLC isn't active.\n"],
+    ["Ambient Voices for US units", "The default ambient voices for American troops in S.O.G. Prairie Fire will be enabled or disabled according to this setting. This option has no effect if that CDLC isn't active.\n"],
     ["KtweaK - Disable Voices", "S.O.G. Prairie Fire"],
     [[0,1,2], ["Enable all", "Disable all but death screams", "Disable all"], 0],
     nil,
@@ -79,7 +106,7 @@ Parameters:
 [
     "KTWK_toggleVoices_opt_SOG_AU",
     "LIST",
-    ["Ambient Voices for AU units", "The default ambient voices for Australian troops in S.O.G. Prairie Fire will be enabled or disabled, according to this setting. This option has no effect if that CDLC isn't active.\n"],
+    ["Ambient Voices for AU units", "The default ambient voices for Australian troops in S.O.G. Prairie Fire will be enabled or disabled according to this setting. This option has no effect if that CDLC isn't active.\n"],
     ["KtweaK - Disable Voices", "S.O.G. Prairie Fire"],
     [[0,1,2], ["Enable all", "Disable all but death screams", "Disable all"], 0],
     nil,
@@ -89,24 +116,11 @@ Parameters:
 [
     "KTWK_toggleVoices_opt_SOG_NZ",
     "LIST",
-    ["Ambient Voices for NZ units", "The default ambient voices for New Zealander troops in S.O.G. Prairie Fire will be enabled or disabled, according to this setting. This option has no effect if that CDLC isn't active.\n"],
+    ["Ambient Voices for NZ units", "The default ambient voices for New Zealander troops in S.O.G. Prairie Fire will be enabled or disabled according to this setting. This option has no effect if that CDLC isn't active.\n"],
     ["KtweaK - Disable Voices", "S.O.G. Prairie Fire"],
     [[0,1,2], ["Enable all", "Disable all but death screams", "Disable all"], 0],
     nil,
     { if (time > 0.1) then { call KTWK_fnc_toggleSOGvoices; } } 
-] call CBA_fnc_addSetting;
-
-// -----------------------------------------------------------------------------------------------
-// STOP FOR HEALING
-// -----------------------------------------------------------------------------------------------
-[
-    "KTWK_SFH_opt_enabled", 
-    "CHECKBOX",
-    ["Enable", "If enabled, AI infantry will stop moving when being healed, even when the group leader hasn't issued a heal order (which is the only way they stop for heals by default).\n"],
-    ["KtweaK - AI Stop for Healing", ""],
-    [true],
-    nil,
-    {} 
 ] call CBA_fnc_addSetting;
 
 // -----------------------------------------------------------------------------------------------
@@ -115,7 +129,7 @@ Parameters:
 [
     "KTWK_BIR_NVG_illum_opt_enabled", 
     "LIST",
-    ["Auto enable NVG illuminator", "Automatically enable the NVG and/or weapon illuminator for all AI units, in the specified conditions. It has no effect if BettIR isn't installed.\n"],
+    ["Auto enable NVG illuminator", "Automatically enable the NVG illuminator for all AI units in the specified conditions. It has no effect if BettIR isn't installed.\n"],
     ["KtweaK - BettIR Auto Enable for AI", ""],
     [[0,1,2], ["Never", "Always", "When too dark or in building"], 2],
     nil,
@@ -125,7 +139,7 @@ Parameters:
 [
     "KTWK_BIR_wpn_illum_opt_enabled", 
     "LIST",
-    ["Auto enable weapon illuminator", "Automatically enable the weapon illuminator, in the specified conditions. It has no effect if BettIR isn't installed.\n"],
+    ["Auto enable weapon illuminator", "Automatically enable the weapon illuminator in the specified conditions. It has no effect if BettIR isn't installed.\n"],
     ["KtweaK - BettIR Auto Enable for AI", ""],
     [[0,1,2,3], ["Never", "Always", "When too dark or in building", "When too dark or in building and in combat"], 3],
     nil,
@@ -143,25 +157,12 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 // -----------------------------------------------------------------------------------------------
-// AI AUTO LASER
-// -----------------------------------------------------------------------------------------------
-[
-    "KTWK_laser_opt_enabled", 
-    "CHECKBOX",
-    ["Enable", "If enabled, infantry AI will briefly enable their IR laser when firing, emulating Passive Aiming to some degree.\n"],
-    ["KtweaK - AI Auto IR Laser", ""],
-    [true],
-    nil,
-    {} 
-] call CBA_fnc_addSetting;
-
-// -----------------------------------------------------------------------------------------------
 // HEALTH HUD
 // -----------------------------------------------------------------------------------------------
 [
     "KTWK_HUD_health_opt_enabled", 
     "CHECKBOX",
-    ["Enable", "If enabled, a HUD displaying the damage suffered by the player will briefly appear in the bottom right corner. It will be displayed whenever the health status changes, or as long as the player inventory is opened.\n"],
+    ["Enable", "If enabled, a HUD displaying the damage suffered by the player will briefly appear in the bottom right corner.\nIt will be displayed whenever the health status changes. The current overall health status will be displayed when the inventory is opened.\n"],
     ["KtweaK - Health HUD", ""],
     [true],
     nil,
@@ -181,7 +182,7 @@ Parameters:
 [
     "KTWK_HUD_health_opt_showInv", 
     "CHECKBOX",
-    ["Display when inventory is opened", "If enabled, the health HUD will be displayed as long as the player has the inventory opened.\n"],
+    ["Display when inventory is opened", "If enabled, the current overall health status will be displayed when the inventory is opened.\n"],
     ["KtweaK - Health HUD", ""],
     [true],
     nil,
