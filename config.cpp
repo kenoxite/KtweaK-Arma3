@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.8";
+        version = "1.0.8.1";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -51,6 +51,7 @@ class CfgFunctions
             class isAnimal {};
             class isZombie {};
             class toggleSOGvoices {};
+            class AIPredatorDefense {};
         };
 
         class FatalWounds
