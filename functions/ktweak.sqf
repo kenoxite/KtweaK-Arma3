@@ -53,6 +53,9 @@ KTWK_scr_update = [{
         call KTWK_fnc_AIPredatorDefense;
     };
 
+    // No map icons if no GPS
+    call KTWK_fnc_GPSHideIcons;
+
 }, 3, []] call CBA_fnc_addPerFrameHandler;
 
 // AI auto enable IR laser
@@ -65,6 +68,12 @@ KTWK_scr_update = [{
         // Disable IR laser
         (_this#0) enableIRLasers false;
     };
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+// Disable illuminators when dead
+["CAManBase", "killed", {
+    [_this#0] call BettIR_fnc_nvgIlluminatorOff;
+    [_this#0] call BettIR_fnc_weaponIlluminatorOff;
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // AI stop when healed
