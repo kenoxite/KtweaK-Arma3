@@ -103,7 +103,6 @@ call KTWK_fnc_HUD_health_moveDialog;
 // MAIN LOOP
 private _ctrl = (_display displayCtrl IDC_GRP_HUD_BODYHEALTH);
 while {true} do {
-    private _playerUnit = call KTWK_fnc_playerUnit; // Check for the current player unit
     private _isAlive = alive KTWK_HUD_health_player;    // Check if the previously stored player unit is alive
     if (KTWK_HUD_health_player != call KTWK_fnc_playerUnit || !_isAlive) then {
         // If stored player unit isn't the same as the current one, the player has switched unit, so let's clean up a bit
@@ -120,7 +119,7 @@ while {true} do {
         KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
         break;
     };
-    if (!KTWK_HUD_health_opt_enabled || !(KTWK_HUD_health_player isKindOf "CAManBase") || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened)) then {
+    if (!KTWK_HUD_health_opt_enabled || !([KTWK_HUD_health_player] call KTWK_fnc_isHuman) || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened)) then {
         _ctrl ctrlShow false;
         sleep 1;
         continue
