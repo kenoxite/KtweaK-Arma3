@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.8.1";
+        version = "1.0.10";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -52,6 +52,9 @@ class CfgFunctions
             class isZombie {};
             class toggleSOGvoices {};
             class AIPredatorDefense {};
+            class checkForGPS {};
+            class checkForMap {};
+            class GPSHideIcons {};
         };
 
         class FatalWounds
@@ -99,6 +102,7 @@ class CfgFunctions
 #include "dialogs\dialog_default.hpp"
 #include "dialogs\dialog_hud.hpp"
 
+// -------------------------------------------
 // LEGACY
 class CfgMagazines
 {
@@ -118,6 +122,7 @@ class CfgMagazines
     };
 };
 
+// -------------------------------------------
 // NEW
 class CfgVehicles
 {

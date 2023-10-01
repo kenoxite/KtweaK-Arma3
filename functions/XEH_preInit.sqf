@@ -56,6 +56,50 @@ Parameters:
 
 
 // -----------------------------------------------------------------------------------------------
+// MAP ICONS ONLY WITH GPS
+// -----------------------------------------------------------------------------------------------
+[
+    "KTWK_opt_GPSHideIcons_enable", 
+    "CHECKBOX",
+    ["Enable", "Hide all map icons (not markers) unless the player unit has a GPS or is in a vehicle with one.\n"],
+    ["KtweaK - Map Icons only with GPS", ""],
+    [false],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_opt_GPSHideIcons_enemies", 
+    "CHECKBOX",
+    ["Enable Enemy Icons", "Display enemy icons when having a GPS.\n"],
+    ["KtweaK - Map Icons only with GPS", ""],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_opt_GPSHideIcons_mines", 
+    "CHECKBOX",
+    ["Enable Mine Icons", "Display mine icons when having a GPS.\n"],
+    ["KtweaK - Map Icons only with GPS", ""],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_opt_GPSHideIcons_customWP", 
+    "CHECKBOX",
+    ["Allow Custom Waypoint Creation", "If disabled, the player won't be able to create their own waypoints with Shift+Left Click.\nWARNING: Disabling this WILL break some mods and missions!.\n"],
+    ["KtweaK - Map Icons only with GPS", ""],
+    [true],
+    nil,
+    {} 
+] call CBA_fnc_addSetting;
+
+
+// -----------------------------------------------------------------------------------------------
 // AI PREDATOR DEFENSE
 // -----------------------------------------------------------------------------------------------
 [
