@@ -13,7 +13,18 @@ private _animals = [
     "Edaly_Crab_Base",
     "Edaly_Crocodile_Base",
     "Edaly_Tiger_Base",
-    "MFR_Dog_Base"
+    "MFR_Dog_Base",
+
+    // Dino Mod
+    "max_Raptor",
+    "max_Bront",
+    "max_Bront_baby",
+    "Max_Mega",
+    "Max_Ples",
+    "Max_PT",
+    "max_TRex",
+    "max_Tric",
+    "max_tric_baby"
 ];
 private _isAnimal = {if (_type isKindOf _x) exitWith {true}; false} forEach _animals;
 (_type isKindOf "CAManBase" && {_isAnimal})
