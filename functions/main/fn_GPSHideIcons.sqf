@@ -23,6 +23,6 @@ if (KTWK_opt_GPSHideIcons_enable) then {
         disableMapIndicators [false,false,false,false];
         KTWK_hasGPS = true;
         // Enable custom waypoint
-        onMapSingleClick {};
+        // onMapSingleClick {};
     };
 };
