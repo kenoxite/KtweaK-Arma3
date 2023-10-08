@@ -8,7 +8,7 @@ if (KTWK_opt_GPSHideIcons_enable) then {
         disableMapIndicators [false,KTWK_opt_GPSHideIcons_enemies,KTWK_opt_GPSHideIcons_mines,false];
         KTWK_hasGPS = true;
         // Enable custom waypoint
-        onMapSingleClick {};
+        // onMapSingleClick {};
     } else {
         disableMapIndicators [true,true,true,false];
         KTWK_hasGPS = false;
