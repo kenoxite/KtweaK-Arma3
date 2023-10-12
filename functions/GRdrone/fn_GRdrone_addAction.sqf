@@ -42,4 +42,4 @@ _id = _unit addAction
         "",         // selection 
         ""          // memoryPoint 
     ];
-_unit setVariable ["KTWK_GRdrone_actionId", _id];
+_unit setVariable ["KTWK_GRdrone_actionId", _id, true];

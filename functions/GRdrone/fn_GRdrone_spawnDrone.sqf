@@ -4,7 +4,7 @@ if (isNil {KTWK_GRdrone_player}) then { KTWK_GRdrone_player = call KTWK_fnc_play
     
 private _playerPos = getPos vehicle KTWK_GRdrone_player;
 private _UAV = createVehicle ["B_UAV_01_F", vehicle KTWK_GRdrone_player getRelPos [2, 0], [], 0, "NONE"];
-_UAV setObjectTexture [0, "\KtweaK\drones\air\uav_01\data\uav_01_black_co.paa"];
+_UAV setObjectTextureGlobal [0, "\KtweaK\drones\air\uav_01\data\uav_01_black_co.paa"];
 createVehicleCrew _UAV;
 private _grp = createGroup playerSide;
 {[_x] joinSilent _grp} count crew _UAV;
@@ -16,7 +16,7 @@ if (!KTWK_GRdrone_opt_enableNV) then { _UAV disableNVGEquipment true };
 if (!KTWK_GRdrone_opt_enableTI) then { _UAV disableTIEquipment true };
 
 // Position drone
-_UAV setDir getDir vehicle KTWK_GRdrone_player;
+_UAV setDir (getDir vehicle KTWK_GRdrone_player);
 private _pos = getPos _UAV;
 private _posASL = AGLtoASL _pos;
 _UAV allowDamage false;
@@ -25,7 +25,7 @@ KTWK_GRdrone_player allowDamage false;
 driver _UAV action ["engineOn", _UAV];
 _UAV action ["autoHover", _UAV];
 // Start on the ground if inside a building and flying otherwise
-if (lineIntersects [_posASL, _posASL vectorAdd [0,0,10]]) then {
+if ([KTWK_GRdrone_player, 10] call KTWK_fnc_underRoof) then {
     _UAV setPosATL [_pos#0, _pos#1, getPosATL vehicle KTWK_GRdrone_player #2 + 1];
     _UAV setVelocity [0, 0, 1];
 } else {
@@ -33,7 +33,7 @@ if (lineIntersects [_posASL, _posASL vectorAdd [0,0,10]]) then {
     _UAV setVelocity [0, 0, 15];
 };
 // Give control to the player
-player remoteControl driver _UAV;
+KTWK_GRdrone_player remoteControl driver _UAV;
 _UAV switchCamera "internal";
 // Check for manual disconnects and automatic ones caused by the drone being too far away or time running out
 [_UAV, _playerPos] spawn {
@@ -96,7 +96,7 @@ _UAV switchCamera "internal";
         };
         if (!KTWK_GRdrone_opt_enableRadar) then { {_UAV enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"]; };
         // Project SFX
-        KTWK_GRdrone_player setVariable ["disableUnitSFX", true];
+        KTWK_GRdrone_player setVariable ["disableUnitSFX", true, true];
         // Update timer and wait
         _timer = _timer + 1;
         sleep 1;
@@ -109,7 +109,7 @@ _UAV switchCamera "internal";
     objNull remoteControl driver _UAV;
     KTWK_GRdrone_player switchCamera "internal";
     // Project SFX
-    KTWK_GRdrone_player setVariable ["disableUnitSFX", false];
+    KTWK_GRdrone_player setVariable ["disableUnitSFX", false, true];
     // Delete the drone
     deleteVehicleCrew _UAV;
     deleteVehicle _UAV;

@@ -1,11 +1,11 @@
-// GHOST RECON DRONE
+// RECON DRONE
 // by kenoxite
 // 
 // Drone can be launched anytime as long as the player isn't in a vehicle and the drone is fully recharged, without the need to have equipped an UAV terminal.
 // The drone will be deleted after manual disconnect, whenever the time runs out (battery) or if the drone is too far away (signal).
 // It has unlimited uses but can be disabled any time with a global variable.
 // All this can be copy/pasted in the console, in the init.sqf (if SP) or initplayerlocal.sqf (if MP)
-scriptName "GR Drone";
+scriptName "Recon Drone";
 
 KTWK_GRdrone_player = call KTWK_fnc_playerUnit;
 KTWK_GRdrone_lastUse = time-KTWK_GRdrone_opt_reuseTime; // Time since last used
@@ -39,7 +39,7 @@ while {true} do {
     } else {
         if (_actionId >= 0) then {
             KTWK_GRdrone_player removeAction _actionId;
-            KTWK_GRdrone_player setVariable ["KTWK_GRdrone_actionId", nil];
+            KTWK_GRdrone_player setVariable ["KTWK_GRdrone_actionId", nil, true];
         };
     };
     sleep 1;

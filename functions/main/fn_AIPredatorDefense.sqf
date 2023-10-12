@@ -4,7 +4,7 @@
 KTWK_allPredators = KTWK_allAnimals select {_x isKindOf "Edaly_Crocodile_Base"};
 {
     if !(_x getVariable ["KTWK_predatorInit", false]) then {
-        _x setVariable ["KTWK_predatorInit", true];
+        _x setVariable ["KTWK_predatorInit", true, true];
         
         // Exclude already captives, supposedly done on purpose in the editor or script to exclude this particular predator from all this
         if (captive _x) then { continue };

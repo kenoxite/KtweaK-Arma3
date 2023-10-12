@@ -1,5 +1,5 @@
 //
-private _allInfantry = KTWK_allInfantry - [call KTWK_fnc_playerUnit];
+private _allInfantry = KTWK_allInfantry select {!isPlayer _x};
 private _stealth = KTWK_BIR_stealth_opt_enabled;
 private _nvg = KTWK_BIR_NVG_illum_opt_enabled;
 private _wpn = KTWK_BIR_wpn_illum_opt_enabled;

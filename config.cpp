@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "1.0.10";
+        version = "2.0";
         //url = "";
 
         requiredVersion = 1.60; 
@@ -55,6 +55,10 @@ class CfgFunctions
             class checkForGPS {};
             class checkForMap {};
             class GPSHideIcons {};
+            class unitContainerItems {};
+            class swapUnitContainer {};
+            class ponchoSwap {};
+            class underRoof {};
         };
 
         class FatalWounds
@@ -66,6 +70,7 @@ class CfgFunctions
             class cloneDead {};
             class checkBodySlam {};
             class FW_checkUnits {};
+            class fatalWound {};
         };
 
         class HUDhealth
@@ -94,6 +99,30 @@ class CfgFunctions
             preInit = 1;
 
             class inMelee {};
+            class isMeleeWeapon {};
+        };
+
+        class SlideInSlopes
+        {
+            file = "KtweaK\functions\SiS";
+            preInit = 1;
+
+            class slideInSlopes {};
+            class slideDownSlope {};
+            class slideUpSlope {};
+        };
+
+        class EquipNextWeapon
+        {
+            file = "KtweaK\functions\ENW";
+            preInit = 1;
+
+            class equipNextWeapon {};
+            class equipNextWeapon2 {};
+            class displayHolster {};
+            class toggleHolsterDisplay {};
+            class addInvEH {};
+            class openInv {};
         };
     };
 };
@@ -109,7 +138,7 @@ class CfgMagazines
     class CA_Magazine;
     class KTWK_GRdrone: CA_Magazine
     {
-        displayName = "GR Drone Dispenser";
+        displayName = "Recon Drone Dispenser";
         scope = 1;
         scopeArsenal = 1;
         scopeCurator = 1;
@@ -117,7 +146,7 @@ class CfgMagazines
         picture ="\KtweaK\weapons\data\ui\drone_icon.paa";
         model="\A3\Drones_F\Air_F_Gamma\UAV_01\UAV_01_F.p3d";
         icon = "iconObject_circle"; //Leave as is
-        descriptionShort = "Dispenser of GR Drones, allowing their automatic launch and control.";
+        descriptionShort = "Dispenser of Recon Drones, allowing their automatic launch and control.";
         mass = 80;
     };
 };
@@ -134,7 +163,7 @@ class CfgVehicles
         scope = 2;
         scopeCurator = 2;
         scopeArsenal = 2;
-        displayName = "GR Drone Dispenser";
+        displayName = "Recon Drone Dispenser";
         author = "kenoxite";
         editorCategory = "EdCat_Equipment";
         editorSubcategory = "EdSubcat_InventoryItems";
@@ -163,8 +192,8 @@ class CfgWeapons
         scope = 2;
         scopeArsenal = 2;
         scopeCurator = 2;
-        displayName = "GR Drone Dispenser";
-        descriptionShort = "Dispenser of GR Drones, allowing their automatic launch and control.";
+        displayName = "Recon Drone Dispenser";
+        descriptionShort = "Dispenser of Recon Drones, allowing their automatic launch and control.";
         picture = "\KtweaK\weapons\data\ui\drone_icon.paa";
         model = "\A3\Drones_F\Air_F_Gamma\UAV_01\UAV_01_F.p3d";
         icon = "iconObject_circle";
@@ -172,5 +201,55 @@ class CfgWeapons
         {
             mass = 80;
         };
+    };
+};
+
+// SOUNDS
+class CfgSounds
+{
+    sounds[] = {};
+
+    class KTWK_noSound
+    {
+        name = "[FX] No sound";
+        sound[] = { "KtweaK\sounds\silence", db, 1, 100 };
+        titles[] = {};
+    };
+
+    // Effects
+    class KTWK_coverInDirt {
+        name = "[FX] Covering in dirt";
+        sound[] = {"KtweaK\sounds\coverInDirt.wss", db, 1, 100 };
+        titles[] = {0, ""};
+    };
+    class KTWK_slidingUpSlope {
+        name = "[FX] Sliding upslope";
+        sound[] = {"KtweaK\sounds\slidingUpSlope.wss", db, 1, 100 };
+        titles[] = {0, ""};
+    };
+    class KTWK_slidingDownSlope {
+        name = "[FX] Sliding downslope";
+        sound[] = {"KtweaK\sounds\slidingDownSlope.wss", db, 1, 100 };
+        titles[] = {0, ""};
+    };
+    class KTWK_gruntMan1 {
+        name = "[FX] Grunt man 1";
+        sound[] = {"KtweaK\sounds\manGrunt1.wss", db+20, 1, 100 };
+        titles[] = {0, ""};
+    };
+    class KTWK_gruntMan2 {
+        name = "[FX] Grunt man 2";
+        sound[] = {"KtweaK\sounds\manGrunt2.wss", db+20, 1, 100 };
+        titles[] = {0, ""};
+    };
+    class KTWK_gruntMan3 {
+        name = "[FX] Grunt man 3";
+        sound[] = {"KtweaK\sounds\manGrunt3.wss", db+20, 1, 100 };
+        titles[] = {0, ""};
+    };
+    class KTWK_gruntMan4 {
+        name = "[FX] Grunt man 4";
+        sound[] = {"KtweaK\sounds\manGrunt4.wss", db+20, 1, 100 };
+        titles[] = {0, ""};
     };
 };
