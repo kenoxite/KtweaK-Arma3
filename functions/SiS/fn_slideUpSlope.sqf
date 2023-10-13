@@ -22,7 +22,10 @@ private _anim = call {
 // _unit playMoveNow _anim;
 [_unit, _anim] remoteExec ["playMoveNow", 0, _unit];
 playSound3D ["KtweaK\sounds\slidingUpSlope.wss", _unit];
+
 sleep 1;
+
+if (!alive _unit) exitwith {_unit setVariable ["KTWK_isSlopeSliding", false, true]; false};
 // _unit setAnimSpeedCoef 1;
 [_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
 // _unit playMoveNow _prevAnim;
