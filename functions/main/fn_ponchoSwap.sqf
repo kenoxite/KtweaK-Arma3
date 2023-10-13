@@ -29,9 +29,9 @@ private _ponchoBackpack = backpack _unit;
 private _ponchoVest = vest _unit;
 private _poncho = "";
 private _ponchoType = "";
-call {
-    if (_ponchoBackpack in _validPonchos_backpack) exitWith { _ponchoType = "backpack"; _poncho = _ponchoBackpack };  
+call { 
     if (_ponchoVest in _validPonchos_vest) exitWith { _ponchoType = "vest"; _poncho = _ponchoVest };  
+    if (_ponchoBackpack in _validPonchos_backpack) exitWith { _ponchoType = "backpack"; _poncho = _ponchoBackpack }; 
 };
 if (_ponchoType == "") exitWith {false};
 

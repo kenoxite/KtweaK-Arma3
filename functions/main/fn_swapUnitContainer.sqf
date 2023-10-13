@@ -182,7 +182,7 @@ _canAdd = true;
 if (!_deleteOverflow && {(count _overflowItems > 0 || count _overflowWeapons > 0 || count _overflowMags > 0)}) then {
     // If unit is in vehicle, move the items to the vehicle cargo instead
     private _wh = if (vehicle _unit == _unit) then {
-                    createVehicle ["Weapon_Empty", _unit getRelPos [0.2, getDir _unit], [], 0, "CAN_COLLIDE"];
+                    createVehicle ["GroundWeaponHolder", _unit getRelPos [0.2, getDir _unit], [], 0, "CAN_COLLIDE"];
                 } else {
                     vehicle _unit;
                 };

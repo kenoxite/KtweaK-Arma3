@@ -1,6 +1,6 @@
 // Get all items, weapons (with attachments, mags, etc) and mags (with ammo count) from the unit's uniform, vest or backpack
 // Returns an array in format:
-// [<items>,<weapons>,<mags>]
+// [<items>,<weapons>,<mags>,<grenades>]
 // by kenoxite
 
 params ["_unit", ["_containerType", "uniform"]];
