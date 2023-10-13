@@ -189,6 +189,17 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+[
+    "KTWK_BIR_opt_dist", 
+    "SLIDER",
+    ["Maximum Distance", "AI units will only toggle illuminators if below this distance from any player. Units in a player's group are exented from this restriction.\n"],
+    ["KtweaK - Server", "BettIR Auto Enable for AI"],
+    [1, 500, 50, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+
 
 // ACE MAP FLASHLIGHTS
 [

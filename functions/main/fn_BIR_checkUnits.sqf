@@ -4,6 +4,16 @@ private _stealth = KTWK_BIR_stealth_opt_enabled;
 private _nvg = KTWK_BIR_NVG_illum_opt_enabled;
 private _wpn = KTWK_BIR_wpn_illum_opt_enabled;
 
+private _fnc_inRange = {
+    params ["_unit", "_dist"]; 
+    private _inRange = false;
+    {if (_unit distance _x <= _dist) exitWith { _inRange = true}} forEach allPlayers;
+    _inRange
+};
+
+private _playerGroups = [];
+{_playerGroups pushBackUnique (group _x)} forEach allPlayers;
+
 // Check all infantry units
 {
     // Reset illuminators status
@@ -11,6 +21,8 @@ private _wpn = KTWK_BIR_wpn_illum_opt_enabled;
     [_x] call BettIR_fnc_weaponIlluminatorOff;
     // Skip if nightvision isn't active
     if (currentVisionMode _x != 1) then {continue};
+    // Skip if too far away from players
+    if (!(group _x in _playerGroups) && {!([_x, KTWK_BIR_opt_dist] call _fnc_inRange)}) then {continue};
     private _behaviour = behaviour _x;
     private _inStealth = _behaviour == "STEALTH";
     if (_stealth == 0 && _inStealth) then {continue};   // Disable if in stealth mode
