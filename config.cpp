@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "2.0";
+        version = "2.0.1";
         //url = "";
 
         requiredVersion = 1.60; 

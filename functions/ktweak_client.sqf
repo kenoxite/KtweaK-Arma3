@@ -9,30 +9,20 @@ waitUntil {!isNull player && time > 1};
 KTWK_player = player;
 
 // --------------------------------
-// SOG ambient voices
-if (!isNil {vn_sam_masteraudioarray}) then {
-    call KTWK_fnc_toggleSOGvoices;
-};
-
-// --------------------------------
-// Init - Humidity Effects
-KTWK_scr_HFX = [] execVM "KtweaK\scripts\humidityFX.sqf";
-
-// --------------------------------
 // Equip Next Weapon
 private ["_wpns"];
 // - Add rifle holster to player unit
-if (KTWK_equipNextWpn_opt_displayRifle) then {
+if (KTWK_ENW_opt_displayRifle) then {
     _wpns = [KTWK_player, 1, false] call KTWK_fnc_equipNextWeapon;
     if (count _wpns > 0) then {
-        [KTWK_player, 1, 0, KTWK_equipNextWpn_opt_riflePos, (_wpns#1)] call KTWK_fnc_displayHolster;
+        [KTWK_player, 1, 0, KTWK_ENW_opt_riflePos, (_wpns#1)] call KTWK_fnc_displayHolster;
     };
 };
 // - Add launcher holster to player unit
-if (KTWK_equipNextWpn_opt_displayLauncher) then {
+if (KTWK_ENW_opt_displayLauncher) then {
     _wpns = [KTWK_player, 3, false] call KTWK_fnc_equipNextWeapon;
     if (count _wpns > 0) then {
-        [KTWK_player, 3, 0, KTWK_equipNextWpn_opt_launcherPos, (_wpns#1)] call KTWK_fnc_displayHolster;
+        [KTWK_player, 3, 0, KTWK_ENW_opt_launcherPos, (_wpns#1)] call KTWK_fnc_displayHolster;
     };
 };
 // Add inventory EH
@@ -128,18 +118,18 @@ addMissionEventHandler ["TeamSwitch", {
 
     // Equip Next Weapon
     private ["_wpns"];
-    if (KTWK_equipNextWpn_opt_displayRifle) then {
+    if (KTWK_ENW_opt_displayRifle) then {
         // - Add rifle holster to _newUnit
         _wpns = [_newUnit, 1, false] call KTWK_fnc_equipNextWeapon;
         if (count _wpns > 0) then {
-            [_newUnit, 1, 0, KTWK_equipNextWpn_opt_riflePos, (_wpns#1)] call KTWK_fnc_displayHolster;
+            [_newUnit, 1, 0, KTWK_ENW_opt_riflePos, (_wpns#1)] call KTWK_fnc_displayHolster;
         };
     };
-    if (KTWK_equipNextWpn_opt_displayLauncher) then {
+    if (KTWK_ENW_opt_displayLauncher) then {
         // - Add launcher holster to _newUnit
         _wpns = [_newUnit, 3, false] call KTWK_fnc_equipNextWeapon;
         if (count _wpns > 0) then {
-            [_newUnit, 3, 0, KTWK_equipNextWpn_opt_launcherPos, (_wpns#1)] call KTWK_fnc_displayHolster;
+            [_newUnit, 3, 0, KTWK_ENW_opt_launcherPos, (_wpns#1)] call KTWK_fnc_displayHolster;
         };
     };
     // Add and remove inventory EH
@@ -153,11 +143,22 @@ addMissionEventHandler ["TeamSwitch", {
     _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed];
     KTWK_EH_invOpened = _newUnit addEventHandler ["InventoryOpened", {(_this#0) setVariable ["KTWK_invOpened", true, true]}];
     KTWK_EH_invClosed = _newUnit addEventHandler ["InventoryClosed", {(_this#0) setVariable ["KTWK_invOpened", false, true]}];
-
-    // --------------------------------
+    _previousUnit setVariable ["KTWK_invOpened", false, true];
+    _newUnit setVariable ["KTWK_invOpened", false, true];
+    
     _previousUnit setVariable ["KTWK_arsenalOpened", false, true];
     _newUnit setVariable ["KTWK_arsenalOpened", false, true];
 }];
+
+// --------------------------------
+// Init - SOG ambient voices
+if (!isNil {vn_sam_masteraudioarray}) then {
+    call KTWK_fnc_toggleSOGvoices;
+};
+
+// --------------------------------
+// Init - Humidity Effects
+KTWK_scr_HFX = [] execVM "KtweaK\scripts\humidityFX.sqf";
 
 // --------------------------------
 // Init - Health HUD

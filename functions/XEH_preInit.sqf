@@ -465,7 +465,7 @@ Parameters:
 
 // EQUIP NEXT WEAPON
 [
-    "KTWK_equipNextWpn_opt_enabled", 
+    "KTWK_ENW_opt_enabled", 
     "CHECKBOX",
     ["Enable", "If enabled, it swaps the currently equipped primary/secondary/handgun weapon with other similar weapons in the player's inventory.\nDefault keys are Ctrl+1, Ctrl+2 and Ctrl+3.\n"],
     ["KtweaK - Client", "Equip Next Weapon"],
@@ -475,7 +475,7 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_equipNextWpn_opt_displayRifle", 
+    "KTWK_ENW_opt_displayRifle", 
     "CHECKBOX",
     ["Display Next Rifle", "If enabled, the rifle it will be swapped to will be displayed in the unit's body.\n"],
     ["KtweaK - Client", "Equip Next Weapon"],
@@ -485,7 +485,7 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_equipNextWpn_opt_riflePos",
+    "KTWK_ENW_opt_riflePos",
     "LIST",
     ["Next Rifle Display Position", "Choose the position where the rifle will be displayed.\n"],
     ["KtweaK - Client", "Equip Next Weapon"],
@@ -495,7 +495,7 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_equipNextWpn_opt_displayLauncher", 
+    "KTWK_ENW_opt_displayLauncher", 
     "CHECKBOX",
     ["Display Next Launcher", "If enabled, the launcher it will be swapped to will be displayed in the unit's body.\n"],
     ["KtweaK - Client", "Equip Next Weapon"],
@@ -505,7 +505,7 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_equipNextWpn_opt_launcherPos",
+    "KTWK_ENW_opt_launcherPos",
     "LIST",
     ["Next Launcher Display Position", "Choose the position where the launcher will be displayed.\n"],
     ["KtweaK - Client", "Equip Next Weapon"],

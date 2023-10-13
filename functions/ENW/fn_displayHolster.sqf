@@ -1,6 +1,6 @@
 //
 
-params [["_unit", player], ["_type", 1], ["_mode", 0], ["_style", 0], ["_displayItem", []]];
+params [["_unit", KTWK_player], ["_type", 1], ["_mode", 0], ["_style", 0], ["_displayItem", []]];
 
 private _unitVar = call {
     if (_type == 1) exitWith {"KTWK_rifleHolster"};  
@@ -100,6 +100,7 @@ call {
     if (_mode == 2) exitWith {
         deleteVehicle _holster;
         _unit setVariable [_unitVar, nil, true];
+        _unit setVariable ["KTWK_swappingWeapon", false];
     };
     // Hide
     if (_mode == 3) exitWith {

@@ -1,7 +1,7 @@
 // Changes the currently equipped primary/secondary/handgun weapon to other similar weapons in the player's inventory. Default keys are Ctrl+1, Ctrl+2 and Ctrl+3
 // by kenoxite
 
-if (!KTWK_equipNextWpn_opt_enabled) exitwith {[]};
+if (!KTWK_ENW_opt_enabled) exitwith {[]};
 
 params [["_unit", player], ["_slot", 2], ["_apply", true]];
 
@@ -87,12 +87,6 @@ if (_apply) then {
     private _isNotMeleeSwap = _slot != 2 || {!([_equippedWeaponClass] call ktwk_fnc_isMeleeWeapon) && !([_nextWeaponClass] call ktwk_fnc_isMeleeWeapon)};
     if (_isNotMeleeSwap && count _equippedWeapon > 0 && _isSlotWeapon) then {
         call {
-            // if (_slot == 1) exitWith { _unit playMoveNow format ["AmovP%1MstpSrasWrflDnon_AmovP%1MstpSnonWnonDnon", _stanceAnim]; };
-            // // if (_slot == 2) exitWith { _unit playMoveNow format ["AmovP%1MstpSrasWpstDnon_AmovP%1MstpSnonWnonDnon", _stanceAnim]; };
-            // if (_slot == 2 && {stance _unit != "CROUCH"}) exitWith { _unit playMoveNow format ["AmovP%1MstpSrasWpstDnon_AmovP%1MstpSnonWnonDnon", _stanceAnim]; };
-            // if (_slot == 2 && {stance _unit == "CROUCH"}) exitWith { _unit playMoveNow "AmovPknlMstpSrasWpstDnon_AinvPknlMstpSnonWnonDnon"; };
-            // if (_slot == 3) exitWith { _unit playMoveNow format ["AmovP%1MstpSrasWlnrDnon_AmovP%1MstpSnonWnonDnon", _stanceAnim]; };
-
             if (_slot == 1) exitWith { [_unit, format ["AmovP%1MstpSrasWrflDnon_AmovP%1MstpSnonWnonDnon", _stanceAnim]] remoteExec ["playMoveNow", 0, _unit]; };
             if (_slot == 2 && {stance _unit != "CROUCH"}) exitWith { [_unit, format ["AmovP%1MstpSrasWpstDnon_AmovP%1MstpSnonWnonDnon", _stanceAnim]] remoteExec ["playMoveNow", 0, _unit]; };
             if (_slot == 2 && {stance _unit == "CROUCH"}) exitWith { [_unit, "AmovPknlMstpSrasWpstDnon_AinvPknlMstpSnonWnonDnon"] remoteExec ["playMoveNow", 0, _unit]; };

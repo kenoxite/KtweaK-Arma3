@@ -1,6 +1,6 @@
 // Moves the HUD to the position stated in the settings
 
-KTWK_HUD_health_alpha = 0.6;
+
 disableSerialization;
 private _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth";
 private _ctrl = _display displayCtrl 30000;
@@ -11,10 +11,13 @@ _ctrl ctrlSetPosition[
     8 * pixelGridNoUIScale * pixelH 
 ]; 
 _ctrl ctrlCommit 0;
+
 // Reset HUD to default alpha
+if (isNull player) exitwith {false};
+KTWK_HUD_health_alpha = 0.6;
 call KTWK_fnc_HUD_health_update;
 0 spawn {
-    waituntil {IsNull (findDisplay 49)};
+    waituntil {isNull (findDisplay 49) || !alive player};
     KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
     call KTWK_fnc_HUD_health_update;
 };

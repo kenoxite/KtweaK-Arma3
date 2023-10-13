@@ -15,5 +15,8 @@
 if (!canSuspend) exitWith {_this spawn KTWK_fnc_openInv};
 params ["_unit", "_container", "_container2"];
 sleep 0.01;
-_unit action ["Gear", _container];
+if (vehicle _unit == _unit) then {
+    _unit action ["Gear", _container];
+};
 _unit call KTWK_fnc_addInvEH;
+true

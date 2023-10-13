@@ -1,7 +1,7 @@
 // Changes the currently equipped primary/secondary/handgun weapon to other similar weapons in the player's inventory. Default keys are Ctrl+1, Ctrl+2 and Ctrl+3
 // by kenoxite
 
-if (!KTWK_equipNextWpn_opt_enabled) exitwith {[]};
+if (!KTWK_ENW_opt_enabled) exitwith {[]};
     
 params ["_unit", "_slot", "_equippedWeapon", "_equippedWeaponClass", "_nextWeapon", "_nextWeaponClass", "_weaponContainer", "_inUniform", "_inVest", "_inBackpack"];
 
@@ -75,7 +75,6 @@ if (canSuspend) then {
         if (_slot == 1) exitWith { _unit selectWeapon _primWep; };
         // if (_slot == 2) exitWith { _unit selectWeapon _hgWep; };
         if (_slot == 2 && {stance _unit != "CROUCH"}) exitWith { _unit selectWeapon _hgWep; };
-        // if (_slot == 2 && {stance _unit == "CROUCH"}) exitWith { _unit selectWeapon _hgWep; _unit playMoveNow "AinvPknlMstpSnonWnonDnon_AmovPknlMstpSrasWpstDnon"; };
         if (_slot == 2 && {stance _unit == "CROUCH"}) exitWith { _unit selectWeapon _hgWep; [_unit, "AinvPknlMstpSnonWnonDnon_AmovPknlMstpSrasWpstDnon"] remoteExec ["playMoveNow", 0, _unit]; };
         if (_slot == 3) exitWith { _unit selectWeapon _secWep; };
     };
@@ -94,10 +93,10 @@ if (!_overflow) then {
     if (count _equippedWeapon > 0) then { _weaponContainer addWeaponWithAttachmentsCargoGlobal [_equippedWeapon, 1] };
 
     // Display next weapon
-    if ((KTWK_equipNextWpn_opt_displayRifle && {_slot == 1}) || (KTWK_equipNextWpn_opt_displayLauncher && {_slot == 3})) then {
+    if ((KTWK_ENW_opt_displayRifle && {_slot == 1}) || (KTWK_ENW_opt_displayLauncher && {_slot == 3})) then {
         private _wpns = [_unit, _slot, false] call KTWK_fnc_equipNextWeapon;
         if (count _wpns > 0) then {
-            [_unit, _slot, 0, [KTWK_equipNextWpn_opt_riflePos, -1, KTWK_equipNextWpn_opt_launcherPos] select (_slot-1), (_wpns#1)] call KTWK_fnc_displayHolster;
+            [_unit, _slot, 0, [KTWK_ENW_opt_riflePos, -1, KTWK_ENW_opt_launcherPos] select (_slot-1), (_wpns#1)] call KTWK_fnc_displayHolster;
         };
     };
 } else {

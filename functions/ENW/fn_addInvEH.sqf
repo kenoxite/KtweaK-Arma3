@@ -15,19 +15,22 @@
 params ["_unit"];
 KTWK_EH_invOpened_ENW = _unit addEventHandler ["InventoryOpened", { 
     params ["_unit", "_container", "_container2"]; 
-    _unit removeEventHandler [_thisEvent, _thisEventHandler];
-    _unit setVariable ["KTWK_swappingWeapon", true]; 
-    // Hide rifle holster 
-    [_unit, 1, 2] call KTWK_fnc_displayHolster; 
-    // Hide launcher holster 
-    [_unit, 3, 2] call KTWK_fnc_displayHolster; 
-    _this spawn KTWK_fnc_openInv;
-    true 
+    if (!isNull (_unit getVariable ["KTWK_rifleHolster", objNull]) || !isNull (_unit getVariable ["KTWK_launcherHolster", objNull])) then {
+        // Hide holsters
+        [_unit, 1, 2] call KTWK_fnc_displayHolster; 
+        [_unit, 3, 2] call KTWK_fnc_displayHolster; 
+        _unit removeEventHandler [_thisEvent, _thisEventHandler];
+        _this spawn KTWK_fnc_openInv;
+        if (vehicle _unit == _unit) exitWith {
+            _unit setVariable ["KTWK_swappingWeapon", true]; 
+            true
+        };
+    };
 }];
 KTWK_EH_invClosed_ENW = player addEventHandler ["InventoryClosed", { 
     params ["_unit", "_container"]; 
-    _unit removeEventHandler [_thisEvent, _thisEventHandler];
     _unit setVariable ["KTWK_swappingWeapon", false]; 
     // Display holsters 
-    [_unit] call KTWK_fnc_toggleHolsterDisplay; 
+    [_unit] call KTWK_fnc_toggleHolsterDisplay;
+    _unit removeEventHandler [_thisEvent, _thisEventHandler];
 }];

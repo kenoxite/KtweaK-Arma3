@@ -3,9 +3,6 @@
 // by kenoxite
 // -----------------------------------------------
 
-// Init
-// [] execVM "KtweaK\functions\ktweak.sqf";
-
 if (hasInterface) then {
     [] execVM "KtweaK\functions\ktweak_client.sqf";
 };
