@@ -1,5 +1,5 @@
 ![KtweaK](https://i.imgur.com/Qm3qVfA.png)
-#### Gameplay Tweaks for Singleplayer
+#### QoL and new features
  
 You can check the already packed version by visiting this mod's [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3036516333) page.
 
