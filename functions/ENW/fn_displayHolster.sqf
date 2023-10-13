@@ -42,8 +42,8 @@ call {
                     };
                     // Front horizontal
                     if (_style == 3) exitWith {
-                        _holster attachTo [_unit, [0.05,0.25,-0.1], "spine3", true];  
-                        [_holster, [120,70,330]] call BIS_fnc_setObjectRotation;
+                        _holster attachTo [_unit, [-0.1,0.25,-0.15], "spine3", true]; 
+                        [_holster, [180,90,0]] call BIS_fnc_setObjectRotation;
                     };
                     // Front upwards
                     if (_style == 4) exitWith {
@@ -61,7 +61,7 @@ call {
                     // Pelvis back
                     if (_style == 0) exitWith {
                         _holster attachTo [_unit, [0.1,-0.25,0.03], "pelvis", true]; 
-                        [_holster, [-20,0,20]] call BIS_fnc_setObjectRotation;
+                        [_holster, [0,-80,0]] call BIS_fnc_setObjectRotation;
                     };
                     // Back left
                     if (_style == 1) exitWith {

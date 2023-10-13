@@ -509,7 +509,7 @@ Parameters:
     "LIST",
     ["Next Launcher Display Position", "Choose the position where the launcher will be displayed.\n"],
     ["KtweaK - Client", "Equip Next Weapon"],
-    [[0,1,2], ["Waist back", "Back left", "Back right"], 0],
+    [[0,1,2], ["Waist back", "Back left", "Back right"], 1],
     0,
     {} 
 ] call CBA_fnc_addSetting;
