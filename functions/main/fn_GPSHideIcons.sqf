@@ -8,7 +8,7 @@ if (KTWK_opt_GPSHideIcons_enable) then {
         // Enable custom waypoint
         // onMapSingleClick {};
     } else {
-        disableMapIndicators [true,true,true,false];
+        disableMapIndicators [true,true,true,true];
         // Disable custom waypoint
         if (!KTWK_opt_GPSHideIcons_customWP) then {
             onMapSingleClick {_shift};

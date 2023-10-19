@@ -4,9 +4,13 @@
 params [["_unit", objNull]];
 if (isNull _unit) exitwith {false};
 if (!local _unit) exitwith {false};
+if !([_unit] call KTWK_fnc_isHuman) exitWith {false};
+if ((count (KTWK_SiS_excluded select { _unit isKindOf _x}) > 0)) exitWith {false};
+if (!alive _unit) exitwith {false};
 if (vehicle _unit != _unit) exitWith {false};
 private _falling = _unit getVariable ["KTWK_isSlopeSliding", false];
 if (_falling) exitWith {false};
+if ((getPosATl _unit)#2 >= 1) exitwith {false};
 private _s = speed _unit;
 if (abs _s < 3) exitWith {false};
 

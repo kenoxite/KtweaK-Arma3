@@ -3,6 +3,7 @@
 params [["_unit", objNull]];
 if (isNull _unit) exitwith {false};
 if (!local _unit) exitwith {false};
+if (!alive _unit) exitwith {false};
 if (!canSuspend) exitWith {_this spawn KTWK_fnc_slideDownSlope};
 private _lowered = weaponLowered _unit;
 private _stance = stance _unit;

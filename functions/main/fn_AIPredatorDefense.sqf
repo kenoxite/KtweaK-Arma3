@@ -1,6 +1,8 @@
 // AI will defend from predators
 // by kenoxite
 
+if (!isServer) exitwith {false};
+    
 KTWK_allPredators = KTWK_allAnimals select {_x isKindOf "Edaly_Crocodile_Base"};
 {
     if !(_x getVariable ["KTWK_predatorInit", false]) then {

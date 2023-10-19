@@ -3,11 +3,15 @@
 // by kenoxite
 // -----------------------------------------------
 
+if (!isServer) exitwith {false};
+
 KTWK_allInfantry = [];
 KTWK_allInfPlayers = [];
 KTWK_allCreatures = [];
 KTWK_allAnimals = [];
 KTWK_allPredators = [];
+
+KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
 
 // -----------------------------------------------
 // AI auto enable IR laser
@@ -109,10 +113,27 @@ KTWK_allPredators = [];
     if (_item != "") then { _unit addItem _item };
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
+// --------------------------------
+addMissionEventHandler ["PlayerConnected", {
+    params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
+
+    // Brighter full moon nights
+    if (KTWK_BN_opt_enabled > 0 && {sunOrMoon < 1}) then {
+        [[_id], true] call KTWK_fnc_brighterNight_set;
+    };
+}];
+
+// --------------------------------
+// Brighter full moon nights
+#include "brightNights.hpp"
+
+call KTWK_fnc_brighterNight_check;
 
 // --------------------------------
 // Global system loop
 KTWK_scr_update = [{
+    if (!isServer) exitwith {false};
+
     private _allUnits = allUnits;
     private _agents = agents;
 
@@ -140,7 +161,15 @@ KTWK_scr_update = [{
 
     // BettIR - auto enable NVG illuminator for all units
     if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
-        if ((KTWK_BIR_NVG_illum_opt_enabled > 0 || KTWK_BIR_wpn_illum_opt_enabled > 0)) then { [] call KTWK_fnc_BIR_checkUnits };
+        if (KTWK_BIR_opt_enabled) then { call KTWK_fnc_BIR_checkUnits };
+        // Disable illuminators if option is disabled now but was enabled before
+        if (!KTWK_BIR_opt_enabled && {KTWK_BIR_opt_enabled_last}) then {
+            {
+                [_x] call BettIR_fnc_nvgIlluminatorOff;
+                [_x] call BettIR_fnc_weaponIlluminatorOff;
+            } forEach (KTWK_allInfantry select {!isPlayer _x});
+        };
+        KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
     };
 
     // AI will defend from predators
@@ -150,8 +179,12 @@ KTWK_scr_update = [{
 
     // Poncho swap
     if (KTWK_ponchoSwap_opt_enabled) then {
-        // {_x call KTWK_fnc_ponchoSwap} forEach KTWK_allInfantry;
         {[_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x];} forEach (KTWK_allInfantry + allDeadMen);
     };
 
+    // Brighter full moon nights
+    call KTWK_fnc_brighterNight_check;
+
+    _allUnits = nil;
+    _agents = nil;
 }, 3, []] call CBA_fnc_addPerFrameHandler;

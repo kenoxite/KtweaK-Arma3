@@ -160,6 +160,15 @@ Parameters:
 
 // BETTIR AUTOENABLE
 [
+    "KTWK_BIR_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, AI will automatically toggle the activation of their illuminators basec on the chosen conditions.\n"],
+    ["KtweaK - Server", "BettIR Auto Enable for AI"],
+    [true],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+[
     "KTWK_BIR_NVG_illum_opt_enabled", 
     "LIST",
     ["Auto enable NVG illuminator", "Automatically enable the NVG illuminator for all AI units in the specified conditions. It has no effect if BettIR isn't installed.\n"],
@@ -465,6 +474,17 @@ Parameters:
     ["Slide in Slopes", "If enabled, player infantry units have a chance of slipping when going up and down slopes.\n"],
     ["KtweaK - Server", ""],
     [false],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+// BRIGHTER FULL MOON NIGHTS
+[
+    "KTWK_BN_opt_enabled", 
+    "LIST",
+    ["Brighter Full Moon Nights", "If enabled, lighting in full moon nights will be brigther.\n"],
+    ["KtweaK - Server", ""],
+    [[0,1,2], ["Disable", "Bright", "Brighter"], 1],
     1,
     {} 
 ] call CBA_fnc_addSetting;

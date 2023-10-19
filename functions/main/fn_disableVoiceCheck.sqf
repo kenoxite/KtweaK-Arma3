@@ -1,4 +1,7 @@
 // Disable voice mods for non humans
+
+if (!isServer) exitwith {false};
+
 private _isUnitDisabled = false;
 
 // Stalker voices

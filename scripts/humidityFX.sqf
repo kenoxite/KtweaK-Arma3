@@ -25,6 +25,13 @@ private _scriptTimer = 0;
 private _sleepTime = 0.5;
 while {KTWK_HFX_opt_enabled} do {
     _scriptTimer = _scriptTimer + _sleepTime;
+
+    // Set intensity to low and disable audio FX if in Livonia while playing Contact campaign
+    if (worldName == "Enoch" && !isNil {bin_player}) then {
+        KTWK_HFX_opt_intensity = 3;
+        KTWK_HFX_opt_activeEffects = 1;
+    };
+
     private _visualFXMod = [1, 0.5, 0.25] select KTWK_HFX_opt_intensity - 1;
     private _audioFXMod = [1.5, 1, 0.75] select KTWK_HFX_opt_intensity - 1;
     private _player = call KTWK_fnc_playerUnit;

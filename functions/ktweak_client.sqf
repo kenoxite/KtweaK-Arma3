@@ -3,6 +3,26 @@
 // by kenoxite
 // -----------------------------------------------
 
+if (!hasInterface) exitwith {false};
+
+// --------------------------------
+// Disable bright night effects
+// - SP
+addMissionEventHandler ["Ended", {
+    params ["_endType"];
+    true call KTWK_fnc_brighterNight_unSet_client;
+}];
+// - MP
+0 spawn
+{
+    waitUntil { !isNull findDisplay 46 };
+    findDisplay 46 displayAddEventHandler ["Unload",
+    {
+        true call KTWK_fnc_brighterNight_unSet_client;
+    }];
+};
+
+// --------------------------------
 // Wait for player init
 waitUntil {!isNull player && time > 1};
 
@@ -166,6 +186,18 @@ KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
 
 // Init - Ghost Recon Drone
 KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
+
+// --------------------------------
+KTWK_SiS_excluded = [
+    // TIOW
+    "TIOWSpaceMarine_Base",
+    "TIOW_NecronLord_Sautekh",
+    "TIOW_NecronWarrior_Sautekh",
+
+    // OPTRE
+    "OPTRE_Spartan2_Soldier_Base",
+    "OPTRE_Spartan3_Soldier_Base"
+];
 
 // --------------------------------
 // Loop

@@ -1,5 +1,7 @@
 //
 
+if (!isServer) exitwith {false};
+    
 // EH
 {
     if (alive _x && {!(_x getVariable ["KTWK_FW_ready", false]) && {!(_x getVariable ["KTWK_FW_exclude", false])}}) then {

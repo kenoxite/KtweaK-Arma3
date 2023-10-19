@@ -5,10 +5,10 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "2.0.2";
+        version = "2.1";
         //url = "";
 
-        requiredVersion = 1.60; 
+        requiredVersion = 2.14; 
         requiredAddons[] = { "A3_Functions_F", "CBA_Main", "cba_settings", "Extended_Eventhandlers" };
         units[] = {
             "KTWK_GRdroneItem"
@@ -25,16 +25,38 @@ class Extended_PreInit_EventHandlers {
     };
 };
 
+#define BN_EDITOR "call compile preprocessFileLineNumbers 'KtweaK\functions\ktweak_3denBrightNights.sqf'; [[], true] call KTWK_fnc_brighterNight_unSet; [] spawn {while {is3DEN} do {call KTWK_fnc_brighterNight_check; sleep 0.5;}; [[], true] call KTWK_fnc_brighterNight_unSet;};"
+
+class Cfg3DEN
+{
+    class EventHandlers
+    {
+        class KtweaK
+        {
+            init = BN_EDITOR;
+            OnTerrainNew = BN_EDITOR;
+            OnMissionPreviewEnd = BN_EDITOR;
+            OnMissionNew = BN_EDITOR;
+            OnMissionLoad = BN_EDITOR;
+        };
+    };
+};
+
 class CfgFunctions
 {
     class KTWK
     {
         class KTWKInit
         {
+            class preInit
+            {
+                preInit = 1;
+                file = "KtweaK\functions\ktweak_server.sqf";
+            };
             class postInit
             {
                 postInit = 1;
-                file = "KtweaK\functions\init.sqf";
+                file = "KtweaK\functions\ktweak_client.sqf";
             };
         };
 
@@ -123,6 +145,18 @@ class CfgFunctions
             class toggleHolsterDisplay {};
             class addInvEH {};
             class openInv {};
+        };
+
+        class BrighterNight
+        {
+            file = "KtweaK\functions\BN";
+            preInit = 1;
+
+            class brighterNight_check {};
+            class brighterNight_set {};
+            class brighterNight_unSet {};
+            class brighterNight_set_client {};
+            class brighterNight_unSet_client {};
         };
     };
 };
