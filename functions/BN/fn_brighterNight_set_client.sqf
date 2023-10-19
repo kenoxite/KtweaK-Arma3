@@ -31,15 +31,17 @@ if (count _aperture > 0) then {
             _ap2 = (_ap#0)+0.2;
             _ap3 = _aperture#3;
             _step = 0.1;
-            while {!([_ap0, _ap1, _ap2] isEqualTo [_aperture#0,_aperture#1,_aperture#2])} do {
+            setApertureNew [_ap0, _ap1, _ap2, _ap3];
+            while {(apertureParams#8) && !([_ap0, _ap1, _ap2] isEqualTo [_aperture#0,_aperture#1,_aperture#2])} do {
                 _ap0 = _ap0 - _step;
                 _ap1 = _ap1 - _step;
                 _ap2 = _ap2 - _step;
                 setApertureNew [_ap0, _ap1, _ap2, _ap3];
-                if (_ap0 < (_aperture#0) || _ap1 < (_aperture#1) || _ap2 < (_aperture#2)) exitWith {false};
+                if (!(apertureParams#8) || {_ap0 < (_aperture#0) || _ap1 < (_aperture#1) || _ap2 < (_aperture#2)}) exitWith {
+                    if (apertureParams#8) exitWith {setApertureNew [_ap0, _ap1, _ap2, _aperture#3];};
+                };
                 sleep 1;
             };
-            setApertureNew [_ap0, _ap1, _ap2, _aperture#3];
             if (KTWK_opt_debug) then {systemChat "[KtweaK] Aperture set!"};
         };
     };
