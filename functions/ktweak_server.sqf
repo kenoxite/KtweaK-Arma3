@@ -118,7 +118,7 @@ addMissionEventHandler ["PlayerConnected", {
     params ["_id", "_uid", "_name", "_jip", "_owner", "_idstr"];
 
     // Brighter full moon nights
-    if (KTWK_BN_opt_enabled > 0 && {sunOrMoon < 1}) then {
+    if (KTWK_BN_opt_enabled > 0 && {call KTWK_fnc_isNight}) then {
         [[_id], true] call KTWK_fnc_brighterNight_set;
     };
 }];

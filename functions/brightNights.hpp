@@ -17,7 +17,7 @@ KTWK_BN_altPpEffect_darker = [
     // "altis",
     // "stratis",
     // "malden",
-    "ruha",
+    // "ruha",
     "utes",
     "chernarus",
     "chernarus_summer",

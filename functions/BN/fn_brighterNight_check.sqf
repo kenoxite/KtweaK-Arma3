@@ -4,7 +4,7 @@
 if (!isServer) exitwith {false};
 if (isNil {KTWK_BN_opt_enabled}) exitwith {false};
 
-if (KTWK_BN_opt_enabled > 0 && {sunOrMoon < 1}) then {
+if (KTWK_BN_opt_enabled > 0 && {call KTWK_fnc_isNight}) then {
     call {
         if (is3DEN && {(!isNil {KTWK_BN_set} && {!KTWK_BN_set}) || {(KTWK_BN_lastOption != 0 && {KTWK_BN_lastOption != KTWK_BN_opt_enabled})}}) exitWith {
             [[], true] call KTWK_fnc_brighterNight_set;

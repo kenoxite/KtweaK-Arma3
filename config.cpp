@@ -81,6 +81,8 @@ class CfgFunctions
             class swapUnitContainer {};
             class ponchoSwap {};
             class underRoof {};
+            class isDuskOrDawn {};
+            class isNight {};
         };
 
         class FatalWounds
