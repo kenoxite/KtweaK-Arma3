@@ -16,10 +16,10 @@ if (time < 5) then {_noWait = true};
 KTWK_BN_colorC ppEffectAdjust _effect;
 KTWK_BN_colorC ppEffectCommit ([60, 0] select _noWait);
 
-// default: setApertureNew [30,55,70,200];
+// default: [30,55,70,200];
 if (count _aperture > 0) then {
     call {
-        // Dont wait if specified or at dawn
+        // Don't wait if forced or at dawn
         if (_noWait || (date#3) < 12) exitWith { setApertureNew _aperture };
         // Progressive aperture at dusk/night
         [_aperture] spawn {
@@ -37,8 +37,9 @@ if (count _aperture > 0) then {
                 _ap1 = _ap1 - _step;
                 _ap2 = _ap2 - _step;
                 setApertureNew [_ap0, _ap1, _ap2, _ap3];
+                // Exit if aperture was reset while transitioning or if any parameter is below desired threshold
                 if (!(apertureParams#8) || {_ap0 < (_aperture#0) || _ap1 < (_aperture#1) || _ap2 < (_aperture#2)}) exitWith {
-                    if (apertureParams#8) exitWith {setApertureNew [_ap0, _ap1, _ap2, _aperture#3];};
+                    if (apertureParams#8) exitWith {setApertureNew _aperture};
                 };
                 sleep 1;
             };
