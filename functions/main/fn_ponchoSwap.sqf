@@ -6,6 +6,7 @@
 params [["_unit", objNull]];
 if (isNull _unit) exitWith {false};
 if (!local _unit) exitWith {false};
+if (_unit in agents) then {_unit = agent _unit};
 
 // Exit if paused
 if (isPlayer _unit && {!(isNull (findDisplay 49))}) exitWith {false};
