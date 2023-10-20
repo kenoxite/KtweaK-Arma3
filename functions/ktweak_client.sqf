@@ -204,6 +204,18 @@ KTWK_SiS_excluded = [
 KTWK_scr_updateClient = [{
     KTWK_player = call KTWK_fnc_playerUnit;
 
+    // AI stop when healed
+    // - Thanks, pierremgi!
+    if (!isServer) then {
+        {
+            _x addEventHandler ["handleHeal", {
+                if (!KTWK_SFH_opt_enabled) exitwith {};
+                _this remoteExec ["KTWK_fnc_AIstopForHealing", _this#0, true];
+            }];
+            _x setVariable ["KTWK_handleHeal_added", true, true];
+        } forEach (KTWK_allInfantry select {!(_x getVariable ["KTWK_handleHeal_added",false])});
+    };
+
     // No map icons if no GPS
     call KTWK_fnc_GPSHideIcons;
 

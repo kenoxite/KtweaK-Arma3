@@ -5,7 +5,7 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "2.1";
+        version = "2.1.1";
         //url = "";
 
         requiredVersion = 2.14; 
@@ -83,6 +83,7 @@ class CfgFunctions
             class underRoof {};
             class isDuskOrDawn {};
             class isNight {};
+            class AIstopForHealing {};
         };
 
         class FatalWounds

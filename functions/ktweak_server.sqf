@@ -6,6 +6,7 @@
 if (!isServer) exitwith {false};
 
 KTWK_allInfantry = [];
+publicVariable "KTWK_allInfantry";
 KTWK_allInfPlayers = [];
 KTWK_allCreatures = [];
 KTWK_allAnimals = [];
@@ -24,7 +25,7 @@ KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
         // Disable IR laser
         (_this#0) enableIRLasers false;
     };
-}, true, [], true] remoteExec ["CBA_fnc_addClassEventHandler", 0, true];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["CAManBase", "killed", {
     params ["_unit"];
@@ -37,30 +38,13 @@ KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
     // Disable illuminators when dead
     [_unit] call BettIR_fnc_nvgIlluminatorOff;
     [_unit] call BettIR_fnc_weaponIlluminatorOff;
-}, true, [], true] remoteExec ["CBA_fnc_addClassEventHandler", 0, true];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // AI stop when healed
 ["CAManBase", "HandleHeal", {
     if (!KTWK_SFH_opt_enabled) exitwith {};
-    params ["_injured", "_healer"];
-    // Only apply when healer is a player or a player controlled unit and also if injured unit is local to the player
-    private _players = allPlayers - entities "HeadlessClient_F";
-    if (isPlayer _injured || {!(_healer in _players) && !(remoteControlled _healer in _players)}) exitwith {};
-    _this spawn {
-        params ["_injured", "_healer"];
-        private _damage = damage _injured;
-        private _startTime = time;
-        // _injured disableAI "MOVE";
-        [_injured, "MOVE"] remoteExecCall ["disableAI", 0, _injured];
-        waitUntil {damage _injured != _damage || !alive _injured || !alive _healer || (time - _startTime) > 30};
-        // _injured enableAI "MOVE";
-        [_injured, "MOVE"] remoteExecCall ["enableAI", 0, _injured];
-        // Add some mission rating to the player to reward being an active healer, based on amount healed
-        if (damage _injured != _damage) then {
-            _healer addRating (round (200 * _damage));
-        };
-    };
-}, true, [], true] remoteExec ["CBA_fnc_addClassEventHandler", 0, true];
+    _this remoteExec ["KTWK_fnc_AIstopForHealing", _this#0, true];
+}, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // ACE Map Flashlights
 ["CAManBase", "init", {
@@ -147,6 +131,7 @@ KTWK_scr_update = [{
 
     // Update all infantry units array
     KTWK_allInfantry = _allUnits select {!(_x in KTWK_allCreatures)};
+    publicVariable "KTWK_allInfantry";
 
     // Update all infantry players array
     KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x};
@@ -179,7 +164,7 @@ KTWK_scr_update = [{
 
     // Poncho swap
     if (KTWK_ponchoSwap_opt_enabled) then {
-        {[_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x];} forEach (KTWK_allInfantry + allDeadMen);
+        {[_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x]} forEach (KTWK_allInfantry + allDeadMen);
     };
 
     // Brighter full moon nights
