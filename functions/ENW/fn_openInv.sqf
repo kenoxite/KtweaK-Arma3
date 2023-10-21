@@ -17,6 +17,10 @@ params ["_unit", "_container", "_container2"];
 sleep 0.01;
 if (vehicle _unit == _unit) then {
     _unit action ["Gear", _container];
+    // Display holsters 
+    waitUntil {!isNull (findDisplay 602)};
+    _unit setVariable ["KTWK_swappingWeapon", false]; 
+    [_unit] call KTWK_fnc_toggleHolsterDisplay;
 };
 _unit call KTWK_fnc_addInvEH;
 true

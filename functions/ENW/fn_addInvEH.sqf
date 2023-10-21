@@ -27,10 +27,10 @@ KTWK_EH_invOpened_ENW = _unit addEventHandler ["InventoryOpened", {
         };
     };
 }];
-KTWK_EH_invClosed_ENW = player addEventHandler ["InventoryClosed", { 
-    params ["_unit", "_container"]; 
-    _unit setVariable ["KTWK_swappingWeapon", false]; 
-    // Display holsters 
-    [_unit] call KTWK_fnc_toggleHolsterDisplay;
-    _unit removeEventHandler [_thisEvent, _thisEventHandler];
-}];
+// KTWK_EH_invClosed_ENW = player addEventHandler ["InventoryClosed", { 
+//     params ["_unit", "_container"]; 
+//     _unit setVariable ["KTWK_swappingWeapon", false]; 
+//     // Display holsters 
+//     [_unit] call KTWK_fnc_toggleHolsterDisplay;
+//     _unit removeEventHandler [_thisEvent, _thisEventHandler];
+// }];

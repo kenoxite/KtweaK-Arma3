@@ -24,16 +24,52 @@ call {
         call {
             // Rifle
             if (_type == 1) exitWith {
+                private _isLong = [_displayItem#0] call KTWK_fnc_isWeaponLong;
+                private _isShort = [_displayItem#0] call KTWK_fnc_isWeaponShort;
                 call {
                     // Back right
                     if (_style == 0) exitWith {
-                        _holster attachTo [_unit, [0.15,-0.15,0.05], "spine3", true];
-                        [_holster, [70,0,-90]] call BIS_fnc_setObjectRotation;
+                        call {
+                            if (_isLong) exitWith {
+                                _holster attachTo [_unit, [0.1,-0.2,-0.2], "spine3", true];
+                                [_holster, [70,0,-90]] call BIS_fnc_setObjectRotation;
+                            };
+                            _holster attachTo [_unit, [0.15,-0.2,0.05], "spine3", true];
+                            [_holster, [70,0,-90]] call BIS_fnc_setObjectRotation;
+                        };
                     };
                     // Back left
                     if (_style == 1) exitWith {
-                        _holster attachTo [_unit, [-0.15,-0.17,0.05], "spine3", true];  
-                        [_holster, [270,0,-90]] call BIS_fnc_setObjectRotation;
+                        call {
+                            if (backpack _unit == "") exitWith {
+                                call {
+                                    if (_isLong) exitWith {
+                                        _holster attachTo [_unit, [-0.05,-0.2,-0.2], "spine3", true];  
+                                        [_holster, [270,0,-90]] call BIS_fnc_setObjectRotation;
+                                    };
+                                    _holster attachTo [_unit, [-0.05,-0.2,0.05], "spine3", true];  
+                                    [_holster, [270,0,-90]] call BIS_fnc_setObjectRotation;
+                                };
+                            };
+                            if (secondaryWeapon _unit == "") exitWith {
+                                call {
+                                    if (_isLong) exitWith {
+                                        _holster attachTo [_unit, [-0.15,-0.17,-0.2], "spine3", true];  
+                                        [_holster, [270,0,-90]] call BIS_fnc_setObjectRotation;
+                                    };
+                                    _holster attachTo [_unit, [-0.15,-0.17,0.05], "spine3", true];  
+                                    [_holster, [270,0,-90]] call BIS_fnc_setObjectRotation;
+                                };
+                            };
+                            call {
+                                if (_isLong) exitWith {
+                                    _holster attachTo [_unit, [-0.25,-0.25,-0.2], "spine3", true];  
+                                    [_holster, [0,0,-90]] call BIS_fnc_setObjectRotation;
+                                };
+                                _holster attachTo [_unit, [-0.24,-0.25,0.05], "spine3", true];  
+                                [_holster, [0,0,-90]] call BIS_fnc_setObjectRotation;
+                            };
+                        };
                     };
                     // Front downwards
                     if (_style == 2) exitWith {
@@ -41,13 +77,23 @@ call {
                         [_holster, [270,0,70]] call BIS_fnc_setObjectRotation;
                     };
                     // Front horizontal
-                    if (_style == 3) exitWith {
-                        _holster attachTo [_unit, [-0.1,0.25,-0.15], "spine3", true]; 
-                        [_holster, [180,90,0]] call BIS_fnc_setObjectRotation;
+                    if (_style == 3) exitWith { 
+                        call {
+                            if (_isLong) exitWith {
+                                _holster attachTo [_unit, [0.1,0.27,-0.2], "spine3", true]; 
+                                [_holster, [180,90,0]] call BIS_fnc_setObjectRotation;
+                            };
+                            if (_isShort) exitWith {
+                                _holster attachTo [_unit, [-0.1,0.25,-0.2], "spine3", true]; 
+                                [_holster, [180,90,0]] call BIS_fnc_setObjectRotation;
+                            };
+                            _holster attachTo [_unit, [0,0.25,-0.2], "spine3", true]; 
+                            [_holster, [180,90,0]] call BIS_fnc_setObjectRotation;
+                        };
                     };
                     // Front upwards
-                    if (_style == 4) exitWith {
-                        _holster attachTo [_unit, [0.01,0.25,-0.15], "spine3", true];  
+                    if (_style == 4) exitWith {                        
+                        _holster attachTo [_unit, [-0.05,0.2,0], "spine3", true];  
                         [_holster, [100,30,290]] call BIS_fnc_setObjectRotation;
                     };
                     // Default - Back right
@@ -65,8 +111,8 @@ call {
                     };
                     // Back left
                     if (_style == 1) exitWith {
-                        _holster attachTo [_unit, [-0.2,-0.25,0.01], "spine3", true];    
-                        [_holster, [270,-5,-105]] call BIS_fnc_setObjectRotation;
+                        _holster attachTo [_unit, [-0.22,-0.2,0.01], "spine3", true];     
+                        [_holster, [270,0,-100]] call BIS_fnc_setObjectRotation;
                     };
                     // Back right
                     if (_style == 2) exitWith {

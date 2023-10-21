@@ -51,7 +51,7 @@ KTWK_player call KTWK_fnc_addInvEH;
 // Arsenal EH
 [missionNamespace, "arsenalPreOpen", {
     params ["_missionDisplay", "_center"];
-    // Check for all weapons stored in inventory and save it's attachments to reapply them after arsenal is closed
+    // Check for all weapons stored in inventory and save it's attachments to reapply them later
     KTWK_player setVariable ["KTWK_uniformWeapons", ([KTWK_player, "uniform"] call KTWK_fnc_unitContainerItems)#1];
     KTWK_player setVariable ["KTWK_vestWeapons", ([KTWK_player, "vest"] call KTWK_fnc_unitContainerItems)#1];
     KTWK_player setVariable ["KTWK_backpackWeapons", ([KTWK_player, "backpack"] call KTWK_fnc_unitContainerItems)#1];

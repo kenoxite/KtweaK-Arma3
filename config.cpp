@@ -1,3 +1,7 @@
+#define VERSION 2.1.2 // Should be a floating-point number (1 separator)
+#define VERSION_STR 2.1.2 // Since CBA v3.13.0
+#define VERSION_AR 2,1,2
+
 class CfgPatches
 {
 	class KtweaK
@@ -5,7 +9,9 @@ class CfgPatches
         name = "KtweaK";
         author = "kenoxite";
         authors[] = {"kenoxite"};
-        version = "2.1.1";
+        version = VERSION;
+        versionStr = VERSION_STR;
+        versionAr[] = {VERSION_AR};
         //url = "";
 
         requiredVersion = 2.14; 
@@ -17,6 +23,21 @@ class CfgPatches
             "KTWK_GRdrone"
         };
 	};
+};
+
+class CfgSettings {
+    class CBA {
+        class Versioning {
+            class KtweaK {
+                main_addon = "KtweaK";
+                // handler = "KTWK_fnc_mismatch";
+                class Dependencies {
+                    CBA[] = {"cba_main", {0, 8, 0}, "true"};
+                };
+                // removed[] = {"myMod_addon1"};
+            };
+        };
+    };
 };
 
 class Extended_PreInit_EventHandlers {
@@ -84,6 +105,8 @@ class CfgFunctions
             class isDuskOrDawn {};
             class isNight {};
             class AIstopForHealing {};
+            class isWeaponLong {};
+            class isWeaponShort {};
         };
 
         class FatalWounds
