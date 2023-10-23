@@ -16,16 +16,31 @@ private _parentPos = getPosWorld _unit;
 private _parentHeadPos = _unit modelToWorld (_unit selectionPosition "head");
 private _parentHeadDir = _unit getRelDir _parentHeadPos;
 private _parentDir = ((getDir _unit) + _parentHeadDir) mod 360;
-if (KTWK_FW_opt_mode == "keep") then {
+
+private _keepCorpse = call {
+    // Don't keep corpse in ravage
+    // if (isClass (configFile >> "CfgPatches" >> "ravage")) exitwith {false};
+    if (KTWK_FW_opt_mode == "keep") exitwith {true};
+    false
+};
+
+private _ravageTurnZombie = false;
+if (_keepCorpse) then {
     // _unit hideObjectGlobal true;
     // _unit spawn {
     //     sleep 0.1;
     //     _this setPosWorld [0,0,0];
     // };
     _unit setPosWorld [0,0,0];
-    waitUntil {{_unit setPosWorld [0,0,0]; true}; getPosWorld _unit isEqualTo [0,0,0]};
-};
-if (KTWK_FW_opt_mode != "keep") then {
+    sleep 0.01;
+    _unit setPosWorld [0,0,0];
+    // waitUntil {{_unit setPosWorld [0,0,0]; true}; getPosWorld _unit isEqualTo [0,0,0]};
+} else {
+    // if (isClass (configFile >> "CfgPatches" >> "ravage")) then {
+    //     if (isNil {_unit getVariable 'cantTurn_z'}) then {
+    //         _ravageTurnZombie = true;
+    //     };
+    // };
     deleteVehicle _unit;
 };
 _clone setPosWorld _parentPos;
@@ -53,6 +68,7 @@ private _anim = "";
 private _scream_SSD = !isNil "SSD_fnc_playSound";
 private _scream_ProjectHuman = !isNil "L_fnc_DeathScream";
 private _scream = _scream_SSD || _scream_ProjectHuman;
+private _maxAnimTime = 10;
 
 // if (_scream_ProjectHuman) then { [_clone] spawn L_fnc_DeathScream };
 
@@ -121,7 +137,7 @@ call {
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
         // sleep (3 + random 5);
-        sleep _animTime;
+        sleep (_animTime min _maxAnimTime);
     };
 
     // Stomach
@@ -162,7 +178,7 @@ call {
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
         // sleep (10 + random 10);
-        sleep _animTime;
+        sleep (_animTime min _maxAnimTime);
     };
 
     // Legs
@@ -190,7 +206,7 @@ call {
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
         // sleep (5 + random 10);
-        sleep _animTime;
+        sleep (_animTime min _maxAnimTime);
         // _clone setDir ((getDir _clone) + _animDir + 180) mod 360;
     };
 
@@ -219,7 +235,7 @@ call {
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
         // sleep (5 + random 10);
-        sleep _animTime;
+        sleep (_animTime min _maxAnimTime);
         // _clone setDir ((getDir _clone) + _animDir + 180) mod 360;
     };
 
@@ -277,7 +293,7 @@ call {
                 };
                 if (_scream_SSD) then { [selectRandom SSD_RattleOther, _clone, 3, 2] call SSD_fnc_playSound };
                 // sleep (10 + random 10);
-                sleep _animTime;
+                sleep (_animTime min _maxAnimTime);
             };
 
             if (_type == "move") exitwith {
@@ -313,7 +329,7 @@ call {
                 [_clone, _anim] remoteExec ["switchMove", 0, _clone];
                 // waitUntil {(animationState _clone) == "unconsciousfacedown" || (animationState _clone) == "unconsciousfaceup"};
                 // waitUntil {(animationState _clone) == _anim select 0};
-                sleep _animTime - 0.1;
+                sleep ((_animTime - 0.1) min _maxAnimTime);
             };
         };
     }; 
@@ -326,10 +342,18 @@ _clone setUnconscious true;
 sleep 0.01;
 _unit setVariable ["KTWK_FW_Killed", true, true];
 
-if (KTWK_FW_opt_mode == "keep") then {
-    _clonePos = getPosWorld _clone;
-    _cloneDir = getDir _clone;
+if (_keepCorpse) then {
+    private ["_clonePos","_cloneDir"];
+    _clonePos = _parentPos;
+    _clonePos set [2, (_clonePos#2)+0.1]; 
+    _cloneDir = _parentDir;
+    if (!isNil {_clone} && {!isNull _clone}) then {
+        _clonePos = getPosWorld _clone;
+        _clonePos set [2, (_clonePos#2)+0.1]; 
+        _cloneDir = getDir _clone;
+    };
     deleteVehicle _clone;
+    sleep 0.01;
     _unit setVariable ["SSD_disabledSounds", true, true];
     _unit setPosWorld _clonePos;
     _unit setDir _cloneDir;
@@ -342,17 +366,39 @@ if (KTWK_FW_opt_mode == "keep") then {
 } else {
     [_clone, true] remoteExecCall ["allowDamage", 0, true];
     _clone setVariable ["SSD_disabledSounds", true, true];
-    // _clone setHit [_selection, 1, true, _instigator];
-    // _clone setHit ["body", 1, true, _instigator];
     [_clone, [_selection, 1, true, _instigator]] remoteExecCall ["setHit", 0, _clone];
     [_clone, ["body", 1, true, _instigator]] remoteExecCall ["setHit", 0, _clone];
     _clone setVectorUp (surfaceNormal position _clone);
     _clone setVelocity [0,0,0];
     _clone setVariable ["KTWK_FW_timeDead", time, true];
-
-    // [_clone, true] remoteExecCall ["awake"];
-    // [_clone, false] remoteExecCall ["awake"];
-
+    // if (_ravageTurnZombie) then {
+    //     // Drop weapons, snatched from Ravage
+    //     _lodt = getUnitLoadout _clone;
+    //     if (!((_lodt # 0) isEqualTo []) || !((_lodt # 1) isEqualTo [])) then {
+    //         _ai = createAgent ['rvg_dummy_man', position _clone, [], 0, 'CAN_COLLIDE'];
+    //         hideObjectGlobal _ai;
+    //         _nlodt = getUnitLoadout _ai;
+    //         _nlodt set [0, _lodt # 0];
+    //         _nlodt set [1, _lodt # 1];
+    //         0 = [_ai, _nlodt] spawn {
+    //             params ['_ai', '_nlodt'];
+    //             _ai setUnitLoadout _nlodt;
+    //             _ai setdamage [1, false];
+    //             _ai spawn {
+    //                 waitUntil {sleep 30; ({_x distance _this < 250} count (allPlayers - entities 'HeadlessClient_F')) isEqualTo 0};
+    //                 deleteVehicle _this;
+    //             };
+    //         };
+    //         _lodt set [0,[]];
+    //         _lodt set [1,[]];
+    //         _clone setUnitLoadout _lodt;
+    //     };
+    //     // [_clone, rvg_fnc_turn_z] remoteExec ["spawn", _clone];
+    //     _clone spawn rvg_fnc_turn_z;
+    // } else {
+    //     addToRemainsCollector [_clone];
+    // };
+    
     addToRemainsCollector [_clone];
 
     // Squad Feedback compatibility

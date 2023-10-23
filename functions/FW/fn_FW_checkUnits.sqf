@@ -4,8 +4,9 @@ if (!isServer) exitwith {false};
     
 // EH
 {
-    if (alive _x && {!(_x getVariable ["KTWK_FW_ready", false]) && {!(_x getVariable ["KTWK_FW_exclude", false])}}) then {
+    if (alive _x && {!(_x getVariable ["KTWK_FW_ready", false])}) then {
         _x setVariable ["KTWK_FW_ready", true, true];
+        if (_x getVariable ["KTWK_FW_exclude", false]) exitwith {false};
         [_x, ["HandleDamage",{
         params ["_unit", "_selection", "_damage", "_source", "_projectile", "_hitIndex", "_instigator", "_hitPoint"];
             if !(_unit getVariable ["KTWK_FW_fatallyWounded", false]) then {

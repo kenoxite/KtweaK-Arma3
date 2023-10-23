@@ -1,6 +1,6 @@
-#define VERSION 2.1.2 // Should be a floating-point number (1 separator)
-#define VERSION_STR 2.1.2 // Since CBA v3.13.0
-#define VERSION_AR 2,1,2
+#define VERSION 2.1.3 // Should be a floating-point number (1 separator)
+#define VERSION_STR "2.1.3" // Since CBA v3.13.0
+#define VERSION_AR {2,1,3}
 
 class CfgPatches
 {
@@ -11,7 +11,7 @@ class CfgPatches
         authors[] = {"kenoxite"};
         version = VERSION;
         versionStr = VERSION_STR;
-        versionAr[] = {VERSION_AR};
+        versionAr[] = VERSION_AR;
         //url = "";
 
         requiredVersion = 2.14; 
@@ -107,6 +107,7 @@ class CfgFunctions
             class AIstopForHealing {};
             class isWeaponLong {};
             class isWeaponShort {};
+            class disableAutoMapCenter {};
         };
 
         class FatalWounds

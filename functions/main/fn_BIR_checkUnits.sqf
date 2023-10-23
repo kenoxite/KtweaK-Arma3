@@ -25,7 +25,7 @@ private _playerGroups = [];
     // Skip if nightvision isn't active
     if (currentVisionMode _x != 1) then {continue};
     // Skip if too far away from players
-    if ((group _x in _playerGroups) || {!([_x, KTWK_BIR_opt_dist] call _fnc_inRange)}) then {continue};
+    if (!(group _x in _playerGroups) && {!([_x, KTWK_BIR_opt_dist] call _fnc_inRange)}) then {continue};
     private _behaviour = behaviour _x;
     private _inStealth = _behaviour == "STEALTH";
     if (_stealth == 0 && _inStealth) then {continue};   // Disable if in stealth mode

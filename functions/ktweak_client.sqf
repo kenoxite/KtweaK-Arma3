@@ -29,6 +29,10 @@ waitUntil {!isNull player && time > 1};
 KTWK_player = player;
 
 // --------------------------------
+// Disable auto map center
+call KTWK_fnc_disableAutoMapCenter;
+
+// --------------------------------
 // Equip Next Weapon
 private ["_wpns"];
 // - Add rifle holster to player unit
@@ -230,3 +234,14 @@ KTWK_scr_updateClient = [{
     };
 
 }, 1, []] call CBA_fnc_addPerFrameHandler;
+
+// Fix for holsters blocking Ravage loot
+if (isClass (configFile >> "CfgPatches" >> "ravage")) then {
+    KTWK_scr_ENWRavageFix = [{
+        if (!isNil {rvg_lootTarget}) then {
+            // Hide holsters
+            [_unit, 1, 2] call KTWK_fnc_displayHolster; 
+            [_unit, 3, 2] call KTWK_fnc_displayHolster;
+        };
+    }, 0, []] call CBA_fnc_addPerFrameHandler;
+};

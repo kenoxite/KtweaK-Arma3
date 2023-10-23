@@ -307,7 +307,7 @@ Parameters:
     "SLIDER",
     ["Animation range", "Max distance from the player at which units will play fatally wounded animations, in meters."],
     ["KtweaK - Server", "Fatal Wounds"],
-    [0, 5000, 500, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0, 5000, 100, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
     1,
     {} 
 ] call CBA_fnc_addSetting;
@@ -454,6 +454,17 @@ Parameters:
     [true],
     1,
     {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_opt_GPSHideIcons_autoCenter", 
+    "CHECKBOX",
+    ["Allow Map Auto-centering", "If disabled, the map won't center on the player anymore and the button to center map on player is disabled."],
+    ["KtweaK - Server", "Map Icons only with GPS"],
+    [true],
+    1,
+    {},
+    true
 ] call CBA_fnc_addSetting;
 
 [

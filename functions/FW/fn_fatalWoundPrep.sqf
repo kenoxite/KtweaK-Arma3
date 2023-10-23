@@ -18,6 +18,12 @@ if(!KTWK_FW_opt_enabled || vehicle _unit != _unit || count _closePlayers == 0 ||
     if (KTWK_opt_debug) then { systemchat "Instant death" };
 };
 
+// Exclude from ravage garbage collector
+removeFromRemainsCollector [_unit];
+if (!isNil 'rvg_garbage_collector' && {_unit in rvg_garbage_collector}) then {
+    rvg_garbage_collector = rvg_garbage_collector - [_unit];
+};
+
 private _clone = [_unit, _stance] call KTWK_fnc_cloneDead;
 
 if (isNull _clone) exitwith {false};

@@ -18,7 +18,8 @@ KTWK_EH_invOpened_ENW = _unit addEventHandler ["InventoryOpened", {
     if (!isNull (_unit getVariable ["KTWK_rifleHolster", objNull]) || !isNull (_unit getVariable ["KTWK_launcherHolster", objNull])) then {
         // Hide holsters
         [_unit, 1, 2] call KTWK_fnc_displayHolster; 
-        [_unit, 3, 2] call KTWK_fnc_displayHolster; 
+        [_unit, 3, 2] call KTWK_fnc_displayHolster;
+
         _unit removeEventHandler [_thisEvent, _thisEventHandler];
         _this spawn KTWK_fnc_openInv;
         if (vehicle _unit == _unit) exitWith {

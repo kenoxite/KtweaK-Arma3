@@ -22,12 +22,11 @@ waitUntil {speed _unit <= 0};
 [_unit, 3] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
 
 sleep 2.5;
+[_unit, 3] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
 
 if (!alive _unit) exitwith {_unit setVariable ["KTWK_isSlopeSliding", false, true]; false};
 // _unit switchMove "";
 [_unit, ""] remoteExec ["switchMove", 0, _unit];
-// _unit setAnimSpeedCoef 1;
-[_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
 
 if (_lowered) then {
     private _wpn =  currentWeapon _unit;
@@ -47,4 +46,6 @@ if (_lowered) then {
     sleep 0.2;
     if (_anim != "") then { [_unit, _anim] remoteExec ["playMoveNow", 0, _unit]; };
 };
+// _unit setAnimSpeedCoef 1;
+[_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
 _unit setVariable ["KTWK_isSlopeSliding", false, true];
