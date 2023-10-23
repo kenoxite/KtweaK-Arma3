@@ -18,13 +18,10 @@ private _parentHeadDir = _unit getRelDir _parentHeadPos;
 private _parentDir = ((getDir _unit) + _parentHeadDir) mod 360;
 
 private _keepCorpse = call {
-    // Don't keep corpse in ravage
-    // if (isClass (configFile >> "CfgPatches" >> "ravage")) exitwith {false};
     if (KTWK_FW_opt_mode == "keep") exitwith {true};
     false
 };
 
-private _ravageTurnZombie = false;
 if (_keepCorpse) then {
     // _unit hideObjectGlobal true;
     // _unit spawn {
@@ -36,11 +33,6 @@ if (_keepCorpse) then {
     _unit setPosWorld [0,0,0];
     // waitUntil {{_unit setPosWorld [0,0,0]; true}; getPosWorld _unit isEqualTo [0,0,0]};
 } else {
-    // if (isClass (configFile >> "CfgPatches" >> "ravage")) then {
-    //     if (isNil {_unit getVariable 'cantTurn_z'}) then {
-    //         _ravageTurnZombie = true;
-    //     };
-    // };
     deleteVehicle _unit;
 };
 _clone setPosWorld _parentPos;
@@ -371,33 +363,6 @@ if (_keepCorpse) then {
     _clone setVectorUp (surfaceNormal position _clone);
     _clone setVelocity [0,0,0];
     _clone setVariable ["KTWK_FW_timeDead", time, true];
-    // if (_ravageTurnZombie) then {
-    //     // Drop weapons, snatched from Ravage
-    //     _lodt = getUnitLoadout _clone;
-    //     if (!((_lodt # 0) isEqualTo []) || !((_lodt # 1) isEqualTo [])) then {
-    //         _ai = createAgent ['rvg_dummy_man', position _clone, [], 0, 'CAN_COLLIDE'];
-    //         hideObjectGlobal _ai;
-    //         _nlodt = getUnitLoadout _ai;
-    //         _nlodt set [0, _lodt # 0];
-    //         _nlodt set [1, _lodt # 1];
-    //         0 = [_ai, _nlodt] spawn {
-    //             params ['_ai', '_nlodt'];
-    //             _ai setUnitLoadout _nlodt;
-    //             _ai setdamage [1, false];
-    //             _ai spawn {
-    //                 waitUntil {sleep 30; ({_x distance _this < 250} count (allPlayers - entities 'HeadlessClient_F')) isEqualTo 0};
-    //                 deleteVehicle _this;
-    //             };
-    //         };
-    //         _lodt set [0,[]];
-    //         _lodt set [1,[]];
-    //         _clone setUnitLoadout _lodt;
-    //     };
-    //     // [_clone, rvg_fnc_turn_z] remoteExec ["spawn", _clone];
-    //     _clone spawn rvg_fnc_turn_z;
-    // } else {
-    //     addToRemainsCollector [_clone];
-    // };
     
     addToRemainsCollector [_clone];
 
