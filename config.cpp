@@ -1,6 +1,6 @@
-#define VERSION 2.1.4 // Should be a floating-point number (1 separator)
-#define VERSION_STR "2.1.4" // Since CBA v3.13.0
-#define VERSION_AR {2,1,4}
+#define VERSION 2.1.4.1 // Should be a floating-point number (1 separator)
+#define VERSION_STR "2.1.4.1" // Since CBA v3.13.0
+#define VERSION_AR {2,1,4,1}
 
 class CfgPatches
 {
@@ -77,7 +77,7 @@ class CfgFunctions
             class postInit
             {
                 postInit = 1;
-                file = "KtweaK\functions\ktweak_client.sqf";
+                file = "KtweaK\functions\initClient.sqf";
             };
         };
 
