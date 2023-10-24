@@ -1,5 +1,5 @@
 ![KtweaK](https://i.imgur.com/Qm3qVfA.png)
-#### QoL and new features
+#### QoL and new features for Arma 3
  
 You can check the already packed version by visiting this mod's [Steam Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3036516333) page.
 
