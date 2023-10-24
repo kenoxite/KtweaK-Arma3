@@ -48,7 +48,7 @@ KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
 
 // ACE Map Flashlights
 ["CAManBase", "init", {
-    if (!KTWK_ACEfl_opt_enabled || !isClass (configfile >> "CfgVehicles" >> "ACE_Flashlight_KSF1Item")) exitwith {};
+    if (!KTWK_ACEfl_opt_enabled || !isClass (configFile >> "CfgVehicles" >> "ACE_Flashlight_KSF1Item")) exitwith {};
     params ["_unit"];
     if (!alive _unit) exitwith {};
     private _fl = [

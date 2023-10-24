@@ -133,6 +133,9 @@ addMissionEventHandler ["TeamSwitch", {
         [_previousUnit, _actionId] remoteExecCall ["removeAction", 0 , _previousUnit];
         _previousUnit setVariable ["KTWK_GRdrone_actionId", nil, true];
     };
+    if (isClass (configFile >> "CfgPatches" >> "ace_interact_menu")) then {
+        [_previousUnit, 1, ["ACE_SelfActions", "KTWK_GRdrone"]] call ace_interact_menu_fnc_removeActionFromObject;
+    };
     terminate KTWK_scr_GRdrone;
     _this spawn {
         waitUntil {scriptDone KTWK_scr_GRdrone};

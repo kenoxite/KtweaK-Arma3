@@ -588,12 +588,12 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 
-// HEALTH HUD
+// BODYPART HUD
 [
     "KTWK_HUD_health_opt_enabled", 
     "CHECKBOX",
     ["Enable", "If enabled, a HUD displaying the damage suffered by the player will briefly appear in the bottom right corner.\nIt will be displayed whenever the health status changes. The current overall health status will be displayed when the inventory is opened.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [true],
     0,
     {} 
@@ -602,8 +602,8 @@ Parameters:
 [
     "KTWK_HUD_health_opt_showInjured", 
     "CHECKBOX",
-    ["Display when health changes", "If enabled, the health HUD will be briefly displayed whenever the health of any body part changes.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["Display when health changes", "If enabled, the bodypart HUD will be briefly displayed whenever the health of any body part changes.\n"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [true],
     0,
     {} 
@@ -613,7 +613,7 @@ Parameters:
     "KTWK_HUD_health_opt_showInv", 
     "CHECKBOX",
     ["Display when inventory is opened", "If enabled, the current overall health status will be displayed when the inventory is opened.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [true],
     0,
     {} 
@@ -623,7 +623,7 @@ Parameters:
     "KTWK_HUD_health_opt_alpha", 
     "SLIDER",
     ["Default HUD transparency", "Default transparency. If bigger than 0, the HUD will always be visible.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [0, 1, 0, 2], // data for this setting: [min, max, default, number of shown trailing decimals]
     0,
     {} 
@@ -633,7 +633,7 @@ Parameters:
     "KTWK_HUD_health_opt_xPos", 
     "SLIDER",
     ["Horizontal Position", "How close to the left of the screen you want the HUD to be, relative to the default position in the bottom right corner.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [0, 117, 0, 2], // data for this setting: [min, max, default, number of shown trailing decimals]
     0,
     { call KTWK_fnc_HUD_health_moveDialog; }
@@ -643,7 +643,7 @@ Parameters:
     "KTWK_HUD_health_opt_yPos", 
     "SLIDER",
     ["Vertical Position", "How close to the top of the screen you want the HUD to be, relative to the default position in the bottom right corner.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [0, 60.5, 0, 2], // data for this setting: [min, max, default, number of shown trailing decimals]
     0,
     { call KTWK_fnc_HUD_health_moveDialog; }
@@ -653,7 +653,7 @@ Parameters:
     "KTWK_HUD_health_opt_ColorHealthy", 
     "COLOR",
     ["Healthy color", "Color for healthy body parts.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [0.5,0.5,0.5],
     0,
     {} 
@@ -663,7 +663,7 @@ Parameters:
     "KTWK_HUD_health_opt_ColorLightWound", 
     "COLOR",
     ["Light Wound color", "Color for lightly wounded body parts.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [1,1,0],
     0,
     {} 
@@ -673,7 +673,7 @@ Parameters:
     "KTWK_HUD_health_opt_ColorModerateWound", 
     "COLOR",
     ["Moderate Wound color", "Color for moderately wounded body parts.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [1,0.5,0],
     0,
     {} 
@@ -683,7 +683,7 @@ Parameters:
     "KTWK_HUD_health_opt_ColorSevereWound", 
     "COLOR",
     ["Severe Wound color", "Color for severely wounded body parts.\n"],
-    ["KtweaK - Client", "Health HUD"],
+    ["KtweaK - Client", "Bodypart HUD"],
     [0.6,0,0],
     0,
     {} 

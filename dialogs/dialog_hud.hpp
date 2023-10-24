@@ -9,6 +9,7 @@ class RscTitles
         name = "HUD_bodyHealth";
         movingEnable = true;
         enableSimulation = true;
+        enableDisplay = true;
         onLoad = "uiNamespace setVariable ['KTWK_GUI_Display_HUD_bodyHealth', _this #0];";
         onUnLoad = "uiNamespace setVariable ['KTWK_GUI_Display_HUD_bodyHealth', nil]";
         duration = 9999999;
