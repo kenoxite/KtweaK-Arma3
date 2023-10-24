@@ -2,6 +2,9 @@
 scriptName "Health HUD";
 #include "..\control_defines.inc";
 
+// ACE Medical
+#define ALL_BODY_PARTS ["head", "body", "leftarm", "rightarm", "leftleg", "rightleg"]
+
 // ----------------------------
 // INIT HUD DISPLAY
 disableSerialization; 
@@ -17,6 +20,8 @@ _ctrlHeight = 8 * pixelGridNoUIScale * pixelH;
 _ctrl ctrlSetPosition [ _ctrlx, _ctrly, _ctrlWidth, _ctrlHeight];
 _ctrl ctrlCommit 0;
 
+private _ace = isClass (configFile >> "CfgPatches" >> "ace_medical_engine");
+
 // Background and foreground
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BG1);
 // _img = "KtweaK\img\bodyparts\bodyicon_parts_base.paa";
@@ -28,47 +33,83 @@ _img = "KtweaK\img\bodyparts\bodyicon_outline.paa";
 _ctrl ctrlSetText _img;
 
 // Head
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_HEAD);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_head.paa";
-_ctrl ctrlSetText _img;
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_FACE);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_face.paa";
-_ctrl ctrlSetText _img;
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_NECK);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_neck.paa";
-_ctrl ctrlSetText _img;
+call {
+    if (_ace) exitWith {
+        _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_GRP_HEAD);
+        _img = "KtweaK\img\bodyparts\bodyicon_parts_grp_head.paa";
+        _ctrl ctrlSetText _img;
+    };
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_HEAD);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_head.paa";
+    _ctrl ctrlSetText _img;
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_FACE);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_face.paa";
+    _ctrl ctrlSetText _img;
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_NECK);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_neck.paa";
+    _ctrl ctrlSetText _img;
+};
 
 // Torso
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_CHEST);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_chest.paa";
-_ctrl ctrlSetText _img;
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_DIAPHRAGM);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_diaphragm.paa";
-_ctrl ctrlSetText _img;
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_ABDOMEN);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_abdomen.paa";
-_ctrl ctrlSetText _img;
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_PELVIS);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_pelvis.paa";
-_ctrl ctrlSetText _img;
+call {
+    if (_ace) exitWith {
+        _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_GRP_TORSO);
+        _img = "KtweaK\img\bodyparts\bodyicon_parts_grp_torso.paa";
+        _ctrl ctrlSetText _img;
+    };
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_CHEST);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_chest.paa";
+    _ctrl ctrlSetText _img;
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_DIAPHRAGM);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_diaphragm.paa";
+    _ctrl ctrlSetText _img;
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_ABDOMEN);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_abdomen.paa";
+    _ctrl ctrlSetText _img;
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_PELVIS);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_pelvis.paa";
+    _ctrl ctrlSetText _img;
+};
 
 // Arms
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_ARMS);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_arms.paa";
-_ctrl ctrlSetText _img;
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_HANDS);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_hands.paa";
-_ctrl ctrlSetText _img;
+call {
+    if (_ace) exitWith {
+        _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_LEFTARM);
+        _img = "KtweaK\img\bodyparts\bodyicon_parts_armleft.paa";
+        _ctrl ctrlSetText _img;
+        _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_RIGHTARM);
+        _img = "KtweaK\img\bodyparts\bodyicon_parts_armright.paa";
+        _ctrl ctrlSetText _img;
+    };
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_ARMS);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_arms.paa";
+    _ctrl ctrlSetText _img;
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_HANDS);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_hands.paa";
+    _ctrl ctrlSetText _img;
+};
 
 // Legs
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_LEGS);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_legs.paa";
-_ctrl ctrlSetText _img;
+call {
+    if (_ace) exitWith {
+        _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_LEFTLEG);
+        _img = "KtweaK\img\bodyparts\bodyicon_parts_legleft.paa";
+        _ctrl ctrlSetText _img;
+        _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_RIGHTLEG);
+        _img = "KtweaK\img\bodyparts\bodyicon_parts_legright.paa";
+        _ctrl ctrlSetText _img;
+    };
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_LEGS);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_legs.paa";
+    _ctrl ctrlSetText _img;
+};
 
 // Body
-_ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BODY);
-_img = "KtweaK\img\bodyparts\bodyicon_parts_body.paa";
-_ctrl ctrlSetText _img;
+if (!_ace) then {
+    _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BODY);
+    _img = "KtweaK\img\bodyparts\bodyicon_parts_body.paa";
+    _ctrl ctrlSetText _img;
+};
 
 // ----------------------------
 // GLOBAL VARS
@@ -76,19 +117,24 @@ KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
 KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alpha;
 KTWK_HUD_health_player = call KTWK_fnc_playerUnit;
 KTWK_HUD_health_invOpened = false;
-KTWK_HUD_health_bodyParts = [
-    "Body",
-    "Head",
-    "Face",
-    "Neck",
-    "Chest",
-    "Diaphragm",
-    "Abdomen",
-    "Pelvis",
-    "Arms",
-    "Hands",
-    "Legs"
-];
+KTWK_HUD_health_bodyParts = call {
+    if (_ace) exitWith {
+        ALL_BODY_PARTS
+    };
+    [
+        "Body",
+        "Head",
+        "Face",
+        "Neck",
+        "Chest",
+        "Diaphragm",
+        "Abdomen",
+        "Pelvis",
+        "Arms",
+        "Hands",
+        "Legs"
+    ];
+};
 KTWK_HUD_health_dmgTracker = [];
 KTWK_HUD_health_EH_InvOpened = -1;
 
@@ -119,7 +165,7 @@ while {true} do {
         KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
         break;
     };
-    if (!KTWK_HUD_health_opt_enabled || !([KTWK_HUD_health_player] call KTWK_fnc_isHuman) || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened)) then {
+    if (!KTWK_HUD_health_opt_enabled || !([KTWK_HUD_health_player] call KTWK_fnc_isHuman) || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened) || (dialog && !KTWK_HUD_health_invOpened)) then {
         _ctrl ctrlShow false;
         sleep 1;
         continue

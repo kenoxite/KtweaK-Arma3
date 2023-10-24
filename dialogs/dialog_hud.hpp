@@ -226,10 +226,54 @@ class RscTitles
                         
                         text = "";
                     };
+                    class KTWK_Img_HUD_bodyHealth_RightArm:KTWK_RscPicture
+                    {
+                        idc = IDC_IMG_HUD_HEALTH_RIGHTARM;
+
+                        x = 0 * pixelGridNoUIScale * pixelW;
+                        y = 0 * pixelGridNoUIScale * pixelH;
+                        w = 4 * pixelGridNoUIScale * pixelW;   
+                        h = 8 * pixelGridNoUIScale * pixelH;
+                        
+                        text = "";
+                    };
+                    class KTWK_Img_HUD_bodyHealth_LeftArm:KTWK_RscPicture
+                    {
+                        idc = IDC_IMG_HUD_HEALTH_LEFTARM;
+
+                        x = 0 * pixelGridNoUIScale * pixelW;
+                        y = 0 * pixelGridNoUIScale * pixelH;
+                        w = 4 * pixelGridNoUIScale * pixelW;   
+                        h = 8 * pixelGridNoUIScale * pixelH;
+                        
+                        text = "";
+                    };
                     // Legs
                     class KTWK_Img_HUD_bodyHealth_Legs:KTWK_RscPicture
                     {
                         idc = IDC_IMG_HUD_HEALTH_LEGS;
+
+                        x = 0 * pixelGridNoUIScale * pixelW;
+                        y = 0 * pixelGridNoUIScale * pixelH;
+                        w = 4 * pixelGridNoUIScale * pixelW;   
+                        h = 8 * pixelGridNoUIScale * pixelH;
+                        
+                        text = "";
+                    };
+                    class KTWK_Img_HUD_bodyHealth_RightLeg:KTWK_RscPicture
+                    {
+                        idc = IDC_IMG_HUD_HEALTH_RIGHTLEG;
+
+                        x = 0 * pixelGridNoUIScale * pixelW;
+                        y = 0 * pixelGridNoUIScale * pixelH;
+                        w = 4 * pixelGridNoUIScale * pixelW;   
+                        h = 8 * pixelGridNoUIScale * pixelH;
+                        
+                        text = "";
+                    };
+                    class KTWK_Img_HUD_bodyHealth_LeftLeg:KTWK_RscPicture
+                    {
+                        idc = IDC_IMG_HUD_HEALTH_LEFTLEG;
 
                         x = 0 * pixelGridNoUIScale * pixelW;
                         y = 0 * pixelGridNoUIScale * pixelH;
