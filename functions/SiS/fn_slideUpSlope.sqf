@@ -5,13 +5,16 @@ if (isNull _unit) exitwith {false};
 if (!local _unit) exitwith {false};
 if (!alive _unit) exitwith {false};
 if (!canSuspend) exitWith {_this spawn KTWK_fnc_slideUpSlope};
-// private _prevAnim = animationState _unit;
-private _lowered = weaponLowered _unit;
+private _noWpnInHand = "snonwnon" in (animationState _unit);
+private _lowered = weaponLowered _unit && !_noWpnInHand;
 private _stance = stance _unit;
 _unit setVariable ["KTWK_isSlopeSliding", true, true];
 _unit setVelocityModelSpace [0, -5, 0];
-// _unit setAnimSpeedCoef 3;
-[_unit, 3] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
+private _animSpeed = call {
+    if (KTWK_aceMovement) exitwith {8};
+    3  
+};
+[_unit, _animSpeed] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
 
 private _wep = currentWeapon _unit;
 private _anim = call {
@@ -20,7 +23,6 @@ private _anim = call {
     if (handgunWeapon _unit != "" && {_wep == handgunWeapon _unit}) exitWith {"amovpercmstpsraswpstdnon_amovppnemstpsraswpstdnon"};
     "amovpercmstpsnonwnondnon_amovppnemstpsnonwnondnon"
 };
-// _unit playMoveNow _anim;
 [_unit, _anim] remoteExec ["playMoveNow", 0, _unit];
 playSound3D ["KtweaK\sounds\slidingUpSlope.wss", _unit];
 
@@ -29,24 +31,37 @@ sleep 1;
 if (!alive _unit) exitwith {_unit setVariable ["KTWK_isSlopeSliding", false, true]; false};
 // _unit setAnimSpeedCoef 1;
 [_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
-// _unit playMoveNow _prevAnim;
-if (_lowered) then {
-    private _wpn =  currentWeapon _unit;
-    private _anim = call {
-        if (_stance == "STAND") exitWith {
-            if (_wpn == primaryWeapon _unit) exitWith {"AmovPercMstpSlowWrflDnon"};
-            if (_wpn == handgunWeapon _unit) exitWith {"AmovPercMstpSlowWpstDnon"};
-            ""
-        };  
-        if (_stance == "CROUCH") exitWith {
-            if (_wpn == primaryWeapon _unit) exitWith {"AmovPknlMstpSlowWrflDnon"};
-            if (_wpn == handgunWeapon _unit) exitWith {"AmovPknlMstpSlowWpstDnon"};
-            ""
+private _wpn =  currentWeapon _unit;
+private _anim = call {
+    if (_stance == "STAND") exitWith {
+        if (_noWpnInHand) exitWith {"amovpercmstpsnonwnondnon"};
+        if (_wpn == primaryWeapon _unit) exitWith {
+            if (_lowered) exitWith {"AmovPercMstpSlowWrflDnon"};
+            "AmovPercMstpsrasWrflDnon"
+        };
+        if (_wpn == handgunWeapon _unit) exitWith {
+            if (_lowered) exitWith {"AmovPercMstpSlowWpstDnon"};
+            "AmovPercMstpsrasWpstDnon"
+        };
+        ""
+    };  
+    if (_stance == "CROUCH") exitWith {
+        if (_noWpnInHand) exitWith {"amovpknlmstpsnonwnondnon"};
+        if (_wpn == primaryWeapon _unit) exitWith {
+            if (_lowered) exitWith {"AmovPknlMstpSlowWrflDnon"};
+            "AmovPknlMstpsrasWrflDnon"
+        };
+        if (_wpn == handgunWeapon _unit) exitWith {
+            if (_lowered) exitWith {"AmovPknlMstpSlowWpstDnon"};
+            "AmovPknlMstpsrasWpstDnon"
         };
         ""
     };
-    sleep 0.2;
-    // if (_anim != "") then { _unit playMoveNow _anim };
-    if (_anim != "") then { [_unit, _anim] remoteExec ["playMoveNow", 0, _unit]; };
+    ""
 };
+sleep 0.2;
+if (_anim != "") then {
+    [_unit, _anim] remoteExec ["playMoveNow", 0, _unit];
+};
+
 _unit setVariable ["KTWK_isSlopeSliding", false, true];
