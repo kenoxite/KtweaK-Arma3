@@ -20,8 +20,6 @@ _ctrlHeight = 8 * pixelGridNoUIScale * pixelH;
 _ctrl ctrlSetPosition [ _ctrlx, _ctrly, _ctrlWidth, _ctrlHeight];
 _ctrl ctrlCommit 0;
 
-private _ace = isClass (configFile >> "CfgPatches" >> "ace_medical_engine");
-
 // Background and foreground
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BG1);
 // _img = "KtweaK\img\bodyparts\bodyicon_parts_base.paa";
@@ -34,7 +32,7 @@ _ctrl ctrlSetText _img;
 
 // Head
 call {
-    if (_ace) exitWith {
+    if (KTWK_aceMedical) exitWith {
         _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_GRP_HEAD);
         _img = "KtweaK\img\bodyparts\bodyicon_parts_grp_head.paa";
         _ctrl ctrlSetText _img;
@@ -52,7 +50,7 @@ call {
 
 // Torso
 call {
-    if (_ace) exitWith {
+    if (KTWK_aceMedical) exitWith {
         _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_GRP_TORSO);
         _img = "KtweaK\img\bodyparts\bodyicon_parts_grp_torso.paa";
         _ctrl ctrlSetText _img;
@@ -73,7 +71,7 @@ call {
 
 // Arms
 call {
-    if (_ace) exitWith {
+    if (KTWK_aceMedical) exitWith {
         _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_LEFTARM);
         _img = "KtweaK\img\bodyparts\bodyicon_parts_armleft.paa";
         _ctrl ctrlSetText _img;
@@ -91,7 +89,7 @@ call {
 
 // Legs
 call {
-    if (_ace) exitWith {
+    if (KTWK_aceMedical) exitWith {
         _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_LEFTLEG);
         _img = "KtweaK\img\bodyparts\bodyicon_parts_legleft.paa";
         _ctrl ctrlSetText _img;
@@ -105,7 +103,7 @@ call {
 };
 
 // Body
-if (!_ace) then {
+if (!KTWK_aceMedical) then {
     _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BODY);
     _img = "KtweaK\img\bodyparts\bodyicon_parts_body.paa";
     _ctrl ctrlSetText _img;
@@ -118,7 +116,7 @@ KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alpha;
 KTWK_HUD_health_player = call KTWK_fnc_playerUnit;
 KTWK_HUD_health_invOpened = false;
 KTWK_HUD_health_bodyParts = call {
-    if (_ace) exitWith {
+    if (KTWK_aceMedical) exitWith {
         ALL_BODY_PARTS
     };
     [

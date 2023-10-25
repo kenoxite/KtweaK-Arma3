@@ -25,8 +25,6 @@ if (isNull findDisplay 46) exitWith {false};
 #define GET_OPEN_WOUNDS(unit)       (unit getVariable [VAR_OPEN_WOUNDS, createHashMap])
 #define GET_DAMAGE_THRESHOLD(unit)  (unit getVariable ["ace_medical_damageThreshold", [ace_medical_AIDamageThreshold,ace_medical_playerDamageThreshold] select (isPlayer unit)])
 
-private _ace = isClass (configFile >> "CfgPatches" >> "ace_medical_engine");
-
 disableSerialization;
 private _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth";
 if (isNil {_display}) exitwith {diag_log "KtweaK: HUD health display not defined!"};
@@ -38,7 +36,7 @@ if (isNil {KTWK_HUD_health_player}) then { KTWK_HUD_health_player = call KTWK_fn
 if (isNil {KTWK_HUD_health_dmgTracker}) then { KTWK_HUD_health_dmgTracker = []; };
 
 private _bodyParts = call {
-    if (_ace) exitWith {
+    if (KTWK_aceMedical) exitWith {
         ALL_BODY_PARTS
     };
     [
@@ -57,7 +55,7 @@ private _bodyParts = call {
 };
 
 private ["_bodyPartDamage", "_damageThreshold", "_bodyPartBloodLoss"];
-if (_ace) then {
+if (KTWK_aceMedical) then {
     _bodyPartDamage = KTWK_HUD_health_player getVariable ["ace_medical_bodyPartDamage", [0, 0, 0, 0, 0, 0]];
     _damageThreshold = GET_DAMAGE_THRESHOLD(KTWK_HUD_health_player);
     _bodyPartBloodLoss = [0, 0, 0, 0, 0, 0];
@@ -71,7 +69,7 @@ if (_ace) then {
 };
 
 private _ctrlIDCs = call {
-    if (_ace) exitWith {
+    if (KTWK_aceMedical) exitWith {
         [
             IDC_IMG_HUD_HEALTH_GRP_HEAD,
             IDC_IMG_HUD_HEALTH_GRP_TORSO,
@@ -101,7 +99,7 @@ private _ctrlIDCs = call {
 
 call {
     // ACE
-    if (_ace) exitWith {
+    if (KTWK_aceMedical) exitWith {
         {
             _x params ["_bodyPartIDC"];
             private _ctrl = _display displayCtrl (_ctrlIDCs #_forEachIndex);
