@@ -12,7 +12,11 @@ private _animSpeed = 3;
 _unit setVariable ["KTWK_isSlopeSliding", true, true];
 [_unit, "Acts_In_Sinkhole"] remoteExec ["switchMove", 0, _unit];
 [_unit, "Acts_In_Sinkhole"] remoteExec ["playMoveNow", 0, _unit];
-_unit setVelocityModelSpace [0, 7, 0];
+private _force = call {
+    if (KTWK_aceMedical) exitwith {6};
+    7  
+};
+_unit setVelocityModelSpace [0, _force, 0];
 playSound3D ["KtweaK\sounds\slidingDownSlope.wss", _unit];
 
 waitUntil {speed _unit <= 0};

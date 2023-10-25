@@ -14,6 +14,13 @@ KTWK_allPredators = [];
 
 KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
 
+KTWK_aceCommon = isClass(configFile >> "CfgPatches" >> "ace_common");
+publicVariable "KTWK_aceCommon";
+KTWK_aceMedical = isClass(configFile >> "CfgPatches" >> "ace_medical_engine");
+publicVariable "KTWK_aceMedical";
+KTWK_aceMovement = isClass(configFile >> "CfgPatches" >> "ace_movement");
+publicVariable "KTWK_aceMovement";
+
 // -----------------------------------------------
 // AI auto enable IR laser
 ["CAManBase", "fired", {

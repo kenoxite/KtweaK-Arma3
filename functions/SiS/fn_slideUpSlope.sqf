@@ -10,10 +10,7 @@ private _lowered = weaponLowered _unit && !_noWpnInHand;
 private _stance = stance _unit;
 _unit setVariable ["KTWK_isSlopeSliding", true, true];
 _unit setVelocityModelSpace [0, -5, 0];
-private _animSpeed = call {
-    if (KTWK_aceMovement) exitwith {8};
-    3  
-};
+private _animSpeed = 3;
 [_unit, _animSpeed] remoteExecCall ["setAnimSpeedCoef", 0, _unit];
 
 private _wep = currentWeapon _unit;
