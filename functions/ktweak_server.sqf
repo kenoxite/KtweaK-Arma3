@@ -40,10 +40,10 @@ if (KTWK_WBKHeadlamps) then {
     WBK_CreateAiHeadlampsAtNight = {
         if (!(WBK_IsAIEnableHeadlamps) || (isPlayer _this) || !([_this] call KTWK_fnc_isHuman)) exitWith {};
         while {alive _this} do {
-            waitUntil {call KTWK_fnc_isDuskOrDawn && ("WBK_HeadLampItem" in items _this) && !([_this] call KTWK_fnc_NVGcheck)};
+            waitUntil {sleep 1; !alive _this || {(call KTWK_fnc_isDuskOrDawn && ("WBK_HeadLampItem" in items _this) && !([_this] call KTWK_fnc_NVGcheck))}};
             _this spawn WBK_CustomFlashlight;
             sleep 1;
-            waitUntil {!alive _this || {(!call KTWK_fnc_isNight && !call KTWK_fnc_isDuskOrDawn && ("WBK_HeadLampItem" in items _this) && !([_this] call KTWK_fnc_NVGcheck))}};
+            waitUntil {sleep 1; !alive _this || {(!call KTWK_fnc_isNight && !call KTWK_fnc_isDuskOrDawn && ("WBK_HeadLampItem" in items _this) && !([_this] call KTWK_fnc_NVGcheck))}};
             _this spawn WBK_CustomFlashlight;
             sleep 1;
         };

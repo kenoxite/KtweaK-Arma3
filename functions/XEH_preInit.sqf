@@ -502,9 +502,31 @@ Parameters:
 [
     "KTWK_AIlights_opt_enabled", 
     "CHECKBOX",
-    ["Add Lights to AI", "If enabled, infantry AI units without NVGs, weapon lights or headlamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
-    ["KtweaK - Server", ""],
+    ["Enable", "If enabled, infantry AI units without NVGs, weapon lights or headlamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
     [true],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_AIlights_opt_force", 
+    "CHECKBOX",
+    ["Force Activation", "If enabled, AI units will be forced to enable their weapon lights when not using a headlamp, even when outside combat.\nIt requires to restart the mission for changes to take effect."],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [true],
+    1,
+    {},
+    true
+] call CBA_fnc_addSetting;
+
+
+[
+    "KTWK_AIlights_opt_players", 
+    "CHECKBOX",
+    ["Add Lights to Players", "If enabled, player units without NVGs, weapon lights or headlamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [false],
     1,
     {} 
 ] call CBA_fnc_addSetting;
