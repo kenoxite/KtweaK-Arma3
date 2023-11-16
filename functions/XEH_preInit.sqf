@@ -79,9 +79,7 @@ Parameters:
 // -----------------------------------------------------------------------------------------------
 //  SERVER
 // -----------------------------------------------------------------------------------------------
-// -----------------------------------------------------------------------------------------------
 // MISC
-// -----------------------------------------------------------------------------------------------
 [
     "KTWK_opt_debug", 
     "CHECKBOX",
@@ -496,6 +494,17 @@ Parameters:
     ["Brighter Full Moon Nights", "If enabled, lighting in full moon nights will be brigther.\n"],
     ["KtweaK - Server", ""],
     [[0,1,2], ["Disable", "Bright", "Brighter"], 1],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+// ADD LIGHTS TO AI
+[
+    "KTWK_AIlights_opt_enabled", 
+    "CHECKBOX",
+    ["Add Lights to AI", "If enabled, infantry AI units without NVGs, weapon lights or headlamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
+    ["KtweaK - Server", ""],
+    [true],
     1,
     {} 
 ] call CBA_fnc_addSetting;

@@ -14,28 +14,62 @@ KTWK_allPredators = [];
 
 KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
 
-KTWK_aceCommon = isClass(configFile >> "CfgPatches" >> "ace_common");
+private _cftPatches = configFile >> "CfgPatches";
+
+KTWK_aceCommon = isClass(_cftPatches >> "ace_common");
 publicVariable "KTWK_aceCommon";
-KTWK_aceMedical = isClass(configFile >> "CfgPatches" >> "ace_medical_engine");
+KTWK_aceMedical = isClass(_cftPatches >> "ace_medical_engine");
 publicVariable "KTWK_aceMedical";
-KTWK_aceMovement = isClass(configFile >> "CfgPatches" >> "ace_movement");
+KTWK_aceMovement = isClass(_cftPatches >> "ace_movement");
 publicVariable "KTWK_aceMovement";
+KTWK_aceFlashlights = isClass(_cftPatches >> "ace_flashlights");
+publicVariable "KTWK_aceFlashlights";
+KTWK_aceInteractMenu = isClass(_cftPatches >> "ace_interact_menu");
+publicVariable "KTWK_aceInteractMenu";
+
+KTWK_WBKDeath = isClass(_cftPatches >> "WBK_DyingAnimationsMod");
+publicVariable "KTWK_WBKDeath";
+KTWK_WBKHeadlamps = isClass(_cftPatches >> "WBK_Headlamps");
+publicVariable "KTWK_WBKHeadlamps";
+
+_cftPatches = nil;
+
+// ---------------------------------------
+// Overwrite webknight's headlamp check
+if (KTWK_WBKHeadlamps) then {
+    WBK_CreateAiHeadlampsAtNight = {
+        if (!(WBK_IsAIEnableHeadlamps) || (isPlayer _this) || !([_this] call KTWK_fnc_isHuman)) exitWith {};
+        while {alive _this} do {
+            waitUntil {call KTWK_fnc_isDuskOrDawn && ("WBK_HeadLampItem" in items _this) && !([_this] call KTWK_fnc_NVGcheck)};
+            _this spawn WBK_CustomFlashlight;
+            sleep 1;
+            waitUntil {!alive _this || {(!call KTWK_fnc_isNight && !call KTWK_fnc_isDuskOrDawn && ("WBK_HeadLampItem" in items _this) && !([_this] call KTWK_fnc_NVGcheck))}};
+            _this spawn WBK_CustomFlashlight;
+            sleep 1;
+        };
+    };
+    publicVariable "WBK_CreateAiHeadlampsAtNight";
+};
+
 
 // -----------------------------------------------
 // AI auto enable IR laser
 ["CAManBase", "fired", {
-    if (!KTWK_laser_opt_enabled || {currentVisionMode (_this#0) != 1}) exitwith {};
+    params ["_unit"];
+    if (!KTWK_laser_opt_enabled || {currentVisionMode _unit != 1}) exitwith {};
+    if !([_unit] call KTWK_fnc_isHuman) exitWith {};
     // Enable IR laser
-    (_this#0) enableIRLasers true;
-    _this spawn {
+    _unit enableIRLasers true;
+    _unit spawn {
         sleep 2;
         // Disable IR laser
-        (_this#0) enableIRLasers false;
+        _this enableIRLasers false;
     };
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 ["CAManBase", "killed", {
     params ["_unit"];
+    if !([_unit] call KTWK_fnc_isHuman) exitWith {};
     // Equip Next Weapon
     //  - Remove rifle holster
     [_unit, 1, 2] call KTWK_fnc_displayHolster;
@@ -55,9 +89,10 @@ publicVariable "KTWK_aceMovement";
 
 // ACE Map Flashlights
 ["CAManBase", "init", {
-    if (!KTWK_ACEfl_opt_enabled || !isClass (configFile >> "CfgVehicles" >> "ACE_Flashlight_KSF1Item")) exitwith {};
+    if (!KTWK_aceFlashlights || {!KTWK_ACEfl_opt_enabled}) exitwith {};
     params ["_unit"];
     if (!alive _unit) exitwith {};
+    if !([_unit] call KTWK_fnc_isHuman) exitWith {};
     private _fl = [
         "ACE_Flashlight_MX991",
         "ACE_Flashlight_XL50",
@@ -102,6 +137,15 @@ publicVariable "KTWK_aceMovement";
         };
     }; 
     if (_item != "") then { _unit addItem _item };
+}, true, [], true] call CBA_fnc_addClassEventHandler;
+
+// Add Lights to AI
+["CAManBase", "init", {
+    if (!KTWK_AIlights_opt_enabled) exitwith {};
+    params ["_unit"];
+    if !([_unit] call KTWK_fnc_isHuman) exitWith {};
+    if (!alive _unit) exitwith {};
+    [_unit] spawn KTWK_fnc_addLightToAI;
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // --------------------------------
@@ -149,11 +193,11 @@ KTWK_scr_update = [{
     };
 
     // Fatal Wounds
-    if (KTWK_FW_opt_enabled && time > 10) then { call KTWK_fnc_FW_checkUnits };
+    if (!KTWK_WBKDeath && {KTWK_FW_opt_enabled && time > 10}) then { call KTWK_fnc_FW_checkUnits };
 
     // BettIR - auto enable NVG illuminator for all units
     if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
-        if (KTWK_BIR_opt_enabled) then { call KTWK_fnc_BIR_checkUnits };
+        if (KTWK_BIR_opt_enabled && call KTWK_fnc_isDuskorDawn) then { call KTWK_fnc_BIR_checkUnits };
         // Disable illuminators if option is disabled now but was enabled before
         if (!KTWK_BIR_opt_enabled && {KTWK_BIR_opt_enabled_last}) then {
             {

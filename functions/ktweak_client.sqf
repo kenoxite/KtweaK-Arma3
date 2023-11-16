@@ -162,7 +162,7 @@ addMissionEventHandler ["TeamSwitch", {
     // Add and remove inventory EH
     _newUnit call KTWK_fnc_addInvEH;
     _previousUnit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened_ENW];
-    _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
+    // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
 
     // --------------------------------
     // Save inventory opened status so it can be retrieved remotely

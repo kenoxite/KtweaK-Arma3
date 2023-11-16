@@ -13,8 +13,6 @@ KTWK_GRdrone_lastUse = time-KTWK_GRdrone_opt_reuseTime; // Time since last used
 // Add player action to the menu
 waitUntil {!isNull player && time > 1};
 
-private _ace = isClass (configFile >> "CfgPatches" >> "ace_interact_menu");
-
 while {true} do {
     private _isAlive = alive KTWK_GRdrone_player;    // Check if the previously stored player unit is alive
     // Wait until respawn or team switch if dead
@@ -36,7 +34,7 @@ while {true} do {
     private _dronePrereqsMet = !KTWK_GRdrone_opt_itemRequired || {KTWK_GRdrone_opt_itemRequired && _droneInInv};
     if (KTWK_GRdrone_opt_enabled && _dronePrereqsMet) then {
         call {
-            if (_ace && isNil {KTWK_GRdrone_aceAdded}) exitWith {
+            if (KTWK_aceInteractMenu && isNil {KTWK_GRdrone_aceAdded}) exitWith {
                 private _condition = {
                     !(call KTWK_fnc_GRdrone_playerInUAV)
                 };
@@ -55,7 +53,7 @@ while {true} do {
         };
     } else {
         call {
-            if (_ace && !isNil {KTWK_GRdrone_aceAdded}) exitWith {
+            if (KTWK_aceInteractMenu && !isNil {KTWK_GRdrone_aceAdded}) exitWith {
                 [KTWK_GRdrone_player, 1, ["ACE_SelfActions", "KTWK_GRdrone"]] call ace_interact_menu_fnc_removeActionFromObject;
                 KTWK_GRdrone_aceAdded = nil;
             };
