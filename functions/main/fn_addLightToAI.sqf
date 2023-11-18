@@ -19,6 +19,10 @@ private _fnc_checkFl = {
 
 private _hasNVG = [_unit] call KTWK_fnc_NVGcheck;
 
+if (!_hasNVG && {KTWK_AIlights_opt_NVGinv}) then {
+    _hasNVG = [_unit] call KTWK_fnc_NVGcheckInv;
+};
+
 private _currentWpn = call {
     if (currentWeapon _unit == primaryWeapon _unit) exitwith {0};
     if (currentWeapon _unit == handgunWeapon _unit) exitwith {2};

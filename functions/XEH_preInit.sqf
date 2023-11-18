@@ -520,6 +520,16 @@ Parameters:
     true
 ] call CBA_fnc_addSetting;
 
+[
+    "KTWK_AIlights_opt_NVGinv", 
+    "CHECKBOX",
+    ["Check for NVGs in Inventory", "If enabled, when checking for NVGs it will also check for any stored in the unit's inventory, like most of RHS units have. If there's one, then no light will be added."],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [true],
+    1,
+    {}
+] call CBA_fnc_addSetting;
+
 
 [
     "KTWK_AIlights_opt_players", 

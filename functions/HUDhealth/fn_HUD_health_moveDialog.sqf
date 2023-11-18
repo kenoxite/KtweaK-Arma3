@@ -13,7 +13,7 @@ _ctrl ctrlSetPosition[
 _ctrl ctrlCommit 0;
 
 // Reset HUD to default alpha
-if (isNull player) exitwith {false};
+if (isNull player || time < 3) exitwith {false};
 KTWK_HUD_health_alpha = 0.6;
 call KTWK_fnc_HUD_health_update;
 0 spawn {
