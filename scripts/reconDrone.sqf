@@ -47,7 +47,7 @@ while {true} do {
                 [KTWK_GRdrone_player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
                 KTWK_GRdrone_aceAdded = true;
             };
-            if (_actionId < 0) exitWith {
+            if (!KTWK_aceInteractMenu && {_actionId < 0}) exitWith {
                 [KTWK_GRdrone_player] call KTWK_fnc_GRdrone_addAction;
             };
         };
@@ -57,7 +57,7 @@ while {true} do {
                 [KTWK_GRdrone_player, 1, ["ACE_SelfActions", "KTWK_GRdrone"]] call ace_interact_menu_fnc_removeActionFromObject;
                 KTWK_GRdrone_aceAdded = nil;
             };
-            if (_actionId >= 0) exitWith {
+            if (!KTWK_aceInteractMenu && {_actionId >= 0}) exitWith {
                 KTWK_GRdrone_player removeAction _actionId;
                 KTWK_GRdrone_player setVariable ["KTWK_GRdrone_actionId", nil, true];
             };
