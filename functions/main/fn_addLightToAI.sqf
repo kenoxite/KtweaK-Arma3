@@ -32,7 +32,7 @@ private _hasWepLights = [_unit, _currentWpn] call _fnc_checkFl;
 
 private _hasHeadlamp = KTWK_WBKHeadlamps && {"WBK_HeadLampItem" in (items _unit)};
 if (_hasNVG || (_hasWepLights && !KTWK_WBKHeadlamps) || _hasHeadlamp) exitWith {
-    if (_hasWepLights) then {
+    if (_hasWepLights && !_hasNVG && !_hasHeadlamp) then {
         // Force activation
         if (KTWK_AIlights_opt_force) then {
             _unit spawn {
