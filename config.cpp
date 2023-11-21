@@ -1,6 +1,6 @@
-#define VERSION 2.1.8 // Should be a floating-point number (1 separator)
-#define VERSION_STR "2.1.8" // Since CBA v3.13.0
-#define VERSION_AR {2,1,8}
+#define VERSION 2.1.9 // Should be a floating-point number (1 separator)
+#define VERSION_STR "2.1.9" // Since CBA v3.13.0
+#define VERSION_AR {2,1,9}
 
 class CfgPatches
 {
