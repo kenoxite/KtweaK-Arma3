@@ -203,7 +203,7 @@ KTWK_scr_update = [{
             {
                 [_x] call BettIR_fnc_nvgIlluminatorOff;
                 [_x] call BettIR_fnc_weaponIlluminatorOff;
-            } forEach (KTWK_allInfantry select {!isPlayer _x});
+            } forEach (KTWK_allInfantry select {!isPlayer _x && !isNull _x});
         };
         KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
     };
@@ -215,7 +215,7 @@ KTWK_scr_update = [{
 
     // Poncho swap
     if (KTWK_ponchoSwap_opt_enabled) then {
-        {[_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x]} forEach (KTWK_allInfantry + allDeadMen);
+        {[_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x]} forEach ((KTWK_allInfantry + allDeadMen) select {!isNull _x});
     };
 
     // Brighter full moon nights
