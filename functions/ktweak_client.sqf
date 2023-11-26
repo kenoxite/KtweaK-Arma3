@@ -177,6 +177,27 @@ addMissionEventHandler ["TeamSwitch", {
     _newUnit setVariable ["KTWK_arsenalOpened", false, true];
 }];
 
+// Respawn
+KTWK_player addEventHandler ["Respawn", {
+    params ["_unit", "_corpse"];
+    
+    // Readd recon drone action
+    private _actionId = _unit getVariable ["KTWK_GRdrone_actionId", -1];
+    if (_actionId >= 0) then {
+        _unit removeAction _actionId;
+        [_corpse, _actionId] remoteExecCall ["removeAction", 0 , _corpse];
+        _unit setVariable ["KTWK_GRdrone_actionId", nil, true];
+    };
+    if (isClass (configFile >> "CfgPatches" >> "ace_interact_menu")) then {
+        [_unit, 1, ["ACE_SelfActions", "KTWK_GRdrone"]] call ace_interact_menu_fnc_removeActionFromObject;
+    };
+    terminate KTWK_scr_GRdrone;
+    [] spawn {
+        waitUntil {scriptDone KTWK_scr_GRdrone};
+        KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
+    };
+}];
+
 // --------------------------------
 // Init - SOG ambient voices
 if (!isNil {vn_sam_masteraudioarray}) then {
