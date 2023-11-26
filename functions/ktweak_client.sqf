@@ -180,7 +180,7 @@ addMissionEventHandler ["TeamSwitch", {
 // Respawn
 KTWK_player addEventHandler ["Respawn", {
     params ["_unit", "_corpse"];
-    
+
     // Readd recon drone action
     private _actionId = _unit getVariable ["KTWK_GRdrone_actionId", -1];
     if (_actionId >= 0) then {
@@ -229,35 +229,38 @@ KTWK_SiS_excluded = [
 
 // --------------------------------
 // Loop
-KTWK_scr_updateClient = [{
-    KTWK_player = call KTWK_fnc_playerUnit;
+KTWK_scr_updateClient = [] spawn {
+    while {true} do {
+        KTWK_player = call KTWK_fnc_playerUnit;
 
-    // AI stop when healed
-    // - Thanks, pierremgi!
-    if (!isServer) then {
-        {
-            _x addEventHandler ["handleHeal", {
-                if (!KTWK_SFH_opt_enabled) exitwith {};
-                _this remoteExec ["KTWK_fnc_AIstopForHealing", _this#0, true];
-            }];
-            _x setVariable ["KTWK_handleHeal_added", true, true];
-        } forEach (KTWK_allInfantry select {!(_x getVariable ["KTWK_handleHeal_added",false])});
+        // AI stop when healed
+        // - Thanks, pierremgi!
+        if (!isServer) then {
+            {
+                _x addEventHandler ["handleHeal", {
+                    if (!KTWK_SFH_opt_enabled) exitwith {};
+                    _this remoteExec ["KTWK_fnc_AIstopForHealing", _this#0, true];
+                }];
+                _x setVariable ["KTWK_handleHeal_added", true, true];
+            } forEach (KTWK_allInfantry select {!(_x getVariable ["KTWK_handleHeal_added",false])});
+        };
+
+        // No map icons if no GPS
+        call KTWK_fnc_GPSHideIcons;
+
+        // Slide in slopes
+        if (KTWK_slideInSlopes_opt_enabled) then {
+            [KTWK_player] call KTWK_fnc_slideInSlopes;
+        };
+
+        // Equip Next Weapon
+        if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
+            [KTWK_player] call KTWK_fnc_toggleHolsterDisplay;
+        };
+
+        sleep 1;
     };
-
-    // No map icons if no GPS
-    call KTWK_fnc_GPSHideIcons;
-
-    // Slide in slopes
-    if (KTWK_slideInSlopes_opt_enabled) then {
-        [KTWK_player] call KTWK_fnc_slideInSlopes;
-    };
-
-    // Equip Next Weapon
-    if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
-        [KTWK_player] call KTWK_fnc_toggleHolsterDisplay;
-    };
-
-}, 1, []] call CBA_fnc_addPerFrameHandler;
+};
 
 // Fix for holsters blocking Ravage loot
 if (isClass (configFile >> "CfgPatches" >> "ravage")) then {

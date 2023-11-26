@@ -88,56 +88,58 @@ if (KTWK_WBKHeadlamps) then {
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // ACE Map Flashlights
-["CAManBase", "init", {
-    if (!KTWK_aceFlashlights || {!KTWK_ACEfl_opt_enabled}) exitwith {};
-    params ["_unit"];
-    if (!alive _unit) exitwith {};
-    if !([_unit] call KTWK_fnc_isHuman) exitWith {};
-    private _fl = [
-        "ACE_Flashlight_MX991",
-        "ACE_Flashlight_XL50",
-        "ACE_Flashlight_KSF1"
-        ];
-    // Exit if unit already has one
-    private _hasFl = false;
-    private _unitItems = itemsWithMagazines _unit;
-    {if (_x in _unitItems) then { _hasFl = true }} forEach _fl;
-    if (_hasFl) exitwith {};
-    // Give appropriate flashlight based on settings
-    private _side = side _unit;
-    private _item = "";
-    call {
-        if (_side == west && {KTWK_ACEfl_opt_BLUFOR > 0}) exitWith {
-            if (KTWK_ACEfl_opt_BLUFOR < 4) then {
-                _item = _fl#(KTWK_ACEfl_opt_BLUFOR-1);
-            } else {
-                _item = selectRandom _fl;
+if (KTWK_aceFlashlights) then {
+    ["CAManBase", "init", {
+        if (!KTWK_ACEfl_opt_enabled) exitwith {};
+        params ["_unit"];
+        if (!alive _unit) exitwith {};
+        if !([_unit] call KTWK_fnc_isHuman) exitWith {};
+        private _fl = [
+            "ACE_Flashlight_MX991",
+            "ACE_Flashlight_XL50",
+            "ACE_Flashlight_KSF1"
+            ];
+        // Exit if unit already has one
+        private _hasFl = false;
+        private _unitItems = itemsWithMagazines _unit;
+        {if (_x in _unitItems) then { _hasFl = true }} forEach _fl;
+        if (_hasFl) exitwith {};
+        // Give appropriate flashlight based on settings
+        private _side = side _unit;
+        private _item = "";
+        call {
+            if (_side == west && {KTWK_ACEfl_opt_BLUFOR > 0}) exitWith {
+                if (KTWK_ACEfl_opt_BLUFOR < 4) then {
+                    _item = _fl#(KTWK_ACEfl_opt_BLUFOR-1);
+                } else {
+                    _item = selectRandom _fl;
+                };
             };
-        };
-        if (_side == east && {KTWK_ACEfl_opt_OPFOR > 0}) exitWith {
-            if (KTWK_ACEfl_opt_OPFOR < 4) then {
-                _item = _fl#(KTWK_ACEfl_opt_OPFOR-1);
-            } else {
-                _item = selectRandom _fl;
+            if (_side == east && {KTWK_ACEfl_opt_OPFOR > 0}) exitWith {
+                if (KTWK_ACEfl_opt_OPFOR < 4) then {
+                    _item = _fl#(KTWK_ACEfl_opt_OPFOR-1);
+                } else {
+                    _item = selectRandom _fl;
+                };
             };
-        };
-        if (_side == resistance && {KTWK_ACEfl_opt_INDEP > 0}) exitWith {
-            if (KTWK_ACEfl_opt_INDEP < 4) then {
-                _item = _fl#(KTWK_ACEfl_opt_INDEP-1);
-            } else {
-                _item = selectRandom _fl;
+            if (_side == resistance && {KTWK_ACEfl_opt_INDEP > 0}) exitWith {
+                if (KTWK_ACEfl_opt_INDEP < 4) then {
+                    _item = _fl#(KTWK_ACEfl_opt_INDEP-1);
+                } else {
+                    _item = selectRandom _fl;
+                };
             };
-        };
-        if (_side == civilian && {KTWK_ACEfl_opt_CIV > 0}) exitWith {
-            if (KTWK_ACEfl_opt_CIV < 4) then {
-                _item = _fl#(KTWK_ACEfl_opt_CIV-1);
-            } else {
-                _item = selectRandom _fl;
+            if (_side == civilian && {KTWK_ACEfl_opt_CIV > 0}) exitWith {
+                if (KTWK_ACEfl_opt_CIV < 4) then {
+                    _item = _fl#(KTWK_ACEfl_opt_CIV-1);
+                } else {
+                    _item = selectRandom _fl;
+                };
             };
-        };
-    }; 
-    if (_item != "") then { _unit addItem _item };
-}, true, [], true] call CBA_fnc_addClassEventHandler;
+        }; 
+        if (_item != "") then { _unit addItem _item };
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
 
 // Add Lights to AI
 ["CAManBase", "init", {
@@ -166,61 +168,64 @@ call KTWK_fnc_brighterNight_check;
 
 // --------------------------------
 // Global system loop
-KTWK_scr_update = [{
+KTWK_scr_update = [] spawn {
     if (!isServer) exitwith {false};
+    while {true} do {
+        private _allUnits = allUnits;
+        private _agents = agents;
 
-    private _allUnits = allUnits;
-    private _agents = agents;
+        // Update all creatures array
+        KTWK_allCreatures = _allUnits select { !([_x] call KTWK_fnc_isHuman) };
+        (_agents select { alive agent _x && {!([_x] call KTWK_fnc_isHuman)}}) apply { KTWK_allCreatures pushBack (agent _x); };
 
-    // Update all creatures array
-    KTWK_allCreatures = _allUnits select { !([_x] call KTWK_fnc_isHuman) };
-    (_agents select { alive agent _x && {!([_x] call KTWK_fnc_isHuman)}}) apply { KTWK_allCreatures pushBack (agent _x); };
+        // Update all animals array
+        KTWK_allAnimals = KTWK_allCreatures select {[_x] call KTWK_fnc_isAnimal};
+        (_agents select { alive agent _x && {[_x] call KTWK_fnc_isAnimal}}) apply { KTWK_allAnimals pushBack (agent _x); };
 
-    // Update all animals array
-    KTWK_allAnimals = KTWK_allCreatures select {[_x] call KTWK_fnc_isAnimal};
-    (_agents select { alive agent _x && {[_x] call KTWK_fnc_isAnimal}}) apply { KTWK_allAnimals pushBack (agent _x); };
+        // Update all infantry units array
+        KTWK_allInfantry = _allUnits select {!(_x in KTWK_allCreatures)};
+        publicVariable "KTWK_allInfantry";
 
-    // Update all infantry units array
-    KTWK_allInfantry = _allUnits select {!(_x in KTWK_allCreatures)};
-    publicVariable "KTWK_allInfantry";
+        // Update all infantry players array
+        KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x};
 
-    // Update all infantry players array
-    KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x};
-
-    // Disable voice mods for non humans
-    if (KTWK_disableVoices_opt_creatures) then {
-        call KTWK_fnc_disableVoiceCheck;
-    };
-
-    // Fatal Wounds
-    if (!KTWK_WBKDeath && {KTWK_FW_opt_enabled && time > 10}) then { call KTWK_fnc_FW_checkUnits };
-
-    // BettIR - auto enable NVG illuminator for all units
-    if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
-        if (KTWK_BIR_opt_enabled && call KTWK_fnc_isDuskorDawn) then { call KTWK_fnc_BIR_checkUnits };
-        // Disable illuminators if option is disabled now but was enabled before
-        if (!KTWK_BIR_opt_enabled && {KTWK_BIR_opt_enabled_last}) then {
-            {
-                [_x] call BettIR_fnc_nvgIlluminatorOff;
-                [_x] call BettIR_fnc_weaponIlluminatorOff;
-            } forEach (KTWK_allInfantry select {!isPlayer _x && !isNull _x});
+        // Disable voice mods for non humans
+        if (KTWK_disableVoices_opt_creatures) then {
+            call KTWK_fnc_disableVoiceCheck;
         };
-        KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
+
+        // Fatal Wounds
+        if (!KTWK_WBKDeath && {KTWK_FW_opt_enabled && time > 10}) then { call KTWK_fnc_FW_checkUnits };
+
+        // BettIR - auto enable NVG illuminator for all units
+        if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
+            if (KTWK_BIR_opt_enabled && call KTWK_fnc_isDuskorDawn) then { call KTWK_fnc_BIR_checkUnits };
+            // Disable illuminators if option is disabled now but was enabled before
+            if (!KTWK_BIR_opt_enabled && {KTWK_BIR_opt_enabled_last}) then {
+                {
+                    [_x] call BettIR_fnc_nvgIlluminatorOff;
+                    [_x] call BettIR_fnc_weaponIlluminatorOff;
+                } forEach (KTWK_allInfantry select {!isPlayer _x && !isNull _x});
+            };
+            KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
+        };
+
+        // AI will defend from predators
+        if (KTWK_opt_AIPredDefense_enable) then {
+            call KTWK_fnc_AIPredatorDefense;
+        };
+
+        // Poncho swap
+        if (KTWK_ponchoSwap_opt_enabled) then {
+            {[_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x]} forEach ((KTWK_allInfantry + allDeadMen) select {!isNull _x});
+        };
+
+        // Brighter full moon nights
+        call KTWK_fnc_brighterNight_check;
+
+        _allUnits = nil;
+        _agents = nil;
+
+        sleep 3;
     };
-
-    // AI will defend from predators
-    if (KTWK_opt_AIPredDefense_enable) then {
-        call KTWK_fnc_AIPredatorDefense;
-    };
-
-    // Poncho swap
-    if (KTWK_ponchoSwap_opt_enabled) then {
-        {[_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x]} forEach ((KTWK_allInfantry + allDeadMen) select {!isNull _x});
-    };
-
-    // Brighter full moon nights
-    call KTWK_fnc_brighterNight_check;
-
-    _allUnits = nil;
-    _agents = nil;
-}, 3, []] call CBA_fnc_addPerFrameHandler;
+};
