@@ -52,6 +52,10 @@ _UAV switchCamera "internal";
             _disconnect = true;
             hintSilent parseText "<t color='#FF0000'>Signal lost</t>";
         };
+        if (!alive _UAV) then {
+            _disconnect = true;
+            hintSilent parseText "<t color='#FF0000'>Drone destroyed</t>";
+        };
         // Return control to the player unit proper if there's an automatic disconnect
         if (_disconnect) then {
             objNull remoteControl driver _UAV;
