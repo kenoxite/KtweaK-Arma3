@@ -32,6 +32,9 @@ publicVariable "KTWK_WBKDeath";
 KTWK_WBKHeadlamps = isClass(_cftPatches >> "WBK_Headlamps");
 publicVariable "KTWK_WBKHeadlamps";
 
+KTWK_mgsr_poncho = isClass(_cftPatches >> "mgsr_poncho");
+publicVariable "KTWK_mgsr_poncho";
+
 _cftPatches = nil;
 
 // ---------------------------------------
@@ -216,8 +219,8 @@ KTWK_scr_update = [] spawn {
         };
 
         // Poncho swap
-        if (KTWK_ponchoSwap_opt_enabled) then {
-            {[_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x]} forEach ((KTWK_allInfantry + allDeadMen) select {!isNull _x});
+        if (KTWK_mgsr_poncho && {KTWK_ponchoSwap_opt_enabled}) then {
+            {if (!isNull _x) then { [_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x]}} forEach (KTWK_allInfantry + allDeadMen);
         };
 
         // Brighter full moon nights
