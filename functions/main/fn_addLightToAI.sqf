@@ -37,7 +37,9 @@ if (_hasNVG || (_hasWepLights && !KTWK_WBKHeadlamps) || _hasHeadlamp) exitWith {
         if (KTWK_AIlights_opt_force) then {
             _unit spawn {
                 sleep 5;
-                [_this, "ForceOn"] remoteExec ["enableGunLights", _this];
+                if (!isNull _this) then {
+                    [_this, "ForceOn"] remoteExec ["enableGunLights", _this];
+                };
             };
         };
     };
