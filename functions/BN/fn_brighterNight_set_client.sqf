@@ -1,10 +1,13 @@
 // Brighter nights - Set Client
 // by kenoxite
 
+if (!canSuspend) exitwith {_this spawn KTWK_fnc_brighterNight_set_client};
+
 params ["_effect", "_aperture", "_noWait"];
 
 if (isNil {KTWK_BN_colorC}) then {
-    KTWK_BN_colorC = ppEffectCreate ["ColorCorrections",2000]; 
+    KTWK_BN_colorC = ppEffectCreate ["ColorCorrections",2000];
+    waitUntil {!isNil {KTWK_BN_colorC}};
     KTWK_BN_colorC ppEffectAdjust [1,1,0,[0,0,0,0],[1,1,1,1],[0.5,0.25,0.25,0]];
     KTWK_BN_colorC ppEffectCommit 0;
     KTWK_BN_colorC ppEffectEnable true;

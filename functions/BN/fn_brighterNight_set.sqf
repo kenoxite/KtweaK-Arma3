@@ -59,7 +59,7 @@ private _debugStr = format ["[KtweaK] %1 Night applied", ["", "Bright", "Brighte
 call {
     if (count _targets == 0) exitwith {
         KTWK_BN_set = true;
-        [_effect, _aperture, _noWait] call KTWK_fnc_brighterNight_set_client;
+        [_effect, _aperture, _noWait] spawn KTWK_fnc_brighterNight_set_client;
         if (KTWK_opt_debug) then { systemChat _debugStr };
     };
     [_effect, _aperture, _noWait] remoteExec ["KTWK_fnc_brighterNight_set_client", _targets];
