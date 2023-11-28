@@ -1,6 +1,8 @@
 
 params ["_unit"];
 if (_unit in agents) then {_unit = agent _unit};
+if (typeName _unit != "OBJECT") exitWith {false};
+if (isNull _unit) exitWith {false};
 private _type = typeOf _unit;
 private _animals = [
     // DBO Horse
