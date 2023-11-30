@@ -61,31 +61,37 @@ KTWK_player call KTWK_fnc_addInvEH;
     KTWK_player setVariable ["KTWK_backpackWeapons", ([KTWK_player, "backpack"] call KTWK_fnc_unitContainerItems)#1];
 }] call BIS_fnc_addScriptedEventHandler;
 
-[missionNamespace, "arsenalOpened", {
-    params ["_displayNull", "_toggleSpace"];
-    KTWK_player setVariable ["KTWK_arsenalOpened", true, true];
+KTWK_fnc_restoreStoredWeapon =
+{
     // Reapply attachments by deleting the base weapons and adding a version with all the attachments
     {
         [uniformContainer KTWK_player, (_x#0)] call CBA_fnc_removeWeaponCargo;
         (uniformContainer KTWK_player) addWeaponWithAttachmentsCargo [_x, 1];
     } forEach (KTWK_player getVariable "KTWK_uniformWeapons");
-    KTWK_player setVariable ["KTWK_uniformWeapons", nil];
 
     {
         [vestContainer KTWK_player, (_x#0)] call CBA_fnc_removeWeaponCargo;
         (vestContainer KTWK_player) addWeaponWithAttachmentsCargo [_x, 1];
     } forEach (KTWK_player getVariable "KTWK_vestWeapons");
-    KTWK_player setVariable ["KTWK_vestWeapons", nil];
 
     {
         [backpackContainer KTWK_player, (_x#0)] call CBA_fnc_removeWeaponCargo;
         (backpackContainer KTWK_player) addWeaponWithAttachmentsCargo [_x, 1];
     } forEach (KTWK_player getVariable "KTWK_backpackWeapons");
-    KTWK_player setVariable ["KTWK_backpackWeapons", nil];
+};
+
+[missionNamespace, "arsenalOpened", {
+    params ["_displayNull", "_toggleSpace"];
+    KTWK_player setVariable ["KTWK_arsenalOpened", true, true];
+    call KTWK_fnc_restoreStoredWeapon;
 }] call BIS_fnc_addScriptedEventHandler;
 
 [missionNamespace, "arsenalClosed", {
     KTWK_player setVariable ["KTWK_arsenalOpened", false, true];
+    call KTWK_fnc_restoreStoredWeapon;
+    KTWK_player setVariable ["KTWK_uniformWeapons", nil];
+    KTWK_player setVariable ["KTWK_vestWeapons", nil];
+    KTWK_player setVariable ["KTWK_backpackWeapons", nil];
 }] call BIS_fnc_addScriptedEventHandler;
 
 // --------------------------------
