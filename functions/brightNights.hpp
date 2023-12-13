@@ -9,7 +9,8 @@ KTWK_BN_excluded = [
     "optre_eridanussecundus",
     "optre_phobos",
     "chernarus_winter",
-    "swu_public_salman_map"
+    "swu_public_salman_map",
+    "uzbin"
 ];
 if ("juju_" in worldName) then {KTWK_BN_excluded pushBack toLowerAnsi worldName};
 
