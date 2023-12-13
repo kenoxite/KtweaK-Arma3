@@ -8,7 +8,9 @@ if (isNull _unit) exitwith {false};
 
 private _instantDeath = (
                 (_selection == "head" || _selection == "neck" || _selection == "face_hub") && random 1 <= (KTWK_FW_opt_instantDeath_head/100)) // Chance of instant death when head is damaged
-                || (_selection == "spine3" && random 1 <= (KTWK_FW_opt_instantDeath_chest/100)); // Chance of instant death when chest is damaged
+                || (_selection == "spine3" && random 1 <= (KTWK_FW_opt_instantDeath_chest/100) // Chance of instant death when chest is damaged
+                || (random 1 <= 0.5)    // Global chance of not playing animation
+                );
 
 private _closePlayers = [];
 {if (_unit distance _x <= KTWK_FW_opt_maxRange) then { _closePlayers pushBack _x}} forEach allPlayers;
