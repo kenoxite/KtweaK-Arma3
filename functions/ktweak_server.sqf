@@ -14,6 +14,8 @@ KTWK_allPredators = [];
 
 KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
 
+// ---------------------------------------
+// Mods check
 private _cftPatches = configFile >> "CfgPatches";
 
 KTWK_aceCommon = isClass(_cftPatches >> "ace_common");
@@ -34,6 +36,9 @@ publicVariable "KTWK_WBKHeadlamps";
 
 KTWK_mgsr_poncho = isClass(_cftPatches >> "mgsr_poncho");
 publicVariable "KTWK_mgsr_poncho";
+
+KTWK_pir = isClass(_cftPatches >> "PiR");
+publicVariable "KTWK_pir";
 
 _cftPatches = nil;
 
@@ -198,7 +203,7 @@ KTWK_scr_update = [] spawn {
         };
 
         // Fatal Wounds
-        if (!KTWK_WBKDeath && {KTWK_FW_opt_enabled && time > 10}) then { call KTWK_fnc_FW_checkUnits };
+        if (!KTWK_WBKDeath && !KTWK_pir && {KTWK_FW_opt_enabled && time > 10}) then { call KTWK_fnc_FW_checkUnits };
 
         // BettIR - auto enable NVG illuminator for all units
         if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
