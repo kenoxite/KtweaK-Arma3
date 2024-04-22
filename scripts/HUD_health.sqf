@@ -8,7 +8,8 @@ scriptName "Health HUD";
 // ----------------------------
 // INIT HUD DISPLAY
 disableSerialization; 
-("KTWK_GUI_HUD_bodyHealth" call BIS_fnc_rscLayer) cutRsc ["KTWK_GUI_Dialog_HUD_bodyHealth","PLAIN", 0, false]; 
+("KTWK_GUI_HUD_bodyHealth" call BIS_fnc_rscLayer) cutText ["", "PLAIN"]; // Remove HUD
+("KTWK_GUI_HUD_bodyHealth" call BIS_fnc_rscLayer) cutRsc ["KTWK_GUI_Dialog_HUD_bodyHealth","PLAIN", 0, false]; // Add HUD
 _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth"; 
 
 _ctrl = (_display displayCtrl IDC_GRP_HUD_BODYHEALTH);
@@ -147,6 +148,10 @@ call KTWK_fnc_HUD_health_moveDialog;
 // MAIN LOOP
 private _ctrl = (_display displayCtrl IDC_GRP_HUD_BODYHEALTH);
 while {true} do {
+    if (isNil {_ctrl}) then {
+        diag_log "KtweaK: Unable to find health HUD. Shutting down script.";
+        terminate _thisScript;
+    };
     private _isAlive = alive KTWK_HUD_health_player;    // Check if the previously stored player unit is alive
     if (KTWK_HUD_health_player != call KTWK_fnc_playerUnit || !_isAlive) then {
         // If stored player unit isn't the same as the current one, the player has switched unit, so let's clean up a bit
@@ -163,6 +168,7 @@ while {true} do {
         KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
         break;
     };
+
     if (!KTWK_HUD_health_opt_enabled || !([KTWK_HUD_health_player] call KTWK_fnc_isHuman) || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened) || (dialog && !KTWK_HUD_health_invOpened)) then {
         _ctrl ctrlShow false;
         sleep 1;
