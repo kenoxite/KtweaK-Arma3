@@ -35,8 +35,8 @@ if (_keepCorpse) then {
 } else {
     deleteVehicle _unit;
 };
-_clone setPosWorld _parentPos;
 _clone setDir _parentDir;
+_clone setPosWorld _parentPos;
 _clone hideObjectGlobal false;
 
 // systemchat format ["_selection: %1", _selection];
@@ -347,8 +347,8 @@ if (_keepCorpse) then {
     deleteVehicle _clone;
     sleep 0.01;
     _unit setVariable ["SSD_disabledSounds", true, true];
-    _unit setPosWorld _clonePos;
     _unit setDir _cloneDir;
+    _unit setPosWorld _clonePos;
     _unit setVectorUp (surfaceNormal position _unit);
     _unit setVelocity [0,0,0];
     // _unit hideObjectGlobal false;
