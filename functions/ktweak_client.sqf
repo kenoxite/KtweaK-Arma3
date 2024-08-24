@@ -22,6 +22,48 @@ addMissionEventHandler ["Ended", {
     }];
 };
 
+// Safechecks for JiP
+if (isNil "KTWK_aceCommon") then
+{
+    KTWK_aceCommon = isClass(_cftPatches >> "ace_common");
+};
+if (isNil "KTWK_aceMedical") then
+{
+    KTWK_aceMedical = isClass(_cftPatches >> "ace_medical_engine");
+};
+if (isNil "KTWK_aceMovement") then
+{
+    KTWK_aceMovement = isClass(_cftPatches >> "ace_movement");
+};
+if (isNil "KTWK_aceFlashlights") then
+{
+    KTWK_aceFlashlights = isClass(_cftPatches >> "ace_flashlights");
+};
+if (isNil "KTWK_aceInteractMenu") then
+{
+    KTWK_aceInteractMenu = isClass(_cftPatches >> "ace_interact_menu");
+};
+
+if (isNil "KTWK_WBKDeath") then
+{
+    KTWK_WBKDeath = isClass(_cftPatches >> "WBK_DyingAnimationsMod");
+};
+if (isNil "KTWK_WBKHeadlamps") then
+{
+    KTWK_WBKHeadlamps = isClass(_cftPatches >> "WBK_Headlamps");
+};
+
+if (isNil "KTWK_mgsr_poncho") then
+{
+    KTWK_mgsr_poncho = isClass(_cftPatches >> "mgsr_poncho");
+};
+
+if (isNil "KTWK_pir") then
+{
+    KTWK_pir = isClass(_cftPatches >> "PiR");
+};
+
+
 // --------------------------------
 // Wait for player init
 waitUntil {!isNull player && time > 1};
