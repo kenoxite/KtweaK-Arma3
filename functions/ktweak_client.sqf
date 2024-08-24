@@ -23,6 +23,9 @@ addMissionEventHandler ["Ended", {
 };
 
 // Safechecks for JiP
+KTWK_allInfantry = [];
+private _cftPatches = configFile >> "CfgPatches";
+
 if (isNil "KTWK_aceCommon") then
 {
     KTWK_aceCommon = isClass(_cftPatches >> "ace_common");
@@ -63,6 +66,7 @@ if (isNil "KTWK_pir") then
     KTWK_pir = isClass(_cftPatches >> "PiR");
 };
 
+_cftPatches = nil;
 
 // --------------------------------
 // Wait for player init
