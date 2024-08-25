@@ -90,7 +90,7 @@ private _knownFlashlights_pistol = [
     "rhsusf_acc_wmx_bk"
     ];
 call {
-    if (KTWK_WBKHeadlamps) exitWith {_unit addItem "WBK_HeadLampItem"};
+    if (KTWK_WBKHeadlamps && KTWK_AIlights_opt_headlamps) exitWith {_unit addItem "WBK_HeadLampItem"};
     if (_currentWpn == 0) exitWith {
         {
             private _flashlight = (primaryWeaponItems _unit)#1;

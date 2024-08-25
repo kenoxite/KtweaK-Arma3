@@ -116,7 +116,7 @@ Parameters:
 [
     "KTWK_laser_opt_enabled", 
     "CHECKBOX",
-    ["AI Auto IR Laser", "If enabled, infantry AI will briefly enable their IR laser when firing, emulating Passive Aiming to some degree.\n"],
+    ["AI Auto IR Laser", "If enabled, infantry AI will briefly enable their IR laser when firing, emulating Active Aiming to some degree.\n"],
     ["KtweaK - Server", ""],
     [true],
     1,
@@ -149,7 +149,7 @@ Parameters:
 [
     "KTWK_disableVoices_opt_creatures", 
     "CHECKBOX",
-    ["Disable Voice Mods for Creatures", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, DBO Horse and all Edaly creatures (dog, tiger, cattle, crab, crocodile, boar, horse).\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
+    ["Disable Voice Mods for Creatures", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, Devourerking's Necroplague Mutants, DBO Horse and all Edaly creatures (dog, tiger, cattle, crab, crocodile, boar, horse).\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
     ["KtweaK - Server", "Disable Voices"],
     [true],
     1,
@@ -491,7 +491,7 @@ Parameters:
 [
     "KTWK_BN_opt_enabled", 
     "LIST",
-    ["Brighter Full Moon Nights", "If enabled, lighting in full moon nights will be brigther.\n"],
+    ["Brighter Full Moon Nights", "If enabled, lighting in full moon nights will be brigther.\nIt automatically works on any terrain and also in the Eden editor."],
     ["KtweaK - Server", ""],
     [[0,1,2], ["Disable", "Bright", "Brighter"], 1],
     1,
@@ -530,13 +530,22 @@ Parameters:
     {}
 ] call CBA_fnc_addSetting;
 
-
 [
     "KTWK_AIlights_opt_players", 
     "CHECKBOX",
     ["Add Lights to Players", "If enabled, player units without NVGs, weapon lights or headlamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
     [false],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_AIlights_opt_headlamps", 
+    "CHECKBOX",
+    ["Distribute headlamps", "If disabled, only flashlights will be distributed instead of headlamps.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [true],
     1,
     {} 
 ] call CBA_fnc_addSetting;
