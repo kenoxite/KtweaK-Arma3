@@ -61,6 +61,16 @@ Returns:
     false
 ] call CBA_fnc_addKeybind;
 
+[
+    ["KtweaK", ""],
+    "KTWK_key_holsterWeapon",
+    ["Holster Equipped Weapon", "Holsters the currently equipped weapon, leaving the hands free."],
+    { [KTWK_player] call KTWK_fnc_holsterWeapon },
+    {},
+    [ -1, [false, false, false] ], // [DIK, [shift, ctrl, alt]
+    false
+] call CBA_fnc_addKeybind;
+
 // -----------------------------------------------------------------------------------------------
 // SETTINGS
 // -----------------------------------------------------------------------------------------------
@@ -766,6 +776,28 @@ Parameters:
     ["Active Effects", "Choose which effects should be applied.\n"],
     ["KtweaK - Client", "Humidity Effects"],
     [[0, 1, 2], ["All", "Only visual", "Only auditive"], 1],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+
+// COLD BREATH
+[
+    "KTWK_CB_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, cold breath will be visible in cold weather for all infantry units (including players).\nIntensity will increase or decrease based on current level of physical and mental stress.\nUnits wearing headgear or facewear that covers mouth, are in vehicles or underwater will be excluded.\n"],
+    ["KtweaK - Client", "Cold Breath"],
+    [false],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_CB_opt_aceTemp", 
+    "CHECKBOX",
+    ["Use ace temperature", "If enabled, ace temperature will be used in calculations instead of the vanilla one you can get from ambientTemperature.\nThis option will only be in effect if the ace_weather module is active.\n"],
+    ["KtweaK - Client", "Cold Breath"],
+    [false],
     0,
     {} 
 ] call CBA_fnc_addSetting;

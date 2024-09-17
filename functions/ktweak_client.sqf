@@ -267,6 +267,9 @@ KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
 // Init - Ghost Recon Drone
 KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
 
+// Init - Cold Breath
+KTWK_scr_coldBreath = [] execVM "KtweaK\scripts\coldBreath.sqf";
+
 // --------------------------------
 KTWK_SiS_excluded = [
     // TIOW
