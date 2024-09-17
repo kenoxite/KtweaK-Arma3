@@ -98,7 +98,10 @@ _UAV switchCamera "internal";
             _UAV allowDamage true;
             KTWK_GRdrone_player allowDamage KTWK_playerAllowDamage;
         };
-        if (!KTWK_GRdrone_opt_enableRadar) then { {_UAV enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"]; };
+        if (!KTWK_GRdrone_opt_enableRadar) then {
+            {[_UAV] enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"];
+            {[_UAV, [0]] enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"];
+        };
         // Project SFX
         KTWK_GRdrone_player setVariable ["disableUnitSFX", true, true];
         // Update timer and wait
