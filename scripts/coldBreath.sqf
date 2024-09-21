@@ -258,13 +258,6 @@ private _fnc_adjustBreathForIncapacitated = {
     [_breathInt, _breathIntensity, _breathSize]
 };
 
-// Initial near units check
-private _initialDetectionDistance = 50;
-[_initialDetectionDistance] call _fnc_updateNearUnits;
-
-// Main loop for cold breath effect
-KTWK_previousNearUnits = [];
-
 // Function to check and update combat status
 private _fnc_updateCombatStatus = {
     params ["_unit", "_group"];
@@ -360,8 +353,13 @@ private _fnc_processUnit = {
     };
 };
 
+// Initial near units check
+private _initialDetectionDistance = 50;
+[_initialDetectionDistance] call _fnc_updateNearUnits;
 
-// Main loop
+KTWK_previousNearUnits = [];
+
+// Main loop for cold breath effect
 while {true} do {
     if (KTWK_CB_opt_enabled) then {
         private _playerVeh = vehicle KTWK_player;
@@ -396,4 +394,3 @@ while {true} do {
         sleep 5;
     };
 };
-

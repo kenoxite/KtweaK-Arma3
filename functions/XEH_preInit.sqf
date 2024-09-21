@@ -159,7 +159,7 @@ Parameters:
 [
     "KTWK_disableVoices_opt_creatures", 
     "CHECKBOX",
-    ["Disable Voice Mods for Creatures", "If enabled, voice mods will be disabled for non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, Devourerking's Necroplague Mutants, DBO Horse and all Edaly creatures (dog, tiger, cattle, crab, crocodile, boar, horse).\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
+    ["Disable Voice Mods for Creatures and Incapacitated", "If enabled, voice mods will be disabled for incapacitated and non humanoid AI units, such as zombies or horses.\nSupported creatures: Ravage, Webknight's Zombies, Drongo's Spooks, Zombies and Demons, Max Zombies, Devourerking's Necroplague Mutants, DBO Horse and all Edaly creatures (dog, tiger, cattle, crab, crocodile, boar, horse).\nSupported voice mods: Unit Voice-overs, Stalker Voices, SSD Death Screams, Project SFX.\n"],
     ["KtweaK - Server", "Disable Voices"],
     [true],
     1,
