@@ -801,3 +801,25 @@ Parameters:
     0,
     {} 
 ] call CBA_fnc_addSetting;
+
+
+// HEAT HAZE
+[
+    "KTWK_HZ_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, a heat haze effect will appear as long as the difference between air and surface temperature is high enough, with a maximum effect at a 15C difference.\n"],
+    ["KtweaK - Client", "Heat Haze"],
+    [false],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HZ_opt_maxIntensity", 
+    "SLIDER",
+    ["Maximum Intensity", "Maximum intensity the heat haze effect can reach. Lower it if you find it too distracting or increase it if you want it to be more visible.\n"],
+    ["KtweaK - Client", "Heat Haze"],
+    [1, 3, 2, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
+    0,
+    {} 
+] call CBA_fnc_addSetting;

@@ -270,6 +270,9 @@ KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
 // Init - Cold Breath
 KTWK_scr_coldBreath = [] execVM "KtweaK\scripts\coldBreath.sqf";
 
+// Init - Heat Haze
+KTWK_scr_heatHaze = [] execVM "KtweaK\scripts\heatHaze.sqf";
+
 // --------------------------------
 KTWK_SiS_excluded = [
     // TIOW
