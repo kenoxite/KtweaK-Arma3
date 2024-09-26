@@ -807,7 +807,7 @@ Parameters:
 [
     "KTWK_HZ_opt_enabled", 
     "CHECKBOX",
-    ["Enable", "If enabled, a heat haze effect will appear as long as the difference between air and surface temperature is high enough, with a maximum effect at a 15C difference.\n"],
+    ["Enable", "If enabled, a heat haze effect will appear as long as the surface temperature is over a given threshold and the player is on a surface that easily accumulates heat (such as asphalt or sand).\n"],
     ["KtweaK - Client", "Heat Haze"],
     [false],
     0,
@@ -819,7 +819,38 @@ Parameters:
     "SLIDER",
     ["Maximum Intensity", "Maximum intensity the heat haze effect can reach. Lower it if you find it too distracting or increase it if you want it to be more visible.\n"],
     ["KtweaK - Client", "Heat Haze"],
-    [1, 3, 2, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0.5, 3, 1, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     0,
     {} 
 ] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HZ_opt_aceTemp", 
+    "CHECKBOX",
+    ["Use ace temperature", "If enabled, ace temperature will be used in calculations instead of the vanilla one you can get from ambientTemperature.\nThis option will only be in effect if the ace_weather module is active.\n"],
+    ["KtweaK - Client", "Heat Haze"],
+    [false],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HZ_opt_useHighest", 
+    "CHECKBOX",
+    ["Use highest temperature", "If enabled, the temperature used for calculations will be the higher one between the vanilla reported one and ace's.\nThis option will only be in effect if the ace_weather module is active and 'Use ace temperature' is enabled.\n"],
+    ["KtweaK - Client", "Heat Haze"],
+    [true],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HZ_opt_minFPS", 
+    "SLIDER",
+    ["Minimum FPS", "The haze effect will only be applied as long as the current frames per second (FPS) are the same or above this value.\nSet to 0 to disable this check.\n"],
+    ["KtweaK - Client", "Heat Haze"],
+    [0, 200, 25, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
