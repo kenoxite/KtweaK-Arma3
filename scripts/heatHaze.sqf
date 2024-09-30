@@ -156,22 +156,20 @@ KTWK_fnc_HZ_debugMessage = {
 
 KTWK_fnc_HZ_shouldBeActive = {
     params ["_player"];
+    if (!KTWK_HZ_opt_enabled) exitWith {["Option Disabled", false]};
+    if (rain > 0) exitWith {["Raining", false]};
+
+    if (KTWK_HZ_opt_minFPS > 0 && {diag_fps < KTWK_HZ_opt_minFPS}) exitWith {["Low FPS", false]};
     private _vehicle = vehicle _player;
-    private _fps = diag_fps;
-    private _isUnderwater = underwater _vehicle || {(getPosASL _vehicle) select 2 < 0};
-    private _isTooHigh = (getPosATL _vehicle) select 2 > KTWK_HZ_maxHeight;
-    KTWK_HZ_aceSurfaceTemp = ace_weather_currentTemperature + (random [3,4,5]);
+    private _vehiclePos = getPosASL _vehicle;
+    private _isUnderwater = underwater _vehicle || {_vehiclePos select 2 < 0};
+    if (_isUnderwater) exitWith {["Underwater", false]};
+    private _isTooHigh = (ASLToATL _vehiclePos) select 2 > KTWK_HZ_maxHeight;
+    if (_isTooHigh) exitWith {["Too High", false]};
 
     call KTWK_fnc_HZ_getTemperatures params ["_airTemp", "_surfaceTemp"];
-
-    private _vehiclePos = getPosATL _vehicle;
-    private _isHotSurface = [_vehiclePos] call KTWK_fnc_HZ_isHotSurface;
-    
-    if (!KTWK_HZ_opt_enabled) exitWith {["Option Disabled", false]};
-    if (KTWK_HZ_opt_minFPS > 0 && {_fps < KTWK_HZ_opt_minFPS}) exitWith {["Low FPS", false]};
-    if (_isUnderwater) exitWith {["Underwater", false]};
-    if (_isTooHigh) exitWith {["Too High", false]};
     if (_surfaceTemp < KTWK_HZ_tempThreshold) exitWith {["Temperature Too Low", false]};
+    private _isHotSurface = [_vehiclePos] call KTWK_fnc_HZ_isHotSurface;
     if (!_isHotSurface) exitWith {["Not on hot surface", false]};
     
     ["Active", true]
@@ -196,6 +194,7 @@ KTWK_fnc_HZ_mainLoop = {
             private _reason = _shouldBeActiveResult select 0;
             private _isActive = _shouldBeActiveResult select 1;
             _lastHotSurfaceCheckTime = _currentTime;
+            KTWK_HZ_aceSurfaceTemp = ace_weather_currentTemperature + (random [3,4,5]);
             
             if (_isActive) then {
                 if (isNull KTWK_HZ_source) then {
