@@ -38,7 +38,13 @@ private _fnc_gearCoversMouth = {
     
     _unit setVariable ["lastCheckedGear", [_headgear, _facewear], false];
     private _headgearCovers = ["pilot", "crew", "shemag"];
-    private _facewearCovers = ["balaclava", "mask", "respirator", "shemag", "bandana"];
+    private _facewearCovers = [
+        "balaclava",
+        "mask",
+        "respirator",
+        // "shemag",
+        "bandana"
+        ];
     
     private _keywordCheck = {
         params ["_item", "_cfgRoot", "_coveringItems"];
@@ -84,6 +90,7 @@ private _fnc_updateNearUnits = {
        ( _x distance _playerPos <= _detectionDistance &&
         {alive _x} && 
         {!(underwater _x)} && 
+        {!([_x] call KTWK_fnc_inBuilding)} && 
         {!([_x] call _fnc_gearCoversMouth)} &&
         {[_x] call _fnc_isInFOV})
     };

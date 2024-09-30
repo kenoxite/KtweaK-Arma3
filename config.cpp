@@ -113,6 +113,7 @@ class CfgFunctions
             class NVGcheck {};
             class NVGcheckInv {};
             class holsterWeapon {};
+            class inBuilding {};
         };
 
         class FatalWounds
