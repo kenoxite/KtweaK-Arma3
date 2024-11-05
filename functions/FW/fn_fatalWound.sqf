@@ -88,7 +88,7 @@ call {
         // waitUntil {(animationState _clone) == _anim};
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
-        sleep (2 + random 5);
+        sleep (2 + random 6);
         // _clone setDir ((getDir _clone) + _animDir + 180) mod 360;
     };
 
@@ -128,7 +128,7 @@ call {
         // waitUntil {(animationState _clone) == _anim};
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
-        // sleep (3 + random 5);
+        // sleep (3 + random 6);
         sleep (_animTime min _maxAnimTime);
     };
 
@@ -169,7 +169,7 @@ call {
         // waitUntil {(animationState _clone) == _anim};
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
-        // sleep (10 + random 10);
+        // sleep (10 + random 11);
         sleep (_animTime min _maxAnimTime);
     };
 
@@ -197,7 +197,7 @@ call {
         // // waitUntil {(animationState _clone) == _anim};
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
-        // sleep (5 + random 10);
+        // sleep (5 + random 11);
         sleep (_animTime min _maxAnimTime);
         // _clone setDir ((getDir _clone) + _animDir + 180) mod 360;
     };
@@ -226,7 +226,7 @@ call {
         // // waitUntil {(animationState _clone) == _anim};
         // _clone switchMove _anim;
         [_clone, _anim] remoteExec ["switchMove", 0, _clone];
-        // sleep (5 + random 10);
+        // sleep (5 + random 11);
         sleep (_animTime min _maxAnimTime);
         // _clone setDir ((getDir _clone) + _animDir + 180) mod 360;
     };
@@ -284,7 +284,7 @@ call {
                     [_clone, _anim] remoteExec ["switchMove", 0, _clone];
                 };
                 if (_scream_SSD) then { [selectRandom SSD_RattleOther, _clone, 3, 2] call SSD_fnc_playSound };
-                // sleep (10 + random 10);
+                // sleep (10 + random 11);
                 sleep (_animTime min _maxAnimTime);
             };
 

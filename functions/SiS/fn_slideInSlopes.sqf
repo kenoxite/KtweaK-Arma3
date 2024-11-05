@@ -38,7 +38,7 @@ private _balance = if (isStaminaEnabled _unit) then {
 if (random 1 > _balance) then {
     // Create a sound emitter and play a grunt sound
     private _soundEmitter = "Land_HelipadEmpty_F" createVehicleLocal (getPos _unit);
-    [_soundEmitter, format ["KTWK_gruntMan%1", (floor (random 4)) + 1]] remoteExecCall ["say3D"];
+    [_soundEmitter, format ["KTWK_gruntMan%1", (floor (random 5)) + 1]] remoteExecCall ["say3D"];
     
     // Clean up the sound emitter after 2 seconds
     [_soundEmitter] spawn {
