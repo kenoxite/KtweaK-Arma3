@@ -16,7 +16,7 @@ if (!KTWK_hasACEWeather) then {
 
 // Global variables
 KTWK_HZ_debug = 0; // 0: Disabled, 1: Debug messages, 2: Debug messages + visible particles
-KTWK_HZ_distance = 25;
+KTWK_HZ_distance = 5;
 KTWK_HZ_maxHeight = 10;
 KTWK_HZ_forceMaxIntensity = false;
 KTWK_HZ_tempThreshold = 25; // Temperature threshold in Celsius for method 0
@@ -29,11 +29,11 @@ KTWK_fnc_HZ_createHeatHaze = {
     private _particleShape = ["\A3\data_f\ParticleEffects\Universal\Refract.p3d", "\A3\data_f\ParticleEffects\Universal\Smoke.p3d"] select (KTWK_HZ_debug == 2);
     _source setParticleParams [
         [_particleShape, 1, 0, 1],
-        "", "Billboard", 1, 3, [0, 0, 0], [0, 0, 0.5], 1, 10, 7.9, 0.01,
-        _size, [[1, 1, 1, 0.1], [1, 1, 1, 0.2], [1, 1, 1, 0.1]], [0.08, 0.1, 0.12], 0.1, 0.05, "", "", "", 0, false, 0
+        "", "Billboard", 1, 0.5, [0, 0, 0], [0, 0, 0], 0, 10, 7.9, 0.01,
+        [(_size select 0), 0.5, (_size select 2)], [[1, 1, 1, 0.06], [1, 1, 1, 0.12], [1, 1, 1, 0.06]], [0.08, 0.1, 0.12], 0.1, 0.05, "", "", "", 0, false, 0
     ];
-    _source setParticleRandom [0.5, [10, 10, 5], [0.2, 0.2, 0.5], 1, 0.1, [0, 0, 0, 0.1], 0, 0];
-    _source setDropInterval 0.01;
+    _source setParticleRandom [0, [0, 0.25, 0], [0, 0, 0], 0, 0.1, [0, 0, 0, 0.06], 0, 0];
+    _source setDropInterval 0.1;
     _source
 };
 
@@ -116,33 +116,33 @@ KTWK_fnc_HZ_isHotSurface = {
     _isHot
 };
 
-KTWK_fnc_HZ_updateHeatHaze = {
-    params ["_source", "_player"];
-    
-    private _vehicle = vehicle _player;
-    private _intensity = call KTWK_fnc_HZ_calculateIntensity;
-    private _verticalSize = [20, 30, 20];
-    
-    private _eyePos = eyePos _vehicle;
-    private _eyeDir = getCameraViewDirection _vehicle;
-    private _hazePosition = _eyePos vectorAdd (_eyeDir vectorMultiply KTWK_HZ_distance);
-    _hazePosition set [2, getTerrainHeightASL _hazePosition];
-    _source setPosATL [_hazePosition select 0, _hazePosition select 1, 0];
-    
-    private _particleShape = ["\A3\data_f\ParticleEffects\Universal\Refract.p3d", "\A3\data_f\ParticleEffects\Universal\Smoke.p3d"] select (KTWK_HZ_debug == 2);
-    
-    private _color = [[1, 1, 1, 0.1 * _intensity], [1, 1, 1, 0.2 * _intensity], [1, 1, 1, 0.1 * _intensity]];
-    if (KTWK_HZ_debug == 2) then {
-        _color = _color apply {[1, 0, 0, _x select 3]};
-    };
-    
-    _source setParticleParams [
-        [_particleShape, 1, 0, 1],
-        "", "Billboard", 1, 3, [0, 0, 0], [0, 0, 0.5], 1, 10, 7.9, 0.01,
-        _verticalSize, _color, [0.08, 0.1, 0.12], 0.1, 0.05, "", "", "", 0, false, 0
-    ];
-    _source setParticleRandom [0.5, [10, 10, 5], [0.2, 0.2, 0.5], 1, 0.1, [0, 0, 0, 0.1], 0, 0];
-    _source setDropInterval 0.01;
+KTWK_fnc_HZ_updateHeatHaze = { 
+    params ["_source", "_player"]; 
+     
+    private _vehicle = vehicle _player; 
+    private _intensity = call KTWK_fnc_HZ_calculateIntensity; 
+    private _size = [2, 3, 2.5]; // Wide, very flat size 
+     
+    private _eyePosATL = ASLToATL (eyePos _vehicle); 
+    private _eyeDir = getCameraViewDirection _vehicle; 
+    private _hazePosition = _eyePosATL vectorAdd (_eyeDir vectorMultiply KTWK_HZ_distance); 
+    _hazePosition set [2, 0]; // Set to ground level 
+    _source setPosATL _hazePosition; 
+     
+    private _particleShape = ["\A3\data_f\ParticleEffects\Universal\Refract.p3d", "\A3\data_f\ParticleEffects\Universal\Smoke.p3d"] select (KTWK_HZ_debug == 2); 
+     
+    private _color = [[1, 1, 1, 0.06 * _intensity], [1, 1, 1, 0.12 * _intensity], [1, 1, 1, 0.06 * _intensity]]; 
+    if (KTWK_HZ_debug == 2) then { 
+        _color = _color apply {[1, 0, 0, _x select 3]}; 
+    }; 
+     
+    _source setParticleParams [ 
+        [_particleShape, 1, 0, 1], 
+        "", "Billboard", 1, 0.5, [0, 0, 0], [0, 0, 0], 0, 10, 7.9, 0.01, 
+        _size, _color, [0.08, 0.1, 0.12], 0.1, 0.05, "", "", "", 0, false, 0 
+    ]; 
+    _source setParticleRandom [0, [0, 0.25, 0], [0, 0, 0], 0, 0.1, [0, 0, 0, 0.06], 0, 0]; 
+    _source setDropInterval 0.1; 
 };
 
 KTWK_fnc_HZ_debugMessage = {
@@ -169,7 +169,7 @@ KTWK_fnc_HZ_shouldBeActive = {
 
     call KTWK_fnc_HZ_getTemperatures params ["_airTemp", "_surfaceTemp"];
     if (_surfaceTemp < KTWK_HZ_tempThreshold) exitWith {["Temperature Too Low", false]};
-    private _isHotSurface = [_vehiclePos] call KTWK_fnc_HZ_isHotSurface;
+    private _isHotSurface = [ASLToAGL _vehiclePos] call KTWK_fnc_HZ_isHotSurface;
     if (!_isHotSurface) exitWith {["Not on hot surface", false]};
     
     ["Active", true]
@@ -233,5 +233,6 @@ KTWK_fnc_HZ_mainLoop = {
         sleep _updateInterval;
     };
 };
+
 
 [] spawn KTWK_fnc_HZ_mainLoop;

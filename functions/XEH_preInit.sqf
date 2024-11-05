@@ -819,7 +819,7 @@ Parameters:
     "SLIDER",
     ["Maximum Intensity", "Maximum intensity the heat haze effect can reach. Lower it if you find it too distracting or increase it if you want it to be more visible.\n"],
     ["KtweaK - Client", "Heat Haze"],
-    [0.5, 3, 1, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
+    [0.5, 3, 2, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
     0,
     {} 
 ] call CBA_fnc_addSetting;
