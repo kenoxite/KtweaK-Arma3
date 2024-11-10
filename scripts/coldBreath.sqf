@@ -255,8 +255,7 @@ private _fnc_createColdBreathEffect = {
 // Adjust breath parameters for incapacitated units
 private _fnc_adjustBreathForIncapacitated = {
     params ["_unit", "_breathInt", "_breathIntensity", "_breathSize"];
-    
-    if ((incapacitatedState _unit) != "" || {_unit getVariable ["ACE_isUnconscious", false]}) then {
+    if (lifeState _unit != "HEALTHY" || {_unit getVariable ["ACE_isUnconscious", false]}) then {
         _breathInt = 5 + (random 1);
         _breathIntensity = 0.3 + (random 0.1);
         _breathSize = 0.7 + (random 0.2);
