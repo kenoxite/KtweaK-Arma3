@@ -2,8 +2,8 @@
 
 params ["_unit"];
 
-// Check if the unit is valid and local
-if (isNull _unit || {!local _unit}) exitWith {false};
+// Check if the unit is valid and local and not in Zeus interface
+if (isNull _unit || {!local _unit} || {!isNull curatorCamera}) exitWith {false};
 
 // Get the current weapon and muzzle
 private _currentWeapon = currentWeapon _unit;
