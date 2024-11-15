@@ -24,7 +24,8 @@ _ctrl ctrlCommit 0;
 // Background and foreground
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_BG1);
 // _img = "KtweaK\img\bodyparts\bodyicon_parts_base.paa";
-_img = "";
+// _img = "";
+_img = "KtweaK\img\bodyparts\bodyicon_health.paa";
 _ctrl ctrlSetText _img;
 
 _ctrl = (_display displayCtrl IDC_IMG_HUD_HEALTH_FG1);
@@ -113,7 +114,7 @@ if (!KTWK_aceMedical) then {
 // ----------------------------
 // GLOBAL VARS
 KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
-KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alpha;
+KTWK_HUD_health_currentAlpha = 0;
 KTWK_HUD_health_player = call KTWK_fnc_playerUnit;
 KTWK_HUD_health_invOpened = false;
 KTWK_HUD_health_bodyParts = call {

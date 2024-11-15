@@ -31,7 +31,7 @@ if (isNil {_display}) exitwith {diag_log "KtweaK: HUD health display not defined
 if (isNull _display) exitwith {diag_log "KtweaK: HUD health display not found!"};
 
 if (isNil {KTWK_HUD_health_alpha}) then { KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha; };
-if (isNil {KTWK_HUD_health_alphaTemp}) then { KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alpha; };
+if (isNil {KTWK_HUD_health_currentAlpha}) then { KTWK_HUD_health_currentAlpha = 0; };
 if (isNil {KTWK_HUD_health_player}) then { KTWK_HUD_health_player = call KTWK_fnc_playerUnit; };
 if (isNil {KTWK_HUD_health_dmgTracker}) then { KTWK_HUD_health_dmgTracker = []; };
 
@@ -97,6 +97,23 @@ private _ctrlIDCs = call {
     ];
 };
 
+private _fnc_dmgColor = {
+    params ["_dmg"];
+    private _healthStatus = call {
+        if (_dmg <= 0.1) exitWith { 0 };
+        if (_dmg > 0.1 && _dmg <= 0.3) exitWith { 1 };
+        if (_dmg > 0.3 && _dmg <= 0.7) exitWith { 2 };
+        if (_dmg > 0.7) exitWith { 3 };
+    };
+    private _healthColors = [
+        KTWK_HUD_health_opt_ColorHealthy,
+        KTWK_HUD_health_opt_ColorLightWound,
+        KTWK_HUD_health_opt_ColorModerateWound,
+        KTWK_HUD_health_opt_ColorSevereWound
+    ];
+   _healthColors #_healthStatus
+};
+
 call {
     // ACE
     if (KTWK_aceMedical) exitWith {
@@ -132,21 +149,21 @@ call {
             // Flash when damaged or healed
             if (_damage isEqualTo ((KTWK_HUD_health_dmgTracker #_forEachIndex) #0)) then {
                 // Fade out back to normal alpha
-                KTWK_HUD_health_alphaTemp = (((KTWK_HUD_health_dmgTracker #_forEachIndex) #1) - 0.005) max KTWK_HUD_health_alpha;
+                KTWK_HUD_health_currentAlpha = (((KTWK_HUD_health_dmgTracker #_forEachIndex) #1) - 0.005) max KTWK_HUD_health_alpha;
             } else {
-                KTWK_HUD_health_alphaTemp = 1;
+                KTWK_HUD_health_currentAlpha = 1;
             };
 
             // Make it visible while in IMS melee mode
             if ([KTWK_HUD_health_player] call KTWK_fnc_inMelee) then {
-                KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alphaTemp max 0.5;
+                KTWK_HUD_health_currentAlpha = KTWK_HUD_health_currentAlpha max 0.5;
             };
 
             private _color = +_bodyPartColor;   // Ok ace... whatevs
-            _color set [3, KTWK_HUD_health_alphaTemp];
+            _color set [3, KTWK_HUD_health_currentAlpha];
             _ctrl ctrlSetTextColor _color;
 
-            KTWK_HUD_health_dmgTracker set [_forEachIndex, [_damage, KTWK_HUD_health_alphaTemp]];
+            KTWK_HUD_health_dmgTracker set [_forEachIndex, [_damage, KTWK_HUD_health_currentAlpha]];
         } forEach _ctrlIDCs;
     };
 
@@ -157,39 +174,53 @@ call {
 
         private _ctrl = _display displayCtrl (_ctrlIDCs #_i);
         if (isNil {_ctrl}) exitwith {diag_log "KtweaK: HUD health dialog control not found!"};
-        private _healthStatus = call {
-            if (_dmg <= 0.1) exitWith { 0 };
-            if (_dmg > 0.1 && _dmg <= 0.3) exitWith { 1 };
-            if (_dmg > 0.3 && _dmg <= 0.7) exitWith { 2 };
-            if (_dmg > 0.7) exitWith { 3 };
-        };
-        private _healthColors = [
-            KTWK_HUD_health_opt_ColorHealthy,
-            KTWK_HUD_health_opt_ColorLightWound,
-            KTWK_HUD_health_opt_ColorModerateWound,
-            KTWK_HUD_health_opt_ColorSevereWound
-        ];
-        private _color = +_healthColors #_healthStatus;
+        
+        private _color = + ([_dmg] call _fnc_dmgColor);
 
         // Flash when damaged or healed
         if (_dmg isEqualTo ((KTWK_HUD_health_dmgTracker #_i) #0)) then {
             // Fade out back to normal alpha
-            KTWK_HUD_health_alphaTemp = (((KTWK_HUD_health_dmgTracker #_i) #1) - 0.005) max KTWK_HUD_health_alpha;
+            KTWK_HUD_health_currentAlpha = (((KTWK_HUD_health_dmgTracker #_i) #1) - 0.005) max KTWK_HUD_health_alpha;
         } else {
-            KTWK_HUD_health_alphaTemp = 1;
+            KTWK_HUD_health_currentAlpha = 1;
         };
 
         // Make it visible while in IMS melee mode
         if ([KTWK_HUD_health_player] call KTWK_fnc_inMelee) then {
-            KTWK_HUD_health_alphaTemp = KTWK_HUD_health_alphaTemp max 0.5;
+            KTWK_HUD_health_currentAlpha = KTWK_HUD_health_currentAlpha max 0.5;
         };
 
-        _color pushBack KTWK_HUD_health_alphaTemp;
+        _color pushBack KTWK_HUD_health_currentAlpha;
         _ctrl ctrlSetTextColor _color;
 
-        KTWK_HUD_health_dmgTracker set [_i, [_dmg, KTWK_HUD_health_alphaTemp]];
+        KTWK_HUD_health_dmgTracker set [_i, [_dmg, KTWK_HUD_health_currentAlpha]];
     };
 };
+
+// Global health
+private _dmg = damage KTWK_HUD_health_player;
+private _ctrl = _display displayCtrl IDC_IMG_HUD_HEALTH_BG1;
+if (isNil {_ctrl}) exitwith {diag_log "KtweaK: HUD health dialog control not found!"};
+
+private _color = + ([_dmg] call _fnc_dmgColor);
+// Flash when damaged or healed
+private _index = (count KTWK_HUD_health_dmgTracker) - 1;
+if (_dmg isEqualTo ((KTWK_HUD_health_dmgTracker #_index) #0)) then {
+    // Fade out back to normal alpha
+    KTWK_HUD_health_currentAlpha = (((KTWK_HUD_health_dmgTracker #_index) #1) - 0.005) max KTWK_HUD_health_alpha;
+} else {
+    KTWK_HUD_health_currentAlpha = 1;
+};
+
+// Make it visible while in IMS melee mode
+if ([KTWK_HUD_health_player] call KTWK_fnc_inMelee) then {
+    KTWK_HUD_health_currentAlpha = KTWK_HUD_health_currentAlpha max 0.5;
+};
+
+_color pushBack KTWK_HUD_health_currentAlpha;
+_ctrl ctrlSetTextColor _color;
+
+KTWK_HUD_health_dmgTracker set [_index, [_dmg, KTWK_HUD_health_currentAlpha]];
 
 // Outline
 private _outlineAlpha = 0;
