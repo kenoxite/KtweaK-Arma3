@@ -75,7 +75,15 @@ private _knownFlashlights = [
     "gm_surefire_l60_wht_surefire_blk",
     "gm_surefire_l60_red_surefire_blk",
     "gm_surefire_l60_wht_hoseclamp_blk",
-    "gm_surefire_l60_red_hoseclamp_blk"
+    "gm_surefire_l60_red_hoseclamp_blk",
+
+    // WS
+    "saber_light_lxWS",
+    "saber_light_arid_lxWS",
+    "saber_light_khaki_lxWS",
+    "saber_light_lush_lxWS",
+    "saber_light_sand_lxWS",
+    "saber_light_snake_lxWS"
     ];
 private _knownFlashlights_pistol = [
     "acc_flashlight_pistol",
