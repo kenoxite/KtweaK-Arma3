@@ -86,13 +86,12 @@ private _fnc_updateNearUnits = {
     params ["_detectionDistance"];
     private _playerPos = getPosATL KTWK_player;
     _nearUnits = KTWK_allInfantry select {
-        _x == KTWK_player ||
-       ( _x distance _playerPos <= _detectionDistance &&
+        (_x == KTWK_player ||
+        {_x distance _playerPos <= _detectionDistance && {[_x] call _fnc_isInFOV}}) &&
         {alive _x} && 
         {!(underwater _x)} && 
         {!([_x] call KTWK_fnc_inBuilding)} && 
-        {!([_x] call _fnc_gearCoversMouth)} &&
-        {[_x] call _fnc_isInFOV})
+        {!([_x] call _fnc_gearCoversMouth)}
     };
 };
 
