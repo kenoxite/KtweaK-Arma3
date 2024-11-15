@@ -1,6 +1,6 @@
-#define VERSION 2.1.3 // Should be a floating-point number (1 separator)
-#define VERSION_STR "2.1.3" // Since CBA v3.13.0
-#define VERSION_AR {2,1,3}
+#define VERSION 2.2 // Should be a floating-point number (1 separator)
+#define VERSION_STR "2.2" // Since CBA v3.13.0
+#define VERSION_AR {2,2,0}
 
 class CfgPatches
 {
@@ -114,6 +114,7 @@ class CfgFunctions
             class NVGcheckInv {};
             class holsterWeapon {};
             class inBuilding {};
+            class beforeDawn {};
         };
 
         class FatalWounds

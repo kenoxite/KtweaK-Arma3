@@ -152,6 +152,7 @@ if (KTWK_aceFlashlights) then {
 // Add Lights to AI
 ["CAManBase", "init", {
     if (!KTWK_AIlights_opt_enabled) exitwith {};
+    if (KTWK_AIlights_opt_onlyDark && (!(call KTWK_fnc_isNight) || (call KTWK_fnc_isNight && call KTWK_fnc_beforeDawn))) exitwith {};
     params ["_unit"];
     if !([_unit] call KTWK_fnc_isHuman) exitWith {};
     if (!alive _unit) exitwith {};

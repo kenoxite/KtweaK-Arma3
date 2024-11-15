@@ -560,6 +560,16 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+[
+    "KTWK_AIlights_opt_onlyDark", 
+    "CHECKBOX",
+    ["Only distribute when dark", "If enabled, lights will be added to units only when it's getting dark.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [true],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
 
 // -----------------------------------------------------------------------------------------------
 //  CLIENT
