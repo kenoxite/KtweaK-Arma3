@@ -115,7 +115,7 @@ if (!KTWK_aceMedical) then {
 // GLOBAL VARS
 KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
 KTWK_HUD_health_currentAlpha = 0;
-KTWK_HUD_health_player = call KTWK_fnc_playerUnit;
+KTWK_player = call KTWK_fnc_playerUnit;
 KTWK_HUD_health_invOpened = false;
 KTWK_HUD_health_bodyParts = call {
     if (KTWK_aceMedical) exitWith {
@@ -142,7 +142,7 @@ KTWK_HUD_health_EH_InvOpened = -1;
 // ----------------------------
 // INIT
 call KTWK_fnc_HUD_health_resetDmgTracker;
-[KTWK_HUD_health_player] call KTWK_fnc_HUD_health_InvEH;
+[KTWK_player] call KTWK_fnc_HUD_health_InvEH;
 call KTWK_fnc_HUD_health_moveDialog;
 
 // ----------------------------
@@ -153,10 +153,10 @@ while {true} do {
         diag_log "KtweaK: Unable to find health HUD. Shutting down script.";
         terminate _thisScript;
     };
-    private _isAlive = alive KTWK_HUD_health_player;    // Check if the previously stored player unit is alive
-    if (KTWK_HUD_health_player != call KTWK_fnc_playerUnit || !_isAlive) then {
+    private _isAlive = alive KTWK_player;    // Check if the previously stored player unit is alive
+    if (KTWK_player != call KTWK_fnc_playerUnit || !_isAlive) then {
         // If stored player unit isn't the same as the current one, the player has switched unit, so let's clean up a bit
-        KTWK_HUD_health_player removeEventHandler ["InventoryOpened", KTWK_HUD_health_EH_InvOpened];   // Remove EH from old unit
+        KTWK_player removeEventHandler ["InventoryOpened", KTWK_HUD_health_EH_InvOpened];   // Remove EH from old unit
         // Wait until respawn or team switch if dead
         if (!_isAlive) then {
             // Display health HUD
@@ -170,7 +170,7 @@ while {true} do {
         break;
     };
 
-    if (!KTWK_HUD_health_opt_enabled || !([KTWK_HUD_health_player] call KTWK_fnc_isHuman) || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened) || (dialog && !KTWK_HUD_health_invOpened)) then {
+    if (!KTWK_HUD_health_opt_enabled || !([KTWK_player] call KTWK_fnc_isHuman) || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened) || (dialog && !KTWK_HUD_health_invOpened)) then {
         _ctrl ctrlShow false;
         sleep 1;
         continue

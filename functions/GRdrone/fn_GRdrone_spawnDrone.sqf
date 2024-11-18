@@ -1,9 +1,9 @@
 // Spawn the drone
 
-if (isNil {KTWK_GRdrone_player}) then { KTWK_GRdrone_player = call KTWK_fnc_playerUnit; };
+if (isNil {KTWK_player}) then { KTWK_player = call KTWK_fnc_playerUnit; };
     
-private _playerPos = getPos vehicle KTWK_GRdrone_player;
-private _UAV = createVehicle ["B_UAV_01_F", vehicle KTWK_GRdrone_player getRelPos [2, 0], [], 0, "NONE"];
+private _playerPos = getPos vehicle KTWK_player;
+private _UAV = createVehicle ["B_UAV_01_F", vehicle KTWK_player getRelPos [2, 0], [], 0, "NONE"];
 _UAV setObjectTextureGlobal [0, "\KtweaK\drones\air\uav_01\data\uav_01_black_co.paa"];
 createVehicleCrew _UAV;
 private _grp = createGroup playerSide;
@@ -16,24 +16,24 @@ if (!KTWK_GRdrone_opt_enableNV) then { _UAV disableNVGEquipment true };
 if (!KTWK_GRdrone_opt_enableTI) then { _UAV disableTIEquipment true };
 
 // Position drone
-_UAV setDir (getDir vehicle KTWK_GRdrone_player);
+_UAV setDir (getDir vehicle KTWK_player);
 private _pos = getPos _UAV;
 private _posASL = AGLtoASL _pos;
 _UAV allowDamage false;
-KTWK_playerAllowDamage = isDamageAllowed KTWK_GRdrone_player;
-KTWK_GRdrone_player allowDamage false;
+KTWK_playerAllowDamage = isDamageAllowed KTWK_player;
+KTWK_player allowDamage false;
 driver _UAV action ["engineOn", _UAV];
 _UAV action ["autoHover", _UAV];
 // Start on the ground if inside a building and flying otherwise
-if ([KTWK_GRdrone_player, 10] call KTWK_fnc_underRoof) then {
-    _UAV setPosATL [_pos#0, _pos#1, getPosATL vehicle KTWK_GRdrone_player #2 + 1];
+if ([KTWK_player, 10] call KTWK_fnc_underRoof) then {
+    _UAV setPosATL [_pos#0, _pos#1, getPosATL vehicle KTWK_player #2 + 1];
     _UAV setVelocity [0, 0, 1];
 } else {
-    _UAV setPosATL [_pos#0, _pos#1, getPosATL vehicle KTWK_GRdrone_player #2 + 2];
+    _UAV setPosATL [_pos#0, _pos#1, getPosATL vehicle KTWK_player #2 + 2];
     _UAV setVelocity [0, 0, 15];
 };
 // Give control to the player
-KTWK_GRdrone_player remoteControl driver _UAV;
+KTWK_player remoteControl driver _UAV;
 _UAV switchCamera "internal";
 // Check for manual disconnects and automatic ones caused by the drone being too far away or time running out
 [_UAV, _playerPos] spawn {
@@ -59,13 +59,13 @@ _UAV switchCamera "internal";
         // Return control to the player unit proper if there's an automatic disconnect
         if (_disconnect) then {
             objNull remoteControl driver _UAV;
-            KTWK_GRdrone_player switchCamera "internal";
+            KTWK_player switchCamera "internal";
         };
     };
     // Keep an eye on the current drone status
     private _timer = 0;
     private _batteryLeft = 100;
-    while {alive _UAV && alive KTWK_GRdrone_player && call KTWK_fnc_GRdrone_playerInUAV && KTWK_GRdrone_opt_enabled} do
+    while {alive _UAV && alive KTWK_player && call KTWK_fnc_GRdrone_playerInUAV && KTWK_GRdrone_opt_enabled} do
     {
         // AI won't attack if drone is at this altitude
         if (KTWK_GRdrone_opt_invisibleHeight >= 0) then {
@@ -96,14 +96,14 @@ _UAV switchCamera "internal";
         // Disable invincibility after 3 s
         if (_timer >= 3) then {
             _UAV allowDamage true;
-            KTWK_GRdrone_player allowDamage KTWK_playerAllowDamage;
+            KTWK_player allowDamage KTWK_playerAllowDamage;
         };
         if (!KTWK_GRdrone_opt_enableRadar) then {
             {[_UAV] enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"];
             {[_UAV, [0]] enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"];
         };
         // Project SFX
-        KTWK_GRdrone_player setVariable ["disableUnitSFX", true, true];
+        KTWK_player setVariable ["disableUnitSFX", true, true];
         // Update timer and wait
         _timer = _timer + 1;
         sleep 1;
@@ -114,9 +114,9 @@ _UAV switchCamera "internal";
     if (!alive _UAV) then { _batteryLeft = 0 };
     // Return control to player
     objNull remoteControl driver _UAV;
-    KTWK_GRdrone_player switchCamera "internal";
+    KTWK_player switchCamera "internal";
     // Project SFX
-    KTWK_GRdrone_player setVariable ["disableUnitSFX", false, true];
+    KTWK_player setVariable ["disableUnitSFX", false, true];
     // Delete the drone
     deleteVehicleCrew _UAV;
     deleteVehicle _UAV;

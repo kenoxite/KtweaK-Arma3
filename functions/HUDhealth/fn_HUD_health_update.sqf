@@ -32,7 +32,7 @@ if (isNull _display) exitwith {diag_log "KtweaK: HUD health display not found!"}
 
 if (isNil {KTWK_HUD_health_alpha}) then { KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha; };
 if (isNil {KTWK_HUD_health_currentAlpha}) then { KTWK_HUD_health_currentAlpha = 0; };
-if (isNil {KTWK_HUD_health_player}) then { KTWK_HUD_health_player = call KTWK_fnc_playerUnit; };
+if (isNil {KTWK_player}) then { KTWK_player = call KTWK_fnc_playerUnit; };
 if (isNil {KTWK_HUD_health_dmgTracker}) then { KTWK_HUD_health_dmgTracker = []; };
 
 private _bodyParts = call {
@@ -56,8 +56,8 @@ private _bodyParts = call {
 
 private ["_bodyPartDamage", "_damageThreshold", "_bodyPartBloodLoss"];
 if (KTWK_aceMedical) then {
-    _bodyPartDamage = KTWK_HUD_health_player getVariable ["ace_medical_bodyPartDamage", [0, 0, 0, 0, 0, 0]];
-    _damageThreshold = GET_DAMAGE_THRESHOLD(KTWK_HUD_health_player);
+    _bodyPartDamage = KTWK_player getVariable ["ace_medical_bodyPartDamage", [0, 0, 0, 0, 0, 0]];
+    _damageThreshold = GET_DAMAGE_THRESHOLD(KTWK_player);
     _bodyPartBloodLoss = [0, 0, 0, 0, 0, 0];
     {
         private _partIndex = ALL_BODY_PARTS find _x;
@@ -65,7 +65,7 @@ if (KTWK_aceMedical) then {
             _x params ["", "_amountOf", "_bleeding"];
             _bodyPartBloodLoss set [_partIndex, (_bodyPartBloodLoss select _partIndex) + (_bleeding * _amountOf)];
         } forEach _y;
-    } forEach GET_OPEN_WOUNDS(KTWK_HUD_health_player);
+    } forEach GET_OPEN_WOUNDS(KTWK_player);
 };
 
 private _ctrlIDCs = call {
@@ -155,7 +155,7 @@ call {
             };
 
             // Make it visible while in IMS melee mode
-            if ([KTWK_HUD_health_player] call KTWK_fnc_inMelee) then {
+            if ([KTWK_player] call KTWK_fnc_inMelee) then {
                 KTWK_HUD_health_currentAlpha = KTWK_HUD_health_currentAlpha max 0.5;
             };
 
@@ -170,7 +170,7 @@ call {
     // Vanilla
     for "_i" from 0 to (count _bodyParts - 1) do {
         private _part = _bodyParts select _i;
-        private _dmg = KTWK_HUD_health_player getHitPointDamage format ["Hit%1", _part];
+        private _dmg = KTWK_player getHitPointDamage format ["Hit%1", _part];
 
         private _ctrl = _display displayCtrl (_ctrlIDCs #_i);
         if (isNil {_ctrl}) exitwith {diag_log "KtweaK: HUD health dialog control not found!"};
@@ -186,7 +186,7 @@ call {
         };
 
         // Make it visible while in IMS melee mode
-        if ([KTWK_HUD_health_player] call KTWK_fnc_inMelee) then {
+        if ([KTWK_player] call KTWK_fnc_inMelee) then {
             KTWK_HUD_health_currentAlpha = KTWK_HUD_health_currentAlpha max 0.5;
         };
 
@@ -198,7 +198,7 @@ call {
 };
 
 // Global health
-private _dmg = damage KTWK_HUD_health_player;
+private _dmg = damage KTWK_player;
 private _ctrl = _display displayCtrl IDC_IMG_HUD_HEALTH_BG1;
 if (isNil {_ctrl}) exitwith {diag_log "KtweaK: HUD health dialog control not found!"};
 
@@ -213,7 +213,7 @@ if (_dmg isEqualTo ((KTWK_HUD_health_dmgTracker #_index) #0)) then {
 };
 
 // Make it visible while in IMS melee mode
-if ([KTWK_HUD_health_player] call KTWK_fnc_inMelee) then {
+if ([KTWK_player] call KTWK_fnc_inMelee) then {
     KTWK_HUD_health_currentAlpha = KTWK_HUD_health_currentAlpha max 0.5;
 };
 
