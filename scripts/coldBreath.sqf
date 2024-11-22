@@ -120,11 +120,11 @@ KTWK_fnc_CB_getTempUnit = {
 
 // Create cold breath effect
 KTWK_fnc_CB_createColdBreathEffect = {
-    params ["_unit", "_adjustedBreathInt", "_adjustedBreathIntensity", "_adjustedBreathSize", "_scaleFactor", "_isDistant", "_distanceToPlayer"];
+    params ["_unit", "_adjustedBreathInt", "_adjustedBreathIntensity", "_adjustedBreathSize", "_scaleFactor", "_isDistant", "_distanceToCamera", "_tempMod"];
 
     private _headPos = _unit modelToWorld (_unit selectionPosition "head");
     private _eyeDir = eyeDirection _unit;
-    private _fp = _unit == KTWK_player && {cameraView == "INTERNAL"};
+    private _fp = _unit == KTWK_player && {(positionCameraToWorld [0,0,0] distance (vehicle KTWK_player)) < 2};
     private _mouthOffsetAdjust = [0.03, 0.08] select _fp;
     private _mouthOffset = _eyeDir vectorMultiply _mouthOffsetAdjust;
     private _particlePos = _headPos vectorAdd _mouthOffset;
@@ -134,18 +134,19 @@ KTWK_fnc_CB_createColdBreathEffect = {
             private _stance = stance KTWK_player;
             if (_stance == "PRONE") exitWith { _particlePos = _particlePos vectorAdd [0, 0.1, -0.1]; };
             if (_stance == "CROUCH") exitWith { _particlePos = _particlePos vectorAdd [0, 0.1, -0.05]; };
-            _particlePos = _particlePos vectorAdd [0, 0.1, 0];
+            _particlePos = _particlePos vectorAdd [0, 0.2, 0];
         };
         _particlePos = _particlePos vectorAdd [0, 0, 0.03];
     };
 
-    if (_distanceToPlayer > 100) then {
+    if (_distanceToCamera > 100) then {
         _particlePos = _particlePos vectorAdd [0, 0, -0.08];
     };
 
     private _breath = "#particlesource" createVehicleLocal _particlePos;
 
-    private _particleLifeTime = [0.7, 1.0] select _isDistant;
+    private _particleLifeTime = [2, 3.0] select _isDistant;
+    _particleLifeTime = _particleLifeTime * _tempMod;
     private _baseParticleSize = [
         [0.05 * _adjustedBreathSize * _scaleFactor, 0.12 * _adjustedBreathSize * _scaleFactor],
         [0.08, 0.16]
@@ -158,14 +159,15 @@ KTWK_fnc_CB_createColdBreathEffect = {
     private _randomizedSize = [_minSize + random(_maxSize - _minSize), _maxSize];
 
     private _opacity = if (_fp) then {
-        0.025 // Increased opacity for player in first-person view
+        0.02
     } else {
         if (_isDistant) then {
-            0.025 // Increased opacity for distant units
+            0.04
         } else {
-            0.02 // Increased opacity for nearby units
+            0.015
         }
     };
+    _opacity = _opacity * _tempMod;
 
     private _pfhHandle = [
         {
@@ -203,30 +205,31 @@ KTWK_fnc_CB_createColdBreathEffect = {
 
             _breath setPosATL _particlePos;
             _breath setParticleParams [
-                ["\A3\data_f\cl_basic", 1, 0, 1],
-                "",
-                "Billboard",
-                1,
-                _particleLifeTime,
-                [0, 0, 0],
-                (_eyeDir vectorMultiply 0.12) vectorAdd [0,0,-0.005],
-                0.7,
-                0.0565,
-                0.05,
-                0.0005,
-                _randomizedSize,
-                [[1, 1, 1, 0],
+                ["\A3\data_f\cl_basic", 1, 0, 1],  // Shape: Particle texture, type, animation speed, scale
+                "",                                // Animation name (empty string for no animation)
+                "Billboard",                       // Type of particle (Billboard, SpaceObject, etc.)
+                1,                                 // Timer period (in seconds)
+                _particleLifeTime,                 // Lifetime of particle (in seconds)
+                [0, 0, 0],                         // Position offset from particle source
+                (_eyeDir vectorMultiply 0.12) vectorAdd [0,0,-0.005],  // Movement vector
+                0.7,                               // Rotation velocity
+                0.25,                            // Weight (affects how particle falls)
+                0.2,                              // Volume (affects air resistance)
+                0.05,                            // Rubbing (affects how particle slows down)
+                _randomizedSize,                   // Size of particle [min, max]
+                [[1, 1, 1, 0],                     // Color of particle over time (RGBA)
                  [1, 1, 1, _opacity * _scaleFactor * 0.5],
                  [1, 1, 1, _opacity * _scaleFactor],
                  [1, 1, 1, _opacity * _scaleFactor * 0.5],
                  [1, 1, 1, 0]],
-                [0, 0.2, 0.4, 0.6, 1],
-                0.1,
-                0.05,
-                "",
-                "",
-                _breath
+                [0, 0.2, 0.4, 0.6, 1],             // Time points for color changes
+                0.1,                               // Randomness of particle direction
+                0.05,                              // Random rotation of particle
+                "",                                // On-timer function (empty string for none)
+                "",                                // Before-destroy function (empty string for none)
+                _breath                            // Object the particle is created relative to
             ];
+
         },
         0.1, // Run every 0.1 seconds
         [_unit, _breath, _fp, _isDistant, _particleLifeTime, _randomizedSize, _opacity, _scaleFactor, _eyeDir]
@@ -352,8 +355,10 @@ KTWK_fnc_CB_processUnit = {
         private _scaleFactor = linearConversion [50, _detectionDistance, _distanceToCamera, 1, 0.3, true];
         private _isDistant = _scaleFactor < 0.3;
 
+        private _tempMod = linearConversion [5, -10, _temp, 0.1, 1, true];
+
         // Create and manage breath effect
-        private _breathEffect = [_unit, _adjustedBreathInt, _adjustedBreathIntensity, _adjustedBreathSize, _scaleFactor, _isDistant, _distanceToCamera] call KTWK_fnc_CB_createColdBreathEffect;
+        private _breathEffect = [_unit, _adjustedBreathInt, _adjustedBreathIntensity, _adjustedBreathSize, _scaleFactor, _isDistant, _distanceToCamera, _tempMod] call KTWK_fnc_CB_createColdBreathEffect;
         _breathEffect params ["_pfhHandle", "_breath"];
 
         [{
@@ -363,7 +368,6 @@ KTWK_fnc_CB_processUnit = {
         }, [_pfhHandle, _breath], 0.25 + random 0.15] call CBA_fnc_waitAndExecute;
     };
 };
-
 // Initial near units check
 private _initialDetectionDistance = 50;
 KTWK_nearUnits = [_initialDetectionDistance] call KTWK_fnc_CB_nearUnits;
