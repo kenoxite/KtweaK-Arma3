@@ -59,7 +59,6 @@ if (KTWK_WBKHeadlamps) then {
     publicVariable "WBK_CreateAiHeadlampsAtNight";
 };
 
-
 // -----------------------------------------------
 // AI auto enable IR laser
 ["CAManBase", "fired", {
@@ -177,64 +176,61 @@ call KTWK_fnc_brighterNight_check;
 
 // --------------------------------
 // Global system loop
-KTWK_scr_update = [] spawn {
-    if (!isServer) exitwith {false};
-    while {true} do {
-        private _allUnits = allUnits;
-        private _agents = agents;
+[{
+    private _allUnits = allUnits;
+    private _agents = agents;
 
-        // Update all creatures array
-        KTWK_allCreatures = _allUnits select { !([_x] call KTWK_fnc_isHuman) };
-        (_agents select { alive agent _x && {!([_x] call KTWK_fnc_isHuman)}}) apply { KTWK_allCreatures pushBack (agent _x); };
+    // Update all creatures array
+    KTWK_allCreatures = _allUnits select { !([_x] call KTWK_fnc_isHuman) };
+    (_agents select { alive agent _x && {!([_x] call KTWK_fnc_isHuman)}}) apply { KTWK_allCreatures pushBack (agent _x); };
 
-        // Update all animals array
-        KTWK_allAnimals = KTWK_allCreatures select {[_x] call KTWK_fnc_isAnimal};
-        (_agents select { alive agent _x && {[_x] call KTWK_fnc_isAnimal}}) apply { KTWK_allAnimals pushBack (agent _x); };
+    // Update all animals array
+    KTWK_allAnimals = KTWK_allCreatures select {[_x] call KTWK_fnc_isAnimal};
+    (_agents select { alive agent _x && {[_x] call KTWK_fnc_isAnimal}}) apply { KTWK_allAnimals pushBack (agent _x); };
 
-        // Update all infantry units array
-        KTWK_allInfantry = _allUnits select {!(_x in KTWK_allCreatures)};
-        publicVariable "KTWK_allInfantry";
+    // Update all infantry units array
+    KTWK_allInfantry = _allUnits select {!(_x in KTWK_allCreatures)};
+    publicVariable "KTWK_allInfantry";
 
-        // Update all infantry players array
-        KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x};
+    // Update all infantry players array
+    KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x};
 
-        // Disable voice mods for non humans
-        if (KTWK_disableVoices_opt_creatures) then {
-            call KTWK_fnc_disableVoiceCheck;
-        };
-
-        // Fatal Wounds
-        if (!KTWK_WBKDeath && !KTWK_pir && {KTWK_FW_opt_enabled && time > 10}) then { call KTWK_fnc_FW_checkUnits };
-
-        // BettIR - auto enable NVG illuminator for all units
-        if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
-            if (KTWK_BIR_opt_enabled && call KTWK_fnc_isDuskorDawn) then { call KTWK_fnc_BIR_checkUnits };
-            // Disable illuminators if option is disabled now but was enabled before
-            if (!KTWK_BIR_opt_enabled && {KTWK_BIR_opt_enabled_last}) then {
-                {
-                    [_x] call BettIR_fnc_nvgIlluminatorOff;
-                    [_x] call BettIR_fnc_weaponIlluminatorOff;
-                } forEach (KTWK_allInfantry select {!isPlayer _x && !isNull _x});
-            };
-            KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
-        };
-
-        // AI will defend from predators
-        if (KTWK_opt_AIPredDefense_enable) then {
-            call KTWK_fnc_AIPredatorDefense;
-        };
-
-        // Poncho swap
-        if (KTWK_mgsr_poncho && {KTWK_ponchoSwap_opt_enabled}) then {
-            {if (!isNull _x) then { [_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x]}} forEach (KTWK_allInfantry + allDeadMen);
-        };
-
-        // Brighter full moon nights
-        call KTWK_fnc_brighterNight_check;
-
-        _allUnits = nil;
-        _agents = nil;
-
-        sleep 3;
+    // Disable voice mods for non humans
+    if (KTWK_disableVoices_opt_creatures) then {
+        call KTWK_fnc_disableVoiceCheck;
     };
-};
+
+    // Fatal Wounds
+    if (!KTWK_WBKDeath && !KTWK_pir && {KTWK_FW_opt_enabled && time > 10}) then { call KTWK_fnc_FW_checkUnits };
+
+    // BettIR - auto enable NVG illuminator for all units
+    if (!isNil "BettIR_fnc_nvgIlluminatorOn") then {
+        if (KTWK_BIR_opt_enabled && call KTWK_fnc_isDuskorDawn) then { call KTWK_fnc_BIR_checkUnits };
+        // Disable illuminators if option is disabled now but was enabled before
+        if (!KTWK_BIR_opt_enabled && {KTWK_BIR_opt_enabled_last}) then {
+            {
+                [_x] call BettIR_fnc_nvgIlluminatorOff;
+                [_x] call BettIR_fnc_weaponIlluminatorOff;
+            } forEach (KTWK_allInfantry select {!isPlayer _x && !isNull _x});
+        };
+        KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
+    };
+
+    // AI will defend from predators
+    if (KTWK_opt_AIPredDefense_enable) then {
+        call KTWK_fnc_AIPredatorDefense;
+    };
+
+    // Poncho swap
+    if (KTWK_mgsr_poncho && {KTWK_ponchoSwap_opt_enabled}) then {
+        {
+            if (!isNull _x) then { 
+                [_x] remoteExecCall ["KTWK_fnc_ponchoSwap", _x];
+            }
+        } forEach (KTWK_allInfantry + allDeadMen);
+    };
+
+    // Brighter full moon nights
+    call KTWK_fnc_brighterNight_check;
+
+}, 3] call CBA_fnc_addPerFrameHandler;

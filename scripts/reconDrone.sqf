@@ -13,55 +13,54 @@ KTWK_GRdrone_lastUse = time-KTWK_GRdrone_opt_reuseTime; // Time since last used
 // Add player action to the menu
 waitUntil {!isNull player && time > 1};
 
-while {true} do {
-    private _isAlive = alive KTWK_player;    // Check if the previously stored player unit is alive
-    // Wait until respawn or team switch if dead
+KTWK_GRdrone_PFH = [{
+    params ["_args", "_handle"];
+
+    private _isAlive = alive KTWK_player;
     if (!_isAlive) then {
-        while {!alive player} do {
-            sleep 0.5;
-        };
-    };
-    // Check if player switched units
-    private _playerUnit = KTWK_player;
-    KTWK_player = [call KTWK_fnc_playerUnit, player] select (call KTWK_fnc_GRdrone_playerInUAV);
-    if (KTWK_player != _playerUnit) then {
-        // Player switched units, exit loop
-        break;
-    };
-    // Manage adding and removing of drone action
-    private _actionId = KTWK_player getVariable ["KTWK_GRdrone_actionId", -1];
-    private _droneInInv = "KTWK_GRdrone" in (itemsWithMagazines _playerUnit);
-    private _dronePrereqsMet = !KTWK_GRdrone_opt_itemRequired || {KTWK_GRdrone_opt_itemRequired && _droneInInv};
-    if (KTWK_GRdrone_opt_enabled && _dronePrereqsMet) then {
-        call {
-            if (KTWK_aceInteractMenu && isNil {KTWK_GRdrone_aceAdded}) exitWith {
-                private _condition = {
-                    !(call KTWK_fnc_GRdrone_playerInUAV)
+        [_handle] call CBA_fnc_removePerFrameHandler;
+        [{alive player}, {
+            KTWK_GRdrone_PFH = _this call CBA_fnc_addPerFrameHandler;
+        }, _this] call CBA_fnc_waitUntilAndExecute;
+    } else {
+        private _playerUnit = KTWK_player;
+        KTWK_player = [call KTWK_fnc_playerUnit, player] select (call KTWK_fnc_GRdrone_playerInUAV);
+        if (KTWK_player != _playerUnit) then {
+            [_handle] call CBA_fnc_removePerFrameHandler;
+        } else {
+            private _actionId = KTWK_player getVariable ["KTWK_GRdrone_actionId", -1];
+            private _droneInInv = "KTWK_GRdrone" in (itemsWithMagazines _playerUnit);
+            private _dronePrereqsMet = !KTWK_GRdrone_opt_itemRequired || {KTWK_GRdrone_opt_itemRequired && _droneInInv};
+            if (KTWK_GRdrone_opt_enabled && _dronePrereqsMet) then {
+                if (KTWK_aceInteractMenu && isNil {KTWK_GRdrone_aceAdded}) then {
+                    private _condition = {
+                        !(call KTWK_fnc_GRdrone_playerInUAV) && 
+                        !(visibleMap)
+                    };
+                    private _statement = {
+                        [KTWK_player] call KTWK_fnc_GRdrone_action;
+                        [KTWK_player, 1, ["ACE_SelfActions", "KTWK_GRdrone"]] call ace_interact_menu_fnc_removeActionFromObject;
+                        KTWK_GRdrone_aceAdded = nil;
+                    };
+                    private _action = ["KTWK_GRdrone","Deploy Recon Drone","\a3\ui_f\data\igui\cfg\actions\getinpilot_ca.paa",_statement,_condition] call ace_interact_menu_fnc_createAction;
+                    [KTWK_player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
+                    KTWK_GRdrone_aceAdded = true;
+                } else {
+                    if (_actionId < 0) then {
+                        [KTWK_player] call KTWK_fnc_GRdrone_addAction;
+                    };
                 };
-                private _statement = {
-                    [KTWK_player] call KTWK_fnc_GRdrone_action;
+            } else {
+                if (KTWK_aceInteractMenu && !isNil {KTWK_GRdrone_aceAdded}) then {
                     [KTWK_player, 1, ["ACE_SelfActions", "KTWK_GRdrone"]] call ace_interact_menu_fnc_removeActionFromObject;
                     KTWK_GRdrone_aceAdded = nil;
+                } else {
+                    if (_actionId >= 0) then {
+                        KTWK_player removeAction _actionId;
+                        KTWK_player setVariable ["KTWK_GRdrone_actionId", nil, true];
+                    };
                 };
-                private _action = ["KTWK_GRdrone","Deploy Recon Drone","\a3\ui_f\data\igui\cfg\actions\getinpilot_ca.paa",_statement,_condition] call ace_interact_menu_fnc_createAction;
-                [KTWK_player, 1, ["ACE_SelfActions"], _action] call ace_interact_menu_fnc_addActionToObject;
-                KTWK_GRdrone_aceAdded = true;
-            };
-            if (_actionId < 0) exitWith {
-                [KTWK_player] call KTWK_fnc_GRdrone_addAction;
-            };
-        };
-    } else {
-        call {
-            if (KTWK_aceInteractMenu && !isNil {KTWK_GRdrone_aceAdded}) exitWith {
-                [KTWK_player, 1, ["ACE_SelfActions", "KTWK_GRdrone"]] call ace_interact_menu_fnc_removeActionFromObject;
-                KTWK_GRdrone_aceAdded = nil;
-            };
-            if (_actionId >= 0) exitWith {
-                KTWK_player removeAction _actionId;
-                KTWK_player setVariable ["KTWK_GRdrone_actionId", nil, true];
             };
         };
     };
-    sleep 1;
-};
+}, 1, []] call CBA_fnc_addPerFrameHandler;

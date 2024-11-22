@@ -22,6 +22,7 @@ addMissionEventHandler ["Ended", {
     }];
 };
 
+// --------------------------------
 // Safechecks for JiP
 KTWK_allInfantry = [];
 private _cftPatches = configFile >> "CfgPatches";
@@ -287,38 +288,31 @@ KTWK_SiS_excluded = [
 
 // --------------------------------
 // Loop
-KTWK_scr_updateClient = [] spawn {
-    while {true} do {
-        KTWK_player = call KTWK_fnc_playerUnit;
+[{
+    KTWK_player = call KTWK_fnc_playerUnit;
 
-        // AI stop when healed
-        // - Thanks, pierremgi!
-        if (!isServer) then {
-            {
+    if (!isServer) then {
+        {
+            if !(_x getVariable ["KTWK_handleHeal_added", false]) then {
                 _x addEventHandler ["handleHeal", {
-                    if (!KTWK_SFH_opt_enabled) exitwith {};
+                    if (!KTWK_SFH_opt_enabled) exitWith {};
                     _this remoteExec ["KTWK_fnc_AIstopForHealing", _this#0, true];
                 }];
                 _x setVariable ["KTWK_handleHeal_added", true, true];
-            } forEach (KTWK_allInfantry select {!(_x getVariable ["KTWK_handleHeal_added",false])});
-        };
-
-        // No map icons if no GPS
-        call KTWK_fnc_GPSHideIcons;
-
-        // Slide in slopes
-        if (KTWK_slideInSlopes_opt_enabled) then {
-            [KTWK_player] call KTWK_fnc_slideInSlopes;
-        };
-
-        // Equip Next Weapon
-        if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
-            [KTWK_player] call KTWK_fnc_toggleHolsterDisplay;
-        };
-
-        sleep 1;
+            };
+        } forEach KTWK_allInfantry;
     };
-};
+
+    call KTWK_fnc_GPSHideIcons;
+
+    if (KTWK_slideInSlopes_opt_enabled) then {
+        [KTWK_player] call KTWK_fnc_slideInSlopes;
+    };
+
+    if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
+        [KTWK_player] call KTWK_fnc_toggleHolsterDisplay;
+    };
+}, 1] call CBA_fnc_addPerFrameHandler;
 
 // Fix for holsters blocking Ravage loot
 if (isClass (configFile >> "CfgPatches" >> "ravage")) then {

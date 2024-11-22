@@ -147,37 +147,40 @@ call KTWK_fnc_HUD_health_moveDialog;
 
 // ----------------------------
 // MAIN LOOP
-private _ctrl = (_display displayCtrl IDC_GRP_HUD_BODYHEALTH);
-while {true} do {
+KTWK_HUD_health_PFH = [{
+    params ["_args", "_handle"];
+    _args params ["_display", "_idcGrpHudBodyHealth"];
+
+    private _ctrl = (_display displayCtrl _idcGrpHudBodyHealth);
     if (isNil {_ctrl}) then {
         diag_log "KtweaK: Unable to find health HUD. Shutting down script.";
-        terminate _thisScript;
+        [_handle] call CBA_fnc_removePerFrameHandler;
     };
-    private _isAlive = alive KTWK_player;    // Check if the previously stored player unit is alive
+
+    private _isAlive = alive KTWK_player;
     if (KTWK_player != call KTWK_fnc_playerUnit || !_isAlive) then {
-        // If stored player unit isn't the same as the current one, the player has switched unit, so let's clean up a bit
-        KTWK_player removeEventHandler ["InventoryOpened", KTWK_HUD_health_EH_InvOpened];   // Remove EH from old unit
-        // Wait until respawn or team switch if dead
+        KTWK_player removeEventHandler ["InventoryOpened", KTWK_HUD_health_EH_InvOpened];
         if (!_isAlive) then {
-            // Display health HUD
             KTWK_HUD_health_alpha = 0.6;
-            while {!alive player} do {
-                sleep 0.5;
-            };
+            [_handle] call CBA_fnc_removePerFrameHandler;
+            [{alive player}, {
+                KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
+            }] call CBA_fnc_waitUntilAndExecute;
+        } else {
+            [_handle] call CBA_fnc_removePerFrameHandler;
+            KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
         };
-        // Just restart the damn thing to avoid all the headaches I'm having when switching units
-        KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
-        break;
+    } else {
+        if (!KTWK_HUD_health_opt_enabled || 
+            !([KTWK_player] call KTWK_fnc_isHuman) || 
+            ((positionCameraToWorld [0,0,0] distance (vehicle KTWK_player)) > 5) || // this should fix the problem of ui being showm in intros and scripted camera scenes
+            (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened) || 
+            (dialog && !KTWK_HUD_health_invOpened)) then {
+            _ctrl ctrlShow false;
+        } else {
+            _ctrl ctrlShow true;
+            call KTWK_fnc_HUD_health_update;
+        };
     };
+}, 0.05, [_display, IDC_GRP_HUD_BODYHEALTH]] call CBA_fnc_addPerFrameHandler;
 
-    if (!KTWK_HUD_health_opt_enabled || !([KTWK_player] call KTWK_fnc_isHuman) || (!KTWK_HUD_health_opt_showInjured && !KTWK_HUD_health_invOpened) || (dialog && !KTWK_HUD_health_invOpened)) then {
-        _ctrl ctrlShow false;
-        sleep 1;
-        continue
-    };
-
-    _ctrl ctrlShow true;
-    call KTWK_fnc_HUD_health_update;
-
-    sleep 0.05;
-};

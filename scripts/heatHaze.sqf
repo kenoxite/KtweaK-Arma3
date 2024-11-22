@@ -175,64 +175,54 @@ KTWK_fnc_HZ_shouldBeActive = {
     ["Active", true]
 };
 
-KTWK_fnc_HZ_mainLoop = {
-    if (!hasInterface) exitWith {};
+KTWK_HZ_source = objNull;
+KTWK_HZ_lastHotSurfaceCheckTime = 0;
+KTWK_HZ_lastDebugTime = 0;
+
+[{
+    params ["_args", "_pfhId"];
+    _args params ["_hotSurfaceCheckInterval", "_debugInterval"];
     
-    KTWK_HZ_source = objNull;
-    private _updateInterval = 0.1;
-    private _debugInterval = 1;
-    private _lastDebugTime = 0;
-    private _lastHotSurfaceCheckTime = 0;
-    private _hotSurfaceCheckInterval = 1; // Check every 1 second
+    private _currentTime = time;
     
-    while {true} do {
-        private _currentTime = time;
+    // Check for activation conditions, including hot surface, every _hotSurfaceCheckInterval seconds
+    if (_currentTime - KTWK_HZ_lastHotSurfaceCheckTime >= _hotSurfaceCheckInterval) then {
+        private _shouldBeActiveResult = [KTWK_player] call KTWK_fnc_HZ_shouldBeActive;
+        (_shouldBeActiveResult) params ["_reason", "_isActive"];
+        KTWK_HZ_lastHotSurfaceCheckTime = _currentTime;
+        KTWK_HZ_aceSurfaceTemp = ace_weather_currentTemperature + (random [3,4,5]);
         
-        // Check for activation conditions, including hot surface, every _hotSurfaceCheckInterval seconds
-        if (_currentTime - _lastHotSurfaceCheckTime >= _hotSurfaceCheckInterval) then {
-            private _shouldBeActiveResult = [KTWK_player] call KTWK_fnc_HZ_shouldBeActive;
-            private _reason = _shouldBeActiveResult select 0;
-            private _isActive = _shouldBeActiveResult select 1;
-            _lastHotSurfaceCheckTime = _currentTime;
-            KTWK_HZ_aceSurfaceTemp = ace_weather_currentTemperature + (random [3,4,5]);
+        if (_isActive) then {
+            if (isNull KTWK_HZ_source) then {
+                private _eyePos = eyePos KTWK_player;
+                private _eyeDir = getCameraViewDirection KTWK_player;
+                private _hazePosition = _eyePos vectorAdd (_eyeDir vectorMultiply KTWK_HZ_distance);
+                private _hazePositionATL = _hazePosition vectorMultiply [1,1,0];
+                KTWK_HZ_source = [_hazePositionATL, [20, 30, 20]] call KTWK_fnc_HZ_createHeatHaze;
+            };
             
-            if (_isActive) then {
-                if (isNull KTWK_HZ_source) then {
-                    private _eyePos = eyePos KTWK_player;
-                    private _eyeDir = getCameraViewDirection KTWK_player;
-                    private _hazePosition = _eyePos vectorAdd (_eyeDir vectorMultiply KTWK_HZ_distance);
-                    private _hazePositionATL = [_hazePosition select 0, _hazePosition select 1, 0];
-                    KTWK_HZ_source = [_hazePositionATL, [20, 30, 20]] call KTWK_fnc_HZ_createHeatHaze;
-                };
-                
-                [KTWK_HZ_source, KTWK_player] call KTWK_fnc_HZ_updateHeatHaze;
-                
-                if (KTWK_HZ_debug > 0 && _currentTime - _lastDebugTime >= _debugInterval) then {
-                    private _intensity = call KTWK_fnc_HZ_calculateIntensity;
-                    [_intensity, _isActive, _reason] call KTWK_fnc_HZ_debugMessage;
-                    _lastDebugTime = _currentTime;
-                };
-            } else {
-                if (!isNull KTWK_HZ_source) then {
-                    deleteVehicle KTWK_HZ_source;
-                    KTWK_HZ_source = objNull;
-                };
-                
-                if (KTWK_HZ_debug > 0) then {
-                    private _intensity = call KTWK_fnc_HZ_calculateIntensity;
-                    [_intensity, _isActive, _reason] call KTWK_fnc_HZ_debugMessage;
-                };
+            [KTWK_HZ_source, KTWK_player] call KTWK_fnc_HZ_updateHeatHaze;
+            
+            if (KTWK_HZ_debug > 0 && _currentTime - KTWK_HZ_lastDebugTime >= _debugInterval) then {
+                private _intensity = call KTWK_fnc_HZ_calculateIntensity;
+                [_intensity, _isActive, _reason] call KTWK_fnc_HZ_debugMessage;
+                KTWK_HZ_lastDebugTime = _currentTime;
             };
         } else {
-            // Update haze position if active
             if (!isNull KTWK_HZ_source) then {
-                [KTWK_HZ_source, KTWK_player] call KTWK_fnc_HZ_updateHeatHaze;
+                deleteVehicle KTWK_HZ_source;
+                KTWK_HZ_source = objNull;
+            };
+            
+            if (KTWK_HZ_debug > 0) then {
+                private _intensity = call KTWK_fnc_HZ_calculateIntensity;
+                [_intensity, _isActive, _reason] call KTWK_fnc_HZ_debugMessage;
             };
         };
-        
-        sleep _updateInterval;
+    } else {
+        // Update haze position if active
+        if (!isNull KTWK_HZ_source) then {
+            [KTWK_HZ_source, KTWK_player] call KTWK_fnc_HZ_updateHeatHaze;
+        };
     };
-};
-
-
-[] spawn KTWK_fnc_HZ_mainLoop;
+}, 0.1, [1, 1]] call CBA_fnc_addPerFrameHandler;
