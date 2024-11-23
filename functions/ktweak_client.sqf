@@ -47,6 +47,14 @@ if (isNil "KTWK_aceInteractMenu") then
 {
     KTWK_aceInteractMenu = isClass(_cftPatches >> "ace_interact_menu");
 };
+if (isNil "KTWK_aceWeather") then
+{
+    KTWK_aceWeather = isClass(_cftPatches >> "ace_weather");
+};
+if (isNil "KTWK_aceFatigue") then
+{
+    KTWK_aceFatigue = isClass(_cftPatches >> "ace_advanced_fatigue");
+};
 
 if (isNil "KTWK_WBKDeath") then
 {

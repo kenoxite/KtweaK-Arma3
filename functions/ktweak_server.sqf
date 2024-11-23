@@ -28,6 +28,10 @@ KTWK_aceFlashlights = isClass(_cftPatches >> "ace_flashlights");
 publicVariable "KTWK_aceFlashlights";
 KTWK_aceInteractMenu = isClass(_cftPatches >> "ace_interact_menu");
 publicVariable "KTWK_aceInteractMenu";
+KTWK_aceWeather = isClass(_cftPatches >> "ace_weather");
+publicVariable "KTWK_aceWeather";
+KTWK_aceFatigue = isClass(_cftPatches >> "ace_advanced_fatigue");
+publicVariable "KTWK_aceFatigue";
 
 KTWK_WBKDeath = isClass(_cftPatches >> "WBK_DyingAnimationsMod");
 publicVariable "KTWK_WBKDeath";
