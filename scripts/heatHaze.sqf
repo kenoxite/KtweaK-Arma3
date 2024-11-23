@@ -5,11 +5,8 @@
 
 if (!hasInterface) exitWith {};
 
-// Check for ACE modules
-KTWK_hasACEWeather = isClass (configFile >> "CfgPatches" >> "ace_weather");
-
 // Initialize ACE variables if not present
-if (!KTWK_hasACEWeather) then {
+if (!KTWK_aceWeather) then {
     ace_weather_enabled = false;
     ace_weather_currentTemperature = 0;
 };
@@ -43,7 +40,7 @@ KTWK_fnc_HZ_getTemperatures = {
     private _tempData = ambientTemperature;
     private _airTemp = _tempData select 0;
     private _surfaceTemp = _tempData select 1;
-    if (KTWK_hasACEWeather && {ace_weather_enabled} && {KTWK_HZ_opt_aceTemp}) then {
+    if (KTWK_aceWeather && {ace_weather_enabled} && {KTWK_HZ_opt_aceTemp}) then {
         if (!KTWK_HZ_opt_useHighest || (KTWK_HZ_opt_useHighest && {_airTempAce > _airTemp})) then {
             _airTemp = _airTempAce;
             _surfaceTemp = _surfaceTempAce;
