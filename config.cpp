@@ -115,6 +115,8 @@ class CfgFunctions
             class holsterWeapon {};
             class inBuilding {};
             class beforeDawn {};
+            class inFOV {};
+            class inCombat {};
         };
 
         class FatalWounds
