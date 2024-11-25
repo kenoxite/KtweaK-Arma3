@@ -117,6 +117,7 @@ class CfgFunctions
             class beforeDawn {};
             class inFOV {};
             class inCombat {};
+            class getTemp {};
         };
 
         class FatalWounds

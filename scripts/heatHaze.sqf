@@ -18,7 +18,7 @@ KTWK_HZ_maxHeight = 10;
 KTWK_HZ_forceMaxIntensity = false;
 KTWK_HZ_tempThreshold = 25; // Temperature threshold in Celsius for method 0
 KTWK_HZ_method = 1; // 0: Original method, 1: New method based on black surface temperature
-KTWK_HZ_aceSurfaceTemp = 0;
+KTWK_aceSurfaceTemp = 0;
 
 KTWK_fnc_HZ_createHeatHaze = {
     params ["_position", "_size"];
@@ -34,24 +34,8 @@ KTWK_fnc_HZ_createHeatHaze = {
     _source
 };
 
-KTWK_fnc_HZ_getTemperatures = {
-    private _airTempAce = ace_weather_currentTemperature;
-    private _surfaceTempAce = KTWK_HZ_aceSurfaceTemp;
-    private _tempData = ambientTemperature;
-    private _airTemp = _tempData select 0;
-    private _surfaceTemp = _tempData select 1;
-    if (KTWK_aceWeather && {ace_weather_enabled} && {KTWK_HZ_opt_aceTemp}) then {
-        if (!KTWK_HZ_opt_useHighest || (KTWK_HZ_opt_useHighest && {_airTempAce > _airTemp})) then {
-            _airTemp = _airTempAce;
-            _surfaceTemp = _surfaceTempAce;
-        };
-    };
-
-    [_airTemp, _surfaceTemp]
-};
-
 KTWK_fnc_HZ_calculateIntensity = {
-    call KTWK_fnc_HZ_getTemperatures params ["_airTemp", "_surfaceTemp"];
+    [KTWK_aceWeather && {ace_weather_enabled} && {KTWK_HZ_opt_aceTemp}, KTWK_HZ_opt_useHighest] call KTWK_fnc_getTemp params ["_airTemp", "_surfaceTemp"];
 
     if (KTWK_HZ_forceMaxIntensity) exitWith { KTWK_HZ_opt_maxIntensity };
 
@@ -144,7 +128,7 @@ KTWK_fnc_HZ_updateHeatHaze = {
 
 KTWK_fnc_HZ_debugMessage = {
     params ["_intensity", "_isActive", "_reason"];
-    call KTWK_fnc_HZ_getTemperatures params ["_airTemp", "_surfaceTemp"];
+    [KTWK_aceWeather && {ace_weather_enabled} && {KTWK_HZ_opt_aceTemp}, KTWK_HZ_opt_useHighest] call KTWK_fnc_getTemp params ["_airTemp", "_surfaceTemp"];
     private _fps = diag_fps;
     
     systemChat format ["Heat Haze: Method: %1, FPS: %2, Air Temp: %3°C, Surface Temp: %4°C, Intensity: %5, Active: %6, Reason: %7", 
@@ -164,7 +148,7 @@ KTWK_fnc_HZ_shouldBeActive = {
     private _isTooHigh = (ASLToATL _vehiclePos) select 2 > KTWK_HZ_maxHeight;
     if (_isTooHigh) exitWith {["Too High", false]};
 
-    call KTWK_fnc_HZ_getTemperatures params ["_airTemp", "_surfaceTemp"];
+    [KTWK_aceWeather && {ace_weather_enabled} && {KTWK_HZ_opt_aceTemp}, KTWK_HZ_opt_useHighest] call KTWK_fnc_getTemp params ["_airTemp", "_surfaceTemp"];
     if (_surfaceTemp < KTWK_HZ_tempThreshold) exitWith {["Temperature Too Low", false]};
     private _isHotSurface = [ASLToAGL _vehiclePos] call KTWK_fnc_HZ_isHotSurface;
     if (!_isHotSurface) exitWith {["Not on hot surface", false]};
@@ -187,7 +171,6 @@ KTWK_HZ_lastDebugTime = 0;
         private _shouldBeActiveResult = [KTWK_player] call KTWK_fnc_HZ_shouldBeActive;
         (_shouldBeActiveResult) params ["_reason", "_isActive"];
         KTWK_HZ_lastHotSurfaceCheckTime = _currentTime;
-        KTWK_HZ_aceSurfaceTemp = ace_weather_currentTemperature + (random [3,4,5]);
         
         if (_isActive) then {
             if (isNull KTWK_HZ_source) then {

@@ -92,6 +92,27 @@ KTWK_fnc_CB_getTempUnit = {
 KTWK_fnc_CB_createColdBreathEffect = {
     params ["_unit", "_adjustedBreathInt", "_adjustedBreathIntensity", "_adjustedBreathSize", "_scaleFactor", "_isDistant", "_distanceToCamera", "_effectIntensity"];
 
+    private _particlePos = [_unit, _distanceToCamera] call KTWK_fnc_CB_calculateParticlePosition;
+    private _breath = "#particlesource" createVehicleLocal _particlePos;
+
+    private _randomizedSize = [_adjustedBreathSize, _scaleFactor, _isDistant] call KTWK_fnc_CB_calculateParticleSize;
+    private _opacity = [_unit, _isDistant, _effectIntensity] call KTWK_fnc_CB_calculateOpacity;
+    private _particleLifeTime = [_isDistant, _effectIntensity] call KTWK_fnc_CB_calculateParticleLifetime;
+
+    private _pfhHandle = [_unit, _breath, _randomizedSize, _opacity, _scaleFactor, _particleLifeTime] call KTWK_fnc_CB_setupPerFrameHandler;
+
+    [_breath] call KTWK_fnc_CB_setParticleRandomParams;
+
+    private _dropInterval = [_unit, _adjustedBreathInt, _adjustedBreathIntensity, _scaleFactor, _isDistant] call KTWK_fnc_CB_calculateDropInterval;
+    _breath setDropInterval _dropInterval;
+
+    [_pfhHandle, _breath]
+};
+
+// Position calculation function
+KTWK_fnc_CB_calculateParticlePosition = {
+    params ["_unit", "_distanceToCamera"];
+
     private _headPos = _unit modelToWorld (_unit selectionPosition "head");
     private _eyeDir = eyeDirection _unit;
     private _fp = _unit == KTWK_player && {(positionCameraToWorld [0,0,0] distance (vehicle KTWK_player)) < 2};
@@ -113,110 +134,112 @@ KTWK_fnc_CB_createColdBreathEffect = {
         _particlePos = _particlePos vectorAdd [0, 0, -0.08];
     };
 
-    private _breath = "#particlesource" createVehicleLocal _particlePos;
+    _particlePos
+};
 
-    private _particleLifeTime = ([2, 3] select _isDistant) * _effectIntensity;
+// Particle size calculation function
+KTWK_fnc_CB_calculateParticleSize = {
+    params ["_adjustedBreathSize", "_scaleFactor", "_isDistant"];
 
     private _baseParticleSize = [
         [0.05 * _adjustedBreathSize * _scaleFactor, 0.12 * _adjustedBreathSize * _scaleFactor],
         [0.08, 0.16]
     ] select _isDistant;
     
-    // Introduce randomness to particle size
-    private _sizeVariation = 0.3; // 30% variation
+    private _sizeVariation = 0.3;
     private _minSize = _baseParticleSize#0 * (1 - _sizeVariation);
     private _maxSize = _baseParticleSize#1 * (1 + _sizeVariation);
-    private _randomizedSize = [_minSize + random(_maxSize - _minSize), _maxSize];
+    [_minSize + random(_maxSize - _minSize), _maxSize]
+};
 
-    private _opacity = if (_fp) then {
-        0.01
+// Opacity calculation function
+KTWK_fnc_CB_calculateOpacity = {
+    params ["_unit", "_isDistant", "_effectIntensity"];
+
+    private _opacity = if (_unit == KTWK_player && {(positionCameraToWorld [0,0,0] distance (vehicle KTWK_player)) < 2}) then {
+        0.008
     } else {
-        if (_isDistant) then {
-            0.02
-        } else {
-            0.008
-        }
+        if (_isDistant) then { 0.01 } else { 0.005 }
     };
-    _opacity = _opacity * _effectIntensity;
+    _opacity * _effectIntensity
+};
 
-    private _pfhHandle = [
+// Particle lifetime calculation function
+KTWK_fnc_CB_calculateParticleLifetime = {
+    params ["_isDistant", "_effectIntensity"];
+    ([2, 3] select _isDistant) * _effectIntensity
+};
+
+// Per-frame update function
+KTWK_fnc_CB_setupPerFrameHandler = {
+    params ["_unit", "_breath", "_randomizedSize", "_opacity", "_scaleFactor", "_particleLifeTime"];
+
+    [
         {
             params ["_args", "_pfhHandle"];
-            _args params ["_unit", "_breath", "_fp", "_isDistant", "_particleLifeTime", "_randomizedSize", "_opacity", "_scaleFactor", "_eyeDir"];
+            _args params ["_unit", "_breath", "_randomizedSize", "_opacity", "_scaleFactor", "_particleLifeTime"];
 
             if (!alive _unit || isNull _breath) exitWith {
                 [_pfhHandle] call CBA_fnc_removePerFrameHandler;
                 if (!isNull _breath) then { deleteVehicle _breath; };
             };
 
-            private _headPos = _unit modelToWorld (_unit selectionPosition "head");
-            private _mouthOffsetAdjust = [0.03, 0.08] select _fp;
-            private _mouthOffset = _eyeDir vectorMultiply _mouthOffsetAdjust;
-            private _particlePos = _headPos vectorAdd _mouthOffset;
-
-            if (_fp) then {
-                private _stance = stance KTWK_player;
-                call {
-                    if (_fp) exitWith {
-                        private _stance = stance KTWK_player;
-                        if (_stance == "PRONE") exitWith { _particlePos = _particlePos vectorAdd [0, 0.1, -0.1]; };
-                        if (_stance == "CROUCH") exitWith { _particlePos = _particlePos vectorAdd [0, 0.1, -0.05]; };
-                        _particlePos = _particlePos vectorAdd [0, 0.1, 0];
-                    };
-                    _particlePos = _particlePos vectorAdd [0, 0, 0.03];
-                };
-            } else {
-                _particlePos = _particlePos vectorAdd [0, 0, 0.03];
-            };
-
-            if (KTWK_player distance _unit > 100) then {
-                _particlePos = _particlePos vectorAdd [0, 0, -0.08];
-            };
-
+            private _particlePos = [_unit, KTWK_player distance _unit] call KTWK_fnc_CB_calculateParticlePosition;
             _breath setPosATL _particlePos;
+
+            private _eyeDir = eyeDirection _unit;
             _breath setParticleParams [
-                ["\A3\data_f\cl_basic", 1, 0, 1],  // Shape: Particle texture, type, animation speed, scale
-                "",                                // Animation name (empty string for no animation)
-                "Billboard",                       // Type of particle (Billboard, SpaceObject, etc.)
-                1,                                 // Timer period (in seconds)
-                _particleLifeTime,                 // Lifetime of particle (in seconds)
-                [0, 0, 0],                         // Position offset from particle source
-                (_eyeDir vectorMultiply 0.12) vectorAdd [0,0,-0.005],  // Movement vector
-                0.7,                               // Rotation velocity
-                0.25,                            // Weight (affects how particle falls)
-                0.2,                              // Volume (affects air resistance)
-                0.05,                            // Rubbing (affects how particle slows down)
-                _randomizedSize,                   // Size of particle [min, max]
-                [[1, 1, 1, 0],                     // Color of particle over time (RGBA)
+                ["\A3\data_f\cl_basic", 1, 0, 1],
+                "",
+                "Billboard",
+                1,
+                _particleLifeTime,
+                [0, 0, 0],
+                (_eyeDir vectorMultiply 0.12) vectorAdd [0,0,-0.005],
+                0.7,
+                0.25,
+                0.2,
+                0.05,
+                _randomizedSize,
+                [[1, 1, 1, 0],
                  [1, 1, 1, _opacity * _scaleFactor * 0.5],
                  [1, 1, 1, _opacity * _scaleFactor],
                  [1, 1, 1, _opacity * _scaleFactor * 0.5],
                  [1, 1, 1, 0]],
-                [0, 0.2, 0.4, 0.6, 1],             // Time points for color changes
-                0.1,                               // Randomness of particle direction
-                0.05,                              // Random rotation of particle
-                "",                                // On-timer function (empty string for none)
-                "",                                // Before-destroy function (empty string for none)
-                _breath                            // Object the particle is created relative to
+                [0, 0.2, 0.4, 0.6, 1],
+                0.1,
+                0.05,
+                "",
+                "",
+                _breath
             ];
-
         },
-        0.1, // Run every 0.1 seconds
-        [_unit, _breath, _fp, _isDistant, _particleLifeTime, _randomizedSize, _opacity, _scaleFactor, _eyeDir]
-    ] call CBA_fnc_addPerFrameHandler;
+        0.1,
+        [_unit, _breath, _randomizedSize, _opacity, _scaleFactor, _particleLifeTime]
+    ] call CBA_fnc_addPerFrameHandler
+};
+
+// Particle random parameters function
+KTWK_fnc_CB_setParticleRandomParams = {
+    params ["_breath"];
 
     _breath setParticleRandom [
-        0.01,           // Lifetime
-        [0.005, 0.005, 0.005], // Position
-        [0.01, 0.01, 0.01],    // Velocity
-        0,              // Rotation velocity
-        0.005,          // Size
-        [0, 0, 0, 0.005], // Color
-        0,              // Random direction period
-        0               // Random direction intensity
+        0.01,
+        [0.005, 0.005, 0.005],
+        [0.01, 0.01, 0.01],
+        0,
+        0.005,
+        [0, 0, 0, 0.005],
+        0,
+        0
     ];
+};
 
-    private _dropInterval = if (_unit == KTWK_player && cameraView == "INTERNAL") then {
+// Drop interval calculation function
+KTWK_fnc_CB_calculateDropInterval = {
+    params ["_unit", "_adjustedBreathInt", "_adjustedBreathIntensity", "_scaleFactor", "_isDistant"];
+
+    if (_unit == KTWK_player && cameraView == "INTERNAL") then {
         0.006 / (_adjustedBreathInt * _adjustedBreathIntensity * _scaleFactor)
     } else {
         if (_isDistant) then {
@@ -224,10 +247,7 @@ KTWK_fnc_CB_createColdBreathEffect = {
         } else {
             0.008 / (_adjustedBreathInt * _adjustedBreathIntensity * _scaleFactor)
         }
-    };
-    _breath setDropInterval _dropInterval;
-
-    [_pfhHandle, _breath]
+    }
 };
 
 // Adjust breath parameters for incapacitated units
@@ -343,38 +363,39 @@ KTWK_CB_nearUnits = [50] call KTWK_fnc_CB_nearUnits;
     params ["_args", "_pfhId"];
 
     if (KTWK_CB_opt_enabled) then {
-        private _playerVeh = vehicle KTWK_player;
-        private _playerSpeed = speed _playerVeh;
-        private _inCamera = (positionCameraToWorld [0,0,0] distance (vehicle KTWK_player)) > 2;
-        private _detectionDistance = call {
-            if (_inCamera) exitWith { 100 };
-            if (cameraView isEqualTo "GUNNER") exitWith { 600 };
-            100
-        };
-        private _baseTemp = [KTWK_aceWeather && {ace_weather_enabled} && {KTWK_CB_opt_aceTemp}] call KTWK_fnc_CB_getTemp;
+        private _baseTemp = ([KTWK_CB_opt_aceTemp && {KTWK_aceWeather && ace_weather_enabled}] call KTWK_fnc_getTemp) #0;
+        if (_baseTemp <= 20) then {
+            private _vehPlayer = vehicle KTWK_player;
+            private _inCamera = (positionCameraToWorld [0,0,0] distance _vehPlayer) > 2;
+            private _detectionDistance = call {
+                if (_inCamera) exitWith { 100 };
+                if (cameraView isEqualTo "GUNNER") exitWith { 600 };
+                100
+            };
 
-        // Update nearby units periodically
-        if (diag_tickTime - KTWK_CB_lastNearUnitsCheck > 10) then {
-            KTWK_CB_nearUnits = [_detectionDistance] call KTWK_fnc_CB_nearUnits;
-            KTWK_CB_lastNearUnitsCheck = diag_tickTime;
-            
-            {
-                private _unit = _x;
-                if !(_unit in KTWK_CB_nearUnits) then {
-                    {
-                        _unit setVariable [_x, nil];
-                    } forEach ["KTWK_breathOffset", "KTWK_lastBreathTime", "KTWK_lastExertionTime"];
-                };
-            } forEach KTWK_CB_previousNearUnits;
+            // Update nearby units periodically
+            if (diag_tickTime - KTWK_CB_lastNearUnitsCheck > 10) then {
+                KTWK_CB_nearUnits = [_detectionDistance] call KTWK_fnc_CB_nearUnits;
+                KTWK_CB_lastNearUnitsCheck = diag_tickTime;
+                
+                {
+                    private _unit = _x;
+                    if !(_unit in KTWK_CB_nearUnits) then {
+                        {
+                            _unit setVariable [_x, nil];
+                        } forEach ["KTWK_breathOffset", "KTWK_lastBreathTime", "KTWK_lastExertionTime"];
+                    };
+                } forEach KTWK_CB_previousNearUnits;
 
-            KTWK_CB_previousNearUnits = +KTWK_CB_nearUnits;
-        };
+                KTWK_CB_previousNearUnits = +KTWK_CB_nearUnits;
+            };
 
-        // Process cold breath effect if player speed is below threshold
-        if (_inCamera || _playerSpeed < 50) then {
-            {
-                [_x, _detectionDistance, _baseTemp] call KTWK_fnc_CB_processUnit;
-            } forEach KTWK_CB_nearUnits;
+            // Process cold breath effect if player speed is below threshold
+            if (_inCamera || {(speed _vehPlayer) < 50}) then {
+                {
+                    [_x, _detectionDistance, _baseTemp] call KTWK_fnc_CB_processUnit;
+                } forEach KTWK_CB_nearUnits;
+            };
         };
     };
 }, 0.1, []] call CBA_fnc_addPerFrameHandler;
