@@ -2,7 +2,7 @@
 
 params [["_useAce", false], ["_useHighest", false]];
 
-// Check if KTWK_CB_customTemp is defined
+// Check if KTWK_customTemp is defined
 if (!isNil "KTWK_customTemp") exitWith {
     [KTWK_customTemp, KTWK_customTemp + (random [3,4,5])]
 };
