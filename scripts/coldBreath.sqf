@@ -265,7 +265,7 @@ KTWK_fnc_CB_adjustBreathForIncapacitated = {
 // Function to calculate breath parameters
 KTWK_fnc_CB_calculateBreathParams = {
     params ["_unit", "_group", "_isExerted", "_inCombat"];
-    private _timeSinceExertion = diag_tickTime - (_unit getVariable ["KTWK_lastExertionTime", 0]);
+    private _timeSinceExertion = time - (_unit getVariable ["KTWK_lastExertionTime", 0]);
     private _recoveryTime = 120;
     private _normalBreathRate = 3;
 
@@ -319,14 +319,14 @@ KTWK_fnc_CB_processUnit = {
 
     private _temp = [_unit, _baseTemp] call KTWK_fnc_CB_getTempUnit;
     private _effectIntensity = [_temp] call KTWK_fnc_CB_effectIntensity;
-    if (_effectIntensity > 0.1 && {_unit getVariable ["KTWK_lastBreathTime", -1] < diag_tickTime}) then {
+    if (_effectIntensity > 0.1 && {_unit getVariable ["KTWK_lastBreathTime", -1] < time}) then {
         private _isExerted = if (KTWK_aceFatigue && {ace_advanced_fatigue_enabled}) then {
             ace_advanced_fatigue_anReserve < 80
         } else {
             (getFatigue _unit > 0.6) || (speed _unit > 12)
         };
         if (_isExerted) then {
-            _unit setVariable ["KTWK_lastExertionTime", diag_tickTime, false];
+            _unit setVariable ["KTWK_lastExertionTime", time, false];
         };
 
         [_unit, _group, _isExerted, _inCombat] call KTWK_fnc_CB_calculateBreathParams params ["_breathInt", "_breathIntensity", "_breathSize"];
@@ -336,7 +336,7 @@ KTWK_fnc_CB_processUnit = {
         private _persistentOffset = _unit getVariable ["KTWK_breathOffset", random _adjustedBreathInt];
         _unit setVariable ["KTWK_breathOffset", _persistentOffset];
 
-        private _nextBreathTime = diag_tickTime + _adjustedBreathInt + _persistentOffset;
+        private _nextBreathTime = time + _adjustedBreathInt + _persistentOffset;
         _unit setVariable ["KTWK_lastBreathTime", _nextBreathTime, false];
 
         private _distanceToCamera = ((positionCameraToWorld [0,0,0]) distance _unit) max 50;
@@ -374,9 +374,9 @@ KTWK_CB_nearUnits = [50] call KTWK_fnc_CB_nearUnits;
             };
 
             // Update nearby units periodically
-            if (diag_tickTime - KTWK_CB_lastNearUnitsCheck > 10) then {
+            if (time - KTWK_CB_lastNearUnitsCheck > 10) then {
                 KTWK_CB_nearUnits = [_detectionDistance] call KTWK_fnc_CB_nearUnits;
-                KTWK_CB_lastNearUnitsCheck = diag_tickTime;
+                KTWK_CB_lastNearUnitsCheck = time;
                 
                 {
                     private _unit = _x;
