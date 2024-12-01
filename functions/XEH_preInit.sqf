@@ -864,3 +864,34 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+
+// WATER PUDDLES
+[
+    "KTWK_WP_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, water puddles will appear around the player when it's raining.\n"],
+    ["KtweaK - Client", "Water Puddles"],
+    [false],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_WP_opt_maxPuddles", 
+    "SLIDER",
+    ["Max Puddles", "Maximum amount of puddles that can be present at any given time.\n"],
+    ["KtweaK - Client", "Water Puddles"],
+    [0, 100, 50, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_WP_opt_maxRange", 
+    "SLIDER",
+    ["Max Range", "Radius around the player at which puddles will be placed.\n"],
+    ["KtweaK - Client", "Water Puddles"],
+    [0, 500, 50, 0], // data for this setting: [min, max, default, number of shown trailing decimals]
+    0,
+    {} 
+] call CBA_fnc_addSetting;
