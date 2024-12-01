@@ -93,7 +93,7 @@ KTWK_fnc_CB_createColdBreathEffect = {
     params ["_unit", "_adjustedBreathInt", "_adjustedBreathIntensity", "_adjustedBreathSize", "_scaleFactor", "_isDistant", "_distanceToCamera", "_effectIntensity"];
 
     private _particlePos = [_unit, _distanceToCamera] call KTWK_fnc_CB_calculateParticlePosition;
-    private _breath = "#particlesource" createVehicleLocal _particlePos;
+    private _breath = createVehicleLocal ["#particlesource", _particlePos, [], 0, "can_collide"];
 
     private _randomizedSize = [_adjustedBreathSize, _scaleFactor, _isDistant] call KTWK_fnc_CB_calculateParticleSize;
     private _opacity = [_unit, _isDistant, _effectIntensity] call KTWK_fnc_CB_calculateOpacity;
@@ -159,7 +159,7 @@ KTWK_fnc_CB_calculateOpacity = {
     private _opacity = if (_unit == KTWK_player && {(positionCameraToWorld [0,0,0] distance (vehicle KTWK_player)) < 2}) then {
         0.008
     } else {
-        if (_isDistant) then { 0.01 } else { 0.005 }
+        if (_isDistant) then { 0.01 } else { 0.008 }
     };
     _opacity * _effectIntensity
 };
