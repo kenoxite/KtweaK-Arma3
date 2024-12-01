@@ -22,14 +22,15 @@ KTWK_aceSurfaceTemp = 0;
 
 KTWK_fnc_HZ_createHeatHaze = {
     params ["_position", "_size"];
-    private _source = "#particlesource" createVehicleLocal _position;
+    private _source = createVehicleLocal ["#particlesource", _position, [], 0, "can_collide"];
+    _source setVehiclePosition [[_position#0,_position#1], [], 0 , "can_collide"];
     private _particleShape = ["\A3\data_f\ParticleEffects\Universal\Refract.p3d", "\A3\data_f\ParticleEffects\Universal\Smoke.p3d"] select (KTWK_HZ_debug == 2);
     _source setParticleParams [
         [_particleShape, 1, 0, 1],
-        "", "Billboard", 1, 0.5, [0, 0, 0], [0, 0, 0], 0, 10, 7.9, 0.01,
+        "", "Billboard", 1, 0.5, [0, 0, 0], [0, 0, 0], 0, 0.8, 1, 0,
         [(_size select 0), 0.5, (_size select 2)], [[1, 1, 1, 0.06], [1, 1, 1, 0.12], [1, 1, 1, 0.06]], [0.08, 0.1, 0.12], 0.1, 0.05, "", "", "", 0, false, 0
     ];
-    _source setParticleRandom [0, [0, 0.25, 0], [0, 0, 0], 0, 0.1, [0, 0, 0, 0.06], 0, 0];
+    _source setParticleRandom [0, [0, 0, 0], [0, 0, 0], 0, 0.1, [0, 0, 0, 0.06], 0, 0];
     _source setDropInterval 0.1;
     _source
 };
@@ -107,7 +108,7 @@ KTWK_fnc_HZ_updateHeatHaze = {
     private _eyePosATL = ASLToATL (eyePos _vehicle); 
     private _eyeDir = getCameraViewDirection _vehicle; 
     private _hazePosition = _eyePosATL vectorAdd (_eyeDir vectorMultiply KTWK_HZ_distance); 
-    _hazePosition set [2, 0]; // Set to ground level 
+    _hazePosition set [2, (getPosATL _vehicle)#2]; // Set to ground level 
     _source setPosATL _hazePosition; 
      
     private _particleShape = ["\A3\data_f\ParticleEffects\Universal\Refract.p3d", "\A3\data_f\ParticleEffects\Universal\Smoke.p3d"] select (KTWK_HZ_debug == 2); 
