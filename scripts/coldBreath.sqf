@@ -35,7 +35,8 @@ KTWK_fnc_CB_gearCoversMouth = {
         "mask",
         "respirator",
         // "shemag",
-        "bandana"
+        "bandana",
+        "facewrap"
         ];
     
     private _keywordCheck = {
@@ -307,7 +308,7 @@ KTWK_fnc_CB_effectIntensity = {
         _tempFactor + (_humidityFactor * (1 - _tempFactor))
     };
     
-    (_effectIntensity * (1 - (rain * 0.2))) max 0 min 1
+    (_effectIntensity * (1 - (rain * ([0, 0.2] select (!(rainParams params ["_snow"])))))) max 0 min 1
 };
 
 // Function to process a single unit

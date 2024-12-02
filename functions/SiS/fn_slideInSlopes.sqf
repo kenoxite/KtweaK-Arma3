@@ -27,7 +27,7 @@ private _isSureFall = (_absGrad > 30 && _speed > 4) || (_absGrad > 20 && _speed 
 if (!_isSureFall) exitWith {false};
 
 // Calculate the unit's balance, factoring in rain
-private _rainEffect = rain * 0.8;
+private _rainEffect = [0, rain * 0.8] select (rain > 0 && !(rainParams params ["_snow"]));
 private _balance = if (isStaminaEnabled _unit) then {
     (((1 - (getFatigue _unit)) - load _unit) max 0) + (skill _unit / 2) - _rainEffect
 } else {

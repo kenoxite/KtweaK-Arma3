@@ -2,7 +2,6 @@
 // by kenoxite
 
 #define DRYRATE 10
-#define MAXGRADIENT 15
 
 KTWK_puddles = [];
 KTWK_wasRaining = false;
@@ -24,7 +23,7 @@ KTWK_fnc_spawnPuddles = {
             
             // Check if position is not under roof, not too steep, and not underwater
             if (!([AGLToASL _randomPos] call KTWK_fnc_underRoof) &&
-                ([_randomPos] call KTWK_fnc_checkSlope < MAXGRADIENT) &&
+                ([_randomPos] call KTWK_fnc_checkSlope < 15) &&
                 (getTerrainHeightASL _randomPos > 0)) then {
                 _validPosition = true;
             };
@@ -83,7 +82,7 @@ KTWK_fnc_managePuddles = {
     while {true} do {
         if (KTWK_WP_opt_enabled) then {
             call {
-                if (rain > 0) exitWith {
+                if (rain > 0 && {!(rainParams params ["_snow"])}) exitWith {
                     _lastPos = KTWK_player getVariable ["KTWK_lastPos", getpos vehicle KTWK_player];
                     // [vehicle KTWK_player, 10, 5] call KTWK_fnc_spawnPuddles;
                     if (_firstCheck || {_lastPos distance2D (getpos vehicle KTWK_player) > (KTWK_WP_opt_maxRange / 2)}) then {
@@ -102,6 +101,7 @@ KTWK_fnc_managePuddles = {
                 if (count KTWK_puddles > 0) then {
                     {deleteVehicle _X} forEach KTWK_puddles;
                     KTWK_puddles = [];
+                    _firstCheck = true;
                 };
             };
         } else {
