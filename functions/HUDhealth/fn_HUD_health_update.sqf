@@ -50,8 +50,8 @@ if (KTWK_aceMedical) then {
 private _fnc_dmgColor = {
     params ["_dmg", "_healthColors"];
     private _healthStatus = call {
-        if (_dmg <= 0.2) exitWith { 0 };
-        if (_dmg > 0.2 && _dmg <= 0.5) exitWith { 1 };
+        if (_dmg <= 0.25) exitWith { 0 };
+        if (_dmg > 0.25 && _dmg <= 0.5) exitWith { 1 };
         if (_dmg > 0.5 && _dmg <= 0.7) exitWith { 2 };
         if (_dmg > 0.7) exitWith { 3 };
     };

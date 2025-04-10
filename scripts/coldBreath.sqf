@@ -1,6 +1,6 @@
 /*
     Cold Breath
-    by kenoxite & Perplexity AI (https://www.perplexity.ai)
+    by kenoxite
 */
 
 // Initialize ACE variables if not present

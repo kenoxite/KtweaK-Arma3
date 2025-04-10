@@ -283,7 +283,7 @@ KTWK_scr_coldBreath = [] execVM "KtweaK\scripts\coldBreath.sqf";
 KTWK_scr_heatHaze = [] execVM "KtweaK\scripts\heatHaze.sqf";
 
 // Init - Water Puddles
-KTWK_scr_waterPuddles = [] execVM "KtweaK\scripts\waterPuddles.sqf";
+// KTWK_scr_waterPuddles = [] execVM "KtweaK\scripts\waterPuddles.sqf";
 
 // --------------------------------
 KTWK_SiS_excluded = [
