@@ -11,7 +11,7 @@ private _stance = stance _unit;
 private _animSpeed = 3;
 
 // Set sliding state
-_unit setVariable ["KTWK_isSlopeSliding", true, true];
+_unit setVariable ["KTWK_SiS_isSlopeSliding", true, true];
 
 // Apply sliding animation
 [_unit, "Acts_In_Sinkhole"] remoteExec ["switchMove", 0];
@@ -40,7 +40,7 @@ for "_i" from 0 to _recoveryTime step 0.1 do {
 
 // Exit if unit died during recovery
 if (!alive _unit) exitWith {
-    _unit setVariable ["KTWK_isSlopeSliding", false, true];
+    _unit setVariable ["KTWK_SiS_isSlopeSliding", false, true];
     false
 };
 
@@ -76,6 +76,6 @@ if (_noWpnInHand) then {
 
 // Reset animation speed and sliding state
 [_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0];
-_unit setVariable ["KTWK_isSlopeSliding", false, true];
+_unit setVariable ["KTWK_SiS_isSlopeSliding", false, true];
 
 true

@@ -14,7 +14,7 @@ private _stance = stance _unit;
 private _animSpeed = 3;
 
 // Set sliding state and apply velocity
-_unit setVariable ["KTWK_isSlopeSliding", true, true];
+_unit setVariable ["KTWK_SiS_isSlopeSliding", true, true];
 _unit setVelocityModelSpace [0, -5, 0];
 
 // Set animation speed
@@ -37,7 +37,7 @@ sleep 1;
 
 // Exit if unit died during slide
 if (!alive _unit) exitWith {
-    _unit setVariable ["KTWK_isSlopeSliding", false, true];
+    _unit setVariable ["KTWK_SiS_isSlopeSliding", false, true];
     false
 };
 
@@ -76,6 +76,6 @@ if (_finalAnim != "") then {
 };
 
 // Reset sliding state
-_unit setVariable ["KTWK_isSlopeSliding", false, true];
+_unit setVariable ["KTWK_SiS_isSlopeSliding", false, true];
 
 true

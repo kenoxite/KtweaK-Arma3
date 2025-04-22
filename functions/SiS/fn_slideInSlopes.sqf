@@ -11,7 +11,8 @@ if (
     {(count (KTWK_SiS_excluded select { _unit isKindOf _x}) > 0)} || 
     {!alive _unit} || 
     {vehicle _unit != _unit} ||
-    {_unit getVariable ["KTWK_isSlopeSliding", false]} ||
+    {_unit getVariable ["KTWK_SiS_isSlopeSliding", false]} ||
+    {time < (_unit getVariable ["KTWK_SiS_fallImmunityTime", 0])} ||
     {(getPosATL _unit)#2 >= 1} ||
     {abs speed _unit < 3}
 ) exitWith {false};
@@ -46,6 +47,9 @@ if (random 1 > _balance) then {
         sleep 2;
         deleteVehicle _emitter;
     };
+
+    // Time player will be immune from falling again
+    _unit setVariable ["KTWK_SiS_fallImmunityTime", time + random [15,30,60]];
 
     // Initiate the appropriate sliding behavior based on slope direction
     [_unit] spawn (if (_terrainGrad > 0) then {KTWK_fnc_slideUpSlope} else {KTWK_fnc_slideDownSlope});
