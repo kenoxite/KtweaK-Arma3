@@ -297,19 +297,22 @@ KTWK_fnc_CB_calculateBreathParams = {
 };
 
 // Calculate effect intensity based on atmospheric factors
+//  - While it has its basis on reality, factoring humidity just creates unrealistic scenarios in Arma due to the nonsensical temperature system that both vanilla and ACE use
 KTWK_fnc_CB_effectIntensity = {
     params ["_temp"];
-    
-    private _humidityFactor = linearConversion [0.7, 0.9, humidity, 0, 1, true];
     private _effectIntensity = call {
         if (_temp < 0) exitWith {linearConversion [0, -10, _temp, 0.7, 1, true]};
-        if (_temp > 10) exitWith {_humidityFactor * 0.3};
-        private _tempFactor = linearConversion [10, 0, _temp, 0, 1, true];
-        _tempFactor + (_humidityFactor * (1 - _tempFactor))
+        if (_temp > 10) exitWith {0};
+        linearConversion [10, 0, _temp, 0, 0.9, true]
     };
     
-    (_effectIntensity * (1 - (rain * ([0, 0.2] select (!(rainParams params ["_snow"])))))) max 0 min 1
+    if (_temp < 10) then {
+        if (random 1 > _effectIntensity) then {_effectIntensity = 0};
+    };
+    
+    (_effectIntensity max 0) min 1
 };
+
 
 // Function to process a single unit
 KTWK_fnc_CB_processUnit = {
