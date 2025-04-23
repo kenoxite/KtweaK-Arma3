@@ -302,6 +302,7 @@ KTWK_SiS_excluded = [
 [{
     KTWK_player = call KTWK_fnc_playerUnit;
 
+    // AI stop when healed
     if (!isServer) then {
         {
             if !(_x getVariable ["KTWK_handleHeal_added", false]) then {
@@ -314,12 +315,15 @@ KTWK_SiS_excluded = [
         } forEach KTWK_allInfantry;
     };
 
+    // Hide Icons without GPS
     call KTWK_fnc_GPSHideIcons;
 
+    // Slide in slopes
     if (KTWK_slideInSlopes_opt_enabled) then {
         [KTWK_player] call KTWK_fnc_slideInSlopes;
     };
 
+    // Display holsters
     if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
         [KTWK_player] call KTWK_fnc_toggleHolsterDisplay;
     };
