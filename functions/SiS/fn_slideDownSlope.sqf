@@ -25,7 +25,8 @@ _unit setVelocityModelSpace [0, _force, 0];
 playSound3D ["KtweaK\sounds\slidingDownSlope.wss", _unit];
 
 // Wait for unit to stop
-waitUntil {speed _unit <= 0};
+private _maxWait = serverTime + 5;
+waitUntil {sleep 0.1; speed _unit <= 0 || serverTime > _maxWait};
 
 // Recovery animation
 [_unit, _animSpeed] remoteExecCall ["setAnimSpeedCoef", 0];
