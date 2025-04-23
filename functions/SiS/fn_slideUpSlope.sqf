@@ -8,14 +8,15 @@ if (isNull _unit || {!local _unit} || {!alive _unit}) exitWith {false};
 if (!canSuspend) exitWith {_this spawn KTWK_fnc_slideUpSlope};
 
 // Initialize variables
-private _noWpnInHand = "snonwnon" in (animationState _unit);
+// private _noWpnInHand = "snonwnon" in (animationState _unit);
+private _noWpnInHand = currentWeapon _unit == "";
 private _lowered = weaponLowered _unit && !_noWpnInHand;
 private _stance = stance _unit;
 private _animSpeed = 3;
 
 // Set sliding state and apply velocity
 _unit setVariable ["KTWK_SiS_isSlopeSliding", true, true];
-_unit setVelocityModelSpace [0, -5, 0];
+_unit setVelocityModelSpace [0, [-5, -6] select _noWpnInHand, 0];
 
 // Set animation speed
 [_unit, _animSpeed] remoteExecCall ["setAnimSpeedCoef", 0];
@@ -23,6 +24,8 @@ _unit setVelocityModelSpace [0, -5, 0];
 // Determine initial animation
 private _wep = currentWeapon _unit;
 private _initialAnim = call {
+    if (_noWpnInHand) exitWith {"AmovPercMsprSnonWnonDf_AmovPpneMstpSnonWnonDnon"};
+    // if (_noWpnInHand) exitWith {"amovpercmstpsnonwnondnon_amovppnemstpsnonwnondnon"};
     if (_wep == primaryWeapon _unit) exitWith {"amovpercmstpsraswrfldnon_amovppnemstpsraswrfldnon"};
     if (_wep == secondaryWeapon _unit) exitWith {"amovpercmstpsraswlnrdnon_amovppnemstpsnonwnondnon"};
     if (_wep == handgunWeapon _unit) exitWith {"amovpercmstpsraswpstdnon_amovppnemstpsraswpstdnon"};
@@ -47,7 +50,8 @@ if (!alive _unit) exitWith {
 // Determine final animation
 private _finalAnim = call {
     if (_stance == "STAND") exitWith {
-        if (_noWpnInHand) exitWith {"amovpercmstpsnonwnondnon"};
+        // if (_noWpnInHand) exitWith {"amovpercmstpsnonwnondnon"};
+        if (_noWpnInHand) exitWith {"amovppnemstpsnonwnondnon_amovpercmstpsnonwnondnon"};
         if (_wep == primaryWeapon _unit) exitWith {
             if (_lowered) then {"AmovPercMstpSlowWrflDnon"} else {"AmovPercMstpsrasWrflDnon"}
         };
@@ -57,7 +61,8 @@ private _finalAnim = call {
         ""
     };
     if (_stance == "CROUCH") exitWith {
-        if (_noWpnInHand) exitWith {"amovpknlmstpsnonwnondnon"};
+        // if (_noWpnInHand) exitWith {"amovpknlmstpsnonwnondnon"};
+        if (_noWpnInHand) exitWith {"amovppnemstpsnonwnondnon_amovpknlmstpsnonwnondnon"};
         if (_wep == primaryWeapon _unit) exitWith {
             if (_lowered) then {"AmovPknlMstpSlowWrflDnon"} else {"AmovPknlMstpsrasWrflDnon"}
         };
