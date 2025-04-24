@@ -52,19 +52,34 @@ KTWK_fnc_CB_gearCoversMouth = {
     _result
 };
 
+// Valid nearby units check
+KTWK_fnc_CB_nearUnitsValidCheck = {
+    params ["_unit", "_refPos", "_firstPerson", "_detectionDistance"];
+
+    private _isOnFoot = isNull objectParent _unit;
+    private _posASL = getPosASL _unit;
+    private _insideVehicle = !_isOnFoot && !isTurnedOut _unit && count (lineIntersectsWith [ _posASL vectorAdd [0, 0, -0.07], _posASL vectorAdd [0, 0, 1.5], _unit]) > 0;
+
+    if (!alive _unit) exitWith {false};
+    if (underwater _unit) exitWith {false};
+    if (_insideVehicle) exitWith {false};
+    if ([_unit] call KTWK_fnc_inBuilding) exitWith {false};
+    if ([_unit] call KTWK_fnc_CB_gearCoversMouth) exitWith {false};
+    if (_unit distance _refPos > _detectionDistance) exitWith {false};
+    if (_unit != KTWK_player) exitWith {
+        if (!_firstPerson) exitWith {true};
+        if (_firstPerson && {[_unit, KTWK_player] call KTWK_fnc_inFOV}) exitWith {true};
+        false
+    };
+    true
+};
+
 // Update nearby units
 KTWK_fnc_CB_nearUnits = {
     params ["_detectionDistance"];
     private _refPos = positionCameraToWorld [0,0,0];
     private _firstPerson = (positionCameraToWorld [0,0,0] distance (vehicle KTWK_player)) < 2;
-    KTWK_allInfantry select {
-        (_x == KTWK_player ||
-        {_x distance _refPos <= _detectionDistance && {!_firstPerson || (_firstPerson && {[_x, KTWK_player] call KTWK_fnc_inFOV})}}) &&
-        {alive _x} && 
-        {!(underwater _x)} && 
-        {!([_x] call KTWK_fnc_inBuilding)} && 
-        {!([_x] call KTWK_fnc_CB_gearCoversMouth)}
-    };
+    KTWK_allInfantry select { [_x, _refPos, _firstPerson, _detectionDistance] call KTWK_fnc_CB_nearUnitsValidCheck };
 };
 
 // Get global temperature
