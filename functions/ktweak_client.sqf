@@ -300,7 +300,7 @@ KTWK_SiS_excluded = [
 // --------------------------------
 // Loop
 [{
-    KTWK_player = call KTWK_fnc_playerUnit;
+    KTWK_player = call CBA_fnc_currentUnit;
 
     // AI stop when healed
     if (!isServer) then {

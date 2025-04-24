@@ -9,7 +9,7 @@ if (count _fog > 0) then {
 
 waituntil { !isNull player };
 
-private _player = call KTWK_fnc_playerUnit;
+private _player = call CBA_fnc_currentUnit;
 _player setVariable ["KTWK_isUnderwater", false];
 _player setVariable ["KTWK_inBuilding", false];
 _player setVariable ["KTWK_inVehicle", false];
@@ -34,7 +34,7 @@ while {KTWK_HFX_opt_enabled} do {
 
     private _visualFXMod = [1, 0.5, 0.25] select KTWK_HFX_opt_intensity - 1;
     private _audioFXMod = [1.5, 1, 0.75] select KTWK_HFX_opt_intensity - 1;
-    private _player = call KTWK_fnc_playerUnit;
+    private _player = call CBA_fnc_currentUnit;
     private _fogDensityLast = _player getVariable ["KTWK_fogDensity", 0];
     private _insideVehicleLast = _player getVariable ["KTWK_inVehicle", false];
     private _inBuildingLast = _player getVariable ["KTWK_inBuilding", false];
@@ -44,9 +44,9 @@ while {KTWK_HFX_opt_enabled} do {
     private _alt = (getPosASL (vehicle _player)) #2;
     private _inBuilding = insideBuilding _player > 0.9;
     private _isOnFoot = isNull objectParent _player;
-    private _thridPerson = cameraView == "EXTERNAL" || cameraView == "GROUP";
-    private _insideVehicle = !_isOnFoot && !isTurnedOut _player && !_thridPerson && cameraView != "GUNNER" && count (lineIntersectsWith [ (getPosASL _player) vectorAdd [0, 0, -0.07], (getPosASL _player) vectorAdd [0, 0, 3], _player]) > 0;
-    private _altitude = [_eyePos, _alt] select _thridPerson;
+    private _thirdPerson = cameraView == "EXTERNAL" || cameraView == "GROUP";
+    private _insideVehicle = !_isOnFoot && !isTurnedOut _player && !_thirdPerson && cameraView != "GUNNER" && count (lineIntersectsWith [ (getPosASL _player) vectorAdd [0, 0, -0.07], (getPosASL _player) vectorAdd [0, 0, 3], _player]) > 0;
+    private _altitude = [_eyePos, _alt] select _thirdPerson;
     private _fogParams = fogParams;
     private _fogValue = _fogParams #0;
     private _fogDecay = _fogParams #1;

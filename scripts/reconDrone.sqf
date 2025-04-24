@@ -7,7 +7,7 @@
 // All this can be copy/pasted in the console, in the init.sqf (if SP) or initplayerlocal.sqf (if MP)
 scriptName "Recon Drone";
 
-KTWK_player = call KTWK_fnc_playerUnit;
+KTWK_player = call CBA_fnc_currentUnit;
 KTWK_GRdrone_lastUse = time-KTWK_GRdrone_opt_reuseTime; // Time since last used
 
 // Add player action to the menu
@@ -24,7 +24,7 @@ KTWK_GRdrone_PFH = [{
         }, _this] call CBA_fnc_waitUntilAndExecute;
     } else {
         private _playerUnit = KTWK_player;
-        KTWK_player = [call KTWK_fnc_playerUnit, player] select (call KTWK_fnc_GRdrone_playerInUAV);
+        KTWK_player = [call CBA_fnc_currentUnit, player] select (call KTWK_fnc_GRdrone_playerInUAV);
         if (KTWK_player != _playerUnit) then {
             [_handle] call CBA_fnc_removePerFrameHandler;
         } else {

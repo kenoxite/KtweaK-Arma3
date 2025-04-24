@@ -25,7 +25,7 @@ _ctrl ctrlCommit 0;
 // GLOBAL VARS
 KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha;
 KTWK_HUD_health_currentAlpha = 0;
-KTWK_player = call KTWK_fnc_playerUnit;
+KTWK_player = call CBA_fnc_currentUnit;
 KTWK_HUD_health_invOpened = false;
 KTWK_HUD_health_bodyParts = call {
     if (KTWK_aceMedical) exitWith {
@@ -109,7 +109,7 @@ KTWK_HUD_health_PFH = [{
             [_handle] call CBA_fnc_removePerFrameHandler;
         };
         private _isAlive = alive KTWK_player;
-        if (KTWK_player != call KTWK_fnc_playerUnit || !_isAlive) then {
+        if (KTWK_player != call CBA_fnc_currentUnit || !_isAlive) then {
             [_display, _idcs, false] call KTWK_fnc_HUD_health_drawHUD;
             KTWK_player removeEventHandler ["InventoryOpened", KTWK_HUD_health_EH_InvOpened];
             if (!_isAlive) then {

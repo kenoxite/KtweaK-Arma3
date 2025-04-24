@@ -30,7 +30,7 @@ if (isNull _display) exitwith {diag_log "KtweaK: HUD health display not found!"}
 
 if (isNil {KTWK_HUD_health_alpha}) then { KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha; };
 if (isNil {KTWK_HUD_health_currentAlpha}) then { KTWK_HUD_health_currentAlpha = 0; };
-if (isNil {KTWK_player}) then { KTWK_player = call KTWK_fnc_playerUnit; };
+if (isNil {KTWK_player}) then { KTWK_player = call CBA_fnc_currentUnit; };
 if (isNil {KTWK_HUD_health_dmgTracker}) then { KTWK_HUD_health_dmgTracker = []; };
 
 private ["_bodyPartDamage", "_damageThreshold", "_bodyPartBloodLoss"];

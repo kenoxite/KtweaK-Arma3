@@ -1,6 +1,6 @@
 // Display full HUD while in inventory
 params [["_unit", objNull]];
-if (isNull _unit) then { _unit = call KTWK_fnc_playerUnit };
+if (isNull _unit) then { _unit = call CBA_fnc_currentUnit };
 KTWK_HUD_health_EH_InvOpened = _unit addEventHandler ["InventoryOpened", {
     if (!KTWK_HUD_health_opt_enabled || !KTWK_HUD_health_opt_showInv) exitwith {false};
     KTWK_HUD_health_invOpened = true;

@@ -1,6 +1,6 @@
 // Spawn the drone
 
-if (isNil {KTWK_player}) then { KTWK_player = call KTWK_fnc_playerUnit; };
+if (isNil {KTWK_player}) then { KTWK_player = call CBA_fnc_currentUnit; };
     
 private _playerPos = getPos vehicle KTWK_player;
 private _UAV = createVehicle ["B_UAV_01_F", vehicle KTWK_player getRelPos [2, 0], [], 0, "NONE"];
