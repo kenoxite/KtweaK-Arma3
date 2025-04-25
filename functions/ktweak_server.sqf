@@ -32,6 +32,8 @@ KTWK_aceWeather = isClass(_cftPatches >> "ace_weather");
 publicVariable "KTWK_aceWeather";
 KTWK_aceFatigue = isClass(_cftPatches >> "ace_advanced_fatigue");
 publicVariable "KTWK_aceFatigue";
+KTWK_aceInteraction = isClass(_cftPatches >> "ace_interaction");
+publicVariable "KTWK_aceInteraction";
 
 KTWK_WBKDeath = isClass(_cftPatches >> "WBK_DyingAnimationsMod");
 publicVariable "KTWK_WBKDeath";
@@ -94,17 +96,17 @@ if (KTWK_WBKHeadlamps) then {
 
 // AI stop when healed
 ["CAManBase", "HandleHeal", {
-    if (!KTWK_SFH_opt_enabled) exitwith {};
+    if (!KTWK_SFH_opt_enabled) exitWith {};
     _this remoteExec ["KTWK_fnc_AIstopForHealing", _this#0, true];
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
 // ACE Map Flashlights
 if (KTWK_aceFlashlights) then {
     ["CAManBase", "init", {
-        if (!KTWK_ACEfl_opt_enabled) exitwith {};
+        if (!KTWK_ACEfl_opt_enabled) exitWith {false};
         params ["_unit"];
-        if (!alive _unit) exitwith {};
-        if !([_unit] call KTWK_fnc_isHuman) exitWith {};
+        if (!alive _unit) exitWith {false};
+        if !([_unit] call KTWK_fnc_isHuman) exitWith {false};
         private _fl = [
             "ACE_Flashlight_MX991",
             "ACE_Flashlight_XL50",
@@ -114,7 +116,7 @@ if (KTWK_aceFlashlights) then {
         private _hasFl = false;
         private _unitItems = itemsWithMagazines _unit;
         {if (_x in _unitItems) then { _hasFl = true }} forEach _fl;
-        if (_hasFl) exitwith {};
+        if (_hasFl) exitWith {false};
         // Give appropriate flashlight based on settings
         private _side = side _unit;
         private _item = "";
@@ -154,13 +156,52 @@ if (KTWK_aceFlashlights) then {
 
 // Add Lights to AI
 ["CAManBase", "init", {
-    if (!KTWK_AIlights_opt_enabled) exitwith {};
-    if (KTWK_AIlights_opt_onlyDark && (!(call KTWK_fnc_isNight) || (call KTWK_fnc_isNight && call KTWK_fnc_beforeDawn))) exitwith {};
+    if (!KTWK_AIlights_opt_enabled) exitWith {};
+    if (KTWK_AIlights_opt_onlyDark && (!(call KTWK_fnc_isNight) || (call KTWK_fnc_isNight && call KTWK_fnc_beforeDawn))) exitWith {};
     params ["_unit"];
     if !([_unit] call KTWK_fnc_isHuman) exitWith {};
-    if (!alive _unit) exitwith {};
+    if (!alive _unit) exitWith {};
     [_unit] spawn KTWK_fnc_addLightToAI;
 }, true, [], true] call CBA_fnc_addClassEventHandler;
+
+// ACE Detonators and defusers
+if (KTWK_aceInteraction) then {
+    ["CAManBase", "init", {
+        if (!KTWK_ACEexpl_opt_enabled) exitWith {false};
+        params ["_unit"];
+        if (!alive _unit) exitWith {false};
+        if !([_unit] call KTWK_fnc_isHuman) exitWith {false};
+        private _unitItems = itemsWithMagazines _unit;
+        // Check for detonators
+        private _det = [
+            "ACE_Clacker",
+            "ACE_Cellphone"
+            ];
+        private _hasDet = false;
+        {if (_x in _unitItems) then { _hasDet = true }} forEach _det;
+        if (_hasDet) exitWith {false};
+        // Check if unit has vanilla explosives that can use detonator
+        private _expl = [
+            "ClaymoreDirectionalMine_Remote_Mag",
+            "DemoCharge_Remote_Mag",
+            "SatchelCharge_Remote_Mag",
+            "SLAMDirectionalMine_Wire_Mag",
+            "IEDLandBig_Remote_Mag",
+            "IEDUrbanBig_Remote_Mag",
+            "IEDLandSmall_Remote_Mag",
+            "IEDUrbanSmall_Remote_Mag"
+        ];
+        private _hasExpl = false;
+        {if (_x in _unitItems) then { _hasExpl = true }} forEach _expl;
+        if (_hasExpl) then {
+            _unit addItem "ACE_Clacker";
+        };
+        // Check if unit can defuse and doesn't have defuser
+        if !(_unit getUnitTrait "explosiveSpecialist") exitwith {false};
+        if ("ACE_DefusalKit" in _unitItems) exitwith {false};
+        _unit addItem "ACE_DefusalKit";
+    }, true, [], true] call CBA_fnc_addClassEventHandler;
+};
 
 // --------------------------------
 addMissionEventHandler ["PlayerConnected", {

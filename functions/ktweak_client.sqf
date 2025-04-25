@@ -55,6 +55,10 @@ if (isNil "KTWK_aceFatigue") then
 {
     KTWK_aceFatigue = isClass(_cftPatches >> "ace_advanced_fatigue");
 };
+if (isNil "KTWK_aceInteraction") then
+{
+    KTWK_aceInteraction = isClass(_cftPatches >> "ace_interaction");
+};
 
 if (isNil "KTWK_WBKDeath") then
 {
