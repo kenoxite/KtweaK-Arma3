@@ -3,7 +3,7 @@
 // by kenoxite
 // -----------------------------------------------
 
-if (!isServer) exitwith {false};
+if (!isServer) exitWith {false};
 
 KTWK_allInfantry = [];
 publicVariable "KTWK_allInfantry";
@@ -69,7 +69,7 @@ if (KTWK_WBKHeadlamps) then {
 // AI auto enable IR laser
 ["CAManBase", "fired", {
     params ["_unit"];
-    if (!KTWK_laser_opt_enabled || {currentVisionMode _unit != 1}) exitwith {};
+    if (!KTWK_laser_opt_enabled || {currentVisionMode _unit != 1}) exitWith {};
     if !([_unit] call KTWK_fnc_isHuman) exitWith {};
     // Enable IR laser
     _unit enableIRLasers true;
