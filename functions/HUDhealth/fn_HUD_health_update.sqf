@@ -135,27 +135,31 @@ private ["_currentDamageArr", "_ctrl", "_bloodLoss", "_damage", "_bodyPartColor"
 _damage = damage KTWK_player;
 _ctrl = _display displayCtrl _idc;
 if (isNil {_ctrl}) exitwith {diag_log "KtweaK: HUD health dialog control not found!"};
+if (!KTWK_aceMedical) then {
+    _color = + ([_damage, _healthColors] call _fnc_dmgColor);
+    // Flash when damaged or healed
+    private _index = (count KTWK_HUD_health_dmgTracker) - 1;
+    _currentDamageArr = (KTWK_HUD_health_dmgTracker #_index) params ["_currentDamage", "_damageAlpha"];
+    if (_damage isEqualTo _currentDamage) then {
+        // Fade out back to normal alpha
+        KTWK_HUD_health_currentAlpha = (_damageAlpha - 0.005) max KTWK_HUD_health_alpha;
+    } else {
+        KTWK_HUD_health_currentAlpha = 1;
+    };
 
-_color = + ([_damage, _healthColors] call _fnc_dmgColor);
-// Flash when damaged or healed
-private _index = (count KTWK_HUD_health_dmgTracker) - 1;
-_currentDamageArr = (KTWK_HUD_health_dmgTracker #_index) params ["_currentDamage", "_damageAlpha"];
-if (_damage isEqualTo _currentDamage) then {
-    // Fade out back to normal alpha
-    KTWK_HUD_health_currentAlpha = (_damageAlpha - 0.005) max KTWK_HUD_health_alpha;
+    // Make it visible while in IMS melee mode
+    if ([KTWK_player] call KTWK_fnc_inMelee) then {
+        KTWK_HUD_health_currentAlpha = KTWK_HUD_health_currentAlpha max 0.5;
+    };
+
+    _color pushBack KTWK_HUD_health_currentAlpha;
+    _ctrl ctrlSetTextColor _color;
+
+    KTWK_HUD_health_dmgTracker set [_index, [_damage, KTWK_HUD_health_currentAlpha]];
 } else {
-    KTWK_HUD_health_currentAlpha = 1;
+    // Hide with ace medical
+    _ctrl ctrlSetTextColor [0,0,0,0];
 };
-
-// Make it visible while in IMS melee mode
-if ([KTWK_player] call KTWK_fnc_inMelee) then {
-    KTWK_HUD_health_currentAlpha = KTWK_HUD_health_currentAlpha max 0.5;
-};
-
-_color pushBack KTWK_HUD_health_currentAlpha;
-_ctrl ctrlSetTextColor _color;
-
-KTWK_HUD_health_dmgTracker set [_index, [_damage, KTWK_HUD_health_currentAlpha]];
 
 // Outline
 private _outlineAlpha = 0;
