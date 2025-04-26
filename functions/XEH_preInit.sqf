@@ -158,7 +158,7 @@ Parameters:
 [
     "KTWK_ACEexpl_opt_enabled", 
     "CHECKBOX",
-    ["Auto-add ACE Detonators and Defusers", "If enabled, ACE explosive detonators will be added to all infantry units carrying explosives which don't have one already.\nDefusal kits will also be added to units able to defuse that don't have one already.\n"],
+    ["Auto-add ACE Clackers and Defusal Kits", "If enabled, an ACE M57 Firing Device will be added to all infantry units carrying explosives which don't have a firing device already (clackers or cellphone).\nDefusal kits will also be added to units able to defuse that don't have one already.\n"],
     ["KtweaK - Server", ""],
     [true],
     1,

@@ -164,7 +164,7 @@ if (KTWK_aceFlashlights) then {
     [_unit] spawn KTWK_fnc_addLightToAI;
 }, true, [], true] call CBA_fnc_addClassEventHandler;
 
-// ACE Detonators and defusers
+// ACE Firing Devices and Defusal Kits
 if (KTWK_aceInteraction) then {
     ["CAManBase", "init", {
         if (!KTWK_ACEexpl_opt_enabled) exitWith {false};
@@ -172,15 +172,16 @@ if (KTWK_aceInteraction) then {
         if (!alive _unit) exitWith {false};
         if !([_unit] call KTWK_fnc_isHuman) exitWith {false};
         private _unitItems = itemsWithMagazines _unit;
-        // Check for detonators
-        private _det = [
+        // Check for firing devices
+        private _fd = [
             "ACE_Clacker",
+            "ACE_M26_Clacker",
             "ACE_Cellphone"
             ];
-        private _hasDet = false;
-        {if (_x in _unitItems) then { _hasDet = true }} forEach _det;
-        if (_hasDet) exitWith {false};
-        // Check if unit has vanilla explosives that can use detonator
+        private _hasFd = false;
+        {if (_x in _unitItems) then { _hasFd = true }} forEach _fd;
+        if (_hasFd) exitWith {false};
+        // Check if unit has vanilla explosives that can use remote trigger
         private _expl = [
             "ClaymoreDirectionalMine_Remote_Mag",
             "DemoCharge_Remote_Mag",
@@ -196,7 +197,7 @@ if (KTWK_aceInteraction) then {
         if (_hasExpl) then {
             _unit addItem "ACE_Clacker";
         };
-        // Check if unit can defuse and doesn't have defuser
+        // Check if unit can defuse and doesn't have defusal kit
         if !(_unit getUnitTrait "explosiveSpecialist") exitwith {false};
         if ("ACE_DefusalKit" in _unitItems) exitwith {false};
         _unit addItem "ACE_DefusalKit";
