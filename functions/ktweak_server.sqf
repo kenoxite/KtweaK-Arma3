@@ -34,6 +34,8 @@ KTWK_aceFatigue = isClass(_cftPatches >> "ace_advanced_fatigue");
 publicVariable "KTWK_aceFatigue";
 KTWK_aceInteraction = isClass(_cftPatches >> "ace_interaction");
 publicVariable "KTWK_aceInteraction";
+KTWK_aceNightvision = isClass(_cftPatches >> "ace_nightvision");
+publicVariable "KTWK_aceNightvision";
 
 KTWK_WBKDeath = isClass(_cftPatches >> "WBK_DyingAnimationsMod");
 publicVariable "KTWK_WBKDeath";

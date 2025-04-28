@@ -59,6 +59,10 @@ if (isNil "KTWK_aceInteraction") then
 {
     KTWK_aceInteraction = isClass(_cftPatches >> "ace_interaction");
 };
+if (isNil "KTWK_aceNightvision") then
+{
+    KTWK_aceNightvision = isClass(_cftPatches >> "ace_nightvision");
+};
 
 if (isNil "KTWK_WBKDeath") then
 {
@@ -240,6 +244,17 @@ addMissionEventHandler ["TeamSwitch", {
     
     _previousUnit setVariable ["KTWK_arsenalOpened", false, true];
     _newUnit setVariable ["KTWK_arsenalOpened", false, true];
+
+    // NVG Effects
+    // _previousUnit removeEventHandler ["VisionModeChanged", KTWK_EH_VisionModeChanged];
+    // KTWK_EH_VisionModeChanged = _newUnit addEventHandler ["VisionModeChanged", {
+    //     params ["_unit", "_visionMode", "_TIindex", "_visionModePrev", "_TIindexPrev", "_vehicle", "_turret"];
+    //     if (!KTWK_NVG_opt_enabled) exitWith {
+    //         { _x ppEffectEnable false } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
+    //     };
+    //     { _x ppEffectEnable (_visionMode == 1) } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
+    // }];
+
 }];
 
 // Respawn
@@ -288,6 +303,9 @@ KTWK_scr_heatHaze = [] execVM "KtweaK\scripts\heatHaze.sqf";
 
 // Init - Water Puddles
 // KTWK_scr_waterPuddles = [] execVM "KtweaK\scripts\waterPuddles.sqf";
+
+// Init - NVG Effects
+KTWK_scr_NVG = [] execVM "KtweaK\scripts\NVG.sqf";
 
 // --------------------------------
 KTWK_SiS_excluded = [
