@@ -46,20 +46,6 @@ if (KWTK_NVG_ppBlur < 0 || {KWTK_NVG_ppColor < 0} || {KWTK_NVG_ppFilm < 0}) exit
 KWTK_NVG_ppColor ppEffectAdjust [0.6, 1.4, -0.02, [1, 1, 1, 0], [1, 1, 1, 1], [0, 0, 0, 0]];
 { _x ppEffectForceInNVG true } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
 { _x ppEffectEnable false } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
-    
-// if (KTWK_NVG_opt_enabled) then {
-//     { _x ppEffectEnable (currentVisionMode KTWK_player == 1 && isNull curatorCamera && (positionCameraToWorld [0,0,0] distance vehicle KTWK_player) < 10) } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
-// };
-
-// Vision mode EH
-// KTWK_EH_VisionModeChanged = KTWK_player addEventHandler ["VisionModeChanged", {
-//     params ["_unit", "_visionMode", "_TIindex", "_visionModePrev", "_TIindexPrev", "_vehicle", "_turret"];
-    
-//     if (!KTWK_NVG_opt_enabled) exitWith {
-//         { _x ppEffectEnable false } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
-//     };
-//     { _x ppEffectEnable (_visionMode == 1 && isNull curatorCamera && (positionCameraToWorld [0,0,0] distance vehicle KTWK_player) < 10) } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
-// }];
 
 // Change effect intensity based on zoom, type of NVG, etc
 KTWK_NVG_PFH = [{
