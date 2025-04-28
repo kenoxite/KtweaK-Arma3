@@ -378,7 +378,7 @@ KTWK_fnc_CB_processUnit = {
 KTWK_CB_nearUnits = [50] call KTWK_fnc_CB_nearUnits;
 
 // Main loop for cold breath effect
-[{
+KTWK_CB_PFH = [{
     params ["_args", "_pfhId"];
 
     if (KTWK_CB_opt_enabled) then {

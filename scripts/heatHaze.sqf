@@ -161,7 +161,7 @@ KTWK_HZ_source = objNull;
 KTWK_HZ_lastHotSurfaceCheckTime = 0;
 KTWK_HZ_lastDebugTime = 0;
 
-[{
+KTWK_HZ_PFH = [{
     params ["_args", "_pfhId"];
     _args params ["_hotSurfaceCheckInterval", "_debugInterval"];
     
