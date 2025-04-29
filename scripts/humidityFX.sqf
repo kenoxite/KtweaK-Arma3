@@ -80,6 +80,7 @@ while {KTWK_HFX_opt_enabled} do {
         if (_applyVisualFX) then {
             KTWK_HFX_fog_handle ppEffectEnable true;
             KTWK_HFX_fog_handle ppEffectAdjust [KTWK_HFX_effect];
+            KTWK_HFX_fog_handle ppEffectForceInNVG true;
             KTWK_HFX_fog_handle ppEffectCommit _delay;
         } else {
             KTWK_HFX_fog_handle ppEffectEnable false;
@@ -113,6 +114,7 @@ while {KTWK_HFX_opt_enabled} do {
             if (!isNil {KTWK_HFX_fog_handle}) then {
                 KTWK_HFX_fog_handle ppEffectEnable true;
                 KTWK_HFX_fog_handle ppEffectAdjust [KTWK_HFX_effect];
+                KTWK_HFX_fog_handle ppEffectForceInNVG true;
                 KTWK_HFX_fog_handle ppEffectCommit _delay;
             };
         } else {
