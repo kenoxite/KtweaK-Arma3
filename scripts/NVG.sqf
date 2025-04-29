@@ -21,6 +21,21 @@ KK_fnc_getZoom = {
     )
 };
 
+KTWK_fnc_NVG_zoomIntensity = {
+    params ["_unit", "_veh", "_inVehicle", "_MFD", "_weaponZoom", "_intensity"];
+    private _isAiming = cameraView == "GUNNER";
+    private _disable = _MFD && {(driver _veh == _unit || gunner _veh == _unit)} && {!_isAiming};
+    private _zoom = [call KK_fnc_getZoom, 1] select _disable;
+    private _zoomIntensityMod = call {
+        if (_disable) exitWith {1}; // Disable effect if MFD active
+        if (!_inVehicle && {_weaponZoom < 0.1} && {_isAiming}) exitWith {28}; // Using rangefinder or similar
+        if (_inVehicle && {((_veh currentvisionmode (_veh unitTurret _unit))#0) == 1} && {_isAiming}) exitWith {56}; // Using the vehicle's NV
+        if (!_inVehicle && {_zoom > 10} && {_isAiming}) exitWith {16}; // Using scope with NV on
+        9
+    };
+    _intensity * (_zoom / _zoomIntensityMod);
+};
+
 waitUntil {!isNull player};
 
 KTWK_NVG_lastWeapon = currentWeapon KTWK_player;
@@ -29,7 +44,6 @@ KTWK_NVG_lastWeaponZoom = getnumber (configfile >> "CfgWeapons" >> KTWK_NVG_last
 private _veh = vehicle KTWK_player;
 private _inVehicle = _veh != KTWK_player;
 KTWK_lastVehicle = _veh;
-KTWK_lastVehicleType = call {if (_inVehicle) exitWith {(_veh call BIS_fnc_objectType)#1}; ""};
 KTWK_lastVehicleMFD = (count ([configFile >> "CfgVehicles" >> typeOf _veh >> "MFD", 0] call BIS_fnc_returnChildren)) > 0;
 
 // Initialize effects
@@ -44,8 +58,7 @@ if (KWTK_NVG_ppBlur < 0 || {KWTK_NVG_ppColor < 0} || {KWTK_NVG_ppFilm < 0}) exit
 
 // Configure effects
 KWTK_NVG_ppColor ppEffectAdjust [0.6, 1.4, -0.02, [1, 1, 1, 0], [1, 1, 1, 1], [0, 0, 0, 0]];
-{ _x ppEffectForceInNVG true } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
-{ _x ppEffectEnable false } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
+{ _x ppEffectForceInNVG true; _x ppEffectEnable false } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
 
 // Change effect intensity based on zoom, type of NVG, etc
 KTWK_NVG_PFH = [{
@@ -66,22 +79,13 @@ KTWK_NVG_PFH = [{
     private _inVehicle = _veh != KTWK_player;
     if (KTWK_lastVehicle != _veh) then {
         KTWK_lastVehicle = _veh;
-        KTWK_lastVehicleType = call {if (_inVehicle) exitWith {(_veh call BIS_fnc_objectType)#1};""};
         KTWK_lastVehicleMFD = (count ([configFile >> "CfgVehicles" >> typeOf _veh >> "MFD", 0] call BIS_fnc_returnChildren)) > 0;
     };
-    private _isAiming = cameraView == "GUNNER";
-    private _disable = _inVehicle && {KTWK_lastVehicleType == "Helicopter" || KTWK_lastVehicleType == "Plane"} && {KTWK_lastVehicleMFD} && {(driver _veh == KTWK_player || gunner _veh == KTWK_player)} && {!_isAiming};
-    private _zoom = [call KK_fnc_getZoom, 1] select _disable;
-    private _zoomIntensityMod = call {
-        if (_disable) exitWith {1}; // Disable effect for pilots to not mess with the vehicles HUD
-        if (!_inVehicle && {KTWK_NVG_lastWeaponZoom < 0.1} && {_isAiming}) exitWith {28}; // Using rangefinder or similar
-        if (_inVehicle && {((_veh currentvisionmode (_veh unitTurret KTWK_player))#0) == 1} && {_isAiming}) exitWith {56}; // Using the vehicle's NVG
-        if (!_inVehicle && {_zoom > 10} && {_isAiming}) exitWith {16}; // Using scope with NVG on
-        9
-    };
-    private _zoomIntensity = KTWK_NVG_opt_intensity * (_zoom / _zoomIntensityMod);
-    KWTK_NVG_ppBlur ppEffectAdjust [[0.25 + (_zoomIntensity * 0.35), 0.1] select _disable];
-    KWTK_NVG_ppFilm ppEffectAdjust [0.22, 1, _zoomIntensity, 0.4, 0.2, false];
+
+    private _zoomIntensity = [KTWK_player, _veh, _inVehicle, KTWK_lastVehicleMFD, KTWK_NVG_lastWeaponZoom, KTWK_NVG_opt_intensity] call KTWK_fnc_NVG_zoomIntensity;
+
+    KWTK_NVG_ppBlur ppEffectAdjust [[0.25 + (_zoomIntensity * 0.35), 0.1] select (_zoomIntensity == 1)];
+    KWTK_NVG_ppFilm ppEffectAdjust [0.22, 1, (_zoomIntensity * 3) min 8, 0.4, 0.2, 0];
     
     { _x ppEffectCommit 0 } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppFilm];
 }, 0.05, []] call CBA_fnc_addPerFrameHandler;
