@@ -8,10 +8,10 @@ if (!alive _unit) exitWith {false};
 if (isPlayer _unit && !KTWK_AIlights_opt_players) exitWith {false};
 
 private _fnc_checkFl = {
-    params ["_unit", "_currentWpn"];
+    params ["_unit", "_currentWpnType"];
     private _flashlight = call {
-        if (_currentWpn == 0) exitWith {(primaryWeaponItems _unit)#1};
-        if (_currentWpn == 2) exitWith {(handgunItems _unit)#1};
+        if (_currentWpnType == 0) exitWith {(primaryWeaponItems _unit)#1};
+        if (_currentWpnType == 2) exitWith {(handgunItems _unit)#1};
         ""
     };
     !isNil "_flashlight" && {_flashlight != ""}
@@ -23,14 +23,52 @@ if (!_hasNVG && {KTWK_AIlights_opt_NVGinv}) then {
     _hasNVG = [_unit] call KTWK_fnc_NVGcheckInv;
 };
 
-private _currentWpn = call {
-    if (currentWeapon _unit == primaryWeapon _unit) exitwith {0};
-    if (currentWeapon _unit == handgunWeapon _unit) exitwith {2};
+private _currentWpn = currentWeapon _unit;
+private _currentWpnType = call {
+    if (_currentWpn == primaryWeapon _unit) exitwith {0};
+    if (_currentWpn == handgunWeapon _unit) exitwith {2};
     0
 };
-private _hasWepLights = [_unit, _currentWpn] call _fnc_checkFl;
+private _hasWepLights = [_unit, _currentWpnType] call _fnc_checkFl;
 
-private _hasHeadlamp = KTWK_WBKHeadlamps && {"WBK_HeadLampItem" in (items _unit)};
+private _opt_headlampType = KTWK_AIlights_opt_headlampType;
+private _opt_allowHandFL = KTWK_AIlights_opt_allowHandFL;
+private _unitItems = items _unit;
+private _hasHeadlamp = false;
+private [
+    "_WBKheadlamps",
+    "_WBKshoulderFl",
+    "_WBKlanterns",
+    "_WBKhandfl",
+    "_allWBKFlashlights"
+];
+if (_opt_headlampType > 0) then {
+    _WBKheadlamps = [
+        "WBK_HeadLampItem",
+        "WBK_HeadLampItem_Long",
+        "WBK_HeadLampItem_Narrow",
+        "WBK_HeadLampItem_Double"
+    ];
+    _WBKshoulderFl = [
+        "WBK_ShoulderLampItem_Regular",
+        "WBK_ShoulderLampItem_Strong",
+        "WBK_ShoulderLampItem_Weak"
+    ];
+    _WBKlanterns = [
+        "WBK_LampItem_Black",
+        "WBK_LampItem_Blue",
+        "WBK_LampItem_Green",
+        "WBK_LampItem_Red"
+    ];
+    _WBKhandfl = [
+        "WBK_HandFlashlight",
+        "WBK_HandFlashlight_Strong",
+        "WBK_HandFlashlight_Weak"
+    ];
+    _allWBKFlashlights = _WBKheadlamps + _WBKshoulderFl + _WBKlanterns + _WBKhandfl;
+    _hasHeadlamp = KTWK_WBKHeadlamps && {count (_unitItems arrayIntersect _allWBKFlashlights) > 0};
+};
+
 if (_hasNVG || (_hasWepLights && !KTWK_WBKHeadlamps) || _hasHeadlamp) exitWith {
     if (_hasWepLights && !_hasNVG && !_hasHeadlamp) then {
         // Force activation
@@ -104,9 +142,37 @@ private _knownFlashlights_pistol = [
     "rhsusf_acc_wmx",
     "rhsusf_acc_wmx_bk"
     ];
+
 call {
-    if (KTWK_WBKHeadlamps && KTWK_AIlights_opt_headlamps) exitWith {_unit addItem "WBK_HeadLampItem"};
-    if (_currentWpn == 0) exitWith {
+    // Add WBK lights
+    if (KTWK_WBKHeadlamps && _opt_headlampType > 0) exitWith {
+        // Add hand held fl
+        if (_opt_allowHandFL > 0 && {_currentWpn == "" || _currentWpn == handgunWeapon _unit}) exitwith {
+            if (_opt_allowHandFL < 4) exitwith {
+                _unit addItem (_WBKhandfl select (_opt_allowHandFL - 1));
+            };
+            _unit addItem (selectRandom _WBKhandfl);
+        };
+        // Add other types based on preference
+        if (_opt_headlampType < 12) exitwith {
+           _unit addItem (_allWBKFlashlights select (_opt_headlampType - 1));
+        };
+        if (_opt_headlampType == 12) exitwith {
+           _unit addItem (selectRandom _WBKheadlamps);
+        };
+        if (_opt_headlampType == 13) exitwith {
+           _unit addItem (selectRandom _WBKshoulderFl);
+        };
+        if (_opt_headlampType == 14) exitwith {
+           _unit addItem (selectRandom _WBKlanterns);
+        };
+        if (_opt_headlampType == 15) exitwith {
+           _unit addItem (selectRandom (_WBKheadlamps + _WBKshoulderFl + _WBKlanterns));
+        };
+    };
+
+    // Add primary wpn light
+    if (_currentWpnType == 0) exitWith {
         {
             private _flashlight = (primaryWeaponItems _unit)#1;
             if (!isNil "_flashlight") then {
@@ -116,7 +182,8 @@ call {
             };
         } forEach _knownFlashlights;
     };
-    if (_currentWpn == 2) exitWith {
+    // Add handgun light
+    if (_currentWpnType == 2) exitWith {
         {
             private _flashlight = (handgunItems _unit)#1;
             if (!isNil "_flashlight") then {

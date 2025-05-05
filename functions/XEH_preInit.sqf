@@ -554,19 +554,9 @@ Parameters:
 [
     "KTWK_AIlights_opt_players", 
     "CHECKBOX",
-    ["Add Lights to Players", "If enabled, player units without NVGs, weapon lights or headlamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
+    ["Add Lights to Players", "If enabled, player units without NVGs, weapon lights or head lamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
     [false],
-    1,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "KTWK_AIlights_opt_headlamps", 
-    "CHECKBOX",
-    ["Distribute headlamps", "If disabled, only flashlights will be distributed instead of headlamps.\n"],
-    ["KtweaK - Server", "Add Lights to AI"],
-    [true],
     1,
     {} 
 ] call CBA_fnc_addSetting;
@@ -577,6 +567,49 @@ Parameters:
     ["Only distribute when dark", "If enabled, lights will be added to units only when it's getting dark.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
     [true],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_AIlights_opt_headlampType", 
+    "LIST",
+    ["Distribute WBK Lights", "Choose which type of light should be given to units. Choose 'None' to not distribute any.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], [
+        "None",
+        "Head Lamp (regular)",
+        "Head Lamp (long)",
+        "Head Lamp (narrow)",
+        "Head Lamp (double)",
+        "Shoulder Flashlight (regular)",
+        "Shoulder Flashlight (strong)",
+        "Shoulder Flashlight (weak)",
+        "Lantern (black)",
+        "Lantern (blue)",
+        "Lantern (green)",
+        "Lantern (red)",
+        "Random Head Lamp",
+        "Random Shoulder Flashlight",
+        "Random Lantern",
+        "Random any"
+        ], 12],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_AIlights_opt_allowHandFL", 
+    "LIST",
+    ["Distribute WBK Hand Held whenever possible", "If enabled, the selected WBK hand held flashlight will be added to unarmed units or those only equipped with handguns.\nThis option won't have any effect if no WBK lights are allowed to be distributed.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [[0,1,2,3,4], [
+        "No",
+        "Hand Held Flashlight (regular)",
+        "Hand Held Flashlight (strong)",
+        "Hand Held Flashlight (weak)",
+        "Random Hand Held Flashlight"
+        ], 4],
     1,
     {} 
 ] call CBA_fnc_addSetting;
