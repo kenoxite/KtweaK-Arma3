@@ -523,7 +523,7 @@ Parameters:
 [
     "KTWK_AIlights_opt_enabled", 
     "CHECKBOX",
-    ["Enable", "If enabled, infantry AI units without NVGs, weapon lights or headlamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
+    ["Enable", "If enabled, infantry AI units without NVGs, weapon flashlights or headlamps will be assigned a weapon light or headlamp.\nOnly weapon flashlights will be distributed unless 'WebKnight Flashlights and Headlamps' is active.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
     [true],
     1,
@@ -533,7 +533,7 @@ Parameters:
 [
     "KTWK_AIlights_opt_force", 
     "CHECKBOX",
-    ["Force Activation", "If enabled, AI units will be forced to enable their weapon lights when not using a headlamp, even when outside combat.\nIt requires to restart the mission for changes to take effect."],
+    ["Force Activation", "If enabled, AI units will be forced to enable their flashlights, even when outside combat.\nIt requires to restart the mission for changes to take effect for all units."],
     ["KtweaK - Server", "Add Lights to AI"],
     [true],
     1,
@@ -554,7 +554,7 @@ Parameters:
 [
     "KTWK_AIlights_opt_players", 
     "CHECKBOX",
-    ["Add Lights to Players", "If enabled, player units without NVGs, weapon lights or head lamps will be assigned a weapon light or headlamp.\nOnly weapon lights will be distributed unless 'WebKnight Flashlights and Headlamps' is installed.\n"],
+    ["Add Flashlights to Players", "If enabled, player units without NVGs, weapon flashlights or head lamps will be assigned one.\nOnly weapon flashlights will be distributed unless 'WebKnight Flashlights and Headlamps' is active.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
     [false],
     1,
@@ -564,7 +564,7 @@ Parameters:
 [
     "KTWK_AIlights_opt_onlyDark", 
     "CHECKBOX",
-    ["Only distribute when dark", "If enabled, lights will be added to units only when it's getting dark.\n"],
+    ["Only distribute when dark", "If enabled, flashlights will be added to units only when it's getting dark.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
     [true],
     1,
@@ -572,12 +572,25 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "KTWK_AIlights_opt_headlamps", 
+    "LIST",
+    ["Distribute WBK Head Lamps", "Choose how to distribute head lamps or disable its distribution.\nOnly weapon flashlights will be distributed unless 'WebKnight Flashlights and Headlamps' is active.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [[0,1,2], [
+        "Never",
+        "Always",
+        "Only if unit can't equip flashlight"
+        ], 2],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
     "KTWK_AIlights_opt_headlampType", 
     "LIST",
-    ["Distribute WBK Lights", "Choose which type of light should be given to units. Choose 'None' to not distribute any.\n"],
+    ["Distribute WBK Lights", "Choose which type of flashlights should be given to units. Choose 'None' to not distribute any.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
-    [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15], [
-        "None",
+    [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], [
         "Head Lamp (regular)",
         "Head Lamp (long)",
         "Head Lamp (narrow)",
@@ -593,7 +606,7 @@ Parameters:
         "Random Shoulder Flashlight",
         "Random Lantern",
         "Random any"
-        ], 12],
+        ], 11],
     1,
     {} 
 ] call CBA_fnc_addSetting;
@@ -601,7 +614,7 @@ Parameters:
 [
     "KTWK_AIlights_opt_allowHandFL", 
     "LIST",
-    ["Distribute WBK Hand Held whenever possible", "If enabled, the selected WBK hand held flashlight will be added to unarmed units or those only equipped with handguns.\nThis option won't have any effect if no WBK lights are allowed to be distributed.\n"],
+    ["Distribute WBK Hand Held whenever possible", "If enabled, the selected WBK hand held flashlight will be added to unarmed units or those only equipped with handguns.\nThis option won't have any effect if no WBK flashlights are allowed to be distributed.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
     [[0,1,2,3,4], [
         "No",
