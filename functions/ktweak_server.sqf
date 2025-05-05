@@ -52,14 +52,15 @@ _cftPatches = nil;
 
 // ---------------------------------------
 // Overwrite webknight's headlamp check
+//  - ATTENTION! If this function isn't mantained up to date after any further changes to the original, it will break things
 if (KTWK_WBKHeadlamps) then {
     WBK_CreateAiHeadlampsAtNight = {
         if (!(WBK_IsAIEnableHeadlamps) || (isPlayer _this) || !([_this] call KTWK_fnc_isHuman)) exitWith {};
         while {alive _this} do {
-            waitUntil {sleep 1; !alive _this || {(call KTWK_fnc_isDuskOrDawn && (WBK_HeadlampsAndFlashlights findIf {_x in items _this} != -1) && !([_this] call KTWK_fnc_NVGcheck))}};
+            waitUntil {sleep 1; !alive _this || {(call KTWK_fnc_isDuskOrDawn && (WBK_HeadlampsAndFlashlights findIf {_x in items _this} != -1) && !([_this] call KTWK_fnc_NVGcheck) && (behaviour _this == "COMBAT" || KTWK_AIlights_opt_force))}};
             _this spawn WBK_CustomFlashlight;
             uisleep 1;
-            waitUntil {sleep 1; !alive _this || {(!call KTWK_fnc_isNight && !call KTWK_fnc_isDuskOrDawn && (WBK_HeadlampsAndFlashlights findIf {_x in items _this} != -1) && !([_this] call KTWK_fnc_NVGcheck))}};
+            waitUntil {sleep 1; !alive _this || {(!call KTWK_fnc_isNight && !call KTWK_fnc_isDuskOrDawn && (WBK_HeadlampsAndFlashlights findIf {_x in items _this} != -1) && !([_this] call KTWK_fnc_NVGcheck) && (behaviour _this != "COMBAT" && !KTWK_AIlights_opt_force))}};
             _this spawn WBK_CustomFlashlight;
             uisleep 1;
         };
