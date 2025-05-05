@@ -83,7 +83,14 @@ private _knownFlashlights = [
     "saber_light_khaki_lxWS",
     "saber_light_lush_lxWS",
     "saber_light_sand_lxWS",
-    "saber_light_snake_lxWS"
+    "saber_light_snake_lxWS",
+
+    // JCA
+    "JCA_acc_flashlight_khaki_F",
+    "JCA_acc_flashlight_sand_F",
+    "JCA_acc_flashlight_tactical_black",
+    "JCA_acc_flashlight_tactical_olive",
+    "JCA_acc_flashlight_tactical_sand"
     ];
 private _knownFlashlights_pistol = [
     "acc_flashlight_pistol",
