@@ -69,7 +69,7 @@ KTWK_NVG_PFH = [{
     };
 
     private _veh = vehicle KTWK_player;
-    { _x ppEffectEnable (currentVisionMode KTWK_player == 1 && isNull curatorCamera && (positionCameraToWorld [0,0,0] distance _veh) < 5) } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
+    { _x ppEffectEnable (currentVisionMode KTWK_player == 1 && isNull curatorCamera && (positionCameraToWorld [0,0,0] distance _veh) < 30) } forEach [KWTK_NVG_ppBlur, KWTK_NVG_ppColor, KWTK_NVG_ppFilm];
 
     if (KTWK_NVG_lastWeapon != currentWeapon KTWK_player) then {
         KTWK_NVG_lastWeapon = currentWeapon KTWK_player;
