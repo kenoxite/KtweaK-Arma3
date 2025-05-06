@@ -14,6 +14,7 @@ KTWK_GRdrone_lastUse = time-KTWK_GRdrone_opt_reuseTime; // Time since last used
 waitUntil {!isNull player && time > 1};
 
 KTWK_GRdrone_PFH = [{
+    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
     params ["_args", "_handle"];
 
     private _isAlive = alive KTWK_player;

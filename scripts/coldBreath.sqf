@@ -379,6 +379,7 @@ KTWK_CB_nearUnits = [50] call KTWK_fnc_CB_nearUnits;
 
 // Main loop for cold breath effect
 KTWK_CB_PFH = [{
+    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
     params ["_args", "_pfhId"];
 
     if (KTWK_CB_opt_enabled) then {

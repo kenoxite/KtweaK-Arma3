@@ -162,6 +162,7 @@ KTWK_HZ_lastHotSurfaceCheckTime = 0;
 KTWK_HZ_lastDebugTime = 0;
 
 KTWK_HZ_PFH = [{
+    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
     params ["_args", "_pfhId"];
     _args params ["_hotSurfaceCheckInterval", "_debugInterval"];
     

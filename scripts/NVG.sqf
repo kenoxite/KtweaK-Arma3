@@ -62,6 +62,7 @@ KWTK_NVG_ppColor ppEffectAdjust [0.6, 1.4, -0.02, [1, 1, 1, 0], [1, 1, 1, 1], [0
 
 // Change effect intensity based on zoom, type of NVG, etc
 KTWK_NVG_PFH = [{
+    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
     params ["_args", "_pfhId"];
     
     if (!KTWK_NVG_opt_enabled || {currentVisionMode KTWK_player != 1}) exitWith {
