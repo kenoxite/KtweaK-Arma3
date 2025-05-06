@@ -50,24 +50,6 @@ publicVariable "KTWK_pir";
 
 _cftPatches = nil;
 
-// ---------------------------------------
-// Overwrite webknight's headlamp check
-//  - ATTENTION! If this function isn't mantained up to date after any further changes to the original, it will break things
-if (KTWK_WBKHeadlamps) then {
-    WBK_CreateAiHeadlampsAtNight = {
-        if (!(WBK_IsAIEnableHeadlamps) || (isPlayer _this) || !([_this] call KTWK_fnc_isHuman)) exitWith {};
-        while {alive _this} do {
-            waitUntil {sleep 1; !alive _this || {(call KTWK_fnc_isDuskOrDawn && (WBK_HeadlampsAndFlashlights findIf {_x in items _this} != -1) && !([_this] call KTWK_fnc_NVGcheck) && (behaviour _this == "COMBAT" || KTWK_AIlights_opt_force))}};
-            _this spawn WBK_CustomFlashlight;
-            uisleep 1;
-            waitUntil {sleep 1; !alive _this || {(!call KTWK_fnc_isNight && !call KTWK_fnc_isDuskOrDawn && (WBK_HeadlampsAndFlashlights findIf {_x in items _this} != -1) && !([_this] call KTWK_fnc_NVGcheck) && (behaviour _this != "COMBAT" && !KTWK_AIlights_opt_force))}};
-            _this spawn WBK_CustomFlashlight;
-            uisleep 1;
-        };
-    };
-    publicVariable "WBK_CreateAiHeadlampsAtNight";
-};
-
 // -----------------------------------------------
 // AI auto enable IR laser
 ["CAManBase", "fired", {
@@ -226,6 +208,8 @@ call KTWK_fnc_brighterNight_check;
 // --------------------------------
 // Global system loop
 [{
+    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
+
     private _allUnits = allUnits;
     private _agents = agents;
 
@@ -282,4 +266,33 @@ call KTWK_fnc_brighterNight_check;
     // Brighter full moon nights
     call KTWK_fnc_brighterNight_check;
 
+    // WBK Headlamps loop alternative
+    private _dark = call KTWK_fnc_isDuskOrDawn;
+    private _dayTime = !call KTWK_fnc_isNight;
+    if (!WBK_IsAIEnableHeadlamps) then {
+        {
+            private _unit = _x;
+            if (isNil {_unit getVariable "KTWK_WBKFlOn"}) then { _unit setVariable ["KTWK_WBKFlOn", false, true]; };
+            private _fl = _unit getVariable ["KTWK_WBKFlOn", false];
+            if (!_fl 
+                && _dark 
+                && (WBK_HeadlampsAndFlashlights findIf {_x in items _unit} != -1) 
+                && !([_unit] call KTWK_fnc_NVGcheck) 
+                && (behaviour _unit == "COMBAT" || KTWK_AIlights_opt_force)
+            ) then {
+                _unit spawn WBK_CustomFlashlight;
+                _unit setVariable ["KTWK_WBKFlOn", true, true];
+            };
+            if (_fl 
+                && ( 
+                    (_dayTime && !_dark && (WBK_HeadlampsAndFlashlights findIf {_x in items _unit} != -1) && !([_unit] call KTWK_fnc_NVGcheck))
+                    || 
+                    (behaviour _unit != "COMBAT" && !KTWK_AIlights_opt_force)
+                )
+            ) then {
+                _unit spawn WBK_CustomFlashlight;
+                _unit setVariable ["KTWK_WBKFlOn", false, true];
+            };
+        } forEach (KTWK_allInfantry select {!(isPlayer _x)});
+    };
 }, 3] call CBA_fnc_addPerFrameHandler;
