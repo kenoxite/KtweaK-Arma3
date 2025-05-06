@@ -779,7 +779,7 @@ Parameters:
 [
     "KTWK_HUD_health_opt_ColorHealthy", 
     "COLOR",
-    ["Healthy color", "Color for healthy body parts.\n"],
+    ["Healthy color", "Color for undamaged body parts.\n"],
     ["KtweaK - Client", "Bodypart HUD"],
     [0.8,0.8,0.8],
     0,
