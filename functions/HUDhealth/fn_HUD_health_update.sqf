@@ -50,10 +50,11 @@ if (KTWK_aceMedical) then {
 private _fnc_dmgColor = {
     params ["_dmg", "_healthColors"];
     private _healthStatus = call {
-        if (_dmg <= 0.25) exitWith { 0 };
-        if (_dmg > 0.25 && _dmg <= 0.5) exitWith { 1 };
-        if (_dmg > 0.5 && _dmg <= 0.7) exitWith { 2 };
-        if (_dmg > 0.7) exitWith { 3 };
+        if (_dmg == 0) exitWith { 0 };
+        if (_dmg > 0 && _dmg <= 0.25) exitWith { 1 };
+        if (_dmg > 0.25 && _dmg <= 0.5) exitWith { 2 };
+        if (_dmg > 0.5 && _dmg <= 0.7) exitWith { 3 };
+        if (_dmg > 0.7) exitWith { 4 };
     };
    _healthColors #_healthStatus
 };
@@ -64,6 +65,7 @@ _ctrlIDCs deleteRange [0, 2];
 
 private _healthColors = [
     KTWK_HUD_health_opt_ColorHealthy,
+    KTWK_HUD_health_opt_ColorScuffed,
     KTWK_HUD_health_opt_ColorLightWound,
     KTWK_HUD_health_opt_ColorModerateWound,
     KTWK_HUD_health_opt_ColorSevereWound

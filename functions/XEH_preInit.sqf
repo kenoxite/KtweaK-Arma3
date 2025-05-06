@@ -781,7 +781,17 @@ Parameters:
     "COLOR",
     ["Healthy color", "Color for healthy body parts.\n"],
     ["KtweaK - Client", "Bodypart HUD"],
-    [0.5,0.5,0.5],
+    [0.8,0.8,0.8],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_HUD_health_opt_ColorScuffed", 
+    "COLOR",
+    ["Scuffed color", "Color for slightly damaged body parts.\n"],
+    ["KtweaK - Client", "Bodypart HUD"],
+    [0.65,0.6,0.65],
     0,
     {} 
 ] call CBA_fnc_addSetting;
