@@ -267,27 +267,31 @@ call KTWK_fnc_brighterNight_check;
     call KTWK_fnc_brighterNight_check;
 
     // WBK Headlamps loop alternative
-    private _dark = call KTWK_fnc_isDuskOrDawn;
-    private _dayTime = !call KTWK_fnc_isNight;
     if (!WBK_IsAIEnableHeadlamps) then {
+        private _dark = call KTWK_fnc_isDuskOrDawn;
+        private _dayTime = !call KTWK_fnc_isNight;
+        private _AIlights_opt_force = KTWK_AIlights_opt_force;
         {
             private _unit = _x;
             if (isNil {_unit getVariable "KTWK_WBKFlOn"}) then { _unit setVariable ["KTWK_WBKFlOn", false, true]; };
-            private _fl = _unit getVariable ["KTWK_WBKFlOn", false];
-            if (!_fl 
+            private _flOn = _unit getVariable ["KTWK_WBKFlOn", false];
+            private _hasNVG = [_unit] call KTWK_fnc_NVGcheck;
+            private _hasFl = (WBK_HeadlampsAndFlashlights findIf {_x in items _unit} != -1);
+            private _beh = behaviour _unit;
+            if (!_flOn 
                 && _dark 
-                && (WBK_HeadlampsAndFlashlights findIf {_x in items _unit} != -1) 
-                && !([_unit] call KTWK_fnc_NVGcheck) 
-                && (behaviour _unit == "COMBAT" || KTWK_AIlights_opt_force)
+                && _hasFl
+                && !_hasNVG 
+                && (_beh == "COMBAT" || _AIlights_opt_force)
             ) then {
                 _unit spawn WBK_CustomFlashlight;
                 _unit setVariable ["KTWK_WBKFlOn", true, true];
             };
-            if (_fl 
+            if (_flOn 
                 && ( 
-                    (_dayTime && !_dark && (WBK_HeadlampsAndFlashlights findIf {_x in items _unit} != -1) && !([_unit] call KTWK_fnc_NVGcheck))
+                    (_dayTime && !_dark && _hasFl && !_hasNVG)
                     || 
-                    (behaviour _unit != "COMBAT" && !KTWK_AIlights_opt_force)
+                    (_beh != "COMBAT" && !_AIlights_opt_force)
                 )
             ) then {
                 _unit spawn WBK_CustomFlashlight;
