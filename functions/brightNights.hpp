@@ -75,7 +75,8 @@ KTWK_BN_altAperture_narrow = [
 
 KTWK_BN_altAperture_mid = [
     "enoch",
-    "edaly_map_alpha"
+    "edaly_map_alpha",
+    "vn_khe_sanh"
 ];
 
 KTWK_BN_altAperture_wide = [
