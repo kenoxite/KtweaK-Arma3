@@ -61,9 +61,8 @@ KTWK_BN_noAperture = [
     "farabad",
     // "tem_ihantala",
     // "islapera",
-    "tem_kujari",
     // "beketov",   // only necessary with livonian lighting
-    "cam_lao_nam"
+    "tem_kujari"
 ];
 if ("swu_public_" in worldName) then {KTWK_BN_noAperture pushBack toLowerAnsi worldName};
 
@@ -76,7 +75,8 @@ KTWK_BN_altAperture_narrow = [
 KTWK_BN_altAperture_mid = [
     "enoch",
     "edaly_map_alpha",
-    "vn_khe_sanh"
+    "vn_khe_sanh",
+    "cam_lao_nam"
 ];
 
 KTWK_BN_altAperture_wide = [
