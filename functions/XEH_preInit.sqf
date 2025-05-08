@@ -508,11 +508,11 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
-// BRIGHTER FULL MOON NIGHTS
+// BRIGHTER MOONLIGHT
 [
     "KTWK_BN_opt_enabled", 
     "LIST",
-    ["Brighter Full Moon Nights", "If enabled, lighting in full moon nights will be brigther.\nIt automatically works on any terrain and also in the Eden editor."],
+    ["Brighter Moonlight", "If enabled, lighting in full moon nights will be brigther.\nIt automatically works on any terrain and also in the Eden editor."],
     ["KtweaK - Server", ""],
     [[0,1,2], ["Disable", "Bright", "Brighter"], 1],
     1,
@@ -791,7 +791,7 @@ Parameters:
     "COLOR",
     ["Scuffed color", "Color for slightly damaged body parts.\n"],
     ["KtweaK - Client", "Bodypart HUD"],
-    [0.65,0.6,0.65],
+    [0.75,0.6,0.75],
     0,
     {} 
 ] call CBA_fnc_addSetting;
