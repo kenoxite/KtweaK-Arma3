@@ -29,6 +29,12 @@ private _maxWait = serverTime + 5;
 waitUntil {sleep 0.1; speed _unit <= 0 || serverTime > _maxWait};
 
 // Recovery animation
+    // - Remove player from SOG AI fast movers array
+    private _inSOGarray = false;
+    if (!isNil {jboy_FastMovers}) then {
+        _inSOGarray = SQFB_player in jboy_FastMovers;
+        jboy_FastMovers = jboy_FastMovers - [SQFB_player];
+    };
 [_unit, _animSpeed] remoteExecCall ["setAnimSpeedCoef", 0];
 [_unit, "Acts_Getting_Up_Player"] remoteExec ["switchMove", 0];
 
@@ -78,5 +84,10 @@ if (_noWpnInHand) then {
 // Reset animation speed and sliding state
 [_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0];
 _unit setVariable ["KTWK_SiS_isSlopeSliding", false, true];
+
+    // - Add player back to SOG AI fast movers array
+    if (!isNil {jboy_FastMovers} && {_inSOGarray}) then {
+        jboy_FastMovers pushBack SQFB_player;
+    };
 
 true
