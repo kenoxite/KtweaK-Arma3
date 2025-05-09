@@ -22,8 +22,8 @@ _unit setVelocityModelSpace [0, [-5, -6] select _noWpnInHand, 0];
     // - Remove player from SOG AI fast movers array
     private _inSOGarray = false;
     if (!isNil {jboy_FastMovers}) then {
-        _inSOGarray = SQFB_player in jboy_FastMovers;
-        jboy_FastMovers = jboy_FastMovers - [SQFB_player];
+        _inSOGarray = _unit in jboy_FastMovers;
+        jboy_FastMovers = jboy_FastMovers - [_unit];
     };
 [_unit, _animSpeed] remoteExecCall ["setAnimSpeedCoef", 0];
 
@@ -55,7 +55,7 @@ if (!alive _unit) exitWith {
 
     // - Add player back to SOG AI fast movers array
     if (!isNil {jboy_FastMovers} && {_inSOGarray}) then {
-        jboy_FastMovers pushBack SQFB_player;
+        jboy_FastMovers pushBack _unit;
     };
 
 // Determine final animation
