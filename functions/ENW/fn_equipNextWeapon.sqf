@@ -86,6 +86,14 @@ private _isSlotWeapon = (currentWeapon _unit) isKindOf [_baseClass, configFile >
 if (_apply) then {
     private _isNotMeleeSwap = _slot != 2 || {!([_equippedWeaponClass] call ktwk_fnc_isMeleeWeapon) && !([_nextWeaponClass] call ktwk_fnc_isMeleeWeapon)};
     if (_isNotMeleeSwap && count _equippedWeapon > 0 && _isSlotWeapon) then {
+        // Speed up animation
+            // - Remove unit from SOG AI fast movers array
+            private _inSOGarray = false;
+            if (!isNil {jboy_FastMovers}) then {
+                _inSOGarray = _unit in jboy_FastMovers;
+                jboy_FastMovers = jboy_FastMovers - [_unit];
+            };
+        [_unit, 3] remoteExecCall ["setAnimSpeedCoef", 0];
         call {
             if (_slot == 1) exitWith { [_unit, format ["AmovP%1MstpSrasWrflDnon_AmovP%1MstpSnonWnonDnon", _stanceAnim]] remoteExec ["playMoveNow", 0, _unit]; };
             if (_slot == 2 && {stance _unit != "CROUCH"}) exitWith { [_unit, format ["AmovP%1MstpSrasWpstDnon_AmovP%1MstpSnonWnonDnon", _stanceAnim]] remoteExec ["playMoveNow", 0, _unit]; };

@@ -10,9 +10,9 @@ _unit setVariable ["KTWK_swappingWeapon", true, true];
 if (canSuspend) then {
     // Wait for the previous animation to end
     sleep call {
-        if (_slot == 1) exitWith {1.5};
-        if (_slot == 2) exitWith {1};
-        if (_slot == 3) exitWith {2};
+        if (_slot == 1) exitWith {0.75};
+        if (_slot == 2) exitWith {0.5};
+        if (_slot == 3) exitWith {1.5};
     };
 };
 
@@ -71,6 +71,7 @@ call {
 
 // Unholster new weapon
 if (canSuspend) then {
+    // Can't apply speed up to the following anims, so don't bother
     call {
         if (_slot == 1) exitWith { _unit selectWeapon _primWep; };
         // if (_slot == 2) exitWith { _unit selectWeapon _hgWep; };
@@ -116,3 +117,10 @@ if (!_overflow) then {
 };
 
 _unit setVariable ["KTWK_swappingWeapon", false, true];
+
+// Restore animation speed
+[_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0];
+    // - Add unit back to SOG AI fast movers array
+    if (!isNil {jboy_FastMovers} && {_inSOGarray}) then {
+        jboy_FastMovers pushBack _unit;
+    };
