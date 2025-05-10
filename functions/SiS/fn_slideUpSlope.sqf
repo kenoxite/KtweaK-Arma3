@@ -19,7 +19,7 @@ _unit setVariable ["KTWK_SiS_isSlopeSliding", true, true];
 _unit setVelocityModelSpace [0, [-5, -6] select _noWpnInHand, 0];
 
 // Set animation speed
-    // - Remove player from SOG AI fast movers array
+    // - Remove unit from SOG AI fast movers array
     private _inSOGarray = false;
     if (!isNil {jboy_FastMovers}) then {
         _inSOGarray = _unit in jboy_FastMovers;
@@ -53,7 +53,7 @@ if (!alive _unit) exitWith {
 // Reset animation speed
 [_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0];
 
-    // - Add player back to SOG AI fast movers array
+    // - Add unit back to SOG AI fast movers array
     if (!isNil {jboy_FastMovers} && {_inSOGarray}) then {
         jboy_FastMovers pushBack _unit;
     };

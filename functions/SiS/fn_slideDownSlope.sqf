@@ -29,7 +29,7 @@ private _maxWait = serverTime + 5;
 waitUntil {sleep 0.1; speed _unit <= 0 || serverTime > _maxWait};
 
 // Recovery animation
-    // - Remove player from SOG AI fast movers array
+    // - Remove unit from SOG AI fast movers array
     private _inSOGarray = false;
     if (!isNil {jboy_FastMovers}) then {
         _inSOGarray = _unit in jboy_FastMovers;
@@ -85,7 +85,7 @@ if (_noWpnInHand) then {
 [_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0];
 _unit setVariable ["KTWK_SiS_isSlopeSliding", false, true];
 
-    // - Add player back to SOG AI fast movers array
+    // - Add unit back to SOG AI fast movers array
     if (!isNil {jboy_FastMovers} && {_inSOGarray}) then {
         jboy_FastMovers pushBack _unit;
     };
