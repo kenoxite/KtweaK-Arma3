@@ -69,14 +69,14 @@ if ("swu_public_" in worldName) then {KTWK_BN_noAperture pushBack toLowerAnsi wo
 KTWK_BN_altAperture_narrow = [
     // "vtf_korsac",
     // "vtf_lybor",
-    "rhspkl"
+    "rhspkl",
+    "cam_lao_nam"
 ];
 
 KTWK_BN_altAperture_mid = [
     "enoch",
     "edaly_map_alpha",
-    "vn_khe_sanh",
-    "cam_lao_nam"
+    "vn_khe_sanh"
 ];
 
 KTWK_BN_altAperture_wide = [
