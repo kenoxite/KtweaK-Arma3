@@ -83,6 +83,11 @@ if (isNil "KTWK_pir") then
     KTWK_pir = isClass(_cftPatches >> "PiR");
 };
 
+if (isNil "KTWK_ravage") then
+{
+    KTWK_ravage = isClass(_cftPatches >> "ravage");
+};
+
 _cftPatches = nil;
 
 // --------------------------------
@@ -195,6 +200,7 @@ addMissionEventHandler ["Loaded", {
 addMissionEventHandler ["TeamSwitch", {
     params ["_previousUnit", "_newUnit"];
 
+    // --------------------------------
     // Recon Drone
     private _actionId = _previousUnit getVariable ["KTWK_GRdrone_actionId", -1];
     if (_actionId >= 0) then {
@@ -212,6 +218,7 @@ addMissionEventHandler ["TeamSwitch", {
         player remoteControl (_this#1); // Make double sure control is restored to the player
     };
 
+    // --------------------------------
     // Equip Next Weapon
     private ["_wpns"];
     if (KTWK_ENW_opt_displayRifle) then {
@@ -245,12 +252,19 @@ addMissionEventHandler ["TeamSwitch", {
     _previousUnit setVariable ["KTWK_arsenalOpened", false, true];
     _newUnit setVariable ["KTWK_arsenalOpened", false, true];
 
+    // --------------------------------
+    // Disable ADS if unconscious
+    if (lifeState _newUnit == "INCAPACITATED" || {_newUnit getVariable ["AIS_unconscious", false]}) then {
+        KWTK_wasUnconscious = true;
+    };
 }];
 
-// Respawn
-KTWK_player addEventHandler ["Respawn", {
+// --------------------------------
+// EH - Respawn
+player addEventHandler ["Respawn", {
     params ["_unit", "_corpse"];
 
+    // --------------------------------
     // Readd recon drone action
     private _actionId = _unit getVariable ["KTWK_GRdrone_actionId", -1];
     if (_actionId >= 0) then {
@@ -266,6 +280,10 @@ KTWK_player addEventHandler ["Respawn", {
         waitUntil {scriptDone KTWK_scr_GRdrone};
         KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
     };
+
+    // --------------------------------
+    // Disable ADS if unconscious
+    KWTK_wasUnconscious = false;
 }];
 
 // --------------------------------
@@ -306,6 +324,8 @@ KTWK_SiS_excluded = [
     "OPTRE_Spartan3_Soldier_Base"
 ];
 
+KWTK_wasUnconscious = false;
+
 // --------------------------------
 // Loop
 [{
@@ -337,10 +357,22 @@ KTWK_SiS_excluded = [
     if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
         [KTWK_player] call KTWK_fnc_toggleHolsterDisplay;
     };
+
+    // Disable ADS if unconscious
+    if (lifeState KTWK_player == "INCAPACITATED" || {KTWK_player getVariable ["AIS_unconscious", false]}) then {
+        KWTK_wasUnconscious = true;
+    } else {
+        if (KWTK_wasUnconscious) then {
+            KWTK_wasUnconscious = false;
+            if (KTWK_opt_noUnconADS) then {
+                KTWK_player switchCamera "internal";
+            };
+        };
+    };
 }, 1] call CBA_fnc_addPerFrameHandler;
 
 // Fix for holsters blocking Ravage loot
-if (isClass (configFile >> "CfgPatches" >> "ravage")) then {
+if (KTWK_ravage) then {
     KTWK_scr_ENWRavageFix = [{
         if (!isNil {rvg_lootTarget}) then {
             // Hide holsters

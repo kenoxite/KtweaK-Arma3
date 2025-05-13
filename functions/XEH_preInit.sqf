@@ -631,6 +631,16 @@ Parameters:
 // -----------------------------------------------------------------------------------------------
 //  CLIENT
 // -----------------------------------------------------------------------------------------------
+// MISC
+[
+    "KTWK_opt_noUnconADS", 
+    "CHECKBOX",
+    ["Disable aiming when unconscious", "Disable aiming down sights (ADS) when unconscious, so you aren't still ADS or using a scope when awakening (which is unrealistic, disorienting and can kill you)."],
+    ["KtweaK - Server", ""],
+    [true],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
 
 // EQUIP NEXT WEAPON
 [
