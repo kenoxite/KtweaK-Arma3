@@ -48,6 +48,9 @@ publicVariable "KTWK_mgsr_poncho";
 KTWK_pir = isClass(_cftPatches >> "PiR");
 publicVariable "KTWK_pir";
 
+KTWK_ravage = isClass(_cftPatches >> "ravage");
+publicVariable "KTWK_ravage";
+
 _cftPatches = nil;
 
 // -----------------------------------------------
