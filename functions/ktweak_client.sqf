@@ -312,6 +312,9 @@ KTWK_scr_heatHaze = [] execVM "KtweaK\scripts\heatHaze.sqf";
 // Init - NVG Effects
 KTWK_scr_NVG = [] execVM "KtweaK\scripts\NVG.sqf";
 
+// Init - Restrict Stance
+KTWK_scr_restrictStance = [] execVM "KtweaK\scripts\restrictStance.sqf";
+
 // --------------------------------
 KTWK_SiS_excluded = [
     // TIOW
@@ -373,7 +376,7 @@ KWTK_wasUnconscious = false;
 
 // Fix for holsters blocking Ravage loot
 if (KTWK_ravage) then {
-    KTWK_scr_ENWRavageFix = [{
+    KTWK_phe_ENWRavageFix = [{
         if (!isNil {rvg_lootTarget}) then {
             // Hide holsters
             [_unit, 1, 2] call KTWK_fnc_displayHolster; 

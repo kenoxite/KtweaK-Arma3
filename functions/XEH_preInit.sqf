@@ -964,6 +964,48 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 
+// RESTRICT STANCE
+[
+    "KTWK_RS_opt_enabled", 
+    "CHECKBOX",
+    ["Enable", "If enabled, AI units in the player's group won't be allowed to stand up when moving in the selected combat modes below."],
+    ["KtweaK - Client", "Restrict Stance"],
+    [false],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_RS_opt_stealth", 
+    "CHECKBOX",
+    ["Restrict in Stealth Mode", "If enabled, AI units in the player's group won't be allowed to stand up when moving in stealth mode and will always go prone when not moving."],
+    ["KtweaK - Client", "Restrict Stance"],
+    [true],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_RS_opt_combat", 
+    "CHECKBOX",
+    ["Restrict in Combat Mode", "If enabled, AI units in the player's group won't be allowed to stand up when moving in combat mode."],
+    ["KtweaK - Client", "Restrict Stance"],
+    [true],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_RS_opt_onlyIfLeader", 
+    "CHECKBOX",
+    ["Only when player is leader", "If enabled, changes to stance will only apply as long as the player is the leader of the group."],
+    ["KtweaK - Client", "Restrict Stance"],
+    [true],
+    0,
+    {} 
+] call CBA_fnc_addSetting;
+
+
 // WATER PUDDLES
 // [
 //     "KTWK_WP_opt_enabled", 
