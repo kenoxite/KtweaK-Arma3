@@ -13,6 +13,7 @@ private _noWpnInHand = currentWeapon _unit == "";
 private _lowered = weaponLowered _unit && !_noWpnInHand;
 private _stance = stance _unit;
 private _animSpeed = 3;
+private _SOGAIactive = !isNil {jboy_FastMovers};
 
 // Set sliding state and apply velocity
 _unit setVariable ["KTWK_SiS_isSlopeSliding", true, true];
@@ -21,8 +22,7 @@ _unit setVelocityModelSpace [0, [-5, -6] select _noWpnInHand, 0];
 // Set animation speed
     // - Remove unit from SOG AI fast movers array
     private _inSOGarray = false;
-    if (!isNil {jboy_FastMovers}) then {
-        _inSOGarray = _unit in jboy_FastMovers;
+    if (_SOGAIactive) then {
         jboy_FastMovers = jboy_FastMovers - [_unit];
     };
 [_unit, _animSpeed] remoteExecCall ["setAnimSpeedCoef", 0];
@@ -54,8 +54,8 @@ if (!alive _unit) exitWith {
 [_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0];
 
     // - Add unit back to SOG AI fast movers array
-    if (!isNil {jboy_FastMovers} && {_inSOGarray}) then {
-        jboy_FastMovers pushBack _unit;
+    if (_SOGAIactive) then {
+        jboy_FastMovers pushBackUnique _unit;
     };
 
 // Determine final animation

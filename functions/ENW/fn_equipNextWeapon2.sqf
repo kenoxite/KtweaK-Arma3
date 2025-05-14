@@ -121,6 +121,6 @@ _unit setVariable ["KTWK_swappingWeapon", false, true];
 // Restore animation speed
 [_unit, 1] remoteExecCall ["setAnimSpeedCoef", 0];
     // - Add unit back to SOG AI fast movers array
-    if (!isNil {jboy_FastMovers} && {_inSOGarray}) then {
-        jboy_FastMovers pushBack _unit;
+    if (!isNil {jboy_FastMovers}) then {
+        jboy_FastMovers pushBackUnique _unit;
     };

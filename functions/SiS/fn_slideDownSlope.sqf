@@ -9,6 +9,7 @@ private _noWpnInHand = "snonwnon" in (animationState _unit);
 private _lowered = weaponLowered _unit && !_noWpnInHand;
 private _stance = stance _unit;
 private _animSpeed = 3;
+private _SOGAIactive = !isNil {jboy_FastMovers};
 
 // Set sliding state
 _unit setVariable ["KTWK_SiS_isSlopeSliding", true, true];
@@ -31,8 +32,7 @@ waitUntil {sleep 0.1; speed _unit <= 0 || serverTime > _maxWait};
 // Recovery animation
     // - Remove unit from SOG AI fast movers array
     private _inSOGarray = false;
-    if (!isNil {jboy_FastMovers}) then {
-        _inSOGarray = _unit in jboy_FastMovers;
+    if (_SOGAIactive) then {
         jboy_FastMovers = jboy_FastMovers - [_unit];
     };
 [_unit, _animSpeed] remoteExecCall ["setAnimSpeedCoef", 0];
@@ -86,8 +86,8 @@ if (_noWpnInHand) then {
 _unit setVariable ["KTWK_SiS_isSlopeSliding", false, true];
 
     // - Add unit back to SOG AI fast movers array
-    if (!isNil {jboy_FastMovers} && {_inSOGarray}) then {
-        jboy_FastMovers pushBack _unit;
+    if (_SOGAIactive) then {
+        jboy_FastMovers pushBackUnique _unit;
     };
 
 true

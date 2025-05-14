@@ -88,9 +88,7 @@ if (_apply) then {
     if (_isNotMeleeSwap && count _equippedWeapon > 0 && _isSlotWeapon) then {
         // Speed up animation
             // - Remove unit from SOG AI fast movers array
-            private _inSOGarray = false;
             if (!isNil {jboy_FastMovers}) then {
-                _inSOGarray = _unit in jboy_FastMovers;
                 jboy_FastMovers = jboy_FastMovers - [_unit];
             };
         [_unit, 3] remoteExecCall ["setAnimSpeedCoef", 0];
