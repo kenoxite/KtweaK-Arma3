@@ -121,4 +121,4 @@ KTWK_phe_restrictStance = [{
         KTWK_RS_restricted = KTWK_RS_restricted - [_unit];
     } forEach (KTWK_allInfantry select {(_x in KTWK_RS_restricted) && !(_x in _units)});
 
-}, 1] call CBA_fnc_addPerFrameHandler;
+}, 2] call CBA_fnc_addPerFrameHandler;
