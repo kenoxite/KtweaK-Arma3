@@ -88,6 +88,11 @@ if (isNil "KTWK_ravage") then
     KTWK_ravage = isClass(_cftPatches >> "ravage");
 };
 
+if (isNil "KTWK_lambsDanger") then
+{
+    KTWK_lambsDanger = isClass(_cftPatches >> "lambs_danger");
+};
+
 _cftPatches = nil;
 
 // --------------------------------

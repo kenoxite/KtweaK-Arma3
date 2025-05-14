@@ -1,4 +1,4 @@
-// Restrict group units stance when in stealth or combat mode
+// Restrict group units stance when moving in stealth or combat mode
 
 if (!hasInterface) exitWith {false};
 
@@ -8,6 +8,7 @@ if (!hasInterface) exitWith {false};
 KTWK_RS_opt_wasEnabled = KTWK_RS_opt_enabled;
 KTWK_RS_restricted = [];
 private _unit = objNull;
+KTWK_RS_noLambs = !KTWK_lambsDanger || {(KTWK_lambsDanger && lambs_danger_disableAIPlayerGroup)}; // Disable if LAMBS Danger is active and player squad is already managed by it
 KTWK_phe_restrictStance = [{
     // Clean array of deleted units
     KTWK_RS_restricted = KTWK_RS_restricted - [objNull];
@@ -43,8 +44,8 @@ KTWK_phe_restrictStance = [{
         private _wasMoving = _unit getVariable ["KTWK_RS_wasMoving", false];
         // Check for current status
         private _behaviour = behaviour _unit;
-        private _isStealth = KTWK_RS_opt_stealth && {_behaviour == "STEALTH"};
-        private _isCombat = KTWK_RS_opt_combat && {_behaviour == "COMBAT"};
+        private _isStealth = KTWK_RS_opt_stealth && {_behaviour == "STEALTH" && KTWK_RS_noLambs};
+        private _isCombat = KTWK_RS_opt_combat && {_behaviour == "COMBAT" && KTWK_RS_noLambs};
         private _isMoving = (abs speed _unit > MOVEMENT_THRESHOLD) || {!unitReady _unit};
 
         // Detect entering or exiting stealth or combat

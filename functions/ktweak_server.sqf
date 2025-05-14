@@ -44,12 +44,12 @@ publicVariable "KTWK_WBKHeadlamps";
 
 KTWK_mgsr_poncho = isClass(_cftPatches >> "mgsr_poncho");
 publicVariable "KTWK_mgsr_poncho";
-
 KTWK_pir = isClass(_cftPatches >> "PiR");
 publicVariable "KTWK_pir";
-
 KTWK_ravage = isClass(_cftPatches >> "ravage");
 publicVariable "KTWK_ravage";
+KTWK_lambsDanger = isClass(_cftPatches >> "lambs_danger");
+publicVariable "KTWK_lambsDanger";
 
 _cftPatches = nil;
 
