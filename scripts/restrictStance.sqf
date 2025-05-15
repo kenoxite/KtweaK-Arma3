@@ -6,16 +6,15 @@ if (!hasInterface) exitWith {false};
 #define MOVEMENT_THRESHOLD 1
 
 KTWK_fnc_RS_processUnit = {
-    params ["_unit", "_opt_stealth", "_opt_combat", "_noLambs","_SOGAIactive"];
-    KTWK_RS_restricted pushBackUnique _unit;
+    params ["_unit", "_opt_stealth", "_opt_combat","_SOGAIactive"];
     // Retrieve status vars from last iteration
     private _wasStealth = _unit getVariable ["KTWK_RS_wasStealth", false];
     private _wasCombat = _unit getVariable ["KTWK_RS_wasCombat", false];
     private _wasMoving = _unit getVariable ["KTWK_RS_wasMoving", false];
     // Check for current status
     private _behaviour = behaviour _unit;
-    private _isStealth = _opt_stealth && {_behaviour == "STEALTH" && _noLambs};
-    private _isCombat = _opt_combat && {_behaviour == "COMBAT" && _noLambs};
+    private _isStealth = _opt_stealth && {_behaviour == "STEALTH"};
+    private _isCombat = _opt_combat && {_behaviour == "COMBAT"};
     private _isMoving = (abs speed _unit > MOVEMENT_THRESHOLD) || {!unitReady _unit};
 
     // Detect entering or exiting stealth or combat
@@ -80,15 +79,15 @@ KTWK_fnc_RS_processUnit = {
 
 KTWK_RS_opt_wasEnabled = KTWK_RS_opt_enabled;
 KTWK_RS_restricted = [];
-KTWK_RS_noLambs = !KTWK_lambsDanger || {(KTWK_lambsDanger && lambs_danger_disableAIPlayerGroup)}; // Disable if LAMBS Danger is active and player squad is already managed by it
 KTWK_phe_restrictStance = [{
     // Clean array of deleted units
     KTWK_RS_restricted = KTWK_RS_restricted - [objNull];
 
-    // Clean all and exit if option has been toggled off after having it active
+    // Clean all and exit if option has been toggled off after having it active or LAMBS Danger is active and player squad is already managed by it
     private _SOGAIactive = !isNil {jboy_FastMovers};
-    if (!KTWK_RS_opt_enabled) exitWith {
-        if (KTWK_RS_opt_wasEnabled) then {
+    private _lambs = KTWK_lambsDanger && {!lambs_danger_disableAIPlayerGroup};
+    if (!KTWK_RS_opt_enabled || _lambs) exitWith {
+        if (KTWK_RS_opt_wasEnabled || _lambs) then {
             {
                 if (_SOGAIactive) then {
                     jboy_FastMovers pushBackUnique _x;
@@ -103,7 +102,6 @@ KTWK_phe_restrictStance = [{
         };
         KTWK_RS_opt_wasEnabled = KTWK_RS_opt_enabled;
     };
-    KTWK_RS_opt_wasEnabled = KTWK_RS_opt_enabled;
 
     // Disable for those units no longer in the player's group
     private _units = (units group KTWK_player) select {!isNull _x && {alive _x && {!isPlayer _x && {((local _x && KTWK_RS_opt_onlyIfLeader) || !KTWK_RS_opt_onlyIfLeader)}}}};
@@ -123,7 +121,10 @@ KTWK_phe_restrictStance = [{
 
     // Check for AI units in player group
     {
-        [_x, KTWK_RS_opt_stealth, KTWK_RS_opt_combat, KTWK_RS_noLambs, _SOGAIactive] call KTWK_fnc_RS_processUnit;
+        KTWK_RS_restricted pushBackUnique _x;
+        [_x, KTWK_RS_opt_stealth, KTWK_RS_opt_combat, _SOGAIactive] call KTWK_fnc_RS_processUnit;
     } forEach _units;
+
+    KTWK_RS_opt_wasEnabled = KTWK_RS_opt_enabled;
 
 }, 2] call CBA_fnc_addPerFrameHandler;
