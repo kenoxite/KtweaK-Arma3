@@ -968,7 +968,7 @@ Parameters:
 [
     "KTWK_RS_opt_enabled", 
     "CHECKBOX",
-    ["Enable", "If enabled, AI units in the player's group won't be allowed to stand up when moving in the selected combat modes below."],
+    ["Enable", "If enabled, AI units in the player's group won't be allowed to stand up when moving in the selected combat modes below.\nAutomatically disabled, regardless of this setting, if LAMBS Danger is managing the player squad.\n"],
     ["KtweaK - Client", "Restrict Stance"],
     [false],
     0,
@@ -978,7 +978,7 @@ Parameters:
 [
     "KTWK_RS_opt_stealth", 
     "CHECKBOX",
-    ["Restrict in Stealth Mode", "If enabled, AI units in the player's group won't be allowed to stand up when moving in stealth mode and will always go prone when not moving."],
+    ["Restrict in Stealth Mode", "If enabled, AI units in the player's group won't be allowed to stand up when moving in stealth mode and will always go prone when not moving.\n"],
     ["KtweaK - Client", "Restrict Stance"],
     [true],
     0,
@@ -988,9 +988,9 @@ Parameters:
 [
     "KTWK_RS_opt_combat", 
     "CHECKBOX",
-    ["Restrict in Combat Mode", "If enabled, AI units in the player's group won't be allowed to stand up when moving in combat mode."],
+    ["Restrict in Combat Mode", "If enabled, AI units in the player's group won't be allowed to stand up when moving in combat mode.\n"],
     ["KtweaK - Client", "Restrict Stance"],
-    [true],
+    [false],
     0,
     {} 
 ] call CBA_fnc_addSetting;
@@ -998,7 +998,7 @@ Parameters:
 [
     "KTWK_RS_opt_onlyIfLeader", 
     "CHECKBOX",
-    ["Only when player is leader", "If enabled, changes to stance will only apply as long as the player is the leader of the group."],
+    ["Only when player is leader", "If enabled, changes to stance will only apply as long as the player is the leader of the group.\n"],
     ["KtweaK - Client", "Restrict Stance"],
     [true],
     0,
