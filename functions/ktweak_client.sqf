@@ -124,6 +124,7 @@ if (KTWK_ENW_opt_displayLauncher) then {
 };
 // Add inventory EH
 KTWK_player call KTWK_fnc_addInvEH;
+KTWK_player setVariable ["KTWK_invOpened", false, true];
 
 // Arsenal EH
 [missionNamespace, "arsenalPreOpen", {
@@ -181,6 +182,31 @@ KTWK_EH_invClosed = KTWK_player addEventHandler ["InventoryClosed", {(_this#0) s
     KTWK_player setVariable ["KTWK_arsenalOpened", false, true];
 }] call BIS_fnc_addScriptedEventHandler;
 
+// --------------------------------
+// AI stop when opening backpack
+KTWK_fnc_SFB_addInvEH = {
+    params ["_unit"];
+    KTWK_EH_invOpened_SFB = _unit addEventHandler ["InventoryOpened", {
+        if (!KTWK_SFB_opt_enabled) exitWith {false};
+        params ["_unit", "_container", "_container2"];
+        if (isNull _container2) exitWith {false};
+        private _near = (_unit nearEntities ["Man", 5]) select {!isPlayer _x && (backpack _x) != ""};
+        // Sort by distance
+        _near apply { [_x distance _unit, _x] };
+        _near sort true;
+        if (count _near > 0) then {
+            [_unit, _near#0] spawn {           
+                params ["_player", "_carrier"];
+                sleep 0.1;// Wait for other EH to update the invopened unitvar state
+                private _startTime = time;
+                [_carrier, "MOVE"] remoteExecCall ["disableAI", _carrier, true];
+                waitUntil {sleep 1; !alive _carrier || !alive _player || (time - _startTime) > 30 || !(_player getVariable ["KTWK_invOpened", false])};
+                [_carrier, "MOVE"] remoteExecCall ["enableAI", _carrier, true];
+            };      
+        };
+    }];
+};
+[KTWK_player] call KTWK_fnc_SFB_addInvEH;
 
 // --------------------------------
 // EH - Game loaded from save
@@ -201,10 +227,13 @@ addMissionEventHandler ["Loaded", {
 }];
 
 // --------------------------------
-// EH - Team Switch
-addMissionEventHandler ["TeamSwitch", {
-    params ["_previousUnit", "_newUnit"];
-
+// EH - PlayerViewChanged
+addMissionEventHandler ["PlayerViewChanged", {
+    params [
+        "_previousUnit", "_newUnit", "_vehicleIn",
+        "_oldCameraOn", "_newCameraOn", "_uav"
+    ];
+    if (_previousUnit isEqualTo _newUnit) exitWith {false};
     // --------------------------------
     // Recon Drone
     private _actionId = _previousUnit getVariable ["KTWK_GRdrone_actionId", -1];
@@ -241,9 +270,9 @@ addMissionEventHandler ["TeamSwitch", {
         };
     };
     // Add and remove inventory EH
-    _newUnit call KTWK_fnc_addInvEH;
     _previousUnit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened_ENW];
     // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
+    _newUnit call KTWK_fnc_addInvEH;
 
     // --------------------------------
     // Save inventory opened status so it can be retrieved remotely
@@ -262,6 +291,11 @@ addMissionEventHandler ["TeamSwitch", {
     if (lifeState _newUnit == "INCAPACITATED" || {_newUnit getVariable ["AIS_unconscious", false]}) then {
         KWTK_wasUnconscious = true;
     };
+
+    // --------------------------------
+    // AI stop when opening backpack
+    _previousUnit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened_SFB];
+    [_newUnit] call KTWK_fnc_SFB_addInvEH;
 }];
 
 // --------------------------------

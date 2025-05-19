@@ -227,6 +227,17 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+// STOP FOR BACKPACK
+[
+    "KTWK_SFB_opt_enabled", 
+    "CHECKBOX",
+    ["AI Stop when Opening Backpack", "If enabled, AI infantry will stop moving when the player is trying to access their backpack contents.\n"],
+    ["KtweaK - Server", ""],
+    [true],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
 
 
 // ACE MAP FLASHLIGHTS
