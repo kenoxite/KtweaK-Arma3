@@ -123,7 +123,7 @@ if (KTWK_ENW_opt_displayLauncher) then {
     };
 };
 // Add inventory EH
-KTWK_player call KTWK_fnc_addInvEH;
+KTWK_EH_invOpened_ENW = KTWK_player call KTWK_fnc_addInvEH;
 KTWK_player setVariable ["KTWK_invOpened", false, true];
 
 // Arsenal EH
@@ -185,8 +185,8 @@ KTWK_EH_invClosed = KTWK_player addEventHandler ["InventoryClosed", {(_this#0) s
 // --------------------------------
 // AI stop when opening backpack
 KTWK_fnc_SFB_addInvEH = {
-    params ["_unit"];
-    KTWK_EH_invOpened_SFB = _unit addEventHandler ["InventoryOpened", {
+    params [["_unit", player]];
+    _unit addEventHandler ["InventoryOpened", {
         if (!KTWK_SFB_opt_enabled) exitWith {false};
         params ["_unit", "_container", "_container2"];
         if (isNull _container2) exitWith {false};
@@ -206,7 +206,7 @@ KTWK_fnc_SFB_addInvEH = {
         };
     }];
 };
-[KTWK_player] call KTWK_fnc_SFB_addInvEH;
+KTWK_EH_invOpened_SFB = [KTWK_player] call KTWK_fnc_SFB_addInvEH;
 
 // --------------------------------
 // EH - Game loaded from save
@@ -272,7 +272,7 @@ addMissionEventHandler ["PlayerViewChanged", {
     // Add and remove inventory EH
     _previousUnit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened_ENW];
     // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
-    _newUnit call KTWK_fnc_addInvEH;
+    KTWK_EH_invOpened_ENW = _newUnit call KTWK_fnc_addInvEH;
 
     // --------------------------------
     // Save inventory opened status so it can be retrieved remotely
@@ -295,7 +295,7 @@ addMissionEventHandler ["PlayerViewChanged", {
     // --------------------------------
     // AI stop when opening backpack
     _previousUnit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened_SFB];
-    [_newUnit] call KTWK_fnc_SFB_addInvEH;
+    KTWK_EH_invOpened_SFB = [_newUnit] call KTWK_fnc_SFB_addInvEH;
 }];
 
 // --------------------------------

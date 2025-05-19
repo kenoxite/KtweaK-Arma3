@@ -12,8 +12,8 @@
 //  - The problem is: this can only be done via InventoryOpened EH but, once you get there, and if you don't ovreride its behavior, it's already too late. It has already built its own array of nearby containers so, if you move or delte any close container now, the inventory screen will be closed, as the closest container is now not present (same issue as trying to open a backpack of a unit that is moving away; it auto-closes)
 //  - So, the main Open Inventory action is now overriden, disabling the default behavior. It now first deletes the display containers and THEN (after 0.01, to wait for the deleteVehicle commands to take effect) it opens the inventory via Action ["Gear"]
 
-params ["_unit"];
-KTWK_EH_invOpened_ENW = _unit addEventHandler ["InventoryOpened", { 
+params [["_unit", player]];
+_unit addEventHandler ["InventoryOpened", { 
     params ["_unit", "_container", "_container2"]; 
     if (!isNull (_unit getVariable ["KTWK_rifleHolster", objNull]) || !isNull (_unit getVariable ["KTWK_launcherHolster", objNull])) then {
         // Hide holsters
@@ -28,10 +28,3 @@ KTWK_EH_invOpened_ENW = _unit addEventHandler ["InventoryOpened", {
         };
     };
 }];
-// KTWK_EH_invClosed_ENW = player addEventHandler ["InventoryClosed", { 
-//     params ["_unit", "_container"]; 
-//     _unit setVariable ["KTWK_swappingWeapon", false]; 
-//     // Display holsters 
-//     [_unit] call KTWK_fnc_toggleHolsterDisplay;
-//     _unit removeEventHandler [_thisEvent, _thisEventHandler];
-// }];
