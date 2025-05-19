@@ -10,7 +10,7 @@ _this spawn {
     private _damage = damage _injured;
     private _startTime = time;
     [_injured, "MOVE"] remoteExecCall ["disableAI", _injured, true];
-    waitUntil {damage _injured != _damage || !alive _injured || !alive _healer || (time - _startTime) > 30};
+    waitUntil {sleep 1; damage _injured != _damage || !alive _injured || !alive _healer || (time - _startTime) > 30};
     [_injured, "MOVE"] remoteExecCall ["enableAI", _injured, true];
     // Add some mission rating to the player to reward being an active healer, based on amount healed
     if (damage _injured != _damage) then {
