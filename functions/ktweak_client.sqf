@@ -187,23 +187,22 @@ KTWK_EH_invClosed = KTWK_player addEventHandler ["InventoryClosed", {(_this#0) s
 KTWK_fnc_SFB_addInvEH = {
     params [["_unit", player]];
     _unit addEventHandler ["InventoryOpened", {
-        if (!KTWK_SFB_opt_enabled) exitWith {false};
+        if (!KTWK_SFB_opt_enabled) exitWith { false };
         params ["_unit", "_container", "_container2"];
         if (isNull _container2) exitWith {false};
         private _near = (_unit nearEntities ["Man", 5]) select {!isPlayer _x && (backpack _x) != ""};
+        if (count _near == 0) exitWith { false };
         // Sort by distance
         _near apply { [_x distance _unit, _x] };
         _near sort true;
-        if (count _near > 0) then {
-            [_unit, _near#0] spawn {           
-                params ["_player", "_carrier"];
-                sleep 0.1;// Wait for other EH to update the invopened unitvar state
-                private _startTime = time;
-                [_carrier, "MOVE"] remoteExecCall ["disableAI", _carrier, true];
-                waitUntil {sleep 1; !alive _carrier || !alive _player || (time - _startTime) > 30 || !(_player getVariable ["KTWK_invOpened", false])};
-                [_carrier, "MOVE"] remoteExecCall ["enableAI", _carrier, true];
-            };      
-        };
+        [_unit, _near#0] spawn {           
+            params ["_player", "_carrier"];
+            sleep 0.1;// Wait for other EH to update the invopened unitvar state
+            private _startTime = time;
+            [_carrier, "MOVE"] remoteExecCall ["disableAI", _carrier, true];
+            waitUntil {sleep 1; !alive _carrier || !alive _player || (time - _startTime) > 30 || !(_player getVariable ["KTWK_invOpened", false])};
+            [_carrier, "MOVE"] remoteExecCall ["enableAI", _carrier, true];
+        }; 
     }];
 };
 KTWK_EH_invOpened_SFB = [KTWK_player] call KTWK_fnc_SFB_addInvEH;
