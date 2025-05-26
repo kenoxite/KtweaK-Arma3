@@ -959,7 +959,7 @@ Parameters:
     "CHECKBOX",
     ["Enable", "If enabled, some blur and noise will be applied when night vision of any type is active, the strength of which will depend on the device used (portable NVG, vehicle NVG, NVG optics, etc).\nThe same effect will be applied to all NVGs, independently of its generation and real-life equivalent visual quality.\n\nDisabled if ACE Nightvision is detected, regardless of this setting.\n"],
     ["KtweaK - Client", "NVG Effects"],
-    [true],
+    [false],
     0,
     {} 
 ] call CBA_fnc_addSetting;
