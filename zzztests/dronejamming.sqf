@@ -109,6 +109,16 @@ KTWK_fnc_EW_calcSignal = {
     [_freq, _distance, !_obstructed, _strength, _isFocused, _isFrequencyMatch, _canJam]
 };
 
+// Toggle drone connectability
+KTWK_fnc_EW_toggleDroneConnectability = {
+    params ["_drone", ["_enable", false]];
+    if (_enable) then {
+        player enableUAVConnectability [_drone, true];
+    } else {
+        player disableUAVConnectability [_drone, true];
+    };  
+};
+
 // Drone jamming
 KTWK_fnc_EW_jamDrone = {
     params ["_drone", ["_duration", 5]];
@@ -118,10 +128,9 @@ KTWK_fnc_EW_jamDrone = {
         [_x, objNull] remoteExec ["connectTerminalToUAV", _x];
         [_x, objNull] remoteExec ["remoteControl", _x];
     } forEach ((UAVControl _drone) select {typeName _x == "OBJECT" && {!isNull _x}});
-    // Disallow all players from connecting to the drone while jammed
-    {
-        _x disableUAVConnectability [_drone, true];
-    } forEach allPlayers;
+    // Disallow all players from connecting to the drone while jammed   
+    [_drone, false] remoteExec ["KTWK_fnc_EW_toggleDroneConnectability", [0, -2] select isDedicated, true];
+
     [_drone, false] remoteExec ["engineOn", _drone];
     if (_drone isKindOf "Air") then {
         if (_drone isKindOf "Helicopter") then {
@@ -148,11 +157,7 @@ KTWK_fnc_EW_unjamDrone = {
         };
     };
     [_drone, true] remoteExec ["setAutonomous", _drone];
-
-    // Allow all players to connect to the drone
-    {
-        _x enableUAVConnectability [_drone, true];
-    } forEach allPlayers;
+    [_drone, true] remoteExec ["KTWK_fnc_EW_toggleDroneConnectability", [0, -2] select isDedicated, true];
 
     _drone setVariable ["KTWK_EW_isJammed", false, true];
     _drone setVariable ["KTWK_EW_jamEndTime", 0, true];
@@ -286,6 +291,7 @@ KTWK_fnc_EW_clientInit = {
     if (!hasInterface || isNull player || !local player) exitWith {};
     KWTK_EW_lastJammedDroneNetId = "";
     KWTK_EW_wasJamming = false;
+    KTWK_EW_lastSoundPlayed = 0;
 
     [{
         private _isAlive = alive player;
@@ -296,9 +302,9 @@ KTWK_fnc_EW_clientInit = {
         if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
 
         // Scanner and player checks
-        private _hasScanner = ("muzzle_antenna_03_f" in (handgunItems KTWK_player));
+        private _hasAntenna = ("muzzle_antenna_03_f" in (handgunItems KTWK_player));
         private _usingScanner = (currentWeapon KTWK_player == "hgun_esd_01_F");
-        if !(_hasScanner && _usingScanner) exitWith {
+        if !(_hasAntenna && _usingScanner) exitWith {
             ["disable"] call KTWK_fnc_EW_infobox;
         };
 
@@ -324,57 +330,95 @@ KTWK_fnc_EW_clientInit = {
             // Frequency match
             if (_signal#5) then {
                 _focusedDrone = _x;
-                _canJam = _signal#6;
                 _signalVals = +_signal;
             };
         } forEach _drones;
         missionNamespace setVariable ["#EM_Values", _emValues];
+        _signalVals params ["_freq", "_distance", "_los", "_strength", "_isFocused", "_isFrequencyMatch", "_canJam"];
 
         // Progress bar logic
-        private _isTransmitting = (inputAction "defaultAction" > 0) && _hasScanner;
+        private _isTransmitting = inputAction "defaultAction" > 0;
         private _progress = missionNamespace getVariable ["#EM_Progress", 0];
         _progress = if (_isTransmitting && _canJam) then { (_progress + 0.05) min 1 } else { 0 };
         missionNamespace setVariable ["#EM_Progress", _progress];
 
-        private _displayName = call {
+        private _sound = [];
+        private _bgColor = [0,0,0,1];
+        private _fontColor = "#ffffff";
+        private _displayName = "disable";
+        call {
             if (!visibleMap) exitWith {
-                if (!isNull _focusedDrone && _signalVals#3 > -100) exitWith {
-                    if (_signalVals#3 > MIN_STRENGTH || !isNil {_focusedDrone getVariable "KTWK_EW_displayName"}) exitWith {
+                if (!isNull _focusedDrone && _strength > -100) exitWith {
+                    if (_strength > MIN_STRENGTH || !isNil {_focusedDrone getVariable "KTWK_EW_displayName"}) exitWith {
+                        // First identification
                         if (isNil {_focusedDrone getVariable "KTWK_EW_displayName"}) then {
-                            playSoundUI ["\A3\Sounds_F\sfx\beep_target.wss", 0.5, 0.1, true, 0];
+                            _sound pushBack ["\A3\Sounds_F\sfx\beep_target.wss", 0.3, 0.1];
                             _focusedDrone setVariable ["KTWK_EW_displayName", getText (configFile >> "cfgVehicles" >> typeOf _focusedDrone >> "displayName")];
                         };
                         if (_progress > 0) then {
                             if (_progress >= 0.99) then {
-                                playSoundUI ["\A3\Sounds_F\weapons\Rockets\locked_3.wss", 0.05, 0.8, true, 0];
+                                // Jamming (success)
+                                _sound pushBack ["\A3\Sounds_F\weapons\Rockets\locked_3.wss", 0.05, 0.8];
                             } else {
-                                playSoundUI ["\A3\Sounds_F\weapons\Rockets\locked_1.wss", 0.3, 1.5, true, 0];
+                                // Jamming (process)
+                                _sound pushBack ["\A3\Sounds_F\weapons\Rockets\locked_1.wss", 0.1, 1.5];
                             };
+                            // Blue
+                            _bgColor = [0.48,0.89,0.89,1];
+                            // _fontColor = "#6c6b69";
                         } else {
-                            playSoundUI ["\A3\Sounds_F\weapons\Rockets\locked_1.wss", 0.3, 1.8, true, 0];
+                            // Identified and focused but not jamming
+                            if (_los) then {
+                                _sound pushBack ["\A3\Sounds_F\weapons\Rockets\locked_1.wss", 0.1, 1.8];
+                                // Green
+                                _bgColor = [0.35,0.95,0.58,1];
+                                // _fontColor = "#6c6b69";
+                            } else {
+                                // Identified and focused, but not jamming and obstructed
+                                _sound pushBack ["\A3\Sounds_F\weapons\Rockets\locked_1.wss", 0.1, 0.8];
+                                // Red
+                                _bgColor = [0.95,0.35,0.5,1];
+                                // _fontColor = "#ffffff";
+                            };
                         };
-                        _focusedDrone getVariable "KTWK_EW_displayName";
+                        _displayName = _focusedDrone getVariable "KTWK_EW_displayName";
                     };
-                    playSoundUI ["\A3\Sounds_F\weapons\Rockets\locked_1.wss", 0.3, 0.8, true, 0];
-                    "Unkown signal";
+                    // Focused but unidentified
+                    _sound pushBack ["\A3\Sounds_F\weapons\Rockets\locked_1.wss", 0.1, 0.8];
+                    _displayName = "Unkown signal";
+                    // Red
+                    _bgColor = [0.95,0.35,0.5,1];
+                    // _fontColor = "#ffffff";
                 };
-                "No signal";
+                _displayName = "No signal";
+                _bgColor = [0.28,0.28,0.28,1];
+                // _fontColor = "#ffffff";
             };
-            "disable";
+            _displayName = "disable";
         };
-        [_displayName] call KTWK_fnc_EW_infobox;
+        if (_displayName == "disable") then {
+            [_displayName] call KTWK_fnc_EW_infobox;
+        } else {
+            ["bottom", _displayName, _bgColor, _fontColor] call KTWK_fnc_EW_infobox;
+        };
+        // Play sound every 0.2 seconds
+        if (count _sound > 0 && {(KTWK_EW_lastSoundPlayed mod 2) == 0}) then {
+            playSoundUI ((_sound#0) + [true, 0]);
+            KTWK_EW_lastSoundPlayed = 0;
+        };
+        KTWK_EW_lastSoundPlayed = KTWK_EW_lastSoundPlayed + 1;
 
         // Jamming intent messaging
         private _focusedDroneNetId = if (!isNull _focusedDrone) then { netId _focusedDrone } else { "" };
-        private _isJammingNow = (_progress >= 0.99) && (!isNull _focusedDrone) && _canJam;
+        private _isJammingNow = (_progress >= 0.99) && !isNull _focusedDrone && _canJam;
 
-        // Only send if controlled unit is alive, not in vehicle, and not null
-        if (_isJammingNow && alive KTWK_player && vehicle KTWK_player == KTWK_player && !isNull KTWK_player) then {
+        // Send jamming status to server
+        if (_isJammingNow && vehicle KTWK_player == KTWK_player) then {
             ["KTWK_EW_jammingState", [
-                netId KTWK_player,
+                netId player,
                 _focusedDroneNetId,
-                _signalVals#3, // strength
-                _signalVals#0, // frequency
+                _strength, // strength
+                _freq, // frequency
                 _progress,
                 diag_tickTime // timestamp for server-side staleness check
             ]] call CBA_fnc_serverEvent;
