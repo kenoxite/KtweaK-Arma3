@@ -294,6 +294,7 @@ KTWK_fnc_EW_clientInit = {
     KTWK_EW_lastSoundPlayed = 0;
 
     [{
+        // Active player check
         private _isAlive = alive player;
         private _isConscious = lifeState KTWK_player != "INCAPACITATED" || {!isNil {KTWK_player getVariable "ACE_isUnconscious" && {!(KTWK_player getVariable "ACE_isUnconscious")}}};
         if !(_isAlive && _isConscious) exitWith {
@@ -301,7 +302,7 @@ KTWK_fnc_EW_clientInit = {
         };
         if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
 
-        // Scanner and player checks
+        // Scanner check
         private _hasAntenna = ("muzzle_antenna_03_f" in (handgunItems KTWK_player));
         private _usingScanner = (currentWeapon KTWK_player == "hgun_esd_01_F");
         if !(_hasAntenna && _usingScanner) exitWith {
@@ -322,7 +323,6 @@ KTWK_fnc_EW_clientInit = {
         private _emValues = [];
         // Find focused drone and calculate its signal
         private _focusedDrone = objNull;
-        private _canJam = false;
         private _signalVals = [0,0,false,-100,false,false,false];
         {
             private _signal = [KTWK_player, _x, _selMin, _selMax, _tolerance] call KTWK_fnc_EW_calcSignal;
@@ -342,6 +342,7 @@ KTWK_fnc_EW_clientInit = {
         _progress = if (_isTransmitting && _canJam) then { (_progress + 0.05) min 1 } else { 0 };
         missionNamespace setVariable ["#EM_Progress", _progress];
 
+        // Display infobox and emit sounds
         private _sound = [];
         private _bgColor = [0,0,0,1];
         private _fontColor = "#ffffff";
@@ -394,10 +395,9 @@ KTWK_fnc_EW_clientInit = {
                 _bgColor = [0.28,0.28,0.28,1];
                 // _fontColor = "#ffffff";
             };
-            _displayName = "disable";
         };
         if (_displayName == "disable") then {
-            [_displayName] call KTWK_fnc_EW_infobox;
+            ["disable"] call KTWK_fnc_EW_infobox;
         } else {
             ["bottom", _displayName, _bgColor, _fontColor] call KTWK_fnc_EW_infobox;
         };
@@ -518,7 +518,6 @@ KTWK_fnc_EW_infobox = {
             } forEach [_bgIDC, _txtIDC];
         };
         uiNamespace setVariable ["KTWK_EW_infobox_display", displayNull];
-        uiNamespace setVariable ["KTWK_EW_infobox_active", false];
     };
 
     // Parameters
