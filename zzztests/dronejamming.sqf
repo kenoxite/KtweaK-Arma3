@@ -28,9 +28,7 @@ KTWK_fnc_EW_assignUniqueFrequency = {
     params ["_drone"];
     private _freq = _drone getVariable ["KTWK_EW_droneFrequency", 0];
     if (_freq == 0) then {
-        private _usedPairs = (missionNamespace getVariable ["KTWK_EW_usedFrequencies", []]) select {
-            !isNull (_x#0) && {alive (_x#0)}
-        };
+        private _usedPairs = missionNamespace getVariable ["KTWK_EW_usedFrequencies", []];
         private _usedFreqs = _usedPairs apply {_x#1};
         private _fMin = missionNamespace getVariable ["#EM_FMin", 140];
         private _fMax = missionNamespace getVariable ["#EM_FMax", 143];
@@ -235,6 +233,11 @@ KTWK_fnc_EW_serverInit = {
 
     // Assign frequencies to new drones every 5 seconds
     [{
+        // Clean frequency of destroyed or deleted drones
+        private _activeDrones = (missionNamespace getVariable ["KTWK_EW_usedFrequencies", []]) select {
+            !isNull (_x#0) && {alive (_x#0)}
+        };
+        missionNamespace setVariable ["KTWK_EW_usedFrequencies", _activeDrones];
         call KTWK_fnc_EW_assignFrequenciesToNewDrones;
     }, 5] call CBA_fnc_addPerFrameHandler;
 
@@ -303,8 +306,8 @@ KTWK_fnc_EW_clientInit = {
         if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
 
         // Scanner check
-        private _hasAntenna = ("muzzle_antenna_03_f" in (handgunItems KTWK_player));
-        private _usingScanner = (currentWeapon KTWK_player == "hgun_esd_01_F");
+        private _hasAntenna = "muzzle_antenna_03_f" in (handgunItems KTWK_player);
+        private _usingScanner = (currentWeapon KTWK_player) isKindOf ["hgun_esd_01_base_F", configFile >> "CfgWeapons"];
         if !(_hasAntenna && _usingScanner) exitWith {
             ["disable"] call KTWK_fnc_EW_infobox;
         };
