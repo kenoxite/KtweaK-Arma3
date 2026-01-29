@@ -36,7 +36,8 @@ KTWK_fnc_CB_gearCoversMouth = {
         "respirator",
         // "shemag",
         "bandana",
-        "facewrap"
+        "facewrap",
+        "scarf_face"
         ];
     
     private _keywordCheck = {
