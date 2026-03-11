@@ -202,30 +202,20 @@ if (_opt_headlamps > 0) then {
 
 // Assign weapon flashlight
 if (!_hasHeadlamp) then {
-    call {
-        // Add primary wpn light
-        if (_currentWpnType == 0) exitWith {
-            {
-                private _flashlight = (primaryWeaponItems _unit)#1;
-                if (!isNil "_flashlight") then {
-                    if (_flashlight == "") then {
-                        _unit addPrimaryWeaponItem _x;
-                    };
-                };
-            } forEach _knownFlashlights;
+    private _weapons = weapons _unit;
+    private _itemTypesArr = _knownFlashlights;
+    _itemTypesArr append _knownFlashlights_pistol;
+    private _compatibleItems = [];
+    private _availableitems = [];
+    {
+        _compatibleItems = compatibleItems [_x, "PointerSlot"];
+        if (count _compatibleItems > 0) then {
+            _availableitems = _itemTypesArr arrayIntersect _compatibleItems;
+            if (count _availableitems > 0) then {
+                _unit addWeaponItem [_x, selectRandom _availableitems, true];
+            };
         };
-        // Add handgun light
-        if (_currentWpnType == 2) exitWith {
-            {
-                private _flashlight = (handgunItems _unit)#1;
-                if (!isNil "_flashlight") then {
-                    if (_flashlight == "") then {
-                        _unit addHandgunItem _x;
-                    };
-                };
-            } forEach _knownFlashlights_pistol;
-        };
-    };
+    } forEach _weapons;
 };
 
 // Add WBK flashlight if no weapon flashlight was assigned and user requested it
