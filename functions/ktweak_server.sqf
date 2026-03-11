@@ -213,23 +213,32 @@ call KTWK_fnc_brighterNight_check;
 [{
     if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
 
-    private _allUnits = allUnits;
-    private _agents = agents;
+    private _allUnits = allUnits select {
+        !isObjectHidden _x
+        && {simulationEnabled _x}
+    };
+
+    private _agentUnits = agents select {
+        private _unit = agent _x;
+        !isObjectHidden _unit
+        && {simulationEnabled _unit}
+        && {alive _unit}
+    } apply { agent _x };
+
+    _allUnits append _agentUnits;
 
     // Update all creatures array
     KTWK_allCreatures = _allUnits select { !([_x] call KTWK_fnc_isHuman) };
-    (_agents select { alive agent _x && {!([_x] call KTWK_fnc_isHuman)}}) apply { KTWK_allCreatures pushBack (agent _x); };
 
     // Update all animals array
     KTWK_allAnimals = KTWK_allCreatures select {[_x] call KTWK_fnc_isAnimal};
-    (_agents select { alive agent _x && {[_x] call KTWK_fnc_isAnimal}}) apply { KTWK_allAnimals pushBack (agent _x); };
 
     // Update all infantry units array
     KTWK_allInfantry = _allUnits select {!(_x in KTWK_allCreatures)};
     publicVariable "KTWK_allInfantry";
 
     // Update all infantry players array
-    KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x};
+    KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x && !(typeOf _x == "HeadlessClient_F") };
 
     // Disable voice mods for non humans
     if (KTWK_disableVoices_opt_creatures) then {
