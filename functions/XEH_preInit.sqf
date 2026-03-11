@@ -599,7 +599,7 @@ Parameters:
 [
     "KTWK_AIlights_opt_headlampType", 
     "LIST",
-    ["Distribute WBK Lights", "Choose which type of flashlights should be given to units. Choose 'None' to not distribute any.\n"],
+    ["Distribute WBK Lights", "Choose which type of flashlights should be given to units.\nThis option won't have any effect if no WBK flashlights are allowed to be distributed.\n"],
     ["KtweaK - Server", "Add Lights to AI"],
     [[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14], [
         "Head Lamp (regular)",
@@ -647,11 +647,22 @@ Parameters:
     "KTWK_opt_noUnconADS", 
     "CHECKBOX",
     ["Disable aiming when unconscious", "Disable aiming down sights (ADS) when unconscious, so you aren't still ADS or using a scope when awakening (which is unrealistic, disorienting and can kill you)."],
-    ["KtweaK - Server", ""],
+    ["KtweaK - Client", ""],
     [true],
     1,
     {} 
 ] call CBA_fnc_addSetting;
+
+[
+    "KTWK_opt_crouchMoveIsTiring", 
+    "CHECKBOX",
+    ["Moving crouched is tiring", "Moving while being crouched will drain stamina at a higher rate than normal."],
+    ["KtweaK - Client", ""],
+    [false],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
 
 // EQUIP NEXT WEAPON
 [

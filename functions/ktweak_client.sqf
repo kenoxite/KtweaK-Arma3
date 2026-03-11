@@ -353,6 +353,9 @@ KTWK_scr_NVG = [] execVM "KtweaK\scripts\NVG.sqf";
 // Init - Restrict Stance
 KTWK_scr_restrictStance = [] execVM "KtweaK\scripts\restrictStance.sqf";
 
+// Init - Crouch Walking Is Tiring
+KTWK_scr_crouchMoveStamina = [] execVM "KtweaK\scripts\crouchMoveStamina.sqf";
+
 // --------------------------------
 KTWK_SiS_excluded = [
     // TIOW
