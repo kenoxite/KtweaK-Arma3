@@ -1,8 +1,11 @@
+// KTWK_fnc_isAnimal
+// Returns true if unit is an animal type
 
 params ["_unit"];
 if (_unit in agents) then {_unit = agent _unit};
 if (typeName _unit != "OBJECT") exitWith {false};
 if (isNull _unit) exitWith {false};
+
 private _type = typeOf _unit;
 private _animals = [
     // DBO Horse
@@ -28,5 +31,11 @@ private _animals = [
     "max_Tric",
     "max_tric_baby"
 ];
-private _isAnimal = {if (_type isKindOf _x) exitWith {true}; false} forEach _animals;
+
+// Early exit on first match
+private _isAnimal = false;
+{
+    if (_type isKindOf _x) exitWith {_isAnimal = true};
+} forEach _animals;
+
 (_type isKindOf "CAManBase" && {_isAnimal})
