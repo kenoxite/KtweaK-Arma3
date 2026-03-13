@@ -37,7 +37,8 @@ KTWK_fnc_CB_gearCoversMouth = {
         // "shemag",
         "bandana",
         "facewrap",
-        "scarf_face"
+        "scarf_face",
+        "pu_shemagh"
         ];
     
     private _keywordCheck = {
