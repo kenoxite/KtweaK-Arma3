@@ -14,6 +14,6 @@ private _type = typeOf _unit;
     && {!(_type isKindOf "VirtualCurator_F")}
     && {!(_unit isKindOf "HeadlessClient_F")}
     && {!(unitIsUAV _unit)}
-    && {!([_unit] call KEF_fnc_isAnimal)}
-    && {!([_unit] call KEF_fnc_isZombie)}
+    && {!([_unit] call KTWK_fnc_isAnimal)}
+    && {!([_unit] call KTWK_fnc_isZombie)}
 )
