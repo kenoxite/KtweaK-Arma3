@@ -1,7 +1,7 @@
 // Disable map autocenter and restore map position and zoom next time map is opened
 // by kenoxite
 
-private _mrk_mapCenter = createMarkerLocal ["KTWK_GPSHI_mapCenter",[worldworldSizeSize / 2, worldSize / 2, 0]];
+private _mrk_mapCenter = createMarkerLocal ["KTWK_GPSHI_mapCenter",[worldSize / 2, worldSize / 2, 0]];
 _mrk_mapCenter setMarkerShapeLocal "ICON";
 _mrk_mapCenter setMarkerTypeLocal "Empty";
 
