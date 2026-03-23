@@ -4,7 +4,7 @@ if (isNil {KTWK_player}) then { KTWK_player = call CBA_fnc_currentUnit; };
     
 private _playerPos = getPos vehicle KTWK_player;
 private _UAV = createVehicle ["B_UAV_01_F", vehicle KTWK_player getRelPos [2, 0], [], 0, "NONE"];
-_UAV setObjectTextureGlobal [0, "\KtweaK\drones\air\uav_01\data\uav_01_black_co.paa"];
+_UAV setObjectTextureGlobal [0, "\z\ktwk\addons\KtweaK\drones\air\uav_01\data\uav_01_black_co.paa"];
 createVehicleCrew _UAV;
 private _grp = createGroup playerSide;
 {[_x] joinSilent _grp} count crew _UAV;

@@ -10,7 +10,7 @@ if (
     {!([_unit] call KTWK_fnc_isHuman)} || 
     {(KTWK_SiS_excluded select {_unit isKindOf _x} isNotEqualTo [])} || 
     {!alive _unit} || 
-    {isNull objectParent _unit} ||
+    {!isNull objectParent _unit} ||
     {_unit getVariable ["KTWK_SiS_isSlopeSliding", false]} ||
     {time < (_unit getVariable ["KTWK_SiS_fallImmunityTime", 0])} ||
     {(getPosATL _unit)#2 >= 1} ||

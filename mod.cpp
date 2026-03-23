@@ -15,6 +15,6 @@ dlcColor[] =
 	1
 };
 
-overview = "Quality of life and new features. Multiplayer compatible."; // Overview text, displayed from the extension menu
+overview = "Quality of life and other assorted features. Multiplayer compatible."; // Overview text, displayed from the extension menu
 hideName = 0; // Hide the extension name
 hidePicture = 0; // Hide the extension menu

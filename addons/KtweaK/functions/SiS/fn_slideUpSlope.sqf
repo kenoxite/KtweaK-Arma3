@@ -40,7 +40,7 @@ private _initialAnim = call {
 
 // Apply initial animation and play sound
 [_unit, _initialAnim] remoteExec ["playMoveNow", 0];
-playSound3D ["KtweaK\sounds\slidingUpSlope.wss", _unit];
+playSound3D ["\z\ktwk\addons\KtweaK\sounds\slidingUpSlope.wss", _unit];
 
 sleep 1;
 

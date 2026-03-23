@@ -23,7 +23,7 @@ private _force = [7, 6] select (KTWK_aceMedical);
 _unit setVelocityModelSpace [0, _force, 0];
 
 // Play sound
-playSound3D ["KtweaK\sounds\slidingDownSlope.wss", _unit];
+playSound3D ["\z\ktwk\addons\KtweaK\sounds\slidingDownSlope.wss", _unit];
 
 // Wait for unit to stop
 private _maxWait = serverTime + 5;

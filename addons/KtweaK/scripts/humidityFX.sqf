@@ -183,4 +183,4 @@ if (KTWK_opt_debug) then { systemChat "Humidity FX terminated" };
 
 waitUntil {sleep 1; KTWK_HFX_opt_enabled};
 
-[] execVM "KtweaK\scripts\humidityFX.sqf";
+[] execVM "\z\ktwk\addons\KtweaK\scripts\humidityFX.sqf";

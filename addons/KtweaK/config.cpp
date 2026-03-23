@@ -42,11 +42,11 @@ class CfgSettings {
 
 class Extended_PreInit_EventHandlers {
     class KTWK_settings {
-        init = "call compile preprocessFileLineNumbers 'KtweaK\functions\XEH_preInit.sqf'";
+        init = "call compile preprocessFileLineNumbers '\z\ktwk\addons\KtweaK\functions\XEH_preInit.sqf'";
     };
 };
 
-#define BN_EDITOR "call compile preprocessFileLineNumbers 'KtweaK\functions\ktweak_3denBrightNights.sqf'; [[], true] call KTWK_fnc_brighterNight_unSet; [] spawn {while {is3DEN} do {call KTWK_fnc_brighterNight_check; sleep 0.5;}; [[], true] call KTWK_fnc_brighterNight_unSet;};"
+#define BN_EDITOR "call compile preprocessFileLineNumbers '\z\ktwk\addons\KtweaK\functions\ktweak_3denBrightNights.sqf'; [[], true] call KTWK_fnc_brighterNight_unSet; [] spawn {while {is3DEN} do {call KTWK_fnc_brighterNight_check; sleep 0.5;}; [[], true] call KTWK_fnc_brighterNight_unSet;};"
 
 class Cfg3DEN
 {
@@ -72,18 +72,18 @@ class CfgFunctions
             class preInit
             {
                 preInit = 1;
-                file = "KtweaK\functions\ktweak_server.sqf";
+                file = "\z\ktwk\addons\KtweaK\functions\ktweak_server.sqf";
             };
             class postInit
             {
                 postInit = 1;
-                file = "KtweaK\functions\initClient.sqf";
+                file = "\z\ktwk\addons\KtweaK\functions\initClient.sqf";
             };
         };
 
         class Main
         {
-            file = "KtweaK\functions\main";
+            file = "\z\ktwk\addons\KtweaK\functions\main";
             preInit = 1;
 
             class BIR_checkUnits {};
@@ -122,7 +122,7 @@ class CfgFunctions
 
         class FatalWounds
         {
-            file = "KtweaK\functions\FW";
+            file = "\z\ktwk\addons\KtweaK\functions\FW";
             preInit = 1;
 
             class fatalWoundPrep {};
@@ -134,7 +134,7 @@ class CfgFunctions
 
         class HUDhealth
         {
-            file = "KtweaK\functions\HUDhealth";
+            file = "\z\ktwk\addons\KtweaK\functions\HUDhealth";
 
             class HUD_health_InvEH {};
             class HUD_health_resetDmgTracker {};
@@ -145,7 +145,7 @@ class CfgFunctions
 
         class GRdrone
         {
-            file = "KtweaK\functions\GRdrone";
+            file = "\z\ktwk\addons\KtweaK\functions\GRdrone";
 
             class GRdrone_playerInUAV {};
             class GRdrone_spawnDrone {};
@@ -155,7 +155,7 @@ class CfgFunctions
 
         class Melee
         {
-            file = "KtweaK\functions\melee";
+            file = "\z\ktwk\addons\KtweaK\functions\melee";
             preInit = 1;
 
             class inMelee {};
@@ -164,7 +164,7 @@ class CfgFunctions
 
         class SlideInSlopes
         {
-            file = "KtweaK\functions\SiS";
+            file = "\z\ktwk\addons\KtweaK\functions\SiS";
             preInit = 1;
 
             class slideInSlopes {};
@@ -174,7 +174,7 @@ class CfgFunctions
 
         class EquipNextWeapon
         {
-            file = "KtweaK\functions\ENW";
+            file = "\z\ktwk\addons\KtweaK\functions\ENW";
             preInit = 1;
 
             class equipNextWeapon {};
@@ -187,7 +187,7 @@ class CfgFunctions
 
         class BrighterNight
         {
-            file = "KtweaK\functions\BN";
+            file = "\z\ktwk\addons\KtweaK\functions\BN";
             preInit = 1;
 
             class brighterNight_check {};
@@ -215,7 +215,7 @@ class CfgMagazines
         scopeArsenal = 1;
         scopeCurator = 1;
         author = "kenoxite";
-        picture ="\KtweaK\weapons\data\ui\drone_icon.paa";
+        picture ="\z\ktwk\addons\KtweaK\weapons\data\ui\drone_icon.paa";
         model="\A3\Drones_F\Air_F_Gamma\UAV_01\UAV_01_F.p3d";
         icon = "iconObject_circle"; //Leave as is
         descriptionShort = "Dispenser of Recon Drones, allowing their automatic launch and control.";
@@ -266,7 +266,7 @@ class CfgWeapons
         scopeCurator = 2;
         displayName = "Recon Drone Dispenser";
         descriptionShort = "Dispenser of Recon Drones, allowing their automatic launch and control.";
-        picture = "\KtweaK\weapons\data\ui\drone_icon.paa";
+        picture = "\z\ktwk\addons\KtweaK\weapons\data\ui\drone_icon.paa";
         model = "\A3\Drones_F\Air_F_Gamma\UAV_01\UAV_01_F.p3d";
         icon = "iconObject_circle";
         class ItemInfo: CBA_MiscItem_ItemInfo
@@ -284,44 +284,44 @@ class CfgSounds
     class KTWK_noSound
     {
         name = "[FX] No sound";
-        sound[] = { "KtweaK\sounds\silence.wss", "db", 1, 100 };
+        sound[] = { "\z\ktwk\addons\KtweaK\sounds\silence.wss", "db", 1, 100 };
         titles[] = {};
     };
 
     // Effects
     class KTWK_coverInDirt {
         name = "[FX] Covering in dirt";
-        sound[] = {"KtweaK\sounds\coverInDirt.wss", "db", 1, 100 };
+        sound[] = {"\z\ktwk\addons\KtweaK\sounds\coverInDirt.wss", "db", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_slidingUpSlope {
         name = "[FX] Sliding upslope";
-        sound[] = {"KtweaK\sounds\slidingUpSlope.wss", "db", 1, 100 };
+        sound[] = {"\z\ktwk\addons\KtweaK\sounds\slidingUpSlope.wss", "db", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_slidingDownSlope {
         name = "[FX] Sliding downslope";
-        sound[] = {"KtweaK\sounds\slidingDownSlope.wss", "db", 1, 100 };
+        sound[] = {"\z\ktwk\addons\KtweaK\sounds\slidingDownSlope.wss", "db", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_gruntMan1 {
         name = "[FX] Grunt man 1";
-        sound[] = {"KtweaK\sounds\manGrunt1.wss", "db+20", 1, 100 };
+        sound[] = {"\z\ktwk\addons\KtweaK\sounds\manGrunt1.wss", "db+20", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_gruntMan2 {
         name = "[FX] Grunt man 2";
-        sound[] = {"KtweaK\sounds\manGrunt2.wss", "db+20", 1, 100 };
+        sound[] = {"\z\ktwk\addons\KtweaK\sounds\manGrunt2.wss", "db+20", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_gruntMan3 {
         name = "[FX] Grunt man 3";
-        sound[] = {"KtweaK\sounds\manGrunt3.wss", "db+20", 1, 100 };
+        sound[] = {"\z\ktwk\addons\KtweaK\sounds\manGrunt3.wss", "db+20", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_gruntMan4 {
         name = "[FX] Grunt man 4";
-        sound[] = {"KtweaK\sounds\manGrunt4.wss", "db+20", 1, 100 };
+        sound[] = {"\z\ktwk\addons\KtweaK\sounds\manGrunt4.wss", "db+20", 1, 100 };
         titles[] = {0, ""};
     };
 };

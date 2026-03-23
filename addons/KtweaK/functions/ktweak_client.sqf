@@ -220,7 +220,7 @@ addMissionEventHandler ["Loaded", {
         if (!isNil {KTWK_scr_HUD_health}) then {
             terminate KTWK_scr_HUD_health;
             waitUntil {scriptDone KTWK_scr_HUD_health};
-            KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
+            KTWK_scr_HUD_health = [] execVM "\z\ktwk\addons\KtweaK\scripts\HUD_health.sqf";
         };
     };
 }];
@@ -247,7 +247,7 @@ addMissionEventHandler ["PlayerViewChanged", {
     terminate KTWK_scr_GRdrone;
     _this spawn {
         waitUntil {scriptDone KTWK_scr_GRdrone};
-        KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
+        KTWK_scr_GRdrone = [] execVM "\z\ktwk\addons\KtweaK\scripts\reconDrone.sqf";
         player remoteControl (_this#1); // Make double sure control is restored to the player
     };
 
@@ -316,7 +316,7 @@ player addEventHandler ["Respawn", {
     terminate KTWK_scr_GRdrone;
     [] spawn {
         waitUntil {scriptDone KTWK_scr_GRdrone};
-        KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
+        KTWK_scr_GRdrone = [] execVM "\z\ktwk\addons\KtweaK\scripts\reconDrone.sqf";
     };
 
     // --------------------------------
@@ -332,29 +332,29 @@ if (!isNil {vn_sam_masteraudioarray}) then {
 
 // --------------------------------
 // Init - Humidity Effects
-KTWK_scr_HFX = [] execVM "KtweaK\scripts\humidityFX.sqf";
+KTWK_scr_HFX = [] execVM "\z\ktwk\addons\KtweaK\scripts\humidityFX.sqf";
 
 // --------------------------------
 // Init - Health HUD
-KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
+KTWK_scr_HUD_health = [] execVM "\z\ktwk\addons\KtweaK\scripts\HUD_health.sqf";
 
 // Init - Ghost Recon Drone
-KTWK_scr_GRdrone = [] execVM "KtweaK\scripts\reconDrone.sqf";
+KTWK_scr_GRdrone = [] execVM "\z\ktwk\addons\KtweaK\scripts\reconDrone.sqf";
 
 // Init - Cold Breath
-KTWK_scr_coldBreath = [] execVM "KtweaK\scripts\coldBreath.sqf";
+KTWK_scr_coldBreath = [] execVM "\z\ktwk\addons\KtweaK\scripts\coldBreath.sqf";
 
 // Init - Heat Haze
-KTWK_scr_heatHaze = [] execVM "KtweaK\scripts\heatHaze.sqf";
+KTWK_scr_heatHaze = [] execVM "\z\ktwk\addons\KtweaK\scripts\heatHaze.sqf";
 
 // Init - NVG Effects
-KTWK_scr_NVG = [] execVM "KtweaK\scripts\NVG.sqf";
+KTWK_scr_NVG = [] execVM "\z\ktwk\addons\KtweaK\scripts\NVG.sqf";
 
 // Init - Restrict Stance
-KTWK_scr_restrictStance = [] execVM "KtweaK\scripts\restrictStance.sqf";
+KTWK_scr_restrictStance = [] execVM "\z\ktwk\addons\KtweaK\scripts\restrictStance.sqf";
 
 // Init - Crouch Walking Is Tiring
-KTWK_scr_crouchMoveStamina = [] execVM "KtweaK\scripts\crouchMoveStamina.sqf";
+KTWK_scr_crouchMoveStamina = [] execVM "\z\ktwk\addons\KtweaK\scripts\crouchMoveStamina.sqf";
 
 // --------------------------------
 KTWK_SiS_excluded = [

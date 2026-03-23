@@ -1,2 +1,2 @@
 if (!hasInterface) exitWith {false};
-[] execVM "KtweaK\functions\ktweak_client.sqf";
+[] execVM "\z\ktwk\addons\KtweaK\functions\ktweak_client.sqf";

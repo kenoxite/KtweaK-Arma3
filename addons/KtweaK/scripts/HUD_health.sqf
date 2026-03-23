@@ -84,7 +84,7 @@ KTWK_fnc_HUD_health_drawHUD = {
     {
         _x params ["_idc", "_img"];
         _ctrl = _display displayCtrl _idc;
-        _ctrl ctrlSetText (["", format ["KtweaK\img\bodyparts\bodyicon_%1.paa", _img]] select _on);
+        _ctrl ctrlSetText (["", format ["\z\ktwk\addons\KtweaK\img\bodyparts\bodyicon_%1.paa", _img]] select _on);
     } forEach _idcArr;
 };
 
@@ -116,11 +116,11 @@ KTWK_HUD_health_PFH = [{
                 KTWK_HUD_health_alpha = 0.6;
                 [_handle] call CBA_fnc_removePerFrameHandler;
                 [{alive player}, {
-                    KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
+                    KTWK_scr_HUD_health = [] execVM "\z\ktwk\addons\KtweaK\scripts\HUD_health.sqf";
                 }] call CBA_fnc_waitUntilAndExecute;
             } else {
                 [_handle] call CBA_fnc_removePerFrameHandler;
-                KTWK_scr_HUD_health = [] execVM "KtweaK\scripts\HUD_health.sqf";
+                KTWK_scr_HUD_health = [] execVM "\z\ktwk\addons\KtweaK\scripts\HUD_health.sqf";
             };
         } else {
             if (!KTWK_HUD_health_opt_enabled || 
