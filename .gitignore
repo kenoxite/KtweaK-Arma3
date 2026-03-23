@@ -3,4 +3,5 @@
 *.sublime-project
 .hemtt*
 .github
-zzztests/
+addons/KtweaK/zzztests/
+images/
