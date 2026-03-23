@@ -2,7 +2,7 @@
 
 params ["_unit", "_group", ["_checkTimer", 60], ["_outOfCombatTime", 30]];
 
-if !(_unit isEqualTo (leader _group)) exitWith {false};
+if (_unit isNotEqualTo (leader _group)) exitWith {false};
 private _return = _group getVariable ["KTWK_inCombat", false];
 if (time - (_group getVariable ["KTWK_lastCombatCheck", 90]) > _checkTimer) then {
     private _nearEnemy = _unit findNearestEnemy _unit;

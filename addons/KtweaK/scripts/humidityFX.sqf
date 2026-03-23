@@ -102,7 +102,7 @@ while {KTWK_HFX_opt_enabled} do {
         && KTWK_HFX_inFog
         && _wasInFog
         && (
-            !(KTWK_HFX_lastFogParams isEqualTo _fogParams)
+            (KTWK_HFX_lastFogParams isNotEqualTo _fogParams)
             || abs (_fogDensityLast - _fogDensity) >= 0.05
             || _insideVehicleLast != _insideVehicle
             || _inBuildingLast != _inBuilding

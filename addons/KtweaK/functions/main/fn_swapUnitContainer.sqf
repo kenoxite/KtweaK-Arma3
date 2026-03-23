@@ -42,6 +42,7 @@ if (_overflowing && {!_allowOverflow}) exitWith { diag_log format ["ERROR: New c
 // if (isPlayer _unit && {!(isNull (findDisplay 602))}) exitWith {
 if (isPlayer _unit && {_unit getVariable ["KTWK_invOpened", false]}) exitWith {
     _this spawn {
+        params ["_unit"];
         // waitUntil {isNull (findDisplay 602)};
         waitUntil {!(_unit getVariable ["KTWK_invOpened", false])};
         _this call KTWK_fnc_swapUnitContainer;
@@ -179,7 +180,7 @@ _canAdd = true;
 } forEach _grenades;
 
 // Move overflow items to the ground
-if (!_deleteOverflow && {(count _overflowItems > 0 || count _overflowWeapons > 0 || count _overflowMags > 0)}) then {
+if (!_deleteOverflow && {(_overflowItems isNotEqualTo [] || _overflowWeapons isNotEqualTo [] || _overflowMags isNotEqualTo [])}) then {
     // If unit is in vehicle, move the items to the vehicle cargo instead
     private _wh = if (isNull objectParent _unit) then {
                     createVehicle ["GroundWeaponHolder", _unit getRelPos [0.2, getDir _unit], [], 0, "CAN_COLLIDE"];

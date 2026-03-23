@@ -35,7 +35,7 @@ if (count _aperture > 0) then {
             _ap3 = _aperture#3;
             _step = 0.1;
             setApertureNew [_ap0, _ap1, _ap2, _ap3];
-            while {(apertureParams#8) && !([_ap0, _ap1, _ap2] isEqualTo [_aperture#0,_aperture#1,_aperture#2])} do {
+            while {(apertureParams#8) && ([_ap0, _ap1, _ap2] isNotEqualTo [_aperture#0,_aperture#1,_aperture#2])} do {
                 _ap0 = _ap0 - _step;
                 _ap1 = _ap1 - _step;
                 _ap2 = _ap2 - _step;

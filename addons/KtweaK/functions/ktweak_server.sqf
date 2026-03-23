@@ -238,7 +238,7 @@ call KTWK_fnc_brighterNight_check;
     publicVariable "KTWK_allInfantry";
 
     // Update all infantry players array
-    KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x && !(typeOf _x == "HeadlessClient_F") };
+    KTWK_allInfPlayers = KTWK_allInfantry select {isPlayer _x && (typeOf _x != "HeadlessClient_F") };
 
     // Disable voice mods for non humans
     if (KTWK_disableVoices_opt_creatures) then {

@@ -191,7 +191,7 @@ KTWK_fnc_SFB_addInvEH = {
         params ["_unit", "_container", "_container2"];
         if (isNull _container2) exitWith {false};
         private _near = (_unit nearEntities ["Man", 5]) select {!isPlayer _x && (backpack _x) != ""};
-        if (count _near == 0) exitWith { false };
+        if (_near isEqualTo []) exitWith { false };
         // Sort by distance
         _near apply { [_x distance _unit, _x] };
         _near sort true;
@@ -420,8 +420,8 @@ if (KTWK_ravage) then {
     KTWK_phe_ENWRavageFix = [{
         if (!isNil {rvg_lootTarget}) then {
             // Hide holsters
-            [_unit, 1, 2] call KTWK_fnc_displayHolster; 
-            [_unit, 3, 2] call KTWK_fnc_displayHolster;
+            [KTWK_player, 1, 2] call KTWK_fnc_displayHolster; 
+            [KTWK_player, 3, 2] call KTWK_fnc_displayHolster;
         };
     }, 0, []] call CBA_fnc_addPerFrameHandler;
 };

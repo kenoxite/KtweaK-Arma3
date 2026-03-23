@@ -2,6 +2,15 @@
 *.sublime-workspace
 *.sublime-project
 .hemtt*
+.hemttprivatekey
+.biprivatekey
 .github
 addons/KtweaK/zzztests/
 images/
+a3/
+release/*
+releases/*
+*.zip
+*.cache
+*.pbo
+Thumbs.db

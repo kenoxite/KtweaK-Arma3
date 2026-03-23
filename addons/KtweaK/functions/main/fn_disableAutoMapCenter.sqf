@@ -26,7 +26,7 @@ addMissionEventHandler ["Map", {
             // by Larrow
             private _display = uiNamespace getVariable "RSCDiary";
             private _ctrl = _display displayCtrl 1202;
-            if (count KTWK_GPSHI_centerPlayerBtnColor == 0) then {
+            if (KTWK_GPSHI_centerPlayerBtnColor isEqualTo []) then {
                 KTWK_GPSHI_centerPlayerBtnColor =  ctrlTextColor _ctrl;
                 KTWK_GPSHI_centerPlayerBtnTooltip =  ctrlTooltip _ctrl;
             };

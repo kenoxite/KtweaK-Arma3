@@ -44,7 +44,7 @@ private [
 ];
 private _fnc_hasWBKlamp = {
     params ["_unitItems", "_lamps"];
-    count (_unitItems arrayIntersect _lamps) > 0
+    _unitItems arrayIntersect _lamps isNotEqualTo []
 };
 
 if (_opt_headlamps > 0) then {
@@ -209,9 +209,9 @@ if (!_hasHeadlamp) then {
     private _availableitems = [];
     {
         _compatibleItems = compatibleItems [_x, "PointerSlot"];
-        if (count _compatibleItems > 0) then {
+        if (_compatibleItems isNotEqualTo []) then {
             _availableitems = _itemTypesArr arrayIntersect _compatibleItems;
-            if (count _availableitems > 0) then {
+            if (_availableitems isNotEqualTo []) then {
                 _unit addWeaponItem [_x, selectRandom _availableitems, true];
             };
         };

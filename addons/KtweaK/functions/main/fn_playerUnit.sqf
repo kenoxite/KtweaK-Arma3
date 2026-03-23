@@ -41,6 +41,6 @@ if (side _player == sideLogic) then {
 };
 
 [
-    [_player, _curatorControlledUnit#0] select (count _curatorControlledUnit > 0),
+    [_player, _curatorControlledUnit#0] select (_curatorControlledUnit isNotEqualTo []),
     _player
 ] select (isNil "_curatorControlledUnit");
