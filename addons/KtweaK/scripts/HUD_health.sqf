@@ -1,6 +1,6 @@
 // HUD health - Init
 scriptName "Health HUD";
-#include "..\control_defines.inc"
+#include "..\control_defines.hpp"
 
 // ACE Medical
 #define ALL_BODY_PARTS ["head", "body", "leftarm", "rightarm", "leftleg", "rightleg"]
@@ -14,8 +14,8 @@ _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth";
 
 _ctrl = (_display displayCtrl IDC_GRP_HUD_BODYHEALTH);
 _ctrl ctrlShow true;
-_ctrlx = SafeZoneX + (SafeZoneW - (4 * pixelGridNoUIScale * pixelW));
-_ctrly = SafeZoneY + (SafeZoneH - (9 * pixelGridNoUIScale * pixelH));
+_ctrlx = safeZoneX + (safeZoneW - (4 * pixelGridNoUIScale * pixelW));
+_ctrly = safeZoneY + (safeZoneH - (9 * pixelGridNoUIScale * pixelH));
 _ctrlWidth = 4 * pixelGridNoUIScale * pixelW;
 _ctrlHeight = 8 * pixelGridNoUIScale * pixelH;
 _ctrl ctrlSetPosition [ _ctrlx, _ctrly, _ctrlWidth, _ctrlHeight];
@@ -110,7 +110,7 @@ KTWK_HUD_health_PFH = [{
         };
         private _isAlive = alive KTWK_player;
         if (KTWK_player != call CBA_fnc_currentUnit || !_isAlive) then {
-            [_display, _idcs, false] call KTWK_fnc_HUD_health_drawHUD;
+            [_display, [], false] call KTWK_fnc_HUD_health_drawHUD;
             KTWK_player removeEventHandler ["InventoryOpened", KTWK_HUD_health_EH_InvOpened];
             if (!_isAlive) then {
                 KTWK_HUD_health_alpha = 0.6;

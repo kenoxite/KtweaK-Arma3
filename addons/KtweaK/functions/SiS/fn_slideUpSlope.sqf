@@ -64,10 +64,10 @@ private _finalAnim = call {
         // if (_noWpnInHand) exitWith {"amovpercmstpsnonwnondnon"};
         if (_noWpnInHand) exitWith {"amovppnemstpsnonwnondnon_amovpercmstpsnonwnondnon"};
         if (_wep == primaryWeapon _unit) exitWith {
-            if (_lowered) then {"AmovPercMstpSlowWrflDnon"} else {"AmovPercMstpsrasWrflDnon"}
+            ["AmovPercMstpsrasWrflDnon", "AmovPercMstpSlowWrflDnon"] select (_lowered)
         };
         if (_wep == handgunWeapon _unit) exitWith {
-            if (_lowered) then {"AmovPercMstpSlowWpstDnon"} else {"AmovPercMstpsrasWpstDnon"}
+            ["AmovPercMstpsrasWpstDnon", "AmovPercMstpSlowWpstDnon"] select (_lowered)
         };
         ""
     };
@@ -75,10 +75,10 @@ private _finalAnim = call {
         // if (_noWpnInHand) exitWith {"amovpknlmstpsnonwnondnon"};
         if (_noWpnInHand) exitWith {"amovppnemstpsnonwnondnon_amovpknlmstpsnonwnondnon"};
         if (_wep == primaryWeapon _unit) exitWith {
-            if (_lowered) then {"AmovPknlMstpSlowWrflDnon"} else {"AmovPknlMstpsrasWrflDnon"}
+            ["AmovPknlMstpsrasWrflDnon", "AmovPknlMstpSlowWrflDnon"] select (_lowered)
         };
         if (_wep == handgunWeapon _unit) exitWith {
-            if (_lowered) then {"AmovPknlMstpSlowWpstDnon"} else {"AmovPknlMstpsrasWpstDnon"}
+            ["AmovPknlMstpsrasWpstDnon", "AmovPknlMstpSlowWpstDnon"] select (_lowered)
         };
         ""
     };

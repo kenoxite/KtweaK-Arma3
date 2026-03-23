@@ -186,8 +186,8 @@ if (KTWK_aceInteraction) then {
             _unit addItem "ACE_Clacker";
         };
         // Check if unit can defuse and doesn't have defusal kit
-        if !(_unit getUnitTrait "explosiveSpecialist") exitwith {false};
-        if ("ACE_DefusalKit" in _unitItems) exitwith {false};
+        if !(_unit getUnitTrait "explosiveSpecialist") exitWith {false};
+        if ("ACE_DefusalKit" in _unitItems) exitWith {false};
         _unit addItem "ACE_DefusalKit";
     }, true, [], true] call CBA_fnc_addClassEventHandler;
 };
@@ -211,7 +211,7 @@ call KTWK_fnc_brighterNight_check;
 // --------------------------------
 // Global system loop
 [{
-    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
+    if (!isNull (findDisplay 49)) exitWith {};    // Don't check while paused
 
     private _allUnits = allUnits select {
         !isObjectHidden _x

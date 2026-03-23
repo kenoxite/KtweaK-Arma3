@@ -15,7 +15,7 @@ if (KTWK_BN_opt_enabled > 0 && {call KTWK_fnc_isNight}) then {
             // Or set normally
             allPlayers select {!(_x getVariable ["KTWK_BN_set", false])}
         };
-        if (count _targets > 0) then {
+        if (_targets isNotEqualTo []) then {
             if (KTWK_BN_lastOption == KTWK_BN_opt_enabled) then {
                 [_targets, false] call KTWK_fnc_brighterNight_set;
             } else {
@@ -29,7 +29,7 @@ if (KTWK_BN_opt_enabled > 0 && {call KTWK_fnc_isNight}) then {
             [[], true] call KTWK_fnc_brighterNight_unSet;
         };
         private _targets = allPlayers select {_x getVariable ["KTWK_BN_set", false]};
-        if (count _targets > 0) then {
+        if (_targets isNotEqualTo []) then {
             if (KTWK_BN_opt_enabled > 0) then {
                 [_targets, false] call KTWK_fnc_brighterNight_unSet;
             } else {

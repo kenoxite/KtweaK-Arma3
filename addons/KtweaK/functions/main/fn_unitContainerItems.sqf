@@ -5,9 +5,9 @@
 
 params ["_unit", ["_containerType", "uniform"]];
 
-private _isUniform = toLowerAnsi _containerType == "uniform";
-private _isVest = toLowerAnsi _containerType == "vest";
-private _isBackpack = toLowerAnsi _containerType == "backpack";
+private _isUniform = toLowerANSI _containerType == "uniform";
+private _isVest = toLowerANSI _containerType == "vest";
+private _isBackpack = toLowerANSI _containerType == "backpack";
 
 // Get magazines names and its current ammo from the container
 private _containerMagDet = call {

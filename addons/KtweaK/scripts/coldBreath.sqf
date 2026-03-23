@@ -177,7 +177,7 @@ KTWK_fnc_CB_calculateOpacity = {
     private _opacity = if (_unit == KTWK_player && {(positionCameraToWorld [0,0,0] distance (vehicle KTWK_player)) < 2}) then {
         0.008
     } else {
-        if (_isDistant) then { 0.01 } else { 0.008 }
+        [0.008, 0.01] select (_isDistant)
     };
     _opacity * _effectIntensity
 };
@@ -381,7 +381,7 @@ KTWK_CB_nearUnits = [50] call KTWK_fnc_CB_nearUnits;
 
 // Main loop for cold breath effect
 KTWK_CB_PFH = [{
-    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
+    if (!isNull (findDisplay 49)) exitWith {};    // Don't check while paused
     params ["_args", "_pfhId"];
 
     if (KTWK_CB_opt_enabled) then {

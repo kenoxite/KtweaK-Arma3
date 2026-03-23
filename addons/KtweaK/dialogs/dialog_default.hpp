@@ -4,14 +4,14 @@ class KTWK_Background
 	idc = -1;
 	type = CT_STATIC;
 	style = ST_LEFT;
-	x = GUI_GRID_CENTER_X;
-	y = GUI_GRID_CENTER_Y;
-	w = GUI_GRID_CENTER_WAbs;
-	h = GUI_GRID_CENTER_HAbs;
+	x = "GUI_GRID_CENTER_X";
+	y = "GUI_GRID_CENTER_Y";
+	w = "GUI_GRID_CENTER_WAbs";
+	h = "GUI_GRID_CENTER_HAbs";
 	colorBackground[] = {0.5,0.5,0.5,1};
 	colorText[] = {0,0,0,0};
 	font = GUI_FONT_NORMAL;
-	sizeEx = GUI_GRID_CENTER_H;
+	sizeEx = "GUI_GRID_CENTER_H";
 	text = "";
 	moving = 0;
 };
@@ -24,10 +24,10 @@ class KTWK_Controls_Group
 	style = LB_TEXTURES; // Style
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
-	x = 12 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
-	y = 9 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y; // Vertical coordinates
-	w = 10 * GUI_GRID_CENTER_W; // Width
-	h = 3 * GUI_GRID_CENTER_H; // Height
+	x = "12 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X"; // Horizontal coordinates
+	y = "9 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y"; // Vertical coordinates
+	w = "10 * GUI_GRID_CENTER_W"; // Width
+	h = "3 * GUI_GRID_CENTER_H"; // Height
 
 	// Scrollbar configuration (applied only when LB_TEXTURES style is used)
 	class VScrollBar
@@ -82,15 +82,15 @@ class KTWK_Combo
 	default = 0; // Control selected by default (only one within a display can be used)
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
-	x = 1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
-	y = 9 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y; // Vertical coordinates
-	w = 10 * GUI_GRID_CENTER_W; // Width
-	h = 1 * GUI_GRID_CENTER_H; // Height
+	x = "1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X"; // Horizontal coordinates
+	y = "9 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y"; // Vertical coordinates
+	w = "10 * GUI_GRID_CENTER_W"; // Width
+	h = "1 * GUI_GRID_CENTER_H"; // Height
 
 	colorBackground[] = {0.2,0.2,0.2,1}; // Fill color
 	colorSelectBackground[] = {1,0.5,0,1}; // Selected item fill color
 
-	sizeEx = GUI_GRID_CENTER_H; // Text size
+	sizeEx = "GUI_GRID_CENTER_H"; // Text size
 	font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
 	shadow = 0; // Shadow (0 - none, 1 - N/A, 2 - black outline)
 	colorText[] = {1,1,1,1}; // Text and frame color
@@ -112,7 +112,7 @@ class KTWK_Combo
 	arrowEmpty = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_ca.paa"; // Expand arrow
 	arrowFull = "\A3\ui_f\data\GUI\RscCommon\rsccombo\arrow_combo_active_ca.paa"; // Collapse arrow
 
-	wholeHeight = 5 * GUI_GRID_CENTER_H; // Maximum height of expanded box (including the control height)
+	wholeHeight = "5 * GUI_GRID_CENTER_H"; // Maximum height of expanded box (including the control height)
 	maxHistoryDelay = 1; // Time since last keyboard type search to reset it
 
 	soundExpand[] = {"\A3\ui_f\data\sound\RscCombo\soundExpand",0.1,1}; // Sound played when the list is expanded
@@ -160,15 +160,15 @@ class KTWK_StaticText
 	default = 0; // Control selected by default (only one within a display can be used)
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
-	x = 1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
-	y = 1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y; // Vertical coordinates
-	w = 10 * GUI_GRID_CENTER_W; // Width
-	h = 1 * GUI_GRID_CENTER_H; // Height
+	x = "1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X"; // Horizontal coordinates
+	y = "1 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y"; // Vertical coordinates
+	w = "10 * GUI_GRID_CENTER_W"; // Width
+	h = "1 * GUI_GRID_CENTER_H"; // Height
 
 	colorBackground[] = {0.2,0.2,0.2,1}; // Fill color
 
 	text = "CT_STATIC"; // Displayed text
-	sizeEx = GUI_GRID_CENTER_H; // Text size
+	sizeEx = "GUI_GRID_CENTER_H"; // Text size
 	font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
 	shadow = 1; // Shadow (0 - none, 1 - directional, color affected by colorShadow, 2 - black outline)
 	lineSpacing = 1; // When ST_MULTI style is used, this defines distance between lines (1 is text height)
@@ -217,10 +217,10 @@ class KTWK_Tree
 	default = 0; // Control selected by default (only one within a display can be used)
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
-	x = 12 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
-	y = 3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y; // Vertical coordinates
-	w = 10 * GUI_GRID_CENTER_W; // Width
-	h = 3 * GUI_GRID_CENTER_H; // Height
+	x = "12 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X"; // Horizontal coordinates
+	y = "3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y"; // Vertical coordinates
+	w = "10 * GUI_GRID_CENTER_W"; // Width
+	h = "3 * GUI_GRID_CENTER_H"; // Height
 
 	colorBorder[] = {0,0,0,1}; // Frame color
 
@@ -229,7 +229,7 @@ class KTWK_Tree
 	colorMarked[] = {1,0.5,0,0.5}; // Marked item fill color (when multiselectEnabled is 1)
 	colorMarkedSelected[] = {1,0.5,0,1}; // Selected item fill color (when multiselectEnabled is 1)
 
-	sizeEx = GUI_GRID_CENTER_H; // Text size
+	sizeEx = "GUI_GRID_CENTER_H"; // Text size
 	font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
 	shadow = 1; // Shadow (0 - none, 1 - N/A, 2 - black outline)
 	colorText[] = {1,1,1,1}; // Text color
@@ -314,10 +314,10 @@ class KTWK_Button
 	default = 0; // Control selected by default (only one within a display can be used)
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
-	x = 1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
-	y = 3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y; // Vertical coordinates
-	w = 10 * GUI_GRID_CENTER_W; // Width
-	h = 1 * GUI_GRID_CENTER_H; // Height
+	x = "1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X"; // Horizontal coordinates
+	y = "3 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y"; // Vertical coordinates
+	w = "10 * GUI_GRID_CENTER_W"; // Width
+	h = "1 * GUI_GRID_CENTER_H"; // Height
 
 	colorBackground[] = {0.2,0.2,0.2,1}; // Fill color
 	colorBackgroundDisabled[] = {0,0,0,0.5}; // Disabled fill color
@@ -325,7 +325,7 @@ class KTWK_Button
 	colorFocused[] = {1,0.5,0,1}; // Selected fill color (oscillates between this and colorBackground)
 
 	text = "CT_BUTTON"; // Displayed text
-	sizeEx = GUI_GRID_CENTER_H; // Text size
+	sizeEx = "GUI_GRID_CENTER_H"; // Text size
 	font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
 	shadow = 1; // Shadow (0 - none, 1 - N/A, 2 - black outline)
 	colorText[] = {1,1,1,1}; // Text color
@@ -416,16 +416,16 @@ class KTWK_Listbox
 	default = 0; // Control selected by default (only one within a display can be used)
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
-	x = 1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
-	y = 11 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y; // Vertical coordinates
-	w = 10 * GUI_GRID_CENTER_W; // Width
-	h = 3 * GUI_GRID_CENTER_H; // Height
+	x = "1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X"; // Horizontal coordinates
+	y = "11 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y"; // Vertical coordinates
+	w = "10 * GUI_GRID_CENTER_W"; // Width
+	h = "3 * GUI_GRID_CENTER_H"; // Height
 
 	colorBackground[] = {0.2,0.2,0.2,1}; // Fill color
 	colorSelectBackground[] = {1,0.5,0,1}; // Selected item fill color
 	colorSelectBackground2[] = {0,0,0,1}; // Selected item fill color (oscillates between this and colorSelectBackground)
 
-	sizeEx = GUI_GRID_CENTER_H; // Text size
+	sizeEx = "GUI_GRID_CENTER_H"; // Text size
 	font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
 	shadow = 0; // Shadow (0 - none, 1 - directional, color affected by colorShadow, 2 - black outline)
 	colorText[] = {1,1,1,1}; // Text and frame color
@@ -445,7 +445,7 @@ class KTWK_Listbox
 
 	period = 1; // Oscillation time between colorSelect/colorSelectBackground2 and colorSelect2/colorSelectBackground when selected
 
-	rowHeight = 1 * GUI_GRID_CENTER_H; // Row height
+	rowHeight = "1 * GUI_GRID_CENTER_H"; // Row height
 	itemSpacing = 0; // Height of empty space between items
 	maxHistoryDelay = 1; // Time since last keyboard type search to reset it
 	canDrag = 1; // 1 (true) to allow item dragging
@@ -497,15 +497,15 @@ class KTWK_XListBox
 	default = 0; // Control selected by default (only one within a display can be used)
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
-	x = 12 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
-	y = 17 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y; // Vertical coordinates
-	w = 10 * GUI_GRID_CENTER_W; // Width
-	h = 1 * GUI_GRID_CENTER_H; // Height
+	x = "12 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X"; // Horizontal coordinates
+	y = "17 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y"; // Vertical coordinates
+	w = "10 * GUI_GRID_CENTER_W"; // Width
+	h = "1 * GUI_GRID_CENTER_H"; // Height
 
 	color[] = {1,1,1,1}; // Arrow color
 	colorActive[] = {1,0.5,0,1}; // Selected arrow color
 
-	sizeEx = GUI_GRID_CENTER_H; // Text size
+	sizeEx = "GUI_GRID_CENTER_H"; // Text size
 	font = GUI_FONT_NORMAL; // Font from CfgFontFamilies
 	shadow = 0; // Shadow (0 - none, 1 - N/A, 2 - black outline)
 	colorText[] = {1,1,1,1}; // Text color
@@ -550,10 +550,10 @@ class KTWK_Checkbox
 	default = 0; // Control selected by default (only one within a display can be used)
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
-	x = 29 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
-	y = 20 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y; // Vertical coordinates
-	w = 1 * GUI_GRID_CENTER_W; // Width
-	h = 1 * GUI_GRID_CENTER_H; // Height
+	x = "29 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X"; // Horizontal coordinates
+	y = "20 * GUI_GRID_CENTER_H + GUI_GRID_CENTER_Y"; // Vertical coordinates
+	w = "1 * GUI_GRID_CENTER_W"; // Width
+	h = "1 * GUI_GRID_CENTER_H"; // Height
 
 	//Colors
 	color[] = {1,1,1,0.7}; // Texture color
@@ -644,19 +644,17 @@ class KTWK_Map
 	colorMainRoadsFill[] = {1,0.6,0.4,1};
 	colorGrid[] = {0.1,0.1,0.1,0.6};
 	colorGridMap[] = {0.1,0.1,0.1,0.6};
-	stickX[] = {0.2,["Gamma",1,1.5]};
-	stickY[] = {0.2,["Gamma",1,1.5]};
 	widthRailWay = 1;
 	class Legend
 	{
 		colorBackground[] = {1,1,1,0.5};
 		color[] = {0,0,0,1};
-		x = SafeZoneX + GUI_GRID_W;
-		y = SafeZoneY + safezoneH - 4.5 * GUI_GRID_H;
-		w = 10 * GUI_GRID_W;
-		h = 3.5 * GUI_GRID_H;
+		x = "safeZoneX + GUI_GRID_W";
+		y = "safeZoneY + safezoneH - 4.5 * GUI_GRID_H";
+		w = "10 * GUI_GRID_W";
+		h = "3.5 * GUI_GRID_H";
 		font = "RobotoCondensed";
-		sizeEx = GUI_TEXT_SIZE_SMALL;
+		sizeEx = "GUI_TEXT_SIZE_SMALL";
 	};
 	class ActiveMarker
 	{
@@ -926,10 +924,10 @@ class KTWK_Map
 		size = 18;
 	};
 	moveOnEdges = 1;
-	x = "SafeZoneXAbs";
-	y = SafeZoneY + 1.5 * GUI_GRID_H;
-	w = "SafeZoneWAbs";
-	h = SafeZoneH - 1.5 * GUI_GRID_H;
+	x = "safeZoneXAbs";
+	y = "safeZoneY + 1.5 * GUI_GRID_H";
+	w = "safeZoneWAbs";
+	h = "safeZoneH - 1.5 * GUI_GRID_H";
 	shadow = 0;
 	ptsPerSquareSea = 5;
 	ptsPerSquareTxt = 20;
@@ -950,15 +948,15 @@ class KTWK_Map
 	colorTrails[] = {0.84,0.76,0.65,0.15};
 	colorTrailsFill[] = {0.84,0.76,0.65,0.65};
 	fontLabel = "RobotoCondensed";
-	sizeExLabel = GUI_TEXT_SIZE_SMALL;
+	sizeExLabel = "GUI_TEXT_SIZE_SMALL";
 	fontGrid = "TahomaB";
 	sizeExGrid = 0.02;
 	fontUnits = "TahomaB";
-	sizeExUnits = GUI_TEXT_SIZE_SMALL;
+	sizeExUnits = "GUI_TEXT_SIZE_SMALL";
 	fontNames = "EtelkaNarrowMediumPro";
-	sizeExNames = GUI_TEXT_SIZE_SMALL * 2;
+	sizeExNames = "GUI_TEXT_SIZE_SMALL * 2";
 	fontInfo = "RobotoCondensed";
-	sizeExInfo = GUI_TEXT_SIZE_SMALL;
+	sizeExInfo = "GUI_TEXT_SIZE_SMALL";
 	fontLevel = "TahomaB";
 	sizeExLevel = 0.02;
 	text = "#(argb,8,8,3)color(1,1,1,1)";

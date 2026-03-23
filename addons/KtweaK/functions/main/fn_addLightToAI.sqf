@@ -1,7 +1,7 @@
 // Adds weapon lights or headlamps to units without NVGs, weapon lights or headlamps
 // by kenoxite
 
-if (!canSuspend) exitwith {_this spawn KTWK_fnc_addLightToAI};
+if (!canSuspend) exitWith {_this spawn KTWK_fnc_addLightToAI};
 sleep 3;
 params ["_unit"];
 if (!alive _unit) exitWith {false};
@@ -25,8 +25,8 @@ if (!_hasNVG && {KTWK_AIlights_opt_NVGinv}) then {
 
 private _currentWpn = currentWeapon _unit;
 private _currentWpnType = call {
-    if (_currentWpn == primaryWeapon _unit) exitwith {0};
-    if (_currentWpn == handgunWeapon _unit) exitwith {2};
+    if (_currentWpn == primaryWeapon _unit) exitWith {0};
+    if (_currentWpn == handgunWeapon _unit) exitWith {2};
     0
 };
 private _hasWepLights = [_unit, _currentWpnType] call _fnc_checkFl;
@@ -163,26 +163,26 @@ private _knownFlashlights_pistol = [
 private _fnc_chooseHeadlamp = {
     params ["_unit", "_currentWpn", "_opt_allowHandFL", "_opt_headlampType", "_WBKhandfl", "_allWBKFlashlights", "_WBKheadlamps", "_WBKshoulderFl", "_WBKlanterns"];
     // Add hand held fl
-    if (_opt_allowHandFL > 0 && {_currentWpn == "" || _currentWpn == handgunWeapon _unit}) exitwith {
-        if (_opt_allowHandFL < 4) exitwith {
+    if (_opt_allowHandFL > 0 && {_currentWpn == "" || _currentWpn == handgunWeapon _unit}) exitWith {
+        if (_opt_allowHandFL < 4) exitWith {
             _WBKhandfl select (_opt_allowHandFL - 1);
         };
         selectRandom _WBKhandfl;
     };
     // Add other types based on preference
-    if (_opt_headlampType < 11) exitwith {
+    if (_opt_headlampType < 11) exitWith {
        _allWBKFlashlights select _opt_headlampType;
     };
-    if (_opt_headlampType == 11) exitwith {
+    if (_opt_headlampType == 11) exitWith {
        selectRandom _WBKheadlamps;
     };
-    if (_opt_headlampType == 12) exitwith {
+    if (_opt_headlampType == 12) exitWith {
        selectRandom _WBKshoulderFl;
     };
-    if (_opt_headlampType == 13) exitwith {
+    if (_opt_headlampType == 13) exitWith {
        selectRandom _WBKlanterns;
     };
-    if (_opt_headlampType == 14) exitwith {
+    if (_opt_headlampType == 14) exitWith {
        selectRandom (_WBKheadlamps + _WBKshoulderFl + _WBKlanterns);
     };
     "WBK_HeadLampItem"

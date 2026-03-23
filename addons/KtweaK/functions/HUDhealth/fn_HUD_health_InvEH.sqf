@@ -2,12 +2,12 @@
 params [["_unit", objNull]];
 if (isNull _unit) then { _unit = call CBA_fnc_currentUnit };
 KTWK_HUD_health_EH_InvOpened = _unit addEventHandler ["InventoryOpened", {
-    if (!KTWK_HUD_health_opt_enabled || !KTWK_HUD_health_opt_showInv) exitwith {false};
+    if (!KTWK_HUD_health_opt_enabled || !KTWK_HUD_health_opt_showInv) exitWith {false};
     KTWK_HUD_health_invOpened = true;
     _this spawn {
         params ["_unit", "_container"];
         // Display health HUD
-        if (vehicle _unit == _unit) then {
+        if (isNull objectParent _unit) then {
             sleep 1;
         };
         KTWK_HUD_health_alpha = 0.6;

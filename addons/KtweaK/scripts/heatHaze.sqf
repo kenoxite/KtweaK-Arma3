@@ -80,7 +80,7 @@ KTWK_fnc_HZ_isHotSurface = {
     private _isHot = false;
 
     if (isOnRoad _pos) then {
-        private _roadType = toLowerAnsi (getRoadInfo (roadAt _pos)#3);
+        private _roadType = toLowerANSI (getRoadInfo (roadAt _pos)#3);
         // if (_roadType != "" && !("dirt" in _roadType)) exitWith {true};
         for "_i" from 0 to (count _heatAccSurf)-1 do {
             if (_isHot) then {break};
@@ -89,7 +89,7 @@ KTWK_fnc_HZ_isHotSurface = {
         if (_isHot) exitWith {true};
     };
     _pos set [2, true];
-    private _surface = toLowerAnsi (surfaceType _pos);
+    private _surface = toLowerANSI (surfaceType _pos);
     for "_i" from 0 to (count _heatAccSurf)-1 do {
         if (_isHot) then {break};
         _isHot = (_heatAccSurf #_i) in _surface;
@@ -162,7 +162,7 @@ KTWK_HZ_lastHotSurfaceCheckTime = 0;
 KTWK_HZ_lastDebugTime = 0;
 
 KTWK_HZ_PFH = [{
-    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
+    if (!isNull (findDisplay 49)) exitWith {};    // Don't check while paused
     params ["_args", "_pfhId"];
     _args params ["_hotSurfaceCheckInterval", "_debugInterval"];
     

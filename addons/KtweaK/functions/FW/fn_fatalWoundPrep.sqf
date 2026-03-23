@@ -2,7 +2,7 @@
 
 params [["_unit", objNull], ["_stance", ""], ["_selection", ""], ["_damage", -1], ["_instigator", objNull], ["_grp", grpNull]];
 
-if (isNull _unit) exitwith {false};
+if (isNull _unit) exitWith {false};
 
 [_unit] call KTWK_fnc_disableVoice;
 
@@ -15,9 +15,9 @@ private _instantDeath = (
 private _closePlayers = [];
 {if (_unit distance _x <= KTWK_FW_opt_maxRange) then { _closePlayers pushBack _x}} forEach allPlayers;
 
-if(!KTWK_FW_opt_enabled || vehicle _unit != _unit || count _closePlayers == 0 || isPlayer _unit || _instantDeath) exitWith {
+if(!KTWK_FW_opt_enabled || !isNull objectParent _unit || _closePlayers isEqualTo [] || isPlayer _unit || _instantDeath) exitWith {
     _unit setVariable ["KTWK_FW_Killed", true, true];
-    if (KTWK_opt_debug) then { systemchat "Instant death" };
+    if (KTWK_opt_debug) then { systemChat "Instant death" };
 };
 
 // Exclude from ravage garbage collector
@@ -28,7 +28,7 @@ if (!isNil 'rvg_garbage_collector' && {_unit in rvg_garbage_collector}) then {
 
 private _clone = [_unit, _stance] call KTWK_fnc_cloneDead;
 
-if (isNull _clone) exitwith {false};
+if (isNull _clone) exitWith {false};
 // Unit Voice-Overs mod compatibility
 _clone setVariable ["UVO_voice", nil, true];
 _clone setVariable ["UVO_speaking", nil, true];

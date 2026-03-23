@@ -7,7 +7,7 @@ if (count _fog > 0) then {
     0 setFog _fog;
 };
 
-waituntil { !isNull player };
+waitUntil { !isNull player };
 
 private _player = call CBA_fnc_currentUnit;
 _player setVariable ["KTWK_isUnderwater", false];
@@ -92,7 +92,7 @@ while {KTWK_HFX_opt_enabled} do {
             _delay fadeSpeech (1 - (_fogDensity * _audioFXMod)) max 0.05;
         };
         waitUntil {ppEffectCommitted KTWK_HFX_fog_handle};
-        if (KTWK_opt_debug) then { systemchat "Humidity FX enabled" };
+        if (KTWK_opt_debug) then { systemChat "Humidity FX enabled" };
     };
 
     // Update effects if values of fog, fog density, inside a vehicle or building have changed
@@ -151,7 +151,7 @@ while {KTWK_HFX_opt_enabled} do {
             KTWK_HFX_fog_handle ppEffectEnable false;
             ppEffectDestroy KTWK_HFX_fog_handle;
             KTWK_HFX_fogFXactive = false;
-            if (KTWK_opt_debug) then { systemchat "Humidity FX disabled" };
+            if (KTWK_opt_debug) then { systemChat "Humidity FX disabled" };
         };
     };
 
@@ -179,7 +179,7 @@ if (!isNil "KTWK_HFX_fog_handle") then {
     ppEffectDestroy KTWK_HFX_fog_handle;
     KTWK_HFX_fogFXactive = false; 
 };
-if (KTWK_opt_debug) then { systemchat "Humidity FX terminated" };
+if (KTWK_opt_debug) then { systemChat "Humidity FX terminated" };
 
 waitUntil {sleep 1; KTWK_HFX_opt_enabled};
 

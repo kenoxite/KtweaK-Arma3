@@ -1,18 +1,18 @@
 // Changes the currently equipped primary/secondary/handgun weapon to other similar weapons in the player's inventory. Default keys are Ctrl+1, Ctrl+2 and Ctrl+3
 // by kenoxite
 
-if (!KTWK_ENW_opt_enabled) exitwith {[]};
+if (!KTWK_ENW_opt_enabled) exitWith {[]};
 
 params [["_unit", player], ["_slot", 2], ["_apply", true]];
 
 // Only swap if player is actually playing
 if (_apply && {!(isNull (findDisplay 602)) || {!(isNull (findDisplay 49)) || !(isNull (findDisplay 312)) || !(isNull (findDisplay 300))}}) exitWith {[]};
 // Disable in arsenal
-if (_apply && {!isNull (uiNamespace getVariable ["BIS_fnc_arsenal_cam", objNull])}) exitwith {[]};
+if (_apply && {!isNull (uiNamespace getVariable ["BIS_fnc_arsenal_cam", objNull])}) exitWith {[]};
 // Disable for non humans
 if !([_unit] call KTWK_fnc_isHuman) exitWith {[]};
 // Disallow inside vehicles
-if (_apply && {vehicle _unit != _unit}) exitWith {[]};
+if (_apply && {!isNull objectParent _unit}) exitWith {[]};
 // Disallow when swimming, falling, etc
 if (_apply && {stance _unit == "UNDEFINED" && !([_unit] call KTWK_fnc_inMelee)}) exitWith {[]};
 
@@ -48,8 +48,8 @@ private _currentExcluded = false;
     };
 } forEach _weapons;
 
-private _nextWeapon = [[],_rotation#0] select (count _rotation > 0);
-private _nextWeaponClass = ["", (_rotation#0)#0] select (count _rotation > 0);
+private _nextWeapon = [[],_rotation#0] select (_rotation isNotEqualTo []);
+private _nextWeaponClass = ["", (_rotation#0)#0] select (_rotation isNotEqualTo []);
 
 private _equippedWeapon = (_weapons select {(_x#0) == _equippedWeaponClass || (_x#0) == format ["%1_loaded",_equippedWeaponClass]})#0;
 if (isNil {_equippedWeapon}) then {_equippedWeapon = []};

@@ -19,7 +19,7 @@ _unit setVariable ["KTWK_SiS_isSlopeSliding", true, true];
 [_unit, "Acts_In_Sinkhole"] remoteExec ["playMoveNow", 0];
 
 // Apply force
-private _force = if (KTWK_aceMedical) then {6} else {7};
+private _force = [7, 6] select (KTWK_aceMedical);
 _unit setVelocityModelSpace [0, _force, 0];
 
 // Play sound

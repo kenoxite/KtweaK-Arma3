@@ -8,9 +8,9 @@ if (
     isNull _unit || 
     {!local _unit} || 
     {!([_unit] call KTWK_fnc_isHuman)} || 
-    {(count (KTWK_SiS_excluded select { _unit isKindOf _x}) > 0)} || 
+    {(KTWK_SiS_excluded select {_unit isKindOf _x} isNotEqualTo [])} || 
     {!alive _unit} || 
-    {vehicle _unit != _unit} ||
+    {isNull objectParent _unit} ||
     {_unit getVariable ["KTWK_SiS_isSlopeSliding", false]} ||
     {time < (_unit getVariable ["KTWK_SiS_fallImmunityTime", 0])} ||
     {(getPosATL _unit)#2 >= 1} ||
@@ -52,7 +52,7 @@ if (random 1 > _balance) then {
     _unit setVariable ["KTWK_SiS_fallImmunityTime", time + random [15,30,60]];
 
     // Initiate the appropriate sliding behavior based on slope direction
-    [_unit] spawn (if (_terrainGrad > 0) then {KTWK_fnc_slideUpSlope} else {KTWK_fnc_slideDownSlope});
+    [_unit] spawn ([KTWK_fnc_slideDownSlope, KTWK_fnc_slideUpSlope] select (_terrainGrad > 0));
 };
 
 true

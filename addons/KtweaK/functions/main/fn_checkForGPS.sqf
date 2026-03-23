@@ -20,4 +20,4 @@ private _veh = vehicle _player;
         "Item_B_CA2035PMC_UavTerminal"
         ]
     }) >= 0
-|| ((_veh != _player) && {getNumber (configFile >> "cfgVehicles" >> typeof _veh >> "enableGPS") == 1}) 
+|| ((_veh != _player) && {getNumber (configOf _veh >> "enableGPS") == 1}) 

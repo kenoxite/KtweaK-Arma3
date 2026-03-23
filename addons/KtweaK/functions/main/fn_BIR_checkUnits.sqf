@@ -1,6 +1,6 @@
 // BettIR
 
-if (!isServer) exitwith {false};
+if (!isServer) exitWith {false};
     
 private _allInfantry = KTWK_allInfantry select {!isPlayer _x};
 private _stealthOpt = KTWK_BIR_stealth_opt_enabled;
@@ -39,7 +39,7 @@ private _darkOutside = overcast > 0.6 || moonIntensity < 0.1;
         continue;
     };
     // Skip if in vehicle
-    if (vehicle _x != _x) then {
+    if (isNull objectParent _x) then {
         [_x] call _fnc_deactivateAll;
         continue;
     };
@@ -61,17 +61,17 @@ private _darkOutside = overcast > 0.6 || moonIntensity < 0.1;
     private _wpnOn = _x getVariable ["KTWK_BIR_wpn", false];
     // Enable NVG Illuminator
     private _nvgToggle = call {
-        if (_nvgOpt == 0) exitwith {false}; // Never enable
-        if (_nvgOpt == 1) exitwith {true};  // Always enable
-        if (_nvgOpt == 2 && _tooDark) exitwith {true};    // Enable if dark enough
+        if (_nvgOpt == 0) exitWith {false}; // Never enable
+        if (_nvgOpt == 1) exitWith {true};  // Always enable
+        if (_nvgOpt == 2 && _tooDark) exitWith {true};    // Enable if dark enough
         false
     };
     // Enable weapon Illuminator
     private _wpnToggle = call {
-        if (_wpnOpt == 0) exitwith {false}; // Never enable
-        if (_wpnOpt == 1) exitwith {true};  // Always enable
-        if (_wpnOpt == 2 && _tooDark) exitwith {true};    // Enable if dark enough
-        if (_wpnOpt == 3 && _tooDark && _behaviour == "COMBAT") exitwith {true};    // Enable if in combat
+        if (_wpnOpt == 0) exitWith {false}; // Never enable
+        if (_wpnOpt == 1) exitWith {true};  // Always enable
+        if (_wpnOpt == 2 && _tooDark) exitWith {true};    // Enable if dark enough
+        if (_wpnOpt == 3 && _tooDark && _behaviour == "COMBAT") exitWith {true};    // Enable if in combat
         false
     };
     // Stealth options check

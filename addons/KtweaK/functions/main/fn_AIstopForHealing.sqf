@@ -4,7 +4,7 @@
 params ["_injured", "_healer"];
 // Only apply when healer is a player or a player controlled unit and also if injured unit is local to the player
 private _players = allPlayers - entities "HeadlessClient_F";
-if (isPlayer _injured || {!(_healer in _players) && !(remoteControlled _healer in _players)}) exitwith {};
+if (isPlayer _injured || {!(_healer in _players) && !(remoteControlled _healer in _players)}) exitWith {};
 _this spawn {
     params ["_injured", "_healer"];
     private _damage = damage _injured;

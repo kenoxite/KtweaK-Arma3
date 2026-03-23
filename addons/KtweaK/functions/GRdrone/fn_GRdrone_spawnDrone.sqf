@@ -18,7 +18,7 @@ if (!KTWK_GRdrone_opt_enableTI) then { _UAV disableTIEquipment true };
 // Position drone
 _UAV setDir (getDir vehicle KTWK_player);
 private _pos = getPos _UAV;
-private _posASL = AGLtoASL _pos;
+private _posASL = AGLToASL _pos;
 _UAV allowDamage false;
 KTWK_playerAllowDamage = isDamageAllowed KTWK_player;
 KTWK_player allowDamage false;
@@ -86,9 +86,9 @@ _UAV switchCamera "internal";
                 <br/>Signal: <t color='#%4'>%2</t>
                 </t>",
                 _batteryLeft,
-                if (_dist < KTWK_GRdrone_opt_maxDist*0.25) then {"Strong"} else {if (_dist < KTWK_GRdrone_opt_maxDist*0.5) then {"Normal"} else {if (_dist < KTWK_GRdrone_opt_maxDist*0.75) then {"Weak"} else {"Very Weak"}}},
-                if (_batteryLeft > 50) then {"00FF00"} else {if (_batteryLeft > 25) then {"FFFF00"} else {"FF0000"}},
-                if (_dist < KTWK_GRdrone_opt_maxDist*0.25) then {"00FF00"} else {if (_dist < KTWK_GRdrone_opt_maxDist*0.5) then {"FFFF00"} else {if (_dist < KTWK_GRdrone_opt_maxDist*0.75) then {"f78205"} else {"FF0000"}}},
+                if (_dist < KTWK_GRdrone_opt_maxDist*0.25) then {"Strong"} else {if (_dist < KTWK_GRdrone_opt_maxDist*0.5) then {"Normal"} else {["Very Weak", "Weak"] select (_dist < (KTWK_GRdrone_opt_maxDist * 0.75))}},
+                if (_batteryLeft > 50) then {"00FF00"} else {["FF0000", "FFFF00"] select (_batteryLeft > 25)},
+                if (_dist < KTWK_GRdrone_opt_maxDist*0.25) then {"00FF00"} else {if (_dist < KTWK_GRdrone_opt_maxDist*0.5) then {"FFFF00"} else {["FF0000", "f78205"] select (_dist < (KTWK_GRdrone_opt_maxDist * 0.75))}},
                 "%"
             ];
         // Check for automatic disconnect
@@ -99,7 +99,7 @@ _UAV switchCamera "internal";
             KTWK_player allowDamage KTWK_playerAllowDamage;
         };
         if (!KTWK_GRdrone_opt_enableRadar) then {
-            {[_UAV] enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"];
+            {_UAV enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"];
             {[_UAV, [0]] enableInfoPanelComponent [_x,"SensorsDisplayComponent",false]} forEach ["left","right"];
         };
         // Project SFX

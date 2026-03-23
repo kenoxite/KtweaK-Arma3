@@ -5,5 +5,5 @@ private _player = player;
     if ((player in UAVControl _x) && (_UAVrole != "")) then {
         _player = [_x, gunner _x] select (_UAVrole == "GUNNER")
     }
-} foreach allUnitsUAV;
+} forEach allUnitsUAV;
 player != _player

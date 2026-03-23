@@ -2,7 +2,7 @@
 // Adds extra fatigue drain while moving in a crouched stance.
 
 // Factor to control the intensity of the effect. Higher = more stamina drain
-CROUCH_FATIGUE_FACTOR = 0.00007;
+#define CROUCH_FATIGUE_FACTOR 0.00007
 
 [{
     params ["_args", "_handle"];

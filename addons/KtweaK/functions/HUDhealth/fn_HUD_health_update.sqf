@@ -25,8 +25,8 @@ if (isNull findDisplay 46) exitWith {false};
 
 disableSerialization;
 private _display = uiNamespace getVariable "KTWK_GUI_Display_HUD_bodyHealth";
-if (isNil {_display}) exitwith {diag_log "KtweaK: HUD health display not defined!"};
-if (isNull _display) exitwith {diag_log "KtweaK: HUD health display not found!"};
+if (isNil {_display}) exitWith {diag_log "KtweaK: HUD health display not defined!"};
+if (isNull _display) exitWith {diag_log "KtweaK: HUD health display not found!"};
 
 if (isNil {KTWK_HUD_health_alpha}) then { KTWK_HUD_health_alpha = KTWK_HUD_health_opt_alpha; };
 if (isNil {KTWK_HUD_health_currentAlpha}) then { KTWK_HUD_health_currentAlpha = 0; };
@@ -75,7 +75,7 @@ private ["_currentDamageArr", "_ctrl", "_bloodLoss", "_damage", "_bodyPartColor"
 {
     _x params ["_idc", "_part"];
     _ctrl = _display displayCtrl _idc;
-    if (isNil {_ctrl}) exitwith {diag_log "KtweaK: HUD health dialog control not found!"};
+    if (isNil {_ctrl}) exitWith {diag_log "KtweaK: HUD health dialog control not found!"};
     _currentDamageArr = (KTWK_HUD_health_dmgTracker #_forEachIndex) params ["_currentDamage", "_damageAlpha"];
 
     if (KTWK_aceMedical) then {
@@ -136,7 +136,7 @@ private ["_currentDamageArr", "_ctrl", "_bloodLoss", "_damage", "_bodyPartColor"
 (KTWK_HUD_health_idcs #0) params ["_idc"];
 _damage = damage KTWK_player;
 _ctrl = _display displayCtrl _idc;
-if (isNil {_ctrl}) exitwith {diag_log "KtweaK: HUD health dialog control not found!"};
+if (isNil {_ctrl}) exitWith {diag_log "KtweaK: HUD health dialog control not found!"};
 if (!KTWK_aceMedical) then {
     _color = + ([_damage, _healthColors] call _fnc_dmgColor);
     // Flash when damaged or healed

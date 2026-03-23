@@ -2,14 +2,14 @@
 
 params [["_unit", objNull], ["_stance", ""], ["_selection", ""], ["_damage", -1], ["_instigator", objNull], ["_grp", grpNull], ["_clone", objNull]];
 
-if (isNull _unit || isNull _clone) exitwith {true};
+if (isNull _unit || isNull _clone) exitWith {true};
 
-if (!canSuspend) exitwith {_this spawn KTWK_fnc_fatalWound};
+if (!canSuspend) exitWith {_this spawn KTWK_fnc_fatalWound};
 
 // Wait for the ragdolling to stop
 waitUntil {[_unit] call KTWK_fnc_checkBodySlam};
 // waitUntil {alive _unit != isAwake _unit};
-if (isNull _unit) exitwith {true};
+if (isNull _unit) exitWith {true};
 // private _parentPos = ASLToAGL(aimPos _unit);
 // _parentPos set [2, 0];
 private _parentPos = getPosWorld _unit;
@@ -18,7 +18,7 @@ private _parentHeadDir = _unit getRelDir _parentHeadPos;
 private _parentDir = ((getDir _unit) + _parentHeadDir) mod 360;
 
 private _keepCorpse = call {
-    if (KTWK_FW_opt_mode == "keep") exitwith {true};
+    if (KTWK_FW_opt_mode == "keep") exitWith {true};
     false
 };
 
@@ -39,14 +39,14 @@ _clone setDir _parentDir;
 _clone setPosWorld _parentPos;
 _clone hideObjectGlobal false;
 
-// systemchat format ["_selection: %1", _selection];
+// systemChat format ["_selection: %1", _selection];
 
 private _pos = getPosWorld _clone;
 private _dir = getDir _clone;
 
 // if (KTWK_FW_opt_enabled && ((getPosATL _clone) select 2) < 3 && _instigator != _unit) then {
 // Ragdoll
-// systemchat "Ragdoll";
+// systemChat "Ragdoll";
 // sleep 0.001;
 // _clone setUnconscious true;
 // waitUntil {[_clone] call KTWK_fnc_checkBodySlam};
@@ -66,11 +66,11 @@ private _maxAnimTime = 10;
 
 call {
     // Head
-    if (_selection == "head" || _selection == "neck" || _selection == "face_hub") exitwith {
+    if (_selection == "head" || _selection == "neck" || _selection == "face_hub") exitWith {
         private _animData = (selectRandom [
                                     ["Acts_CivilInjuredHead_1", 25, 0, "back"]
                                     ]) params ["_anim", "_animTime", "_animDir", "_animSide"];
-        if (KTWK_opt_debug) then { systemchat format ["Head injury anim: %1", _anim] };
+        if (KTWK_opt_debug) then { systemChat format ["Head injury anim: %1", _anim] };
         // if (_currentSide == "front" && _animSide == "back") then {
         //     _clone setUnconscious true;
         //     sleep 0.001;
@@ -93,7 +93,7 @@ call {
     };
 
     // Chest
-    if (_selection == "spine3") exitwith {
+    if (_selection == "spine3") exitWith {
         private _animData = (selectRandom [
                                                 // ["Acts_InjuredLyingRifle01", 10, -30, "back"],
                                                 // ["Acts_InjuredLyingRifle02", 10, -30, "back"],
@@ -107,7 +107,7 @@ call {
                                                 // ["Acts_InjuredCoughRifle02", 10, -30, "back"],
                                                 ["Acts_CivilInjuredChest_1", 16, 0, "back"]
                                                 ]) params ["_anim", "_animTime", "_animDir", "_animSide"];
-        if (KTWK_opt_debug) then { systemchat format ["Chest injury anim: %1", _anim] };
+        if (KTWK_opt_debug) then { systemChat format ["Chest injury anim: %1", _anim] };
         if (_currentSide == "front" && _animSide == "back") then {
             _clone setUnconscious true;
             sleep 0.001;
@@ -133,7 +133,7 @@ call {
     };
 
     // Stomach
-    if (_selection == "spine1" || _selection == "spine2" || _selection == "pelvis") exitwith {
+    if (_selection == "spine1" || _selection == "spine2" || _selection == "pelvis") exitWith {
         private _animData = (selectRandom [
                                                 ["Acts_InjuredLyingRifle01", 10, -30, "back"],
                                                 ["Acts_InjuredLyingRifle02", 10, -30, "back"],
@@ -147,7 +147,7 @@ call {
                                                 ["Acts_InjuredCoughRifle02", 10, -30, "back"]
                                                 // "passenger_flatground_leanleft"
                                                 ]) params ["_anim", "_animTime", "_animDir", "_animSide"];
-        if (KTWK_opt_debug) then { systemchat format ["Stomach injury anim: %1", _anim] };
+        if (KTWK_opt_debug) then { systemChat format ["Stomach injury anim: %1", _anim] };
         if (_currentSide == "front" && _animSide == "back") then {
             _clone setUnconscious true;
             sleep 0.001;
@@ -174,11 +174,11 @@ call {
     };
 
     // Legs
-    if (_selection == "legs") exitwith {
+    if (_selection == "legs") exitWith {
         private _animData = (selectRandom [
                                                 ["Acts_CivilInjuredLegs_1", 16.5, -20, "back"]
                                                 ]) params ["_anim", "_animTime", "_animDir", "_animSide"];
-        if (KTWK_opt_debug) then { systemchat format ["Leg injury anim: %1", _anim] };
+        if (KTWK_opt_debug) then { systemChat format ["Leg injury anim: %1", _anim] };
         // if (_currentSide == "front" && _animSide == "back") then {
         //     _clone setUnconscious true;
         //     sleep 0.001;
@@ -203,11 +203,11 @@ call {
     };
 
     // Arms
-    if (_selection == "hands") exitwith {
+    if (_selection == "hands") exitWith {
         private _animData = (selectRandom [
                                                 ["Acts_CivilInjuredArms_1", 20, -20, "back"]
                                                 ]) params ["_anim", "_animTime", "_animDir", "_animSide"];
-        if (KTWK_opt_debug) then { systemchat format ["Arm injury anim: %1", _anim] };
+        if (KTWK_opt_debug) then { systemChat format ["Arm injury anim: %1", _anim] };
         // if (_currentSide == "front" && _animSide == "back") then {
         //     _clone setUnconscious true;
         //     sleep 0.001;
@@ -232,13 +232,13 @@ call {
     };
 
     // Body
-    if (_selection == "" || _selection == "body") exitwith {
+    if (_selection == "" || _selection == "body") exitWith {
         // private _inBuilding = [_clone] call KTWK_fnc_inBuilding;
         private _inBuilding = insideBuilding _clone > 0.9;
         private _type = [ selectRandom ["still", "move"], "still"] select _inBuilding;
         _type = "still"; // Disable moving animations (slowly crawling away)
         call {
-            if (_type == "still") exitwith {
+            if (_type == "still") exitWith {
                 private _animData = (selectRandom [
                                                             ["Acts_InjuredLyingRifle01", 10, -30, "back"],
                                                             ["Acts_InjuredLyingRifle02", 10, -30, "back"],
@@ -254,7 +254,7 @@ call {
                                                             ["Acts_CivilInjuredChest_1", 16, 0, "back"]
                                                             // "passenger_flatground_leanleft"
                                                             ]) params ["_anim", "_animTime", "_animDir", "_animSide"];
-                if (KTWK_opt_debug) then { systemchat format ["Generic still anim: %1", _anim] };
+                if (KTWK_opt_debug) then { systemChat format ["Generic still anim: %1", _anim] };
                 if (_currentSide == "front" && _animSide == "back") then {
                     _clone setUnconscious true;
                     sleep 0.001;
@@ -288,7 +288,7 @@ call {
                 sleep (_animTime min _maxAnimTime);
             };
 
-            if (_type == "move") exitwith {
+            if (_type == "move") exitWith {
                 private _animData = selectRandom [
                                                 ["AmovPpneMsprSnonWnonDf_injured", 12, 0, "front"] // slowly crawling - clips
                                                 // ["ApanPercMsprSnonWnonDf", 1],    // running scared - looks silly
@@ -300,7 +300,7 @@ call {
                 private _animTime = _animData select 1;
                 private _animDir = _animData select 2;
                 private _animSide = _animData select 3;
-                if (KTWK_opt_debug) then { systemchat format ["Generic moving anim: %1", _anim] };
+                if (KTWK_opt_debug) then { systemChat format ["Generic moving anim: %1", _anim] };
                 if (_currentSide == "front" && _animSide == "back") then {
                     _clone setUnconscious true;
                     sleep 0.001;
@@ -329,7 +329,7 @@ call {
 };
 
 // Kill unit
-if (KTWK_opt_debug) then { systemchat "Death" };
+if (KTWK_opt_debug) then { systemChat "Death" };
 _clone setUnconscious true;
 sleep 0.01;
 _unit setVariable ["KTWK_FW_Killed", true, true];

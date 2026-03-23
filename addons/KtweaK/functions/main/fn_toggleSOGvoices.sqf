@@ -1,7 +1,7 @@
 // Toggle SOG voices
 // by kenoxite and johnnyboy
 
-if (isNil {vn_sam_masteraudioarray}) exitwith {false};
+if (isNil {vn_sam_masteraudioarray}) exitWith {false};
 if (isNil {KTWK_vn_sam_masteraudioarray}) then { KTWK_vn_sam_masteraudioarray = +vn_sam_masteraudioarray };
 
 // US voices

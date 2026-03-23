@@ -1,7 +1,7 @@
 // Changes the currently equipped primary/secondary/handgun weapon to other similar weapons in the player's inventory. Default keys are Ctrl+1, Ctrl+2 and Ctrl+3
 // by kenoxite
 
-if (!KTWK_ENW_opt_enabled) exitwith {[]};
+if (!KTWK_ENW_opt_enabled) exitWith {[]};
     
 params ["_unit", "_slot", "_equippedWeapon", "_equippedWeaponClass", "_nextWeapon", "_nextWeaponClass", "_weaponContainer", "_inUniform", "_inVest", "_inBackpack"];
 
@@ -107,8 +107,8 @@ if (!_overflow) then {
         if (_inVest) exitWith {"vest"};
         if (_inBackpack) exitWith {"backpack"};
     };
-    systemChat format ["'%1' can't fit in the %2. %3", _wpnName, _slotName, if (vehicle _unit == _unit) then {"Dropping it to the ground."} else {"Moving it to the vehicle's cargo."}];
-    private _wh = if (vehicle _unit == _unit) then {
+    systemChat format ["'%1' can't fit in the %2. %3", _wpnName, _slotName, ["Moving it to the vehicle's cargo.", "Dropping it to the ground."] select (isNull objectParent _unit)];
+    private _wh = if (isNull objectParent _unit) then {
                     createVehicle ["GroundWeaponHolder", _unit getRelPos [0.2, getDir _unit], [], 0, "CAN_COLLIDE"];
                 } else {
                     vehicle _unit;

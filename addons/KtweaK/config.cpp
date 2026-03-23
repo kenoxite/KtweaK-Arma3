@@ -199,7 +199,7 @@ class CfgFunctions
     };
 };
 
-#include "control_defines.inc"
+#include "control_defines.hpp"
 #include "dialogs\dialog_default.hpp"
 #include "dialogs\dialog_hud.hpp"
 
@@ -284,44 +284,44 @@ class CfgSounds
     class KTWK_noSound
     {
         name = "[FX] No sound";
-        sound[] = { "KtweaK\sounds\silence.wss", db, 1, 100 };
+        sound[] = { "KtweaK\sounds\silence.wss", "db", 1, 100 };
         titles[] = {};
     };
 
     // Effects
     class KTWK_coverInDirt {
         name = "[FX] Covering in dirt";
-        sound[] = {"KtweaK\sounds\coverInDirt.wss", db, 1, 100 };
+        sound[] = {"KtweaK\sounds\coverInDirt.wss", "db", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_slidingUpSlope {
         name = "[FX] Sliding upslope";
-        sound[] = {"KtweaK\sounds\slidingUpSlope.wss", db, 1, 100 };
+        sound[] = {"KtweaK\sounds\slidingUpSlope.wss", "db", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_slidingDownSlope {
         name = "[FX] Sliding downslope";
-        sound[] = {"KtweaK\sounds\slidingDownSlope.wss", db, 1, 100 };
+        sound[] = {"KtweaK\sounds\slidingDownSlope.wss", "db", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_gruntMan1 {
         name = "[FX] Grunt man 1";
-        sound[] = {"KtweaK\sounds\manGrunt1.wss", db+20, 1, 100 };
+        sound[] = {"KtweaK\sounds\manGrunt1.wss", "db+20", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_gruntMan2 {
         name = "[FX] Grunt man 2";
-        sound[] = {"KtweaK\sounds\manGrunt2.wss", db+20, 1, 100 };
+        sound[] = {"KtweaK\sounds\manGrunt2.wss", "db+20", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_gruntMan3 {
         name = "[FX] Grunt man 3";
-        sound[] = {"KtweaK\sounds\manGrunt3.wss", db+20, 1, 100 };
+        sound[] = {"KtweaK\sounds\manGrunt3.wss", "db+20", 1, 100 };
         titles[] = {0, ""};
     };
     class KTWK_gruntMan4 {
         name = "[FX] Grunt man 4";
-        sound[] = {"KtweaK\sounds\manGrunt4.wss", db+20, 1, 100 };
+        sound[] = {"KtweaK\sounds\manGrunt4.wss", "db+20", 1, 100 };
         titles[] = {0, ""};
     };
 };

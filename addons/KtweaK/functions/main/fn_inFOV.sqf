@@ -13,7 +13,7 @@ private _observerPos = getPosWorld _vehObserver;
 private _allTurrets = allTurrets [_vehObserver, false];
 private _camDir = -1;
 if (count _allTurrets == 0 || {_vehObserver turretUnit [0] != _observer}) then {
-    _camDir = [0,0,0] getdir getCameraViewDirection _vehObserver;
+    _camDir = [0,0,0] getDir getCameraViewDirection _vehObserver;
 } else {
     private _weaponDir = _vehObserver weaponDirection (currentWeapon _vehObserver);
     private _turretDir = (_weaponDir select 0) atan2 (_weaponDir select 1);

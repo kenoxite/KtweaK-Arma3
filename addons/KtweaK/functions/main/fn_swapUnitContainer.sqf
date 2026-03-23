@@ -8,9 +8,9 @@ if (!local _unit) exitWith {false};
 
 if (_newContainer == "") exitWith {false};
 
-private _isUniform = toLowerAnsi _containerType == "uniform";
-private _isVest = toLowerAnsi _containerType == "vest";
-private _isBackpack = toLowerAnsi _containerType == "backpack";
+private _isUniform = toLowerANSI _containerType == "uniform";
+private _isVest = toLowerANSI _containerType == "vest";
+private _isBackpack = toLowerANSI _containerType == "backpack";
 
 // Exit if unit doesn't have the container needed to be swapped
 if (_isUniform && {uniform _unit == ""}) exitWith {false};
@@ -181,7 +181,7 @@ _canAdd = true;
 // Move overflow items to the ground
 if (!_deleteOverflow && {(count _overflowItems > 0 || count _overflowWeapons > 0 || count _overflowMags > 0)}) then {
     // If unit is in vehicle, move the items to the vehicle cargo instead
-    private _wh = if (vehicle _unit == _unit) then {
+    private _wh = if (isNull objectParent _unit) then {
                     createVehicle ["GroundWeaponHolder", _unit getRelPos [0.2, getDir _unit], [], 0, "CAN_COLLIDE"];
                 } else {
                     vehicle _unit;

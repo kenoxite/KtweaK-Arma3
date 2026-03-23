@@ -15,7 +15,7 @@
 if (!canSuspend) exitWith {_this spawn KTWK_fnc_openInv};
 params ["_unit", "_container", "_container2"];
 sleep 0.01;
-if (vehicle _unit == _unit) then {
+if (isNull objectParent _unit) then {
     if (isNull (findDisplay 602)) then {
         _unit action ["Gear", _container];
     };

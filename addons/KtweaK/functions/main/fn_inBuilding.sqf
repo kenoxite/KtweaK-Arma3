@@ -2,7 +2,7 @@
 
 params [["_unit", objNull]];
 
-if (isNull _unit) exitwith {false};
+if (isNull _unit) exitWith {false};
 
 lineIntersectsSurfaces [
     getPosWorld _unit, 

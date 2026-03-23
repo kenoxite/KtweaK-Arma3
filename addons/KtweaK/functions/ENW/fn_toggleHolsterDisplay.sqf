@@ -12,7 +12,7 @@ if (!isNil {missionNamespace getVariable "BIS_fnc_camera_cam"}) exitWith {false}
 private ["_wpns"];
 if (KTWK_ENW_opt_displayRifle) then {
     call {
-        if (vehicle _unit == _unit) exitWith {
+        if (isNull objectParent _unit) exitWith {
             // Update rifle holster
             _wpns = ([_unit, 1, false] call KTWK_fnc_equipNextWeapon) select {count _x > 0};
             if (count _wpns > 1 || (count _wpns == 1 && primaryWeapon _unit == "")) then {
@@ -31,7 +31,7 @@ if (KTWK_ENW_opt_displayRifle) then {
 };
 if (KTWK_ENW_opt_displayLauncher) then {
     call {
-        if (vehicle _unit == _unit) exitWith {
+        if (isNull objectParent _unit) exitWith {
             // - Update launcher holster
             _wpns = ([_unit, 3, false] call KTWK_fnc_equipNextWeapon) select {count _x > 0};
             if (count _wpns > 1 || (count _wpns == 1 && secondaryWeapon _unit == "")) then {

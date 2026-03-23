@@ -22,7 +22,7 @@ _unit addEventHandler ["InventoryOpened", {
 
         _unit removeEventHandler [_thisEvent, _thisEventHandler];
         _this spawn KTWK_fnc_openInv;
-        if (vehicle _unit == _unit) exitWith {
+        if (isNull objectParent _unit) exitWith {
             _unit setVariable ["KTWK_swappingWeapon", true]; 
             true
         };

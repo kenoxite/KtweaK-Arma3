@@ -12,7 +12,7 @@ KTWK_BN_excluded = [
     "swu_public_salman_map",
     "uzbin"
 ];
-if ("juju_" in worldName) then {KTWK_BN_excluded pushBack toLowerAnsi worldName};
+if ("juju_" in worldName) then {KTWK_BN_excluded pushBack toLowerANSI worldName};
 
 KTWK_BN_altPpEffect_darker = [
     // "altis",
@@ -64,7 +64,7 @@ KTWK_BN_noAperture = [
     // "beketov",   // only necessary with livonian lighting
     "tem_kujari"
 ];
-if ("swu_public_" in worldName) then {KTWK_BN_noAperture pushBack toLowerAnsi worldName};
+if ("swu_public_" in worldName) then {KTWK_BN_noAperture pushBack toLowerANSI worldName};
 
 KTWK_BN_altAperture_narrow = [
     // "vtf_korsac",

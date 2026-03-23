@@ -1,6 +1,6 @@
 // Disable voice mods for non humans
 
-if (!isServer) exitwith {false};
+if (!isServer) exitWith {false};
 
 private _isUnitDisabled = false;
 

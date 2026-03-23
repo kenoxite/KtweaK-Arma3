@@ -3,7 +3,7 @@
 
 params ["_target", "_caller", "_actionId", "_arguments"];
 if (KTWK_GRdrone_opt_enabled) then {
-    if (vehicle _target == _target) then {
+    if (isNull objectParent _target) then {
         private _droneInInv = "KTWK_GRdrone" in (itemsWithMagazines _target);
         private _dronePrereqsMet = !KTWK_GRdrone_opt_itemRequired || {KTWK_GRdrone_opt_itemRequired && _droneInInv};
         if (_dronePrereqsMet) then {

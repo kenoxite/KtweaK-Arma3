@@ -1,8 +1,8 @@
 params [["_parent", objNull], ["_stance", ""]];
 
-if (isNull _parent) exitwith {objNull};
+if (isNull _parent) exitWith {objNull};
     
-// systemchat format ["stance: %1", _stance];
+// systemChat format ["stance: %1", _stance];
 // Hide unit
 // private _clone = createAgent [typeOf _parent, getPos _parent, [], 0, "CAN_COLLIDE"];
 private _clone = createAgent [typeOf _parent, _parent modelToWorld (_parent selectionPosition "spine3"), [], 0, "CAN_COLLIDE"];
@@ -74,13 +74,13 @@ _clone allowDamage false;
         private _healerFAKs = count ((items _healer) select {_x == "FirstAidKit"});
         private _damage = damage _injured;
         waitUntil {damage _injured != _damage || isNull _injured || isNull _healer};
-        if (isNull _injured || isNull _healer) exitwith {true};
+        if (isNull _injured || isNull _healer) exitWith {true};
         if (damage _injured < _damage) then {
             _injured setDamage _damage;
         };
         // waitUntil {(time - _startHealingTime) > 5};
         waitUntil {!alive _healer || isNull _injured || isNull _healer || {(animationState _healer) != "ainvpknlmstpslaywrfldnon_medicother" || (animationState _healer) != "ainvppnemstpslaywrfldnon_medicother"}};
-        if (isNull _injured || isNull _healer) exitwith {true};
+        if (isNull _injured || isNull _healer) exitWith {true};
         // Give FAK back if used
         private _healerFAKsNow = count ((items _healer) select {_x == "FirstAidKit"});
         if (alive _healer && {_healerFAKsNow < _healerFAKs}) then { _healer addItem "FirstAidKit" };

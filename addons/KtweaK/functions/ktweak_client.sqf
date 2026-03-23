@@ -3,7 +3,7 @@
 // by kenoxite
 // -----------------------------------------------
 
-if (!hasInterface) exitwith {false};
+if (!hasInterface) exitWith {false};
 
 // --------------------------------
 // Disable bright night effects
@@ -373,14 +373,14 @@ KWTK_wasUnconscious = false;
 // --------------------------------
 // Loop
 [{
-    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
+    if (!isNull (findDisplay 49)) exitWith {};    // Don't check while paused
     KTWK_player = call CBA_fnc_currentUnit;
 
     // AI stop when healed
     if (!isServer) then {
         {
             if !(_x getVariable ["KTWK_handleHeal_added", false]) then {
-                _x addEventHandler ["handleHeal", {
+                _x addEventHandler ["HandleHeal", {
                     if (!KTWK_SFH_opt_enabled) exitWith {};
                     _this remoteExec ["KTWK_fnc_AIstopForHealing", _this#0, true];
                 }];

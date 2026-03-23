@@ -1,7 +1,7 @@
 // AI will defend from predators
 // by kenoxite
 
-if (!isServer) exitwith {false};
+if (!isServer) exitWith {false};
     
 KTWK_allPredators = KTWK_allAnimals select {_x isKindOf "Edaly_Crocodile_Base"};
 {
@@ -42,4 +42,4 @@ KTWK_allPredators = KTWK_allAnimals select {_x isKindOf "Edaly_Crocodile_Base"};
             };
         };
     };
-} foreach KTWK_allPredators;
+} forEach KTWK_allPredators;

@@ -1,5 +1,3 @@
-#include "..\control_defines.inc"
-
 class RscTitles
 {
     // HUD - Body Health
@@ -7,9 +5,9 @@ class RscTitles
     {
         idd = IDD_HUD_BODYHEALTH;
         name = "HUD_bodyHealth";
-        movingEnable = true;
-        enableSimulation = true;
-        enableDisplay = true;
+        movingEnable = "true";
+        enableSimulation = "true";
+        enableDisplay = "true";
         onLoad = "uiNamespace setVariable ['KTWK_GUI_Display_HUD_bodyHealth', _this #0];";
         onUnLoad = "uiNamespace setVariable ['KTWK_GUI_Display_HUD_bodyHealth', nil]";
         duration = 9999999;
@@ -21,10 +19,10 @@ class RscTitles
             class KTWK_Grp_HUD_bodyHealth: KTWK_Controls_Group {
                 idc = IDC_GRP_HUD_BODYHEALTH; 
 
-                x = SafeZoneX + (SafeZoneW - (3.5 * pixelGridNoUIScale * pixelW));
-                y = SafeZoneY + (SafeZoneH - (7.4 * pixelGridNoUIScale * pixelH));
-                w = 4 * pixelGridNoUIScale * pixelW;
-                h = 8 * pixelGridNoUIScale * pixelH;
+                x = "safeZoneX + (safeZoneW - (3.5 * pixelGridNoUIScale * pixelW))";
+                y = "safeZoneY + (safeZoneH - (7.4 * pixelGridNoUIScale * pixelH))";
+                w = "4 * pixelGridNoUIScale * pixelW";
+                h = "8 * pixelGridNoUIScale * pixelH";
 
                 class Controls {
                     // Backgrounds
@@ -32,10 +30,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_BG1;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -44,10 +42,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_BG2;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -57,10 +55,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_FG1;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -69,10 +67,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_FG2;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -82,10 +80,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_GRP_HEAD;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -93,10 +91,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_GRP_TORSO;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -104,10 +102,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_GRP_ARMS;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -115,10 +113,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_GRP_HEADWFACE;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -129,10 +127,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_HEAD;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -140,10 +138,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_FACE;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -151,10 +149,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_NECK;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -163,10 +161,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_CHEST;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -174,10 +172,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_DIAPHRAGM;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -185,10 +183,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_ABDOMEN;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -196,10 +194,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_PELVIS;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -208,10 +206,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_ARMS;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -219,10 +217,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_HANDS;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -230,10 +228,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_RIGHTARM;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -241,10 +239,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_LEFTARM;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -253,10 +251,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_LEGS;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -264,10 +262,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_RIGHTLEG;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -275,10 +273,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_LEFTLEG;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };
@@ -287,10 +285,10 @@ class RscTitles
                     {
                         idc = IDC_IMG_HUD_HEALTH_BODY;
 
-                        x = 0 * pixelGridNoUIScale * pixelW;
-                        y = 0 * pixelGridNoUIScale * pixelH;
-                        w = 4 * pixelGridNoUIScale * pixelW;   
-                        h = 8 * pixelGridNoUIScale * pixelH;
+                        x = "0 * pixelGridNoUIScale * pixelW";
+                        y = "0 * pixelGridNoUIScale * pixelH";
+                        w = "4 * pixelGridNoUIScale * pixelW";   
+                        h = "8 * pixelGridNoUIScale * pixelH";
                         
                         text = "";
                     };

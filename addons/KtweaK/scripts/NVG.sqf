@@ -29,7 +29,7 @@ KTWK_fnc_NVG_zoomIntensity = {
     private _zoomIntensityMod = call {
         if (_disable) exitWith {1}; // Disable effect if MFD active
         if (!_inVehicle && {_weaponZoom < 0.1} && {_isAiming}) exitWith {28}; // Using rangefinder or similar
-        if (_inVehicle && {((_veh currentvisionmode (_veh unitTurret _unit))#0) == 1} && {_isAiming}) exitWith {56}; // Using the vehicle's NV
+        if (_inVehicle && {((_veh currentVisionMode (_veh unitTurret _unit))#0) == 1} && {_isAiming}) exitWith {56}; // Using the vehicle's NV
         if (!_inVehicle && {_zoom > 10} && {_isAiming}) exitWith {16}; // Using scope with NV on
         9
     };
@@ -39,12 +39,12 @@ KTWK_fnc_NVG_zoomIntensity = {
 waitUntil {!isNull player};
 
 KTWK_NVG_lastWeapon = currentWeapon KTWK_player;
-KTWK_NVG_lastWeaponZoom = getnumber (configfile >> "CfgWeapons" >> KTWK_NVG_lastWeapon >> "opticsZoomInit");
+KTWK_NVG_lastWeaponZoom = getNumber (configFile >> "CfgWeapons" >> KTWK_NVG_lastWeapon >> "opticsZoomInit");
 
 private _veh = vehicle KTWK_player;
 private _inVehicle = _veh != KTWK_player;
 KTWK_lastVehicle = _veh;
-KTWK_lastVehicleMFD = (count ([configFile >> "CfgVehicles" >> typeOf _veh >> "MFD", 0] call BIS_fnc_returnChildren)) > 0;
+KTWK_lastVehicleMFD = (count ([configOf _veh >> "MFD", 0] call BIS_fnc_returnChildren)) > 0;
 
 // Initialize effects
 KWTK_NVG_ppBlur = ppEffectCreate ["dynamicBlur", 500];
@@ -62,7 +62,7 @@ KWTK_NVG_ppColor ppEffectAdjust [0.6, 1.4, -0.02, [1, 1, 1, 0], [1, 1, 1, 1], [0
 
 // Change effect intensity based on zoom, type of NVG, etc
 KTWK_NVG_PFH = [{
-    if (!isNull (findDisplay 49)) exitwith {};    // Don't check while paused
+    if (!isNull (findDisplay 49)) exitWith {};    // Don't check while paused
     params ["_args", "_pfhId"];
     
     if (!KTWK_NVG_opt_enabled || {currentVisionMode KTWK_player != 1}) exitWith {
@@ -74,13 +74,13 @@ KTWK_NVG_PFH = [{
 
     if (KTWK_NVG_lastWeapon != currentWeapon KTWK_player) then {
         KTWK_NVG_lastWeapon = currentWeapon KTWK_player;
-        KTWK_NVG_lastWeaponZoom = getnumber (configfile >> "CfgWeapons" >> KTWK_NVG_lastWeapon >> "opticsZoomInit");
+        KTWK_NVG_lastWeaponZoom = getNumber (configFile >> "CfgWeapons" >> KTWK_NVG_lastWeapon >> "opticsZoomInit");
     };
 
     private _inVehicle = _veh != KTWK_player;
     if (KTWK_lastVehicle != _veh) then {
         KTWK_lastVehicle = _veh;
-        KTWK_lastVehicleMFD = (count ([configFile >> "CfgVehicles" >> typeOf _veh >> "MFD", 0] call BIS_fnc_returnChildren)) > 0;
+        KTWK_lastVehicleMFD = (count ([configOf _veh >> "MFD", 0] call BIS_fnc_returnChildren)) > 0;
     };
 
     private _zoomIntensity = [KTWK_player, _veh, _inVehicle, KTWK_lastVehicleMFD, KTWK_NVG_lastWeaponZoom, KTWK_NVG_opt_intensity] call KTWK_fnc_NVG_zoomIntensity;

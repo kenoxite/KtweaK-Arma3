@@ -4,7 +4,7 @@
 if (!isServer) exitWith {false};
 params [["_targets", []], ["_noWait", false]];
 
-private _terrain = toLowerAnsi worldName;
+private _terrain = toLowerANSI worldName;
 if (_terrain in KTWK_BN_excluded) exitWith {
     KTWK_BN_set = true;
     ["KTWK_BN_set", true, true] remoteExec ["setVariable", _targets];
@@ -12,7 +12,7 @@ if (_terrain in KTWK_BN_excluded) exitWith {
 };
 
 // Skip if in Livonia while having Contact DLC enabled
-if (_terrain == "enoch" && {isClass (configFile >> "cfgVehicles" >> "B_A_AlienDrone_01_F")}) exitwith {
+if (_terrain == "enoch" && {isClass (configFile >> "cfgVehicles" >> "B_A_AlienDrone_01_F")}) exitWith {
     KTWK_BN_set = true;
     ["KTWK_BN_set", true, true] remoteExec ["setVariable", _targets];
     false
@@ -57,7 +57,7 @@ private _aperture = call {
 
 private _debugStr = format ["[KtweaK] %1 Night applied", ["", "Bright", "Brighter"] select KTWK_BN_opt_enabled];
 call {
-    if (count _targets == 0) exitwith {
+    if (count _targets == 0) exitWith {
         KTWK_BN_set = true;
         [_effect, _aperture, _noWait] spawn KTWK_fnc_brighterNight_set_client;
         if (KTWK_opt_debug) then { systemChat _debugStr };

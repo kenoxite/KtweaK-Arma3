@@ -3,9 +3,9 @@
 
 params [["_wep", ""]];
 if (_wep == "") exitWith {false};
-private _primWep = toLowerAnsi _wep;
+private _primWep = toLowerANSI _wep;
 private _primWepType = (_primWep call BIS_fnc_itemType) select 1;
-private _primWepDes = toLowerAnsi (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
+private _primWepDes = toLowerANSI (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
 
 call {
     if (_primWepType == "SubmachineGun") exitWith {true};

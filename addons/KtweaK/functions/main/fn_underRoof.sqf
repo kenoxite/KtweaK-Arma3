@@ -3,9 +3,9 @@
 params [["_unit", objNull], ["_height", 20]];
 private ["_pos"];
 if (typeName _unit == "OBJECT") then {
-    if (isNull _unit) exitwith {false};
+    if (isNull _unit) exitWith {false};
     if (_unit in agents) then {_unit = agent _unit};
-    _pos = getposASL _unit;
+    _pos = getPosASL _unit;
 } else {
     _pos = _unit;
 };
