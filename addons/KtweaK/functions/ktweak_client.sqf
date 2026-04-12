@@ -107,23 +107,18 @@ call KTWK_fnc_disableAutoMapCenter;
 
 // --------------------------------
 // Equip Next Weapon
-private ["_wpns"];
-// - Add rifle holster to player unit
-if (KTWK_ENW_opt_displayRifle) then {
-    _wpns = [KTWK_player, 1, false] call KTWK_fnc_equipNextWeapon;
-    if (count _wpns > 0) then {
-        [KTWK_player, 1, 0, KTWK_ENW_opt_riflePos, (_wpns#1)] call KTWK_fnc_displayHolster;
-    };
-};
-// - Add launcher holster to player unit
-if (KTWK_ENW_opt_displayLauncher) then {
-    _wpns = [KTWK_player, 3, false] call KTWK_fnc_equipNextWeapon;
-    if (count _wpns > 0) then {
-        [KTWK_player, 3, 0, KTWK_ENW_opt_launcherPos, (_wpns#1)] call KTWK_fnc_displayHolster;
-    };
-};
+KTWK_EH_put_ENW = KTWK_player addEventHandler ["Put", {
+	params ["_unit", "_container", "_item"];
+    [_unit] call KTWK_fnc_addHolsters;
+}];
+
+KTWK_EH_take_ENW = KTWK_player addEventHandler ["Take", {
+	params ["_unit", "_container", "_item"];
+    [_unit] call KTWK_fnc_addHolsters;
+}];
 // Add inventory EH
-KTWK_EH_invOpened_ENW = KTWK_player call KTWK_fnc_addInvEH;
+KTWK_player call KTWK_fnc_addInvEH;
+[KTWK_player] call KTWK_fnc_addHolsters;
 KTWK_player setVariable ["KTWK_invOpened", false, true];
 
 // Arsenal EH
@@ -271,7 +266,7 @@ addMissionEventHandler ["PlayerViewChanged", {
     // Add and remove inventory EH
     _previousUnit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened_ENW];
     // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
-    KTWK_EH_invOpened_ENW = _newUnit call KTWK_fnc_addInvEH;
+    _newUnit call KTWK_fnc_addInvEH;
 
     // --------------------------------
     // Save inventory opened status so it can be retrieved remotely
@@ -395,11 +390,6 @@ KWTK_wasUnconscious = false;
     // Slide in slopes
     if (KTWK_slideInSlopes_opt_enabled) then {
         [KTWK_player] call KTWK_fnc_slideInSlopes;
-    };
-
-    // Display holsters
-    if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
-        [KTWK_player] call KTWK_fnc_toggleHolsterDisplay;
     };
 
     // Disable ADS if unconscious

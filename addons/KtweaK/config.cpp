@@ -182,7 +182,8 @@ class CfgFunctions
             class displayHolster {};
             class toggleHolsterDisplay {};
             class addInvEH {};
-            class openInv {};
+            class invAnims {};
+            class addHolsters {};
         };
 
         class BrighterNight

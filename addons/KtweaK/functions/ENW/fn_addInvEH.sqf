@@ -1,5 +1,4 @@
-// Add Inventory EventHandler
-// by kenoxite
+// KTWK_fnc_addInvEH
 
 // For the next weapon display to work we have to override the opening of the inventory
 // Reasons being:
@@ -13,18 +12,41 @@
 //  - So, the main Open Inventory action is now overriden, disabling the default behavior. It now first deletes the display containers and THEN (after 0.01, to wait for the deleteVehicle commands to take effect) it opens the inventory via Action ["Gear"]
 
 params [["_unit", player]];
-_unit addEventHandler ["InventoryOpened", { 
-    params ["_unit", "_container", "_container2"]; 
-    if (!isNull (_unit getVariable ["KTWK_rifleHolster", objNull]) || !isNull (_unit getVariable ["KTWK_launcherHolster", objNull])) then {
-        // Hide holsters
-        [_unit, 1, 2] call KTWK_fnc_displayHolster; 
-        [_unit, 3, 2] call KTWK_fnc_displayHolster;
 
+if (!isNil "KTWK_EH_invOpened_ENW") then {
+    _unit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened_ENW];
+};
+
+KTWK_EH_invOpened_ENW = _unit addEventHandler ["InventoryOpened", { 
+    params ["_unit", "_container", "_container2"];
+    
+    if (!isNull (_unit getVariable ["KTWK_rifleHolster", objNull]) || !isNull (_unit getVariable ["KTWK_launcherHolster", objNull])) then {
+        
         _unit removeEventHandler [_thisEvent, _thisEventHandler];
-        _this spawn KTWK_fnc_openInv;
+    
+        // Hide holsters
+        [_unit, 1, 3] call KTWK_fnc_displayHolster; 
+        [_unit, 3, 3] call KTWK_fnc_displayHolster;
+
         if (isNull objectParent _unit) exitWith {
-            _unit setVariable ["KTWK_swappingWeapon", true]; 
-            true
+            _unit setVariable ["KTWK_swappingWeapon", true];
+
+            if (_container == (_unit getVariable ["KTWK_rifleHolster", objNull]) || _container == (_unit getVariable ["KTWK_launcherHolster", objNull])) then {
+                _container = objNull;
+            };
+            [_unit, _container] spawn {
+                params ["_unit", "_container"];
+                _unit action ["Gear", _container];
+                // Display holsters 
+                waitUntil {!isNull (findDisplay 602)};
+                _unit call KTWK_fnc_addInvEH;
+                sleep 0.5;
+                _unit setVariable ["KTWK_swappingWeapon", false];
+                [_unit] call KTWK_fnc_toggleHolsterDisplay;
+                [_unit] call KTWK_fnc_invAnims;
+            };
+            true; // inventory override
         };
     };
+    false
 }];
