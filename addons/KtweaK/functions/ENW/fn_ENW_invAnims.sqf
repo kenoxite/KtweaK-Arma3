@@ -1,4 +1,4 @@
-// KTWK_fnc_invAnims
+// KTWK_fnc_ENW_invAnims
 // Forces the unit to play an inventory animation based on its current weapon and stance
 
 params [["_unit", player]];

@@ -107,18 +107,22 @@ call KTWK_fnc_disableAutoMapCenter;
 
 // --------------------------------
 // Equip Next Weapon
-KTWK_EH_put_ENW = KTWK_player addEventHandler ["Put", {
+
+// Add Put EH
+KTWK_ENW_EH_put = KTWK_player addEventHandler ["Put", {
 	params ["_unit", "_container", "_item"];
-    [_unit] call KTWK_fnc_addHolsters;
+    [_unit] call KTWK_fnc_ENW_addHolsters;
 }];
 
-KTWK_EH_take_ENW = KTWK_player addEventHandler ["Take", {
+// Add Take EH
+KTWK_ENW_EH_take = KTWK_player addEventHandler ["Take", {
 	params ["_unit", "_container", "_item"];
-    [_unit] call KTWK_fnc_addHolsters;
+    [_unit] call KTWK_fnc_ENW_addHolsters;
 }];
 // Add inventory EH
-KTWK_player call KTWK_fnc_addInvEH;
-[KTWK_player] call KTWK_fnc_addHolsters;
+KTWK_player call KTWK_fnc_ENW_addInvEH;
+
+[KTWK_player] call KTWK_fnc_ENW_addHolsters;
 KTWK_player setVariable ["KTWK_invOpened", false, true];
 
 // Arsenal EH
@@ -248,25 +252,11 @@ addMissionEventHandler ["PlayerViewChanged", {
 
     // --------------------------------
     // Equip Next Weapon
-    private ["_wpns"];
-    if (KTWK_ENW_opt_displayRifle) then {
-        // - Add rifle holster to _newUnit
-        _wpns = [_newUnit, 1, false] call KTWK_fnc_equipNextWeapon;
-        if (count _wpns > 0) then {
-            [_newUnit, 1, 0, KTWK_ENW_opt_riflePos, (_wpns#1)] call KTWK_fnc_displayHolster;
-        };
-    };
-    if (KTWK_ENW_opt_displayLauncher) then {
-        // - Add launcher holster to _newUnit
-        _wpns = [_newUnit, 3, false] call KTWK_fnc_equipNextWeapon;
-        if (count _wpns > 0) then {
-            [_newUnit, 3, 0, KTWK_ENW_opt_launcherPos, (_wpns#1)] call KTWK_fnc_displayHolster;
-        };
-    };
+    [_newUnit] call KTWK_fnc_ENW_addHolsters;
     // Add and remove inventory EH
-    _previousUnit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened_ENW];
+    _previousUnit removeEventHandler ["InventoryOpened", KTWK_ENW_EH_invOpened];
     // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
-    _newUnit call KTWK_fnc_addInvEH;
+    _newUnit call KTWK_fnc_ENW_addInvEH;
 
     // --------------------------------
     // Save inventory opened status so it can be retrieved remotely
@@ -410,8 +400,8 @@ if (KTWK_ravage) then {
     KTWK_phe_ENWRavageFix = [{
         if (!isNil {rvg_lootTarget}) then {
             // Hide holsters
-            [KTWK_player, 1, 2] call KTWK_fnc_displayHolster; 
-            [KTWK_player, 3, 2] call KTWK_fnc_displayHolster;
+            [KTWK_player, 1, 2] call KTWK_fnc_ENW_displayHolster; 
+            [KTWK_player, 3, 2] call KTWK_fnc_ENW_displayHolster;
         };
     }, 0, []] call CBA_fnc_addPerFrameHandler;
 };

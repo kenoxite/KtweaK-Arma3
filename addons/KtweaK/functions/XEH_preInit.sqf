@@ -35,7 +35,7 @@ Returns:
     ["KtweaK", ""],
     "KTWK_key_primaryEquipNext",
     ["Equip Next Primary", "Changes the currently equipped primary weapon to other primary weapons in the player's inventory"],
-    { [KTWK_player, 1] call KTWK_fnc_equipNextWeapon },
+    { [KTWK_player, 1] call KTWK_fnc_ENW_equipNextWeapon },
     {},
     [ DIK_1, [false, true, false] ], // [DIK, [shift, ctrl, alt]
     false
@@ -45,7 +45,7 @@ Returns:
     ["KtweaK", ""],
     "KTWK_key_handgunEquipNext",
     ["Equip Next Handgun", "Changes the currently equipped handgun to other handguns in the player's inventory"],
-    { [KTWK_player, 2] call KTWK_fnc_equipNextWeapon },
+    { [KTWK_player, 2] call KTWK_fnc_ENW_equipNextWeapon },
     {},
     [ DIK_2, [false, true, false] ], // [DIK, [shift, ctrl, alt]
     false
@@ -55,7 +55,7 @@ Returns:
     ["KtweaK", ""],
     "KTWK_key_secondaryEquipNext",
     ["Equip Next Secondary", "Changes the currently equipped secondary weapon to other secondary weapons in the player's inventory"],
-    { [KTWK_player, 3] call KTWK_fnc_equipNextWeapon },
+    { [KTWK_player, 3] call KTWK_fnc_ENW_equipNextWeapon },
     {},
     [ DIK_3, [false, true, false] ], // [DIK, [shift, ctrl, alt]
     false

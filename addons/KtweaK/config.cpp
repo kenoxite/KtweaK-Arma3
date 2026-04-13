@@ -106,8 +106,6 @@ class CfgFunctions
             class isDuskOrDawn {};
             class isNight {};
             class AIstopForHealing {};
-            class isWeaponLong {};
-            class isWeaponShort {};
             class disableAutoMapCenter {};
             class addLightToAI {};
             class NVGcheck {};
@@ -177,13 +175,18 @@ class CfgFunctions
             file = "\z\ktwk\addons\KtweaK\functions\ENW";
             preInit = 1;
 
-            class equipNextWeapon {};
-            class equipNextWeapon2 {};
-            class displayHolster {};
+            class ENW_equipNextWeapon {};
+            class ENW_performWeaponSwap {};
+            class ENW_displayHolster {};
+            class ENW_toggleHolsterDisplay {};
+            class ENW_addInvEH {};
+            class ENW_invAnims {};
+            class ENW_addHolsters {};
+            class ENW_isWeaponLong {};
+            class ENW_isWeaponShort {};
+
+            // Legacy
             class toggleHolsterDisplay {};
-            class addInvEH {};
-            class invAnims {};
-            class addHolsters {};
         };
 
         class BrighterNight

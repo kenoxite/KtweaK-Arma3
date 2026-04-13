@@ -73,9 +73,9 @@ _cftPatches = nil;
     if !([_unit] call KTWK_fnc_isHuman) exitWith {};
     // Equip Next Weapon
     //  - Remove rifle holster
-    [_unit, 1, 2] call KTWK_fnc_displayHolster;
+    [_unit, 1, 2] call KTWK_fnc_ENW_displayHolster;
     //  - Remove launcher holster
-    [_unit, 3, 2] call KTWK_fnc_displayHolster;
+    [_unit, 3, 2] call KTWK_fnc_ENW_displayHolster;
 
     // Disable illuminators when dead
     [_unit] call BettIR_fnc_nvgIlluminatorOff;
