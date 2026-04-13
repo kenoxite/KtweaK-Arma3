@@ -1,6 +1,4 @@
-#define VERSION 2.5 // Should be a floating-point number (1 separator)
-#define VERSION_STR "2.5" // Since CBA v3.13.0
-#define VERSION_AR {2,5,0}
+#include "\z\ktweak\addons\main\version.hpp"
 
 class CfgPatches
 {
@@ -11,7 +9,7 @@ class CfgPatches
         authors[] = {"kenoxite"};
         version = VERSION;
         versionStr = VERSION_STR;
-        versionAr[] = VERSION_AR;
+        versionAr[] = {VERSION_AR};
         //url = "";
 
         requiredVersion = 2.14; 
@@ -28,21 +26,6 @@ class CfgPatches
             "KTWK_GRdrone"
         };
 	};
-};
-
-class CfgSettings {
-    class CBA {
-        class Versioning {
-            class KtweaK {
-                main_addon = "KtweaK";
-                // handler = "KTWK_fnc_mismatch";
-                class Dependencies {
-                    CBA[] = {"cba_main", {0, 8, 0}, "true"};
-                };
-                // removed[] = {"myMod_addon1"};
-            };
-        };
-    };
 };
 
 class Extended_PreInit_EventHandlers {
