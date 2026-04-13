@@ -4,7 +4,7 @@
 
 class CfgPatches
 {
-	class KtweaK
+	class ktweak_main
 	{
         name = "KtweaK";
         author = "kenoxite";
@@ -15,7 +15,12 @@ class CfgPatches
         //url = "";
 
         requiredVersion = 2.14; 
-        requiredAddons[] = { "A3_Functions_F", "CBA_Main", "cba_settings", "Extended_Eventhandlers" };
+        requiredAddons[] = {
+            "A3_Functions_F",
+            "CBA_Main",
+            "cba_settings",
+            "Extended_Eventhandlers"
+        };
         units[] = {
             "KTWK_GRdroneItem"
         };
@@ -130,17 +135,6 @@ class CfgFunctions
             class fatalWound {};
         };
 
-        class HUDhealth
-        {
-            file = "z\ktweak\addons\main\functions\HUDhealth";
-
-            class HUD_health_InvEH {};
-            class HUD_health_resetDmgTracker {};
-            class HUD_health_update {};
-            class HUD_health_reset {};
-            class HUD_health_moveDialog {};
-        };
-
         class GRdrone
         {
             file = "z\ktweak\addons\main\functions\GRdrone";
@@ -202,10 +196,6 @@ class CfgFunctions
         };
     };
 };
-
-#include "control_defines.hpp"
-#include "dialogs\dialog_default.hpp"
-#include "dialogs\dialog_hud.hpp"
 
 // -------------------------------------------
 // LEGACY

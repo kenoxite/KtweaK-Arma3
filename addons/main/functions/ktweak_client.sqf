@@ -211,17 +211,6 @@ KTWK_EH_invOpened_SFB = [KTWK_player] call KTWK_fnc_SFB_addInvEH;
 addMissionEventHandler ["Loaded", {
     params ["_saveType"];
     diag_log format[ "KtweaK: Mission loaded from %1", _saveType ];
-
-    // HUD Health
-    _this spawn {
-        waitUntil {!isNull player};
-        sleep 1;
-        if (!isNil {KTWK_scr_HUD_health}) then {
-            terminate KTWK_scr_HUD_health;
-            waitUntil {scriptDone KTWK_scr_HUD_health};
-            KTWK_scr_HUD_health = [] execVM "z\ktweak\addons\main\scripts\HUD_health.sqf";
-        };
-    };
 }];
 
 // --------------------------------
@@ -318,10 +307,6 @@ if (!isNil {vn_sam_masteraudioarray}) then {
 // --------------------------------
 // Init - Humidity Effects
 KTWK_scr_HFX = [] execVM "z\ktweak\addons\main\scripts\humidityFX.sqf";
-
-// --------------------------------
-// Init - Health HUD
-KTWK_scr_HUD_health = [] execVM "z\ktweak\addons\main\scripts\HUD_health.sqf";
 
 // Init - Ghost Recon Drone
 KTWK_scr_GRdrone = [] execVM "z\ktweak\addons\main\scripts\reconDrone.sqf";
