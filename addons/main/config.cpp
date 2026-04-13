@@ -4,7 +4,7 @@
 
 class CfgPatches
 {
-	class ktweak_main
+	class ktweak
 	{
         name = "KtweaK";
         author = "kenoxite";
