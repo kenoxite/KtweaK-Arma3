@@ -1,0 +1,80 @@
+// KTWK_fnc_ENW_isWeaponLong
+// Returns whether the weapon is considered to be physically long or not
+//
+// Parameters:
+//   _wep - Weapon class name to check (default: "")
+// Returns:
+//   Boolean - true if weapon is considered long, false otherwise
+
+params [["_wep", ""]];
+
+if (_wep == "") exitWith {false};
+
+// Cache lowercase weapon name (Wiki: toLowerANSI is faster than toLower)
+private _primWep = toLowerANSI _wep;
+private _primWepType = (_primWep call BIS_fnc_itemType) param [1, ""];
+private _primWepDes = toLowerANSI (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
+
+// Check for known long weapons
+call {
+    // Specific exceptions
+    if ("vss" in _primWep) exitWith {false};
+    
+    // Description checks
+    if ("sniper" in _primWepDes) exitWith {true};
+    
+    // Type checks
+    if (_primWepType == "SniperRifle") exitWith {true};
+    if (_primWepType == "MachineGun") exitWith {true};
+    
+    // Pattern matching
+    if ("srifle" in _primWep) exitWith {true};
+    if ("dmr" in _primWep) exitWith {true};
+    if ("sr25" in _primWep) exitWith {true};
+    if ("m76" in _primWep) exitWith {true};
+    if ("rpk" in _primWep) exitWith {true};
+    if ("mg" in _primWep && {!("smg" in _primWep)}) exitWith {true};
+    if ("fal" in _primWep) exitWith {true};
+    if ("l1a1" in _primWep) exitWith {true};
+    if ("kar" in _primWep) exitWith {true};
+    if ("m590" in _primWep) exitWith {true};
+    if ("ak15" in _primWep) exitWith {true};
+    if ("ak19" in _primWep) exitWith {true};
+    if ("ak101" in _primWep) exitWith {true};
+    if ("ak103" in _primWep) exitWith {true};
+    if ("ak107" in _primWep) exitWith {true};
+    if ("ak108" in _primWep) exitWith {true};
+    if ("ak109" in _primWep) exitWith {true};
+    if ("ak74" in _primWep) exitWith {true};
+    if ("akm" in _primWep) exitWith {true};
+    if ("aks" in _primWep) exitWith {true};
+    if ("cz550" in _primWep) exitWith {true};
+    if ("cz584" in _primWep) exitWith {true};
+    if ("cz750" in _primWep) exitWith {true};
+    if ("gewehr1" in _primWep) exitWith {true};
+    if ("g36" in _primWep && {!("g36c" in _primWep)} && {!("g36k" in _primWep)}) exitWith {true};
+    if ("g3a3" in _primWep) exitWith {true};
+    if ("galil" in _primWep && {!("sar" in _primWep)}) exitWith {true};
+    if ("klec" in _primWep) exitWith {true};
+    if ("sgun_huntershotgun_01_f" in _primWep) exitWith {true};
+    if ("l129a1" in _primWep) exitWith {true};
+    if ("garand" in _primWep) exitWith {true};
+    if ("m1014" in _primWep) exitWith {true};
+    if ("m16" in _primWep) exitWith {true};
+    if ("m27" in _primWep) exitWith {true};
+    if ("m70" in _primWep) exitWith {true};
+    if ("mk17" in _primWep && {!("cqc" in _primWep)}) exitWith {true};
+    if ("m38" in _primWep) exitWith {true};
+    if ("mp44" in _primWep) exitWith {true};
+    if ("remington" in _primWep) exitWith {true};
+    if ("romat" in _primWep) exitWith {true};
+    if ("sa58" in _primWep) exitWith {true};
+    if ("sks" in _primWep) exitWith {true};
+    if ("m14" in _primWep) exitWith {true};
+    if ("spas" in _primWep) exitWith {true};
+    if ("stg58" in _primWep) exitWith {true};
+    if ("saiga" in _primWep) exitWith {true};
+    if ("scarh" in _primWep) exitWith {true};
+    
+    false
+};
