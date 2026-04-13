@@ -16,42 +16,42 @@ KTWK_BIR_opt_enabled_last = KTWK_BIR_opt_enabled;
 
 // ---------------------------------------
 // Mods check
-private _cftPatches = configFile >> "CfgPatches";
+private _cfgPatches = configFile >> "CfgPatches";
 
-KTWK_aceCommon = isClass(_cftPatches >> "ace_common");
+KTWK_aceCommon = isClass(_cfgPatches >> "ace_common");
 publicVariable "KTWK_aceCommon";
-KTWK_aceMedical = isClass(_cftPatches >> "ace_medical_engine");
+KTWK_aceMedical = isClass(_cfgPatches >> "ace_medical_engine");
 publicVariable "KTWK_aceMedical";
-KTWK_aceMovement = isClass(_cftPatches >> "ace_movement");
+KTWK_aceMovement = isClass(_cfgPatches >> "ace_movement");
 publicVariable "KTWK_aceMovement";
-KTWK_aceFlashlights = isClass(_cftPatches >> "ace_flashlights");
+KTWK_aceFlashlights = isClass(_cfgPatches >> "ace_flashlights");
 publicVariable "KTWK_aceFlashlights";
-KTWK_aceInteractMenu = isClass(_cftPatches >> "ace_interact_menu");
+KTWK_aceInteractMenu = isClass(_cfgPatches >> "ace_interact_menu");
 publicVariable "KTWK_aceInteractMenu";
-KTWK_aceWeather = isClass(_cftPatches >> "ace_weather");
+KTWK_aceWeather = isClass(_cfgPatches >> "ace_weather");
 publicVariable "KTWK_aceWeather";
-KTWK_aceFatigue = isClass(_cftPatches >> "ace_advanced_fatigue");
+KTWK_aceFatigue = isClass(_cfgPatches >> "ace_advanced_fatigue");
 publicVariable "KTWK_aceFatigue";
-KTWK_aceInteraction = isClass(_cftPatches >> "ace_interaction");
+KTWK_aceInteraction = isClass(_cfgPatches >> "ace_interaction");
 publicVariable "KTWK_aceInteraction";
-KTWK_aceNightvision = isClass(_cftPatches >> "ace_nightvision");
+KTWK_aceNightvision = isClass(_cfgPatches >> "ace_nightvision");
 publicVariable "KTWK_aceNightvision";
 
-KTWK_WBKDeath = isClass(_cftPatches >> "WBK_DyingAnimationsMod");
+KTWK_WBKDeath = isClass(_cfgPatches >> "WBK_DyingAnimationsMod");
 publicVariable "KTWK_WBKDeath";
-KTWK_WBKHeadlamps = isClass(_cftPatches >> "WBK_Headlamps");
+KTWK_WBKHeadlamps = isClass(_cfgPatches >> "WBK_Headlamps");
 publicVariable "KTWK_WBKHeadlamps";
 
-KTWK_mgsr_poncho = isClass(_cftPatches >> "mgsr_poncho");
+KTWK_mgsr_poncho = isClass(_cfgPatches >> "mgsr_poncho");
 publicVariable "KTWK_mgsr_poncho";
-KTWK_pir = isClass(_cftPatches >> "PiR");
+KTWK_pir = isClass(_cfgPatches >> "PiR");
 publicVariable "KTWK_pir";
-KTWK_ravage = isClass(_cftPatches >> "ravage");
+KTWK_ravage = isClass(_cfgPatches >> "ravage");
 publicVariable "KTWK_ravage";
-KTWK_lambsDanger = isClass(_cftPatches >> "lambs_danger");
+KTWK_lambsDanger = isClass(_cfgPatches >> "lambs_danger");
 publicVariable "KTWK_lambsDanger";
 
-_cftPatches = nil;
+_cfgPatches = nil;
 
 // -----------------------------------------------
 // AI auto enable IR laser
