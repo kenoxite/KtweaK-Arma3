@@ -1,3 +1,5 @@
+#include "\z\ktweak\addons\bodyparthud_bridge\version.hpp"
+
 class CfgPatches {
     class ktweak_bodyparthud_bridge {
         units[] = {};
@@ -11,8 +13,8 @@ class CfgPatches {
         author = "kenoxite";
         authors[] = {"kenoxite"};
         url = "";
-        version = "1.0.0";
-        versionStr = "1.0.0";
-        versionAr[] = {1,0,0};
+        version = VERSION;
+        versionStr = VERSION_STR;
+        versionAr[] = {VERSION_AR};
     };
 };
