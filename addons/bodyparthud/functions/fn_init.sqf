@@ -1,6 +1,8 @@
 // fn_init.sqf
 // Bodypart HUD - Initialization and mod detection
 
+if (!hasInterface) exitWith {};
+
 // Mod detection
 private _cfgPatches = configFile >> "CfgPatches";
 
