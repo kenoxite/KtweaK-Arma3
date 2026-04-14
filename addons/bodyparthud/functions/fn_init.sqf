@@ -4,7 +4,7 @@
 // Mod detection
 private _cfgPatches = configFile >> "CfgPatches";
 
-KTWK_BPH_ktweak = isClass (_cfgPatches >> "ktweak_main");
+KTWK_BPH_ktweak = isClass (_cfgPatches >> "ktweak");
 
 if (isNil "KTWK_aceMedical") then {
     KTWK_aceMedical = isClass (_cfgPatches >> "ace_medical_engine");
@@ -39,10 +39,10 @@ addMissionEventHandler ["Loaded", {
 // Initial HUD start
 [] call KTWK_BPH_fnc_initHUD;
 
-// Exit if standalone - no need for player update loop
+// Exit if standalone
 if (!KTWK_BPH_ktweak) exitWith {};
 
-// Keep player reference updated for KtweaK integration
+// Keep player reference updated
 [{
     if (!isNull (findDisplay 49)) exitWith {};
     KTWK_player = call CBA_fnc_currentUnit;
