@@ -34,23 +34,6 @@ class Extended_PreInit_EventHandlers {
     };
 };
 
-#define BN_EDITOR "call compile preprocessFileLineNumbers 'z\ktweak\addons\main\functions\ktweak_3denBrightNights.sqf'; [[], true] call KTWK_fnc_brighterNight_unSet; [] spawn {while {is3DEN} do {call KTWK_fnc_brighterNight_check; sleep 0.5;}; [[], true] call KTWK_fnc_brighterNight_unSet;};"
-
-class Cfg3DEN
-{
-    class EventHandlers
-    {
-        class KtweaK
-        {
-            init = BN_EDITOR;
-            OnTerrainNew = BN_EDITOR;
-            OnMissionPreviewEnd = BN_EDITOR;
-            OnMissionNew = BN_EDITOR;
-            OnMissionLoad = BN_EDITOR;
-        };
-    };
-};
-
 class CfgFunctions
 {
     class KTWK
@@ -164,18 +147,6 @@ class CfgFunctions
 
             // Legacy
             class toggleHolsterDisplay {};
-        };
-
-        class BrighterNight
-        {
-            file = "z\ktweak\addons\main\functions\BN";
-            preInit = 1;
-
-            class brighterNight_check {};
-            class brighterNight_set {};
-            class brighterNight_unSet {};
-            class brighterNight_set_client {};
-            class brighterNight_unSet_client {};
         };
     };
 };

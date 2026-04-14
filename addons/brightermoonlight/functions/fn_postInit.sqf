@@ -1,0 +1,6 @@
+// KTWK_BM postInit
+// Brighter Moonlight - Client initialization
+
+if (!hasInterface) exitWith {};
+
+[] execVM "\z\ktweak\addons\brightermoonlight\functions\fn_init.sqf";

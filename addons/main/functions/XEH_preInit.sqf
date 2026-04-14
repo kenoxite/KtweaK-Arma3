@@ -527,17 +527,6 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
-// BRIGHTER MOONLIGHT
-[
-    "KTWK_BN_opt_enabled", 
-    "LIST",
-    ["Brighter Moonlight", "If enabled, lighting in full moon nights will be brigther.\nIt automatically works on any terrain and also in the Eden editor."],
-    ["KtweaK - Server", ""],
-    [[0,1,2], ["Disable", "Bright", "Brighter"], 1],
-    1,
-    {} 
-] call CBA_fnc_addSetting;
-
 // ADD LIGHTS TO AI
 [
     "KTWK_AIlights_opt_enabled", 
