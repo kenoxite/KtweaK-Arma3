@@ -9,7 +9,7 @@
 if (!isServer) exitWith {false};
 if (isNil "KTWK_BM_opt_enabled") exitWith {false};
 
-if (KTWK_BM_opt_enabled > 0 && {call KTWK_fnc_isNight}) then {
+if (KTWK_BM_opt_enabled > 0 && {call KTWK_BM_fnc_isNight}) then {
     call {
         if (is3DEN && {(!isNil "KTWK_BM_set" && {!KTWK_BM_set}) || {KTWK_BM_lastOption != 0 && {KTWK_BM_lastOption != KTWK_BM_opt_enabled}}}) exitWith {
             [[], true] call KTWK_BM_fnc_set;
