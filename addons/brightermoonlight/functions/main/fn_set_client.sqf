@@ -33,7 +33,7 @@ KTWK_BM_colorC ppEffectCommit ([60, 0] select _noWait);
 if (_aperture isNotEqualTo []) then {
     call {
         // Don't wait if forced or at dawn
-        if (_noWait || {date select 3 < 12}) exitWith {
+        if (_noWait || {date # 3 < 12}) exitWith {
             setApertureNew _aperture;
         };
         
@@ -42,23 +42,23 @@ if (_aperture isNotEqualTo []) then {
             params ["_aperture"];
             
             private _ap = apertureParams;
-            private _ap0 = _ap select 0;
+            private _ap0 = _ap # 0;
             private _ap1 = _ap0 + 0.1;
             private _ap2 = _ap0 + 0.2;
-            private _ap3 = _aperture select 3;
+            private _ap3 = _aperture # 3;
             private _step = 0.1;
             
             setApertureNew [_ap0, _ap1, _ap2, _ap3];
             
-            while {(apertureParams select 8) && {[_ap0, _ap1, _ap2] isNotEqualTo [_aperture select 0, _aperture select 1, _aperture select 2]}} do {
+            while {(apertureParams # 8) && {[_ap0, _ap1, _ap2] isNotEqualTo [_aperture # 0, _aperture # 1, _aperture # 2]}} do {
                 _ap0 = _ap0 - _step;
                 _ap1 = _ap1 - _step;
                 _ap2 = _ap2 - _step;
                 setApertureNew [_ap0, _ap1, _ap2, _ap3];
                 
                 // Exit if aperture was reset while transitioning or below threshold
-                if (!(apertureParams select 8) || {_ap0 < (_aperture select 0) || {_ap1 < (_aperture select 1)} || {_ap2 < (_aperture select 2)}}) exitWith {
-                    if (apertureParams select 8) exitWith {
+                if (!(apertureParams # 8) || {_ap0 < (_aperture # 0) || {_ap1 < (_aperture # 1)} || {_ap2 < (_aperture # 2)}}) exitWith {
+                    if (apertureParams # 8) exitWith {
                         setApertureNew _aperture;
                     };
                 };
