@@ -41,8 +41,8 @@ addMissionEventHandler ["Loaded", {
 // Initial HUD start
 [] call KTWK_BPH_fnc_initHUD;
 
-// Exit if standalone
-if (!KTWK_BPH_ktweak) exitWith {};
+// Let Ktweak deal with the recurring checks if present
+if (KTWK_BPH_ktweak) exitWith {};
 
 // Keep player reference updated
 [{
