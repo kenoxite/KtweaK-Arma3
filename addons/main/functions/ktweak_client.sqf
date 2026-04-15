@@ -300,9 +300,6 @@ KTWK_scr_coldBreath = [] execVM "z\ktweak\addons\main\scripts\coldBreath.sqf";
 // Init - Heat Haze
 KTWK_scr_heatHaze = [] execVM "z\ktweak\addons\main\scripts\heatHaze.sqf";
 
-// Init - NVG Effects
-KTWK_scr_NVG = [] execVM "z\ktweak\addons\main\scripts\NVG.sqf";
-
 // Init - Restrict Stance
 KTWK_scr_restrictStance = [] execVM "z\ktweak\addons\main\scripts\restrictStance.sqf";
 
