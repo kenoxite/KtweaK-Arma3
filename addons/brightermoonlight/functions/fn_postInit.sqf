@@ -3,4 +3,4 @@
 
 if (!hasInterface) exitWith {};
 
-[] execVM "\z\ktweak\addons\brightermoonlight\functions\fn_init.sqf";
+[] execVM "\z\ktweak\addons\brightermoonlight\functions\fn_initClient.sqf";
