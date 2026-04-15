@@ -3,4 +3,4 @@
 
 if (!hasInterface) exitWith {};
 
-[] execVM "\z\ktweak\addons\bodyparthud\functions\fn_init.sqf";
+[] execVM "\z\ktweak\addons\bodyparthud\functions\fn_initClient.sqf";
