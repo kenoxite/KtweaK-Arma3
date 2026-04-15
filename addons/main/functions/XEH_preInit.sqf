@@ -849,28 +849,6 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 
-// NVG EFFECTS
-[
-    "KTWK_NVG_opt_enabled", 
-    "CHECKBOX",
-    ["Enable", "If enabled, some blur and noise will be applied when night vision of any type is active, the strength of which will depend on the device used (portable NVG, vehicle NVG, NVG optics, etc).\nThe same effect will be applied to all NVGs, independently of its generation and real-life equivalent visual quality.\n\nDisabled if ACE Nightvision is detected, regardless of this setting.\n"],
-    ["KtweaK - Client", "NVG Effects"],
-    [false],
-    0,
-    {} 
-] call CBA_fnc_addSetting;
-
-[
-    "KTWK_NVG_opt_intensity", 
-    "SLIDER",
-    ["Effect Intensity", "Intensity of the effect. Setting it to 0 will not disable the effect, but will diminish it considerably.\nSet it higher than default if you want to emulate older generation devices.\n"],
-    ["KtweaK - Client", "NVG Effects"],
-    [0, 10, 1, 1], // data for this setting: [min, max, default, number of shown trailing decimals]
-    0,
-    {} 
-] call CBA_fnc_addSetting;
-
-
 // RESTRICT STANCE
 [
     "KTWK_RS_opt_enabled", 
