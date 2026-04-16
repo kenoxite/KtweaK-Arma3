@@ -82,10 +82,13 @@ private _brightnessFactor = [KTWK_NVG_ambientBrightness, _mode] call KTWK_NVG_fn
 // Calculate zoom intensity fresh every frame (no caching - it changes constantly)
 private _zoomIntensity = ([_mode] call KTWK_NVG_fnc_zoomIntensity) * _intensity;
 
+// Scale zoom with magnification if using portable NVG
+private _blurMod = [0, (_zoomIntensity * 0.35)] select (_mode in ["standard", "helmet"]);
+
 // Build effect arrays
 private _grainIntensity = _noise * _zoomIntensity;
 private _grainSize = ((_zoomIntensity * 5) * _noise) min 8;
-private _blurIntensity = 0.25 + (_zoomIntensity * 0.35);
+private _blurIntensity = 0.25 + _blurMod;
 
 _chromAberration = _chromAberration * _zoomIntensity;
 
