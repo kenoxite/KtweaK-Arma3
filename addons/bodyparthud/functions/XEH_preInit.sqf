@@ -34,7 +34,7 @@ Parameters:
     "KTWK_BPH_opt_enabled",
     "CHECKBOX",
     ["Enable", "If enabled, a HUD displaying the damage suffered by the player will briefly appear in the bottom right corner.\nIt will be displayed whenever the health status changes. The current overall health status will be displayed when the inventory is opened.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [true],
     0,
     {}
@@ -44,7 +44,7 @@ Parameters:
     "KTWK_BPH_opt_showInjured",
     "CHECKBOX",
     ["Display when health changes", "If enabled, the bodypart HUD will be briefly displayed whenever the health of any body part changes.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [true],
     0,
     {}
@@ -54,7 +54,7 @@ Parameters:
     "KTWK_BPH_opt_showInv",
     "CHECKBOX",
     ["Display when inventory is opened", "If enabled, the current overall health status will be displayed when the inventory is opened.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [true],
     0,
     {}
@@ -64,7 +64,7 @@ Parameters:
     "KTWK_BPH_opt_alpha",
     "SLIDER",
     ["Default HUD transparency", "Default transparency. If bigger than 0, the HUD will always be visible.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [0, 1, 0, 2],
     0,
     {}
@@ -74,7 +74,7 @@ Parameters:
     "KTWK_BPH_opt_xPos",
     "SLIDER",
     ["Horizontal Position", "How close to the left of the screen you want the HUD to be, relative to the default position in the bottom right corner.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [0, 117, 0, 2],
     0,
     { call KTWK_BPH_fnc_moveDialog; }
@@ -84,7 +84,7 @@ Parameters:
     "KTWK_BPH_opt_yPos",
     "SLIDER",
     ["Vertical Position", "How close to the top of the screen you want the HUD to be, relative to the default position in the bottom right corner.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [0, 60.5, 0, 2],
     0,
     { call KTWK_BPH_fnc_moveDialog; }
@@ -94,7 +94,7 @@ Parameters:
     "KTWK_BPH_opt_ColorHealthy",
     "COLOR",
     ["Healthy color", "Color for undamaged body parts.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [0.8, 0.8, 0.8],
     0,
     {}
@@ -104,7 +104,7 @@ Parameters:
     "KTWK_BPH_opt_ColorScuffed",
     "COLOR",
     ["Scuffed color", "Color for slightly damaged body parts.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [0.75, 0.6, 0.75],
     0,
     {}
@@ -114,7 +114,7 @@ Parameters:
     "KTWK_BPH_opt_ColorLightWound",
     "COLOR",
     ["Light Wound color", "Color for lightly wounded body parts.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [1, 1, 0],
     0,
     {}
@@ -124,7 +124,7 @@ Parameters:
     "KTWK_BPH_opt_ColorModerateWound",
     "COLOR",
     ["Moderate Wound color", "Color for moderately wounded body parts.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [1, 0.5, 0],
     0,
     {}
@@ -134,7 +134,7 @@ Parameters:
     "KTWK_BPH_opt_ColorSevereWound",
     "COLOR",
     ["Severe Wound color", "Color for severely wounded body parts.\n"],
-    ["KtweaK - Client", "Bodypart HUD"],
+    ["KtweaK - Bodypart HUD", ""],
     [0.6, 0, 0],
     0,
     {}
