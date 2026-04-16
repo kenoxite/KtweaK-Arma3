@@ -13,6 +13,6 @@ call {
     if (_preset == 2) exitWith { [0.627, 0.882, 0.918, 0] };  // White Phosphor
     if (_preset == 3) exitWith { [0.941, 0.961, 0.329, 0] };  // Amber
     if (_preset == 4) exitWith { [1, 1, 1, 0] };              // White
-    if (_preset == 5) exitWith { [1.0, 0.6, 0.6, 0] };  // Crimson
+    if (_preset == 5) exitWith { [1.0, 0.75, 0.75, 0] };  // Crimson
     [1, 1, 1, 1]  // Vanilla
 };
