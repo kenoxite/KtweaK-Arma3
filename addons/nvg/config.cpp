@@ -20,8 +20,6 @@ class CfgPatches {
     };
 };
 
-#include "\z\ktweak\addons\nvg\overlayOverride.hpp"
-
 class Extended_PreInit_EventHandlers {
     class KTWK_NVG_settings {
         init = "call compile preprocessFileLineNumbers '\z\ktweak\addons\nvg\functions\XEH_preInit.sqf'";
@@ -32,6 +30,9 @@ class CfgFunctions {
     class KTWK_NVG {
         class Init {
             file = "\z\ktweak\addons\nvg\functions";
+            class preInit {
+                preInit = 1;
+            };
             class postInit {
                 postInit = 1;
             };
@@ -39,8 +40,24 @@ class CfgFunctions {
 
         class Main {
             file = "\z\ktweak\addons\nvg\functions\main";
-            class initSystem {};
+            class applyEffects {};
+            class color {};
+            class colorFromCustom {};
+            class detectGeneration {};
             class getZoom {};
+            class getState {};
+            class initSystem {};
+            class lightIntensity {};
+            class manageEffects {};
+            class noiseIntensity {};
+            class nvgMode {};
+            class resolveMagicWords {};
+            class updateColorArrays {};
+            class updateExclusions {};
+            class updateGenArrays {};
+            class updateLighting {};
+            class updateVehicle {};
+            class updateWeapon {};
             class zoomIntensity {};
         };
     };

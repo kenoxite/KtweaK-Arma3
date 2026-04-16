@@ -1,5 +1,5 @@
-// fn_initClient.sqf
-// NVG Effects - Client initialization and main loop
+// KTWK_NVG_fnc_initClient
+// NVG Effects - Client initialization and event handlers
 
 if (!hasInterface) exitWith {};
 
@@ -14,45 +14,90 @@ if (isNil "KTWK_aceNightvision") then {
 
 _cfgPatches = nil;
 
+// Exit if ace is managing night vision
+if (KTWK_aceNightvision) exitWith {};
+
+waitUntil {!isNull player};
+
 // Global vars
 if (!KTWK_NVG_ktweak) then {
     KTWK_player = call CBA_fnc_currentUnit;
 };
 
-waitUntil {!isNull player};
+KTWK_NVG_debug_disableCache = false;
 
 // Init NVG subsystem
-call KTWK_NVG_fnc_initSystem;
+call KTWK_NVG_fnc_updateGenArrays;
+call KTWK_NVG_fnc_updateColorArrays;
 
-// Change effect intensity based on zoom, type of NVG, etc
+// Initialize cached values
+call KTWK_NVG_fnc_updateWeapon;
+call KTWK_NVG_fnc_updateVehicle;
+KTWK_NVG_ambientBrightness = 150;
+KTWK_NVG_cachedMode = "";
+KTWK_NVG_cachedItemClass = "";
+KTWK_NVG_cachedDetection = [1.0, 0, 1.0, 0.5, 0.003];
+KTWK_NVG_cachedColor = [];
+KTWK_NVG_cachedColorPreset = -1;
+KTWK_NVG_cachedZoomIntensity = 0;
+KTWK_NVG_effectsActive = false;
+KTWK_NVG_lastBlurArray = [];
+KTWK_NVG_lastColorArray = [];
+KTWK_NVG_lastFilmArray = [];
+KTWK_NVG_lastChromArray = [];
+
+// CBA setting changed handler
+["settingChanged", {
+    params ["_setting"];
+    if (_setting in ["KTWK_NVG_opt_color", "KTWK_NVG_opt_autoGen", "KTWK_NVG_opt_intensity"]) then {
+        KTWK_NVG_cachedColor = [];
+        KTWK_NVG_cachedColorPreset = -1;
+        KTWK_NVG_cachedDetection = [1.0, 0, 1.0, 0.5, 0.003];
+        KTWK_NVG_cachedItemClass = "";
+        KTWK_NVG_lastBlurArray = [];
+        KTWK_NVG_lastColorArray = [];
+        KTWK_NVG_lastFilmArray = [];
+        KTWK_NVG_lastChromArray = [];
+    };
+}] call CBA_fnc_addEventHandler;
+
+// Weapon changed event handler
+KTWK_NVG_EH_weapon = ["weapon", {
+    call KTWK_NVG_fnc_updateWeapon;
+    KTWK_NVG_cachedItemClass = "";
+    KTWK_NVG_cachedMode = "";
+}] call CBA_fnc_addPlayerEventHandler;
+
+// Vehicle changed event handler  
+KTWK_NVG_EH_vehicle = ["vehicle", {
+    call KTWK_NVG_fnc_updateVehicle;
+}] call CBA_fnc_addPlayerEventHandler;
+
+// Camera view changed
+KTWK_NVG_EH_cameraView = ["cameraView", {
+    params ["_unit"];
+    if (currentVisionMode _unit != 1) exitWith {};
+    private _weapon = currentWeapon _unit;
+    private _weaponLower = toLowerANSI _weapon;
+    if (_weaponLower in KTWK_NVG_allItems) then {
+        KTWK_NVG_cachedMode = "";
+        KTWK_NVG_cachedItemClass = "";
+        KTWK_NVG_cachedZoomIntensity = 0;
+    };
+}] call CBA_fnc_addPlayerEventHandler;
+
+// Main effect application PFH
 KTWK_NVG_pfh = [{
-    if (!isNull (findDisplay 49)) exitWith {};    // Don't check while paused
-    params ["_args", "_pfhId"];
+    if (!isNull (findDisplay 49)) exitWith {};
     
-    if (!KTWK_NVG_opt_enabled || {currentVisionMode KTWK_player != 1}) exitWith {
-        { _x ppEffectEnable false } forEach [KTWK_NVG_ppBlur, KTWK_NVG_ppColor, KTWK_NVG_ppFilm];
-    };
-
-    private _veh = vehicle KTWK_player;
-    { _x ppEffectEnable (currentVisionMode KTWK_player == 1 && {isNull curatorCamera} && {(positionCameraToWorld [0,0,0] distance _veh) < 30}) } forEach [KTWK_NVG_ppBlur, KTWK_NVG_ppColor, KTWK_NVG_ppFilm];
-
-    if (KTWK_NVG_lastWeapon != currentWeapon KTWK_player) then {
-        KTWK_NVG_lastWeapon = currentWeapon KTWK_player;
-        KTWK_NVG_lastWeaponZoom = getNumber (configFile >> "CfgWeapons" >> KTWK_NVG_lastWeapon >> "opticsZoomInit");
-    };
-
-    private _inVehicle = _veh != KTWK_player;
-    if (KTWK_lastVehicle != _veh) then {
-        KTWK_lastVehicle = _veh;
-        KTWK_lastVehicleMFD = (count ([configOf _veh >> "MFD", 0] call BIS_fnc_returnChildren)) > 0;
-    };
-
-    private _zoomIntensity = [KTWK_player, _veh, _inVehicle, KTWK_lastVehicleMFD, KTWK_NVG_lastWeaponZoom, KTWK_NVG_opt_intensity] call KTWK_NVG_fnc_zoomIntensity;
-
-    KTWK_NVG_ppBlur ppEffectAdjust [[0.25 + (_zoomIntensity * 0.35), 0.1] select (_zoomIntensity == 1)];
-    KTWK_NVG_ppFilm ppEffectAdjust [0.22, 1, (_zoomIntensity * 3) min 8, 0.4, 0.2, 0];
+    private _shouldBeActive = KTWK_NVG_opt_enabled && {currentVisionMode KTWK_player == 1};
     
-    { _x ppEffectCommit 0 } forEach [KTWK_NVG_ppBlur, KTWK_NVG_ppFilm];
+    [_shouldBeActive] call KTWK_NVG_fnc_manageEffects;
+    if (!_shouldBeActive) exitWith {};
+    
+    call KTWK_NVG_fnc_updateLighting;
+    private _state = call KTWK_NVG_fnc_getState;
+    [_state] call KTWK_NVG_fnc_applyEffects;
 }, 0.05, []] call CBA_fnc_addPerFrameHandler;
 
 // Let Ktweak deal with the recurring checks if present
