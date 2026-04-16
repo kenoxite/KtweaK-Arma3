@@ -42,16 +42,13 @@ class CfgFunctions {
             file = "\z\ktweak\addons\nvg\functions\main";
             class applyEffects {};
             class color {};
-            class colorFromCustom {};
             class detectGeneration {};
-            class getZoom {};
             class getState {};
             class initSystem {};
             class lightIntensity {};
             class manageEffects {};
             class noiseIntensity {};
             class nvgMode {};
-            class resolveMagicWords {};
             class updateColorArrays {};
             class updateExclusions {};
             class updateGenArrays {};
@@ -59,6 +56,13 @@ class CfgFunctions {
             class updateVehicle {};
             class updateWeapon {};
             class zoomIntensity {};
+        };
+
+        class Helpers {
+            file = "\z\ktweak\addons\nvg\functions\helpers";
+            class colorFromCustom {};
+            class getZoom {};
+            class resolveMagicWords {};
         };
     };
 };
