@@ -32,7 +32,7 @@ Parameters:
     "KTWK_BM_opt_enabled",
     "LIST",
     ["Brighter Moonlight", "If enabled, lighting in full moon nights will be brighter.\nIt automatically works on any terrain and also in the Eden editor."],
-    ["KtweaK - Server", ""],
+    ["KtweaK - Brighter Moonlight", ""],
     [[0,1,2], ["Disable", "Bright", "Brighter"], 1],
     1,
     {}
