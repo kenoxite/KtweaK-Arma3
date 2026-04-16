@@ -260,7 +260,7 @@ if (KTWK_aceInteraction) then {
     };
 
     // Brighter full moon nights
-    call KTWK_BM_fnc_check;
+    call KTWK_BML_fnc_check;
 
     // WBK Headlamps loop alternative
     if (!WBK_IsAIEnableHeadlamps) then {

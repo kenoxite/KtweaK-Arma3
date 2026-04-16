@@ -1,4 +1,4 @@
-// KTWK_BM_fnc_isNight
+// KTWK_BML_fnc_isNight
 // Returns true during night based on aperture value
 //
 // Parameters:

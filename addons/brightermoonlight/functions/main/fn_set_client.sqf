@@ -1,4 +1,4 @@
-// KTWK_BM_fnc_set_client
+// KTWK_BML_fnc_set_client
 // Applies brighter moonlight effect to a client
 //
 // Parameters:
@@ -11,15 +11,15 @@
 params ["_effect", "_aperture", "_noWait"];
 
 if (!canSuspend) exitWith {
-    _this spawn KTWK_BM_fnc_set_client;
+    _this spawn KTWK_BML_fnc_set_client;
 };
 
-if (isNil "KTWK_BM_colorC") then {
-    KTWK_BM_colorC = ppEffectCreate ["ColorCorrections", 2000];
-    waitUntil {!isNil "KTWK_BM_colorC"};
-    KTWK_BM_colorC ppEffectAdjust [1, 1, 0, [0, 0, 0, 0], [1, 1, 1, 1], [0.5, 0.25, 0.25, 0]];
-    KTWK_BM_colorC ppEffectCommit 0;
-    KTWK_BM_colorC ppEffectEnable true;
+if (isNil "KTWK_BML_colorC") then {
+    KTWK_BML_colorC = ppEffectCreate ["ColorCorrections", 2000];
+    waitUntil {!isNil "KTWK_BML_colorC"};
+    KTWK_BML_colorC ppEffectAdjust [1, 1, 0, [0, 0, 0, 0], [1, 1, 1, 1], [0.5, 0.25, 0.25, 0]];
+    KTWK_BML_colorC ppEffectCommit 0;
+    KTWK_BML_colorC ppEffectEnable true;
 };
 
 // Apply immediately if it's mission start
@@ -27,8 +27,8 @@ if (time < 5) then {
     _noWait = true;
 };
 
-KTWK_BM_colorC ppEffectAdjust _effect;
-KTWK_BM_colorC ppEffectCommit ([60, 0] select _noWait);
+KTWK_BML_colorC ppEffectAdjust _effect;
+KTWK_BML_colorC ppEffectCommit ([60, 0] select _noWait);
 
 if (_aperture isNotEqualTo []) then {
     call {
@@ -74,4 +74,4 @@ if (_aperture isNotEqualTo []) then {
     setApertureNew [-1];
 };
 
-player setVariable ["KTWK_BM_set", true, true];
+player setVariable ["KTWK_BML_set", true, true];

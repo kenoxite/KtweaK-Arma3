@@ -1,4 +1,4 @@
-// KTWK_BM postInit
+// KTWK_BML postInit
 // Brighter Moonlight - Client initialization
 
 if (!hasInterface) exitWith {};

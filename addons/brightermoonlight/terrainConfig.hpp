@@ -1,21 +1,14 @@
 // Brighter Moonlight - Terrain Configuration
 
-KTWK_BM_set = false;
-KTWK_BM_lastOption = KTWK_BM_opt_enabled;
+KTWK_BML_set = false;
+KTWK_BML_lastOption = KTWK_BML_opt_enabled;
 
-// All terrain names must be lowercase!
-KTWK_BM_excluded = [
-    "sefrouramal",
-    "dingor",
-    "optre_eridanussecundus",
-    "optre_phobos",
-    "chernarus_winter",
-    "swu_public_salman_map",
-    "uzbin"
-];
-if ("juju_" in worldName) then {KTWK_BM_excluded pushBack toLowerANSI worldName};
+KTWK_BML_wasExcluded = false;
+KTWK_BML_excluded = [];
+call KTWK_BML_fnc_updateExclusions;
+KTWK_BML_lastExcluded = KTWK_BML_opt_excludeTerrains;
 
-KTWK_BM_altPpEffect_darker = [
+KTWK_BML_altPpEffect_darker = [
     "utes",
     "chernarus",
     "chernarus_summer",
@@ -28,9 +21,9 @@ KTWK_BM_altPpEffect_darker = [
     "xcam_taunus",
     "farabad",
     "cam_lao_nam"
-];
+] apply {toLowerANSI _x};
 
-KTWK_BM_noAperture = [
+KTWK_BML_noAperture = [
     "egl_gliese581xsouth",
     "egl_gliese581xeast",
     "egl_gliese581xnorth",
@@ -41,26 +34,26 @@ KTWK_BM_noAperture = [
     "zargabad",
     "farabad",
     "tem_kujari"
-];
-if ("swu_public_" in worldName) then {KTWK_BM_noAperture pushBack toLowerANSI worldName};
+] apply {toLowerANSI _x};
+if ("swu_public_" in worldName) then {KTWK_BML_noAperture pushBack toLowerANSI worldName};
 
-KTWK_BM_altAperture_narrow = [
+KTWK_BML_altAperture_narrow = [
     "rhspkl",
     "cam_lao_nam"
-];
+] apply {toLowerANSI _x};
 
-KTWK_BM_altAperture_mid = [
+KTWK_BML_altAperture_mid = [
     "enoch",
     "edaly_map_alpha",
     "vn_khe_sanh"
-];
+] apply {toLowerANSI _x};
 
-KTWK_BM_altAperture_wide = [
+KTWK_BML_altAperture_wide = [
     "brf_sumava",
     "tem_ihantala",
     "hellanmaa",
     "gm_weferlingen_summer",
     "bornholm"
-];
+] apply {toLowerANSI _x};
 
-KTWK_BM_altAperture_ultraWide = [];
+KTWK_BML_altAperture_ultraWide = [];

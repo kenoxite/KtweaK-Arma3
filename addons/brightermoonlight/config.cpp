@@ -21,12 +21,12 @@ class CfgPatches {
 };
 
 class Extended_PreInit_EventHandlers {
-    class KTWK_BM_settings {
+    class KTWK_BML_settings {
         init = "call compile preprocessFileLineNumbers '\z\ktweak\addons\brightermoonlight\functions\XEH_preInit.sqf'";
     };
 };
 
-#define BM_EDITOR "call compile preprocessFileLineNumbers '\z\ktweak\addons\brightermoonlight\functions\BM_editor.sqf'; [[], true] call KTWK_BM_fnc_unSet; [] spawn {while {is3DEN} do {call KTWK_BM_fnc_check; sleep 0.5;}; [[], true] call KTWK_BM_fnc_unSet;};"
+#define BML_EDITOR "call compile preprocessFileLineNumbers '\z\ktweak\addons\brightermoonlight\functions\BML_EDITOR.sqf'; [[], true] call KTWK_BML_fnc_unSet; [] spawn {while {is3DEN} do {call KTWK_BML_fnc_check; sleep 0.5;}; [[], true] call KTWK_BML_fnc_unSet;};"
 
 class Cfg3DEN
 {
@@ -34,17 +34,17 @@ class Cfg3DEN
     {
         class BrighterMoonlight
         {
-            init = BM_EDITOR;
-            OnTerrainNew = BM_EDITOR;
-            OnMissionPreviewEnd = BM_EDITOR;
-            OnMissionNew = BM_EDITOR;
-            OnMissionLoad = BM_EDITOR;
+            init = BML_EDITOR;
+            OnTerrainNew = BML_EDITOR;
+            OnMissionPreviewEnd = BML_EDITOR;
+            OnMissionNew = BML_EDITOR;
+            OnMissionLoad = BML_EDITOR;
         };
     };
 };
 
 class CfgFunctions {
-    class KTWK_BM {
+    class KTWK_BML {
         class Init {
             file = "\z\ktweak\addons\brightermoonlight\functions";
             class preInit {
@@ -62,11 +62,13 @@ class CfgFunctions {
             class unSet {};
             class set_client {};
             class unSet_client {};
+            class updateExclusions {};
         };
 
         class Helpers {
             file = "\z\ktweak\addons\brightermoonlight\functions\helpers";
             class isNight {};
+            class resolveMagicWords {};
         };
     };
 };

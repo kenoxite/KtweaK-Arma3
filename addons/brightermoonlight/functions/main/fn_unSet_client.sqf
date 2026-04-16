@@ -1,4 +1,4 @@
-// KTWK_BM_fnc_unSet_client
+// KTWK_BML_fnc_unSet_client
 // Removes brighter moonlight effect from a client
 //
 // Parameters:
@@ -8,12 +8,12 @@
 
 params [["_noWait", false]];
 
-player setVariable ["KTWK_BM_set", false, true];
+player setVariable ["KTWK_BML_set", false, true];
 setApertureNew [-1];
 
-if (isNil "KTWK_BM_colorC") exitWith {false};
+if (isNil "KTWK_BML_colorC") exitWith {false};
 
-KTWK_BM_colorC ppEffectAdjust [1, 1, 0, [0, 0, 0, 0], [1, 1, 1, 1], [0.5, 0.25, 0.25, 0]];
-KTWK_BM_colorC ppEffectCommit ([60, 0] select _noWait);
+KTWK_BML_colorC ppEffectAdjust [1, 1, 0, [0, 0, 0, 0], [1, 1, 1, 1], [0.5, 0.25, 0.25, 0]];
+KTWK_BML_colorC ppEffectCommit ([60, 0] select _noWait);
 
 true
