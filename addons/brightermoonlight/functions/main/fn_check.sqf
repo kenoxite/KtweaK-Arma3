@@ -39,6 +39,7 @@ if (
     };
     [_targets, true] call KTWK_BML_fnc_unSet;
     KTWK_BML_wasExcluded = true;
+    KTWK_BML_lastOption = KTWK_BML_opt_enabled;
     KTWK_BML_lastExcluded = KTWK_BML_opt_excludeTerrains;
     false
 };
