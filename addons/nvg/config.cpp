@@ -59,18 +59,6 @@ class CfgFunctions {
             class toggleIRLight {};
             class createIRLight {};
             class deleteIRLight {};
-
-            // Deprecated / Pending integration
-            // class detectGeneration {};
-            // class color {};
-            // class getState {};
-            // class lightIntensity {};
-            // class manageEffects {};
-            // class noiseIntensity {};
-            // class updateLighting {};
-            // class updateVehicle {};
-            // class updateWeapon {};
-            // class zoomIntensity {};
         };
 
         class Helpers {
