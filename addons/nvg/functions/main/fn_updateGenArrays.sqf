@@ -20,7 +20,9 @@ private _knownGen1 = [
     // Prairie Fire
     "vn_o_1pn138",
     "vn_nvg_01",
-    "vn_nvg_02"
+    "vn_nvg_02",
+    // RHS
+    "rhs_pdu4"
 ] apply {toLowerANSI _x};
 
 private _knownGen2 = [
@@ -31,7 +33,11 @@ private _knownGen2 = [
     "TiGoggles_grn_RF",
     "TiGoggles_tan_RF",
     // Prairie Fire
-    "vn_nvg_03"
+    "vn_nvg_03",
+    // CUP
+    "CUP_optic_AN_PVS_4",
+    "CUP_optic_AN_PVS_4_M14",
+    "CUP_optic_AN_PVS_4_M16"
 ] apply {toLowerANSI _x};
 
 private _knownGen3 = [
@@ -42,15 +48,30 @@ private _knownGen3 = [
     "NVGoggles_tna_F",
     // CUP
     "cup_nvg_pvs7",
+    "CUP_NVG_PVS7_Hide",
     "cup_nvg_hmnvs",
+    "CUP_NVG_HMNVS_Hide",
     "cup_nvg_pvs14",
+    "CUP_NVG_PVS14_Hide",
     "cup_nvg_pvs15_black",
     "cup_nvg_pvs15_tan",
     "cup_nvg_pvs15_green",
     "cup_nvg_pvs15_winter",
+    "CUP_optic_AN_PVS_10",
+    "CUP_optic_AN_PVS_10_black",
+    "CUP_optic_AN_PVS_10_od",
+    "CUP_optic_CWS",
+    "CUP_optic_CWS_NV",
+    "CUP_optic_CWS_NV_RDS",
+    "CUP_SOFLAM",
+    "CUP_LRTV",
+    "CUP_Vector21Nite",
     // RHS
     "rhsusf_anpvs_14",
     "rhsusf_anpvs_15",
+    "rhsusf_acc_anpvs27",
+    // ACE
+    "ACE_Vector",
     // Rangefinder
     "Rangefinder",
     // Optics
@@ -67,10 +88,12 @@ private _knownGen4 = [
     "nvgogglesb_gry_f",
     // CUP
     "cup_nvg_gpnvg_black",
+    "CUP_NVG_GPNVG_Hide",
     "cup_nvg_gpnvg_tan",
     "cup_nvg_gpnvg_green",
     "cup_nvg_gpnvg_winter",
     "cup_nvg_1pn138",
+    "CUP_NVG_1PN138_Hide",
     // RHS
     "rhs_1pn138",
     // Reaction Forces
@@ -94,7 +117,7 @@ private _knownGen4 = [
 // Parse user settings
 private _gen1Result = [KTWK_NVG_opt_gen1] call KTWK_NVG_fnc_resolveMagicWords;
 private _userGen1 = if (_gen1Result isNotEqualTo []) then {
-    (_gen1Result # 0) apply { toLowerANSI _x }
+    _gen1Result # 0
 } else { [] };
 if (_gen1Result isNotEqualTo [] && {(_gen1Result # 1) != ""}) then {
     ["KTWK_NVG_opt_gen1", _gen1Result # 1, 0, _settingScope, true] call CBA_settings_fnc_set;
@@ -102,7 +125,7 @@ if (_gen1Result isNotEqualTo [] && {(_gen1Result # 1) != ""}) then {
 
 private _gen2Result = [KTWK_NVG_opt_gen2] call KTWK_NVG_fnc_resolveMagicWords;
 private _userGen2 = if (_gen2Result isNotEqualTo []) then {
-    (_gen2Result # 0) apply { toLowerANSI _x }
+    _gen2Result # 0
 } else { [] };
 if (_gen2Result isNotEqualTo [] && {(_gen2Result # 1) != ""}) then {
     ["KTWK_NVG_opt_gen2", _gen2Result # 1, 0, _settingScope, true] call CBA_settings_fnc_set;
@@ -110,7 +133,7 @@ if (_gen2Result isNotEqualTo [] && {(_gen2Result # 1) != ""}) then {
 
 private _gen3Result = [KTWK_NVG_opt_gen3] call KTWK_NVG_fnc_resolveMagicWords;
 private _userGen3 = if (_gen3Result isNotEqualTo []) then {
-    (_gen3Result # 0) apply { toLowerANSI _x }
+    _gen3Result # 0
 } else { [] };
 if (_gen3Result isNotEqualTo [] && {(_gen3Result # 1) != ""}) then {
     ["KTWK_NVG_opt_gen3", _gen3Result # 1, 0, _settingScope, true] call CBA_settings_fnc_set;
@@ -118,7 +141,7 @@ if (_gen3Result isNotEqualTo [] && {(_gen3Result # 1) != ""}) then {
 
 private _gen4Result = [KTWK_NVG_opt_gen4] call KTWK_NVG_fnc_resolveMagicWords;
 private _userGen4 = if (_gen4Result isNotEqualTo []) then {
-    (_gen4Result # 0) apply { toLowerANSI _x }
+    _gen4Result # 0
 } else { [] };
 if (_gen4Result isNotEqualTo [] && {(_gen4Result # 1) != ""}) then {
     ["KTWK_NVG_opt_gen4", _gen4Result # 1, 0, _settingScope, true] call CBA_settings_fnc_set;
@@ -137,5 +160,4 @@ KTWK_NVG_allItems append KTWK_NVG_gen3;
 KTWK_NVG_allItems append KTWK_NVG_gen4;
 
 // Clear cache
-KTWK_NVG_cachedDetection = [1.0, 0, 1.0, 0.5, 0.003];
-KTWK_NVG_cachedItemClass = "";
+call KTWK_NVG_fnc_resetCache;

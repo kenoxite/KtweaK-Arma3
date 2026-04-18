@@ -40,29 +40,44 @@ class CfgFunctions {
 
         class Main {
             file = "\z\ktweak\addons\nvg\functions\main";
+            class disableSystem {};
+            class resetCache {};
+            class mode {};
+            class sampleLighting {};
+            class calcEffects {};
+            class createHandles {};
             class applyEffects {};
-            class color {};
-            class detectGeneration {};
-            class getState {};
+            class disableEffects {};
             class initSystem {};
-            class lightIntensity {};
-            class manageEffects {};
-            class noiseIntensity {};
-            class nvgMode {};
+            class createPfh {};
+            class initGlobals {};
+            class isExcluded {};
+            class getDeviceGen {};
             class updateColorArrays {};
             class updateExclusions {};
             class updateGenArrays {};
-            class updateLighting {};
-            class updateVehicle {};
-            class updateWeapon {};
-            class zoomIntensity {};
+            class toggleIRLight {};
+            class createIRLight {};
+            class deleteIRLight {};
+
+            // Deprecated / Pending integration
+            // class detectGeneration {};
+            // class color {};
+            // class getState {};
+            // class lightIntensity {};
+            // class manageEffects {};
+            // class noiseIntensity {};
+            // class updateLighting {};
+            // class updateVehicle {};
+            // class updateWeapon {};
+            // class zoomIntensity {};
         };
 
         class Helpers {
             file = "\z\ktweak\addons\nvg\functions\helpers";
-            class colorFromCustom {};
             class getZoom {};
             class resolveMagicWords {};
+            class getColor {};
         };
     };
 };

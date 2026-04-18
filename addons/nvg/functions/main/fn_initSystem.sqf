@@ -1,31 +1,51 @@
-// KTWK_NVG_fnc_initSystem
-// Initializes NVG effects and state tracking
-//
-// Parameters:
-//   None
-// Returns:
-//   Nothing
-
-private _unit = KTWK_player;
-KTWK_NVG_lastWeapon = currentWeapon _unit;
-KTWK_NVG_lastWeaponZoom = getNumber (configFile >> "CfgWeapons" >> KTWK_NVG_lastWeapon >> "opticsZoomInit");
-
-private _veh = vehicle _unit;
-private _inVehicle = _veh != _unit;
-KTWK_lastVehicle = _veh;
-KTWK_lastVehicleMFD = (count ([configOf _veh >> "MFD", 0] call BIS_fnc_returnChildren)) > 0;
-
-// Initialize effects
-KTWK_NVG_ppChrom = ppEffectCreate ["ChromAberration", 217];
-KTWK_NVG_ppBlur = ppEffectCreate ["dynamicBlur", 773];  // IMPORTANT: range 400-999 - going over 999 will cause darkening when zooming bug
-KTWK_NVG_ppColor = ppEffectCreate ["ColorCorrections", 1974];
-KTWK_NVG_ppFilm = ppEffectCreate ["FilmGrain", 2174];
-
-// Error check
-if (KTWK_NVG_ppBlur < 0 || {KTWK_NVG_ppColor < 0} || {KTWK_NVG_ppFilm < 0} || {KTWK_NVG_ppChrom < 0}) exitWith {
-    diag_log "KTWK NVG Effects: PPEffects Error: Failed to create effects";
+if (!KTWK_NVG_opt_enabled) exitWith {
+    if (!isNil "KTWK_NVG_pfh" || {!isNil "KTWK_NVG_lightingProbe"}) then {
+        call KTWK_NVG_fnc_disableSystem;
+    };
 };
 
-// Configure effects
-KTWK_NVG_ppColor ppEffectAdjust [0.6, 1.4, -0.02, [1, 1, 1, 0], [1, 1, 1, 1], [0, 0, 0, 0]];
-{ _x ppEffectForceInNVG true; _x ppEffectEnable false } forEach [KTWK_NVG_ppBlur, KTWK_NVG_ppColor, KTWK_NVG_ppFilm, KTWK_NVG_ppChrom];
+// Event handlers
+if (isNil "KTWK_NVG_EH_weapon") then {
+    KTWK_NVG_EH_weapon = ["weapon", { 
+        KTWK_NVG_weaponZoom = getNumber (configFile >> "CfgWeapons" >> currentWeapon KTWK_player >> "opticsZoomInit"); 
+    }] call CBA_fnc_addPlayerEventHandler;
+};
+
+if (isNil "KTWK_NVG_EH_vehicle") then {
+    KTWK_NVG_EH_vehicle = ["vehicle", { 
+        KTWK_NVG_vehicleMFD = (count ([configOf (vehicle KTWK_player) >> "MFD", 0] call BIS_fnc_returnChildren)) > 0; 
+    }] call CBA_fnc_addPlayerEventHandler;
+};
+
+// System reactivation EHs - won't be removed
+if (isNil "KTWK_NVG_EH_visibleMap") then {
+    KTWK_NVG_EH_visibleMap = ["visibleMap", {
+        params ["_unit", "_isMapShown"];
+        if (_isMapShown) exitWith {
+            call KTWK_NVG_fnc_disableSystem;
+        };
+        if (isNil "KTWK_NVG_pfh") exitWith {
+            call KTWK_NVG_fnc_initSystem;
+        };
+    }] call CBA_fnc_addPlayerEventHandler;
+};
+
+if (isNil "KTWK_NVG_EH_visionMode") then {
+    KTWK_NVG_EH_visionMode = ["visionMode", {
+        params ["_unit", "_mode", "_number"];
+        if (_mode != 1) exitWith {
+            call KTWK_NVG_fnc_disableSystem;
+        };
+        if (isNil "KTWK_NVG_pfh") exitWith {
+            call KTWK_NVG_fnc_initSystem;
+        };
+    }] call CBA_fnc_addPlayerEventHandler;
+};
+
+KTWK_NVG_lightingProbe = "camera" camCreate [0,0,0];
+
+private _irLightActive = KTWK_player getVariable ["KTWK_NVG_irLightActive", false];
+[_irLightActive] call KTWK_NVG_fnc_toggleIRLight;
+
+call KTWK_NVG_fnc_createHandles;
+call KTWK_NVG_fnc_createPfh;

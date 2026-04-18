@@ -12,12 +12,11 @@ if (_input == "") exitWith { [] };
 
 private _fnc_resolveWord = {
     params ["_word", "_unit"];
-    private _lower = toLowerANSI _word;
     call {
-        if (_lower == "nvg") exitWith { hmd _unit };
-        if (_lower == "helmet") exitWith { headgear _unit };
-        if (_lower == "binoc") exitWith { currentWeapon _unit };
-        if (_lower == "scope") exitWith { (_unit weaponAccessories currentWeapon _unit) # 2 };
+        if (_word == "nvg") exitWith { hmd _unit };
+        if (_word == "helmet") exitWith { headgear _unit };
+        if (_word == "binoc") exitWith { currentWeapon _unit };
+        if (_word == "scope") exitWith { (_unit weaponAccessories currentWeapon _unit) # 2 };
         _word
     };
 };
@@ -27,10 +26,10 @@ private _resolved = [];
 private _changed = false;
 
 {
-    private _item = _x trim [" ", 0];
+    private _item = toLowerANSI (_x trim [" ", 0]);
     private _resolvedItem = [_item, KTWK_player] call _fnc_resolveWord;
     if (_resolvedItem == "") then { continue };
-    _resolved pushBack _resolvedItem;
+    _resolved pushBack toLowerANSI _resolvedItem;
     if (_resolvedItem != _item) then { _changed = true };
 } forEach _items;
 

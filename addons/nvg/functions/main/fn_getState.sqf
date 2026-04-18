@@ -15,7 +15,7 @@ if (!_enabled) exitWith { [false, [], [], [], 0] };
 
 // Get current mode
 private _inVehicle = _veh != _unit;
-private _mode = [_unit, _veh, _inVehicle, KTWK_lastVehicleMFD, KTWK_NVG_lastWeaponZoom] call KTWK_NVG_fnc_nvgMode;
+private _mode = [_unit, _veh, _inVehicle, KTWK_lastVehicleMFD, KTWK_NVG_weaponZoom] call KTWK_NVG_fnc_nvgMode;
 
 // Check global exclusion first
 private _itemClass = call {
@@ -75,32 +75,52 @@ private _colorizeArray = if (!KTWK_NVG_opt_autoGen || {!(_mode in _autoGenTypes)
     [_colorPreset] call KTWK_NVG_fnc_color
 };
 
-// Get lighting factors
-private _noise = [KTWK_NVG_ambientBrightness, _mode] call KTWK_NVG_fnc_noiseIntensity;
-private _brightnessFactor = [KTWK_NVG_ambientBrightness, _mode] call KTWK_NVG_fnc_lightIntensity;
+private _zoom = call KTWK_NVG_fnc_getZoom;
 
-// Calculate zoom intensity fresh every frame (no caching - it changes constantly)
-private _zoomIntensity = ([_mode] call KTWK_NVG_fnc_zoomIntensity) * _intensity;
+private _lighting = getLightingAt KTWK_player; 
+_lighting params ["", "_ambientBrightness", "", "_dynamicBrightness"];
+private _ambientLighting = _ambientBrightness + _dynamicBrightness;
 
-// Scale zoom with magnification if using portable NVG
-private _blurMod = [0, (_zoomIntensity * 0.35)] select (_mode in ["standard", "helmet"]);
+_baseNoise = KTWK_NVG_opt_brightness;
+_noise = linearConversion [35, 150, _ambientLighting, _baseNoise, 0, true];
+ 
+private _brightnessFactor = linearConversion [35, 150, _ambientLighting, 1, 0.1, true];
 
-// Build effect arrays
-private _grainIntensity = _noise * _zoomIntensity;
-private _grainSize = ((_zoomIntensity * 5) * _noise) min 8;
+// Film grain
+private _grainIntensity = linearConversion [0, 1, _noise * _zoom * _intensity, 0.3, 0.5, true];
+private _grainSharpness = linearConversion [0, 1, _noise, 2, 0.7, true];
+private _grainSize = linearConversion [0, 1, _baseNoise * _zoom, 0.1, 4, true];
+private _grainOpacity = linearConversion [0, 1, _brightnessFactor * _noise * _intensity, 0.4, 1.5, true];
+
+// Calculate zoom intensity for blur effect
+private _zoomIntensityMod = call {
+    if (_mode == "disabled") exitWith { 1 };
+    if (_mode == "rangefinder") exitWith { 28 };
+    if (_mode == "vehicle") exitWith { 56 };
+    if (_mode == "scoped") exitWith { 16 };
+    9  // standard
+};
+private _zoomBlur = (_zoom / _zoomIntensityMod) * _intensity * 0.35;
+
+// Chrome aberration
+_chromAberration = _chromAberration * _zoomBlur;
+
+// Blur
+// Scale blur with zoom if using portable NVG
+private _blurMod = [0, _zoomBlur] select (_mode in ["standard", "helmet"]);
 private _blurIntensity = 0.25 + _blurMod;
+private _blurArray = [[_blurIntensity, 0.1] select (_zoomBlur == 1)];
 
-_chromAberration = _chromAberration * _zoomIntensity;
-
-private _blurArray = [[_blurIntensity, 0.1] select (_zoomIntensity == 1)];
+// Color
 private _colorArray = [
     0.8 * _brightnessFactor,
     0.5,
     0.05,
     [1, 1, 1, 0],
     _colorizeArray,
-    [0.45, 0.45, 0.45, 0]
+    [0.45, 0.45, 0.45, 0],
+    [1, 1, 1, 1]
 ];
-private _filmArray = if (_noise == 0) then { [] } else { [_grainIntensity, 1, _grainSize, 0.4, 0.2, 0] };
+private _filmArray = if (_noise == 0) then { [] } else { [_grainIntensity, _grainSharpness, _grainSize, _grainOpacity * 0.75, _grainOpacity, 0] };
 
 [true, _blurArray, _colorArray, _filmArray, _chromAberration]
