@@ -1,12 +1,13 @@
 #include "\z\ktweak\addons\nvg\version.hpp"
 
 #define MAIN ""
-#define ADVANCED "Advanced"
-#define COLOR_PRESETS "Color Presets"
-#define CUSTOM_GEAR "Custom Gear"
-#define CUSTOM_COLORS "Custom Gear Colors"
-#define EXCLUSIONS "Exclusions"
-#define MAGICWORDS_DESC "\nMagic words automatically convert to the class name of the item you are currently using when you save the settings:\n- nvg = currently equipped NVG goggles\n- helmet = currently worn helmet with built-in NVG\n- binoc = currently held binocular/rangefinder/designator\n- scope = currently attached weapon optic\n\nExample: nvg, helmet, myCustomGoggles\nAfter saving, magic words become permanent class names.\n"
+#define MANUAL "1. Manual"
+#define ADVANCED "2. Advanced"
+#define COLOR_PRESETS "3. Color Presets"
+#define CUSTOM_GEAR "4. Custom Gear"
+#define CUSTOM_COLORS "5. Custom Gear Colors"
+#define EXCLUSIONS "6. Exclusions"
+#define MAGICWORDS_DESC "\nMagic words automatically convert to the class name of the item you are currently using when you save the settings:\n- nvg = currently equipped NVG goggles\n- helmet = currently worn helmet with built-in NVG\n- binoc = currently held binocular/rangefinder/designator\n- scope = currently attached weapon optic\n- vehicle = current vehicle\n\nExample: nvg, helmet, myCustomGoggles\nAfter saving, magic words become permanent class names.\n"
 
 [
     "ktweak_nvg",
@@ -53,7 +54,7 @@ Returns:
     ["Toggle NVG IR Light", "Toggles an IR illuminator attached to the player when using NVGs"],
     { [!KTWK_NVG_irLightToggle] call KTWK_NVG_fnc_toggleIRLight },
     {},
-    [ DIK_L, [false, false, true] ], // [DIK, [shift, ctrl, alt]
+    [ DIK_I, [false, false, true] ], // [DIK, [shift, ctrl, alt]
     false
 ] call CBA_fnc_addKeybind;
 
@@ -88,9 +89,9 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_NVG_opt_autoGen",
+    "KTWK_NVG_opt_blurADS",
     "CHECKBOX",
-    ["Auto-detect NVG Generation", "If enabled, effect intensity is automatically set based on NVG quality (Gen 1-4) of known NVG systems, based on ACE Nightvision definitions.\nOverrides the manual Intensity slider.\n"],
+    ["Blur when ADS", "Apply blur effect when aiming down sights.\n"],
     ["KtweaK - NVG Effects", MAIN],
     [false],
     0,
@@ -98,10 +99,23 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
+    "KTWK_NVG_opt_autoGen",
+    "CHECKBOX",
+    ["Auto-detect NVG Generation", "If enabled, effect intensity is automatically set based on NVG quality (Gen 1-4) of known NVG systems, based on ACE Nightvision definitions.\nOverrides the manual Intensity slider.\n"],
+    ["KtweaK - NVG Effects", MAIN],
+    [true],
+    0,
+    {}
+] call CBA_fnc_addSetting;
+
+
+// ------------------
+// MANUAL EFFECTS
+[
     "KTWK_NVG_opt_intensity",
     "SLIDER",
     ["Effect Intensity", "Intensity of the effect. Setting it to 0 will not disable the effect, but will diminish it considerably.\nSet it higher than default if you want to emulate older generation devices.\n"],
-    ["KtweaK - NVG Effects", MAIN],
+    ["KtweaK - NVG Effects", MANUAL],
     [0, 1, 0.4, 1],
     0,
     {}
@@ -111,7 +125,7 @@ Parameters:
     "KTWK_NVG_opt_color",
     "LIST",
     ["Phosphor Color", "Choose the NVG color tint."],
-    ["KtweaK - NVG Effects", MAIN],
+    ["KtweaK - NVG Effects", MANUAL],
     [[0, 1, 2, 3, 4, 5, 6], ["None", "Military Green", "White Phosphor", "Amber", "Black and White", "Crimson", "Custom"], 0],
     0,
     {}
@@ -121,7 +135,7 @@ Parameters:
     "KTWK_NVG_opt_brightness",
     "SLIDER",
     ["Ambient Brightness", "Darkens and brightens the NVG effect based on current lighting at the player position.\n0 = no effect, higher = stronger effect.\n"],
-    ["KtweaK - NVG Effects", MAIN],
+    ["KtweaK - NVG Effects", MANUAL],
     [0, 2, 1, 1],
     0,
     {}
@@ -131,7 +145,7 @@ Parameters:
     "KTWK_NVG_opt_noise",
     "SLIDER",
     ["Darkness Noise", "Noise and blur increases in dark areas.\n0 = no effect, higher = more noise.\n"],
-    ["KtweaK - NVG Effects", MAIN],
+    ["KtweaK - NVG Effects", MANUAL],
     [0, 1, 0.5, 1],
     0,
     {}
@@ -175,7 +189,7 @@ Parameters:
     "SLIDER",
     ["Update Interval", "Time in seconds between effect updates.\nLower values = smoother transitions but more CPU usage.\n"],
     ["KtweaK - NVG Effects", ADVANCED],
-    [0, 0.5, 0.15, 2],
+    [0, 0.5, 0.1, 2],
     0,
     {}
 ] call CBA_fnc_addSetting;
