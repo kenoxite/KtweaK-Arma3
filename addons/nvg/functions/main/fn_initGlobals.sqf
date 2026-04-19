@@ -68,3 +68,9 @@ KTWK_NVG_green_custom = [];
 // Exclusion arrays
 KTWK_NVG_excludeGlobal = [];
 KTWK_NVG_excludeAutoGen = [];
+
+// Optics
+KTWK_NVG_opticZoom = 200;
+KTWK_NVG_knownOptics = [];
+KTWK_NVG_knownOpticZooms = [];
+

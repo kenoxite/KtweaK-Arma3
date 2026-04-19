@@ -8,22 +8,22 @@
 
 params [["_activate", true], ["_updateUnitVar", true]];
 
-private _player = KTWK_player;
+private _unit = KTWK_player;
 
 // Delete the IR light
 if (!_activate) exitWith {
     [getPlayerUID player] remoteExec ["KTWK_NVG_fnc_deleteIRLight", 0, true];
     KTWK_NVG_irLightToggle = false;
-    if (_updateUnitVar) then { _player setVariable ["KTWK_NVG_irLightActive", false] };
+    if (_updateUnitVar) then { _unit setVariable ["KTWK_NVG_irLightActive", false] };
 };
 
-if !(_player isKindOf "CAManBase") exitWith {};
-private _mode = [_player] call KTWK_NVG_fnc_mode;
-private _deviceGenData = [_mode, _player] call KTWK_NVG_fnc_getDeviceGen;
+if !(_unit isKindOf "CAManBase") exitWith {};
+private _mode = [_unit] call KTWK_NVG_fnc_mode;
+private _deviceGenData = [_mode, _unit] call KTWK_NVG_fnc_getDeviceGen;
 _deviceGenData params ["_gen"];
-if (_gen == 0 && {(hmd _player) != ""}) then { _gen = 3 };
+if (_gen == 0 && {(hmd _unit) != ""}) then { _gen = 3 };
 
 KTWK_NVG_irLightToggle = true;
-_player setVariable ["KTWK_NVG_irLightActive", true];
+_unit setVariable ["KTWK_NVG_irLightActive", true];
 
 [_gen, getPlayerUID player] remoteExec ["KTWK_NVG_fnc_createIRLight", 0, true];

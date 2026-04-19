@@ -59,6 +59,7 @@ class CfgFunctions {
             class toggleIRLight {};
             class createIRLight {};
             class deleteIRLight {};
+            class updateOpticZoom {};
         };
 
         class Helpers {

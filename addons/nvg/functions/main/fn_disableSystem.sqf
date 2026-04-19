@@ -34,6 +34,10 @@ if (!isNil "KTWK_NVG_EH_vehicle") then {
     ["vehicle", KTWK_NVG_EH_vehicle] call CBA_fnc_removePlayerEventHandler; 
     KTWK_NVG_EH_vehicle = nil; 
 };
+if (!isNil "KTWK_NVG_EH_loadout") then { 
+    ["loadout", KTWK_NVG_EH_loadout] call CBA_fnc_removePlayerEventHandler; 
+    KTWK_NVG_EH_loadout = nil; 
+};
 
 [false, false] call KTWK_NVG_fnc_toggleIRLight;
 

@@ -7,13 +7,23 @@ if (!KTWK_NVG_opt_enabled) exitWith {
 // Event handlers
 if (isNil "KTWK_NVG_EH_weapon") then {
     KTWK_NVG_EH_weapon = ["weapon", { 
-        KTWK_NVG_weaponZoom = getNumber (configFile >> "CfgWeapons" >> currentWeapon KTWK_player >> "opticsZoomInit"); 
+        params ["_unit", "_newWeapon", "_oldWeapon"];
+        KTWK_NVG_weaponZoom = getNumber (configFile >> "CfgWeapons" >> _newWeapon >> "opticsZoomInit");
+        [_unit, _newWeapon] call KTWK_NVG_fnc_updateOpticZoom;
+    }] call CBA_fnc_addPlayerEventHandler;
+};
+
+if (isNil "KTWK_NVG_EH_loadout") then {
+    KTWK_NVG_EH_loadout = ["loadout", {
+        params ["_unit", "_newLoadout", "_oldLoadout"];
+        [_unit] call KTWK_NVG_fnc_updateOpticZoom;
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
 if (isNil "KTWK_NVG_EH_vehicle") then {
     KTWK_NVG_EH_vehicle = ["vehicle", { 
-        KTWK_NVG_vehicleMFD = (count ([configOf (vehicle KTWK_player) >> "MFD", 0] call BIS_fnc_returnChildren)) > 0; 
+        params ["_unit", "_newVehicle", "_oldVehicle"];
+        KTWK_NVG_vehicleMFD = (count ([configOf _newVehicle >> "MFD", 0] call BIS_fnc_returnChildren)) > 0; 
     }] call CBA_fnc_addPlayerEventHandler;
 };
 

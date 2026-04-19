@@ -11,15 +11,15 @@
 
 params ["_mode", "_light", "_zoom", "_outOfRange"];
 
-private _player = KTWK_player;
+private _unit = KTWK_player;
 
 // Global exclusion check
-if (_mode != "disabled" && {[_mode, _player] call KTWK_NVG_fnc_isExcluded}) exitWith {
+if (_mode != "disabled" && {[_mode, _unit] call KTWK_NVG_fnc_isExcluded}) exitWith {
     [[0, 0, 0, 0, 0, 0], [0], [1, 1, 1, 1]]
 };
 
 // Determine generation index and color preset
-private _deviceGenData = [_mode, _player] call KTWK_NVG_fnc_getDeviceGen;
+private _deviceGenData = [_mode, _unit] call KTWK_NVG_fnc_getDeviceGen;
 _deviceGenData params ["_genIndex", "_colorPreset"];
 
 // Get parameters based on generation
@@ -43,8 +43,18 @@ private _maxBright = if (_genIndex > 0) then {
 
 private _isHmd = KTWK_NVG_isHmd;
 private _isHmdADSNoScope = KTWK_NVG_isHmdADSNoScope;
-private _baseBlur = KTWK_NVG_opt_baseBlur;
+private _isHmdADS = KTWK_NVG_isHmdADS;
 private _outOfRangeBlur = KTWK_NVG_opt_outOfRangeBlur;
+private _opt_baseBlur = KTWK_NVG_opt_baseBlur;
+private _baseBlur = call {
+    if (KTWK_NVG_opt_blurADS && (_isHmdADS || {_isHmdADSNoScope})) exitWith { ([_opt_baseBlur, 0] select _isHmdADSNoScope) + _outOfRangeBlur };
+    _opt_baseBlur
+};
+private _minBlur = if (_genIndex > 0) then {
+    ((_baseBlur / 2) max 0.01) * (5 - _genIndex)
+} else {
+    _baseBlur
+};
     
 private _noise = linearConversion [35, 150, _light, _baseNoise, 0, true];
 private _bright = linearConversion [35, 150, _light, _maxBright, 1, true];
@@ -56,10 +66,12 @@ private _gOpac = linearConversion [0, 1, _bright * _noise * _int, 0.5 * _int, 0.
 private _film = [_gInt, _gSharp, _gSize, _gOpac * 0.75, _gOpac, 0];
     
 private _blur = call { 
+    private _finalBlur = _minBlur;
     if (_outOfRange) exitWith { 
         private _blurMod = [1, _zoom] select (_isHmd || _isHmdADSNoScope);
         private _calcBlur = _baseBlur * _outOfRangeBlur * _blurMod;
-        [[_calcBlur max ([_baseBlur, _baseBlur + _blurMod] select (!_isHmd && !_isHmdADSNoScope))]]
+        _finalBlur = _calcBlur max ([_baseBlur, _baseBlur + _blurMod] select (!_isHmd && !_isHmdADSNoScope));
+        [_finalBlur max _minBlur]
     }; 
     private _zMod = switch _mode do {   
         case "disabled": {1};
@@ -70,7 +82,8 @@ private _blur = call {
     };
     private _zBlur = (_zoom / _zMod) * (_int * 2);
     private _blurMod = [0, _zBlur] select (_isHmd || _isHmdADSNoScope);
-    [[[_baseBlur + _blurMod], [0.1]] select (_zBlur == 1)]; 
+    _finalBlur = [_baseBlur + _blurMod, 0.1] select (_zBlur == 1);
+    [_finalBlur max _minBlur]; 
 }; 
     
 // Get color array from preset setting
