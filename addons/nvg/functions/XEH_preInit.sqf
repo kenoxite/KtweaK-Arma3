@@ -7,7 +7,8 @@
 #define CUSTOM_GEAR "4. Custom Gear"
 #define CUSTOM_COLORS "5. Custom Gear Colors"
 #define EXCLUSIONS "6. Exclusions"
-#define MAGICWORDS_DESC "\nMagic words automatically convert to the corresponding class names:\n- nvg = currently equipped NVG goggles\n- helmet = currently worn helmet with built-in NV\n- binoc = currently held binocular/rangefinder/designator with NV\n- scope = currently attached weapon optic with NV\n- vehicle = current vehicle with NV capabilities\n\nExample: nvg, helmet, <classNameOfThatCoolMod>\nAfter accepting the changes, Magic Words become permanent class names.\n"
+#define MANUAL_DESC "\nThe settings of this effect won't be used if Auto-detect NV Generation is enabled!\n"
+#define MAGICWORDS_DESC "\nMagic words automatically convert to the corresponding class names:\n- nvg = currently equipped NVG\n- helmet = currently worn helmet with built-in NV\n- binoc = currently held rangefinder or laser designator with NV\n- scope = currently attached weapon optic with NV\n- vehicle = current vehicle with NV capabilities\n\nExample: nvg, vehicle, <classNameOfThatCoolMod>\n\nMagic Words become permanent class names after accepting the changes.\n"
 
 [
     "ktweak_nvg",
@@ -91,7 +92,7 @@ Parameters:
 [
     "KTWK_NVG_opt_blurADS",
     "CHECKBOX",
-    ["Blur when ADS", "Apply blur effect when aiming down sights.\n"],
+    ["Blur when ADS", "Apply a heavy blur effect when aiming down sights.\n"],
     ["KtweaK - NVG", MAIN],
     [false],
     0,
@@ -101,7 +102,7 @@ Parameters:
 [
     "KTWK_NVG_opt_autoGen",
     "CHECKBOX",
-    ["Auto-detect NV Generation", "If enabled, effect intensity is automatically set based on night vision (NV) quality (Generation 1-4) of known NV systems.\nOverrides the manual Intensity slider.\n"],
+    ["Auto-detect NV Generation", "If enabled, effect intensity is automatically set based on night vision (NV) quality (Generation 1-4) of known NV systems.\n\nOverrides the manual settings!\n"],
     ["KtweaK - NVG", MAIN],
     [true],
     0,
@@ -114,7 +115,7 @@ Parameters:
 [
     "KTWK_NVG_opt_intensity",
     "SLIDER",
-    ["Effect Intensity", "Intensity of the effect. Setting it to 0 will not disable the effect, but will diminish it considerably.\nSet it higher than default if you want to emulate older generation devices.\n"],
+    ["Effect Intensity", format ["Intensity of the effect. Setting it to 0 will not disable the effect, but will diminish it considerably.\nSet it higher than default if you want to emulate older generation devices.\n%1", MANUAL_DESC]],
     ["KtweaK - NVG", MANUAL],
     [0, 1, 0.4, 1],
     0,
@@ -124,7 +125,7 @@ Parameters:
 [
     "KTWK_NVG_opt_color",
     "LIST",
-    ["Phosphor Color", "Choose the night vision color tint."],
+    ["Phosphor Color", format ["Choose the night vision color.\n%1", MANUAL_DESC]],
     ["KtweaK - NVG", MANUAL],
     [[0, 1, 2, 3, 4, 5, 6], ["None", "Military Green", "White Phosphor", "Amber", "Black and White", "Crimson", "Custom"], 0],
     0,
@@ -134,7 +135,7 @@ Parameters:
 [
     "KTWK_NVG_opt_brightness",
     "SLIDER",
-    ["Ambient Brightness", "Darkens and brightens the night vision effect based on current lighting at the player position.\n0 = no effect, higher = stronger effect.\n"],
+    ["Ambient Brightness", format ["Darkens and brightens the night vision effect based on current lighting at the player position.\n0 = no effect, higher = stronger effect.\n%1", MANUAL_DESC]],
     ["KtweaK - NVG", MANUAL],
     [0, 1.5, 1, 1],
     0,
@@ -144,7 +145,7 @@ Parameters:
 [
     "KTWK_NVG_opt_noise",
     "SLIDER",
-    ["Darkness Noise", "Noise and blur increases in darker areas.\n0 = no effect, higher = more noise.\n"],
+    ["Darkness Noise", format ["Noise and blur increases in darker areas.\n0 = no effect, higher = more noise.\n%1", MANUAL_DESC]],
     ["KtweaK - NVG", MANUAL],
     [0, 1, 0.5, 1],
     0,
@@ -159,7 +160,7 @@ Parameters:
     "SLIDER",
     ["Base Blur", "Base amount of blur applied to the night vision effect.\nHigher values increase overall blur.\n"],
     ["KtweaK - NVG", ADVANCED],
-    [0, 0.5, 0.25, 2],
+    [0, 0.5, 0.20, 2],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -169,7 +170,7 @@ Parameters:
     "SLIDER",
     ["Out of Range Blur", "Additional blur multiplier when looking at distant objects beyond the device effective range.\n0 = no extra blur, 1 = maximum extra blur.\n"],
     ["KtweaK - NVG", ADVANCED],
-    [0, 1, 0.75, 2],
+    [0, 1, 1, 2],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -293,7 +294,7 @@ Parameters:
 [
     "KTWK_NVG_opt_excludeGlobal",
     "EDITBOX",
-    ["Global Exclusion", format ["List of items to exclude from ALL night vision effects.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
+    ["Global Exclusion", format ["List of devices to exclude from ALL night vision effects.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", EXCLUSIONS],
     "",
     0,
@@ -303,7 +304,7 @@ Parameters:
 [
     "KTWK_NVG_opt_excludeAutoGen",
     "EDITBOX",
-    ["Auto Generation Detection Exclusion", format ["List of items to exclude ONLY from Auto-Detect Generation, so you can apply manual intensity, color, etc.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
+    ["Auto-Detect Generation Exclusion", format ["List of devices to exclude ONLY from Auto-Detect Generation, so you can apply manual intensity, color, etc.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", EXCLUSIONS],
     "",
     0,
