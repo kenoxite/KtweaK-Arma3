@@ -43,12 +43,7 @@ private _attenuation = call {
     [1, 2, 4, 0.3]
 };
 
-private _pos = call {
-    if (_gen == 2) exitWith { [0, -0.01, 0.14] };
-    if (_gen >= 3) exitWith { [0.07, -0.035, 0.14] };
-    // Gen 1
-    [0, -0.01, 0.14]
-};
+private _pos = [0, -0.01, 0.14];
 
 // Create the IR light
 private _light = "#lightreflector" createVehicleLocal [0,0,0];  
@@ -64,5 +59,10 @@ _light setLightIR true;
 
 private _unit = _uid call BIS_fnc_getUnitByUID;
 _light attachTo [_unit, _pos, "head", true];
+
+_light setVectorDirAndUp [ 
+    [-sin 20, cos 10, sin 10], 
+    [0, -sin 10, cos 10] 
+];
 
 KTWK_NVG_irLightManager pushBack [getPlayerUID _unit, _light];
