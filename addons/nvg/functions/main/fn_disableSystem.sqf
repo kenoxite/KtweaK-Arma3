@@ -38,6 +38,10 @@ if (!isNil "KTWK_NVG_EH_loadout") then {
     ["loadout", KTWK_NVG_EH_loadout] call CBA_fnc_removePlayerEventHandler; 
     KTWK_NVG_EH_loadout = nil; 
 };
+if (!isNil "KTWK_NVG_EH_killed") then { 
+    ["killed", KTWK_NVG_EH_killed] call CBA_fnc_removePlayerEventHandler; 
+    KTWK_NVG_EH_killed = nil; 
+};
 
 [false, false] call KTWK_NVG_fnc_toggleIRLight;
 

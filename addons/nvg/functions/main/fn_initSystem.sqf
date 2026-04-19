@@ -27,6 +27,14 @@ if (isNil "KTWK_NVG_EH_vehicle") then {
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
+if (isNil "KTWK_NVG_EH_killed") then {
+    KTWK_NVG_EH_killed = player addEventHandler ["Killed", {
+        params ["_unit", "_killer"];
+        [_unit] call KTWK_NVG_fnc_deleteIRLight;
+        KTWK_NVG_irLightToggle = false;
+    }];
+};
+
 // System reactivation EHs - won't be removed
 if (isNil "KTWK_NVG_EH_visibleMap") then {
     KTWK_NVG_EH_visibleMap = ["visibleMap", {
