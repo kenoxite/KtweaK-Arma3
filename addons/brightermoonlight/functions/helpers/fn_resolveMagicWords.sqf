@@ -12,9 +12,8 @@ if (_input == "") exitWith { [] };
 
 private _fnc_resolveWord = {
     params ["_word"];
-    private _lower = toLowerANSI _word;
     call {
-        if (_lower == "current") exitWith { toLowerANSI worldName };
+        if (_word == "current") exitWith { toLowerANSI worldName };
         _word
     };
 };
@@ -24,10 +23,10 @@ private _resolved = [];
 private _changed = false;
 
 {
-    private _item = _x trim [" ", 0];
+    private _item = toLowerANSI (_x trim [" ", 0]);
     private _resolvedItem = [_item] call _fnc_resolveWord;
     if (_resolvedItem == "") then { continue };
-    _resolved pushBack _resolvedItem;
+    _resolved pushBack toLowerANSI _resolvedItem;
     if (_resolvedItem != _item) then { _changed = true };
 } forEach _items;
 
