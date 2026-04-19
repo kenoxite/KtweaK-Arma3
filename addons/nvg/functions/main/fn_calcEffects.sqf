@@ -76,7 +76,13 @@ private _blur = call {
         case "scoped": {16};
         default {9};
     };
-    private _zBlur = (_zoom / _zMod) * (_int * 2);
+    
+    private _effectiveZoom = _zoom;
+    if (_mode == "scoped" || _mode == "rangefinder") then {
+        _effectiveZoom = _zoom / KTWK_NVG_opticZoomMin;
+    };
+    
+    private _zBlur = (_effectiveZoom / _zMod) * (_int * 2);
     private _zoomBlur = [_baseBlur + _zBlur, 0.1] select (_zBlur == 1);
     
     // Progressive OOR blur

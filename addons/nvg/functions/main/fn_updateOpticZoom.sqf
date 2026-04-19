@@ -17,22 +17,28 @@ private _optic = if (_weaponItems isNotEqualTo []) then {(_weaponItems # 0) # 3}
 
 if (_optic == "") then { _optic = _weapon; _isOptic = false; };
 
+private _minRange = 200;
 private _maxRange = 200;
 private _knownIndex = KTWK_NVG_knownOptics findIf {_x == _optic};
 
 if (_knownIndex != -1) then {
-    _maxRange = KTWK_NVG_knownOpticZooms # _knownIndex;
+    private _rangeData = KTWK_NVG_knownOpticZooms # _knownIndex;
+    _minRange = _rangeData # 0;
+    _maxRange = _rangeData # 1;
 } else {
-    _maxRange = call {
+    private _config = call {
         if (_isOptic) exitWith {
-            getNumber (configFile >> "CfgWeapons" >> _optic >> "ItemInfo" >> "OpticsModes" >> (_unit getOpticsMode 0) >> "distanceZoomMax");
+            configFile >> "CfgWeapons" >> _optic >> "ItemInfo" >> "OpticsModes" >> (_unit getOpticsMode 0);
         };
-        getNumber (configFile >> "CfgWeapons" >> _optic >> "distanceZoomMax");
+        configFile >> "CfgWeapons" >> _optic
     };
+    _minRange = getNumber (_config >> "distanceZoomMin");
+    _maxRange = getNumber (_config >> "distanceZoomMax");
     if (_maxRange > 0) then {
         KTWK_NVG_knownOptics pushBack _optic;
-        KTWK_NVG_knownOpticZooms pushBack _maxRange;
+        KTWK_NVG_knownOpticZooms pushBack [_minRange, _maxRange];
     };
 };
 
-KTWK_NVG_opticZoom = _maxRange;
+KTWK_NVG_opticZoomMin = _minRange;
+KTWK_NVG_opticZoomMax = _maxRange;

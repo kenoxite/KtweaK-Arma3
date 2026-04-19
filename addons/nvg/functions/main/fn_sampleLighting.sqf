@@ -23,8 +23,15 @@ if (KTWK_NVG_opt_autoGen) then {
 };
 private _genMaxRange = KTWK_NVG_genMaxRange # _genIndex;
 private _maxRange = _genMaxRange;
-if (_mode == "MFD" || _mode == "vehicle") then { _maxRange = _maxRange * 2};
-if (_mode == "rangefinder" || {_mode == "scoped"}) then { _maxRange = KTWK_NVG_opticZoom min _genMaxRange };
+private _minZoomOffset = 0;
+
+if (_mode == "MFD" || _mode == "vehicle") then { 
+    _maxRange = _maxRange * 2;
+};
+if (_mode == "rangefinder" || {_mode == "scoped"}) then { 
+    _minZoomOffset = KTWK_NVG_opticZoomMin;
+    _maxRange = (_minZoomOffset + _genMaxRange) min KTWK_NVG_opticZoomMax;
+};
 
 private _eye = eyePos _unit; 
 
@@ -54,9 +61,11 @@ if (_lookingAtSky) then {
 } else {
     if (_maxRange > 0) then {
         private _distance = _eye vectorDistance _idealPos;
-        if (_distance > _maxRange) then {
-            // Progressive falloff: 0 at _maxRange, 1 at (_maxRange * 2)
-            private _excess = (_distance - _maxRange) / _maxRange;
+        // Adjust distance by subtracting min zoom offset for scoped/rangefinder modes
+        private _effectiveDistance = _distance - _minZoomOffset;
+        if (_effectiveDistance > _genMaxRange) then {
+            // Progressive falloff: 0 at _genMaxRange, 1 at (_genMaxRange * 2)
+            private _excess = (_effectiveDistance - _genMaxRange) / _genMaxRange;
             _rangeFactor = (_excess min 1.0) ^ 2;
             _testPos = _eye vectorAdd (_dir vectorMultiply _maxRange);
         };

@@ -50,7 +50,7 @@ KTWK_NVG_allItems = [];
 KTWK_NVG_genIntensity = [0.4, 0.8, 0.6, 0.4, 0.2];
 KTWK_NVG_genNoise = [0.5, 0.7, 0.7, 0.5, 0.3];
 KTWK_NVG_genBrightness = [1.0, 0.7, 0.8, 1.0, 1.0];
-KTWK_NVG_genMaxRange = [175, 50, 100, 175, 300];
+KTWK_NVG_genMaxRange = [200, 50, 100, 200, 300];
 
 // Color arrays
 KTWK_NVG_wp = [];
@@ -70,7 +70,8 @@ KTWK_NVG_excludeGlobal = [];
 KTWK_NVG_excludeAutoGen = [];
 
 // Optics
-KTWK_NVG_opticZoom = 200;
+KTWK_NVG_opticZoomMin = 200;
+KTWK_NVG_opticZoomMax = 200;
 KTWK_NVG_knownOptics = [];
 KTWK_NVG_knownOpticZooms = [];
 
