@@ -22,7 +22,10 @@ private _knownGen1 = [
     "vn_nvg_01",
     "vn_nvg_02",
     // RHS
-    "rhs_pdu4"
+    "rhs_pdu4",
+    // CWR3
+    "cwr3_o_nvg_pnv57",
+    "cwr3_o_nvg_pnv57_tsh3"
 ] apply {toLowerANSI _x};
 
 private _knownGen2 = [
@@ -51,12 +54,6 @@ private _knownGen3 = [
     "CUP_NVG_PVS7_Hide",
     "cup_nvg_hmnvs",
     "CUP_NVG_HMNVS_Hide",
-    "cup_nvg_pvs14",
-    "CUP_NVG_PVS14_Hide",
-    "cup_nvg_pvs15_black",
-    "cup_nvg_pvs15_tan",
-    "cup_nvg_pvs15_green",
-    "cup_nvg_pvs15_winter",
     "CUP_optic_AN_PVS_10",
     "CUP_optic_AN_PVS_10_black",
     "CUP_optic_AN_PVS_10_od",
@@ -67,13 +64,9 @@ private _knownGen3 = [
     "CUP_LRTV",
     "CUP_Vector21Nite",
     // RHS
-    "rhsusf_anpvs_14",
-    "rhsusf_anpvs_15",
     "rhsusf_acc_anpvs27",
     // ACE
     "ACE_Vector",
-    // Rangefinder
-    "Rangefinder",
     // Optics
     "optic_NVS"
 ] apply {toLowerANSI _x};
@@ -87,6 +80,12 @@ private _knownGen4 = [
     "nvgogglesb_blk_f",
     "nvgogglesb_gry_f",
     // CUP
+    "cup_nvg_pvs14",
+    "CUP_NVG_PVS14_Hide",
+    "cup_nvg_pvs15_black",
+    "cup_nvg_pvs15_tan",
+    "cup_nvg_pvs15_green",
+    "cup_nvg_pvs15_winter",
     "cup_nvg_gpnvg_black",
     "CUP_NVG_GPNVG_Hide",
     "cup_nvg_gpnvg_tan",
@@ -96,6 +95,8 @@ private _knownGen4 = [
     "CUP_NVG_1PN138_Hide",
     // RHS
     "rhs_1pn138",
+    "rhsusf_anpvs_14",
+    "rhsusf_anpvs_15",
     // Reaction Forces
     "EF_LPNVG",
     "EF_LPNVG_T",
@@ -104,6 +105,8 @@ private _knownGen4 = [
     // Headgear
     "H_HelmetO_ViperSP_hex_F",
     "H_HelmetO_ViperSP_ghex_F",
+    // Rangefinder
+    "Rangefinder",
     // Laser designators
     "Laserdesignator",
     "Laserdesignator_01_khk_F",
