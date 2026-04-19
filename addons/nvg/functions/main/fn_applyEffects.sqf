@@ -5,13 +5,13 @@
 //   _mode       - Current NVG mode
 //   _light      - Ambient light value
 //   _zoom       - Current zoom level
-//   _outOfRange - Boolean: looking beyond effective range
+//   _rangeFactor - Float (0-1): how far beyond effective range
 // Returns:
 //   Nothing
 
-params ["_mode", "_light", "_zoom", "_outOfRange"];
+params ["_mode", "_light", "_zoom", "_rangeFactor"];
 
-private _params = [_mode, _light, _zoom, _outOfRange] call KTWK_NVG_fnc_calcEffects;
+private _params = [_mode, _light, _zoom, _rangeFactor] call KTWK_NVG_fnc_calcEffects;
 _params params ["_film", "_blur", "_color"];
 
 // Apply film grain if enabled
@@ -39,4 +39,4 @@ KTWK_NVG_cache set [0, true];
 KTWK_NVG_cache set [1, _mode];
 KTWK_NVG_cache set [2, _light];
 KTWK_NVG_cache set [3, _zoom];
-KTWK_NVG_cache set [9, _outOfRange];
+KTWK_NVG_cache set [9, _rangeFactor];

@@ -6,4 +6,4 @@
 // Returns:
 //   Nothing
 
-KTWK_NVG_cache = [false, "", 0, 1, 0, 0, false, [], [], false, false, "", 0, 0];
+KTWK_NVG_cache = [false, "", 0, 1, 0, 0, false, [], [], 0, false, "", 0, 0];

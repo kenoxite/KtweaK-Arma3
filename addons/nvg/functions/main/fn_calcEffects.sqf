@@ -5,11 +5,11 @@
 //   _mode       - Current NVG mode
 //   _light      - Ambient light value
 //   _zoom       - Current zoom level
-//   _outOfRange - Boolean: looking beyond effective range
+//   _rangeFactor - Float (0-1): how far beyond effective range (0 = in range, 1 = fully out)
 // Returns:
 //   Array - [_film, _blur, _color]
 
-params ["_mode", "_light", "_zoom", "_outOfRange"];
+params ["_mode", "_light", "_zoom", "_rangeFactor"];
 
 private _unit = KTWK_player;
 
@@ -65,14 +65,10 @@ private _gSize = linearConversion [0, 1, _baseNoise * ([_zoom, 1] select !_isHmd
 private _gOpac = linearConversion [0, 1, _bright * _noise * _int, 0.5 * _int, 0.7 * _int, true];
 private _film = [_gInt, _gSharp, _gSize, _gOpac * 0.75, _gOpac, 0];
     
-private _blur = call { 
-    private _finalBlur = _minBlur;
-    if (_outOfRange) exitWith { 
-        private _blurMod = [1, _zoom] select (_isHmd || _isHmdADSNoScope);
-        private _calcBlur = _baseBlur * _outOfRangeBlur * _blurMod;
-        _finalBlur = _calcBlur max ([_baseBlur, _baseBlur + _blurMod] select (!_isHmd && !_isHmdADSNoScope));
-        [_finalBlur max _minBlur]
-    }; 
+private _blur = call {
+    private _blurMod = [1, _zoom] select (_isHmd || _isHmdADSNoScope);
+    
+    // Normal zoom-based blur
     private _zMod = switch _mode do {   
         case "disabled": {1};
         case "rangefinder": {28};
@@ -81,10 +77,15 @@ private _blur = call {
         default {9};
     };
     private _zBlur = (_zoom / _zMod) * (_int * 2);
-    private _blurMod = [0, _zBlur] select (_isHmd || _isHmdADSNoScope);
-    _finalBlur = [_baseBlur + _blurMod, 0.1] select (_zBlur == 1);
-    [_finalBlur max _minBlur]; 
-}; 
+    private _zoomBlur = [_baseBlur + _zBlur, 0.1] select (_zBlur == 1);
+    
+    // Progressive OOR blur
+    private _oorBlur = _opt_baseBlur * _outOfRangeBlur * _rangeFactor * _blurMod;
+    
+    // Combine
+    private _totalBlur = (_zoomBlur + _oorBlur) max _minBlur;
+    [_totalBlur min 5]
+};
     
 // Get color array from preset setting
 private _colorArray = [1, 1, 1, 1];
@@ -94,7 +95,7 @@ if (_colorPreset > 0) then {
 };
 
 private _color = [   
-    (1 * _bright) min 1,   
+    (1 * _bright) min 1.5,   
     (0.5 * _maxBright) min 1,   
     0.05,   
     [1,1,1,0],   

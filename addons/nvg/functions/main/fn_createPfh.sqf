@@ -16,7 +16,7 @@ KTWK_NVG_pfh = [{
     private _unit = KTWK_player;
     private _cache = KTWK_NVG_cache;
     
-    _cache params ["_active", "_modeCached", "_lightCached", "_zoomCached", "_lastSample", "_lastUpdate", "_handlesCreated", "_filmCached", "_blurCached", "_outOfRangeCached", "_testPosCached", "_itemClassCached", "_genIndexCached", "_colorPresetCached"];
+    _cache params ["_active", "_modeCached", "_lightCached", "_zoomCached", "_lastSample", "_lastUpdate", "_handlesCreated", "_filmCached", "_blurCached", "_rangeFactorCached", "_testPosCached", "_itemClassCached", "_genIndexCached", "_colorPresetCached"];
     
     // Exit if paused, in splendid camera or NVG not active
     if (!isNull (findDisplay 49) || {!isNil "BIS_fnc_camera_cam"} || {currentVisionMode _unit != 1}) exitWith {   
@@ -46,13 +46,15 @@ KTWK_NVG_pfh = [{
     
     private _time = diag_tickTime;
     private _light = _lightCached;
-    private _outOfRange = _outOfRangeCached; 
+    private _rangeFactor = _rangeFactorCached; 
     
     // Sample lighting at interval
     if (_time - _lastSample > KTWK_NVG_posInterval) then {   
         private _result = [_mode] call KTWK_NVG_fnc_sampleLighting; 
         _light = _result # 0; 
-        _outOfRange = _result # 1; 
+        _rangeFactor = _result # 1; 
+        KTWK_NVG_cache set [2, _light];
+        KTWK_NVG_cache set [9, _rangeFactor];
         KTWK_NVG_cache set [4, _time];
     };
     
@@ -60,12 +62,16 @@ KTWK_NVG_pfh = [{
         _modeCached != _mode ||   
         abs (_lightCached - _light) > KTWK_NVG_lightThreshold ||   
         abs (_zoomCached - _zoom) > 0.5 || 
-        _outOfRangeCached != _outOfRange; 
+        _rangeFactorCached != _rangeFactor; 
     
     if (!_changed) exitWith {};
     
     if (!_handlesCreated) then { call KTWK_NVG_fnc_createHandles };
     
-    [_mode, _light, _zoom, _outOfRange] call KTWK_NVG_fnc_applyEffects;
+    [_mode, _light, _zoom, _rangeFactor] call KTWK_NVG_fnc_applyEffects;
+    
+    KTWK_NVG_cache set [1, _mode];
+    KTWK_NVG_cache set [3, _zoom];
+    KTWK_NVG_cache set [5, _time];
     
 }, KTWK_NVG_opt_pfhInterval, []] call CBA_fnc_addPerFrameHandler;

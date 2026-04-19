@@ -36,8 +36,8 @@ KTWK_NVG_irLightManager = [];
 KTWK_NVG_lightThreshold = 3;
 KTWK_NVG_posInterval = 0.25;
 
-// Cache array: [_active, _modeCached, _lightCached, _zoomCached, _lastSample, _lastUpdate, _handlesCreated, _filmCached, _blurCached, _outOfRangeCached, _testPosCached, _itemClassCached, _genIndexCached, _colorPresetCached]
-KTWK_NVG_cache = [false, "", 0, 1, 0, 0, false, [], [], false, false, "", 0, 0];
+// Cache array: [_active, _modeCached, _lightCached, _zoomCached, _lastSample, _lastUpdate, _handlesCreated, _filmCached, _blurCached, _rangeFactorCached, _testPosCached, _itemClassCached, _genIndexCached, _colorPresetCached]
+KTWK_NVG_cache = [false, "", 0, 1, 0, 0, false, [], [], 0, false, "", 0, 0];
 
 // Generation arrays
 KTWK_NVG_gen1 = [];
@@ -48,9 +48,9 @@ KTWK_NVG_allItems = [];
 
 // Generation parameters: [NoGen, Gen1, Gen2, Gen3, Gen4]
 KTWK_NVG_genIntensity = [0.4, 0.8, 0.6, 0.4, 0.2];
-KTWK_NVG_genNoise = [0.5, 0.7, 0.7, 0.6, 0.3];
+KTWK_NVG_genNoise = [0.5, 0.7, 0.7, 0.5, 0.3];
 KTWK_NVG_genBrightness = [1.0, 0.7, 0.8, 1.0, 1.0];
-KTWK_NVG_genMaxRange = [200, 50, 100, 175, 250];
+KTWK_NVG_genMaxRange = [175, 50, 100, 175, 300];
 
 // Color arrays
 KTWK_NVG_wp = [];
