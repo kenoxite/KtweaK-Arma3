@@ -49,7 +49,7 @@ Returns:
 */
 
 [
-    ["KtweaK - NVG Effects", ""],
+    ["KtweaK - NVG", ""],
     "KTWK_NVG_key_irLight",
     ["Toggle NVG IR Light", "Toggles an IR illuminator attached to the player when using NVGs"],
     { [!KTWK_NVG_irLightToggle] call KTWK_NVG_fnc_toggleIRLight },
@@ -81,8 +81,8 @@ Parameters:
 [
     "KTWK_NVG_opt_enabled",
     "CHECKBOX",
-    ["Enable", "If enabled, some blur and noise will be applied when night vision of any type is active, the strength of which will depend on the device used (portable NVG, vehicle NVG, NVG optics, etc).\nThe same effect will be applied to all NVGs, independently of its generation and real-life equivalent visual quality.\n\nDisabled if ACE Nightvision is detected, regardless of this setting.\n"],
-    ["KtweaK - NVG Effects", MAIN],
+    ["Enable", "If enabled, some blur and noise will be applied when night vision of any type is active, the strength of which will depend on the device used (NVG, vehicle NV, NV optics, etc).\nThe same effect will be applied to all NVGs, independently of its generation and real-life equivalent visual quality.\n\nDisabled if ACE Nightvision is detected, regardless of this setting.\n"],
+    ["KtweaK - NVG", MAIN],
     [true],
     0,
     {}
@@ -92,7 +92,7 @@ Parameters:
     "KTWK_NVG_opt_blurADS",
     "CHECKBOX",
     ["Blur when ADS", "Apply blur effect when aiming down sights.\n"],
-    ["KtweaK - NVG Effects", MAIN],
+    ["KtweaK - NVG", MAIN],
     [false],
     0,
     {}
@@ -101,8 +101,8 @@ Parameters:
 [
     "KTWK_NVG_opt_autoGen",
     "CHECKBOX",
-    ["Auto-detect NVG Generation", "If enabled, effect intensity is automatically set based on NVG quality (Gen 1-4) of known NVG systems, based on ACE Nightvision definitions.\nOverrides the manual Intensity slider.\n"],
-    ["KtweaK - NVG Effects", MAIN],
+    ["Auto-detect NV Generation", "If enabled, effect intensity is automatically set based on night vision (NV) quality (Gen 1-4) of known NV systems.\nOverrides the manual Intensity slider.\n"],
+    ["KtweaK - NVG", MAIN],
     [true],
     0,
     {}
@@ -115,7 +115,7 @@ Parameters:
     "KTWK_NVG_opt_intensity",
     "SLIDER",
     ["Effect Intensity", "Intensity of the effect. Setting it to 0 will not disable the effect, but will diminish it considerably.\nSet it higher than default if you want to emulate older generation devices.\n"],
-    ["KtweaK - NVG Effects", MANUAL],
+    ["KtweaK - NVG", MANUAL],
     [0, 1, 0.4, 1],
     0,
     {}
@@ -124,8 +124,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color",
     "LIST",
-    ["Phosphor Color", "Choose the NVG color tint."],
-    ["KtweaK - NVG Effects", MANUAL],
+    ["Phosphor Color", "Choose the night vision color tint."],
+    ["KtweaK - NVG", MANUAL],
     [[0, 1, 2, 3, 4, 5, 6], ["None", "Military Green", "White Phosphor", "Amber", "Black and White", "Crimson", "Custom"], 0],
     0,
     {}
@@ -134,9 +134,9 @@ Parameters:
 [
     "KTWK_NVG_opt_brightness",
     "SLIDER",
-    ["Ambient Brightness", "Darkens and brightens the NVG effect based on current lighting at the player position.\n0 = no effect, higher = stronger effect.\n"],
-    ["KtweaK - NVG Effects", MANUAL],
-    [0, 2, 1, 1],
+    ["Ambient Brightness", "Darkens and brightens the night vision effect based on current lighting at the player position.\n0 = no effect, higher = stronger effect.\n"],
+    ["KtweaK - NVG", MANUAL],
+    [0, 1.5, 1, 1],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -144,8 +144,8 @@ Parameters:
 [
     "KTWK_NVG_opt_noise",
     "SLIDER",
-    ["Darkness Noise", "Noise and blur increases in dark areas.\n0 = no effect, higher = more noise.\n"],
-    ["KtweaK - NVG Effects", MANUAL],
+    ["Darkness Noise", "Noise and blur increases in darker areas.\n0 = no effect, higher = more noise.\n"],
+    ["KtweaK - NVG", MANUAL],
     [0, 1, 0.5, 1],
     0,
     {}
@@ -157,8 +157,8 @@ Parameters:
 [
     "KTWK_NVG_opt_baseBlur",
     "SLIDER",
-    ["Base Blur", "Base amount of blur applied to NVG image.\nHigher values increase overall blur.\n"],
-    ["KtweaK - NVG Effects", ADVANCED],
+    ["Base Blur", "Base amount of blur applied to the night vision effect.\nHigher values increase overall blur.\n"],
+    ["KtweaK - NVG", ADVANCED],
     [0, 0.5, 0.25, 2],
     0,
     {}
@@ -167,9 +167,9 @@ Parameters:
 [
     "KTWK_NVG_opt_outOfRangeBlur",
     "SLIDER",
-    ["Out of Range Blur", "Additional blur multiplier when looking at distant objects beyond NVG effective range.\n0 = no extra blur, 1 = maximum extra blur.\n"],
-    ["KtweaK - NVG Effects", ADVANCED],
-    [0, 1, 0.75, 2],
+    ["Out of Range Blur", "Additional blur multiplier when looking at distant objects beyond the device effective range.\n0 = no extra blur, 1 = maximum extra blur.\n"],
+    ["KtweaK - NVG", ADVANCED],
+    [0, 1, 1, 2],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -177,8 +177,8 @@ Parameters:
 [
     "KTWK_NVG_opt_filmGrainEnabled",
     "CHECKBOX",
-    ["Film Grain", "Enable film grain effect on NVG image.\n"],
-    ["KtweaK - NVG Effects", ADVANCED],
+    ["Film Grain", "Applies film grain to the night vision effect.\nNote that disabling it will severely hinder the emulation of NV device generations.\n"],
+    ["KtweaK - NVG", ADVANCED],
     [true],
     0,
     {}
@@ -187,8 +187,8 @@ Parameters:
 [
     "KTWK_NVG_opt_pfhInterval",
     "SLIDER",
-    ["Update Interval", "Time in seconds between effect updates.\nLower values = smoother transitions but more CPU usage.\n"],
-    ["KtweaK - NVG Effects", ADVANCED],
+    ["Update Interval", "Time in seconds between effect updates.\nLower values = smoother transitions but more CPU usage.\nHigher values = slower updates to the effects but better performance.\n"],
+    ["KtweaK - NVG", ADVANCED],
     [0, 0.5, 0.1, 2],
     0,
     {}
@@ -199,8 +199,8 @@ Parameters:
 [
     "KTWK_NVG_opt_gen1",
     "EDITBOX",
-    ["Gen 1 Devices", format ["Comma-separated list of Gen 1 device class names, without quotes.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_GEAR],
+    ["Gen 1 Devices", format ["Comma-separated list of Generation 1 device class names, without quotes.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
     { call KTWK_NVG_fnc_updateGenArrays }
@@ -209,8 +209,8 @@ Parameters:
 [
     "KTWK_NVG_opt_gen2",
     "EDITBOX",
-    ["Gen 2 Devices", format ["Comma-separated list of Gen 2 device class names, without quotes.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_GEAR],
+    ["Gen 2 Devices", format ["Comma-separated list of Generation 2 device class names, without quotes.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
     { call KTWK_NVG_fnc_updateGenArrays }
@@ -219,8 +219,8 @@ Parameters:
 [
     "KTWK_NVG_opt_gen3",
     "EDITBOX",
-    ["Gen 3 Devices", format ["Comma-separated list of Gen 3 device class names, without quotes.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_GEAR],
+    ["Gen 3 Devices", format ["Comma-separated list of Generation 3 device class names, without quotes.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
     { call KTWK_NVG_fnc_updateGenArrays }
@@ -229,8 +229,8 @@ Parameters:
 [
     "KTWK_NVG_opt_gen4",
     "EDITBOX",
-    ["Gen 4 Devices", format ["Comma-separated list of Gen 4 device class names, without quotes.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_GEAR],
+    ["Gen 4 Devices", format ["Comma-separated list of Generation 4 device class names, without quotes.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
     { call KTWK_NVG_fnc_updateGenArrays }
@@ -241,8 +241,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_wp",
     "EDITBOX",
-    ["White Phosphor Devices", format ["Comma-separated list of device class names that use White Phosphor.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_COLORS],
+    ["White Phosphor Devices", format ["Comma-separated list of device class names that use White Phosphor.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
     { call KTWK_NVG_fnc_updateColorArrays }
@@ -251,8 +251,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_amber",
     "EDITBOX",
-    ["Amber Devices", format ["Comma-separated list of device class names that use Amber filter.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_COLORS],
+    ["Amber Devices", format ["Comma-separated list of device class names that use Amber filter.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
     { call KTWK_NVG_fnc_updateColorArrays }
@@ -261,8 +261,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_bw",
     "EDITBOX",
-    ["Black and White Devices", format ["Comma-separated list of device class names that use Black and White filter.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_COLORS],
+    ["Black and White Devices", format ["Comma-separated list of device class names that use Black and White filter.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
     { call KTWK_NVG_fnc_updateColorArrays }
@@ -271,8 +271,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_crimson",
     "EDITBOX",
-    ["Crimson Devices", format ["Comma-separated list of device class names that use Crimson filter.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_COLORS],
+    ["Crimson Devices", format ["Comma-separated list of device class names that use Crimson filter.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
     { call KTWK_NVG_fnc_updateColorArrays }
@@ -280,8 +280,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_green",
     "EDITBOX",
-    ["Military Green Devices", format ["Comma-separated list of device class names that use Military Green.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", CUSTOM_COLORS],
+    ["Military Green Devices", format ["Comma-separated list of device class names that use Military Green.\nNote that auto-detected devices will default to this color, so adding something here is only needed if it defaults to another one (white phosphor, amber, etc) and want it green.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
     { call KTWK_NVG_fnc_updateColorArrays }
@@ -293,8 +293,8 @@ Parameters:
 [
     "KTWK_NVG_opt_excludeGlobal",
     "EDITBOX",
-    ["Global Exclusion", format ["Comma-separated list of items to exclude from ALL NVG effects.\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", EXCLUSIONS],
+    ["Global Exclusion", format ["Comma-separated list of items to exclude from ALL night vision effects.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", EXCLUSIONS],
     "",
     0,
     { call KTWK_NVG_fnc_updateExclusions }
@@ -303,8 +303,8 @@ Parameters:
 [
     "KTWK_NVG_opt_excludeAutoGen",
     "EDITBOX",
-    ["AutoGen Exclusion", format ["Comma-separated list of items to exclude from AutoGen only (manual intensity/color settings still apply).\n%1", MAGICWORDS_DESC]],
-    ["KtweaK - NVG Effects", EXCLUSIONS],
+    ["Auto Generation Detection Exclusion", format ["Comma-separated list of items to exclude only from Auto-Detect Generation, so you can apply manual intensity, color, etc.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["KtweaK - NVG", EXCLUSIONS],
     "",
     0,
     { call KTWK_NVG_fnc_updateExclusions }
@@ -317,9 +317,9 @@ Parameters:
 [
     "KTWK_NVG_opt_color_1",
     "COLOR",
-    ["Military Green", "RGBA color for 'Military Green' preset."],
-    ["KtweaK - NVG Effects", COLOR_PRESETS],
-    [0.263, 0.58, 0.075],
+    ["Military Green", "Color for 'Military Green' preset."],
+    ["KtweaK - NVG", COLOR_PRESETS],
+    [0.35, 0.65, 0.15],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -327,8 +327,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_2",
     "COLOR",
-    ["White Phosphor", "RGBA color for 'White Phosphor' preset."],
-    ["KtweaK - NVG Effects", COLOR_PRESETS],
+    ["White Phosphor", "Color for 'White Phosphor' preset."],
+    ["KtweaK - NVG", COLOR_PRESETS],
     [0.7, 0.92, 0.95],
     0,
     {}
@@ -337,8 +337,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_3",
     "COLOR",
-    ["Amber", "RGBA color for 'Amber' preset."],
-    ["KtweaK - NVG Effects", COLOR_PRESETS],
+    ["Amber", "Color for 'Amber' preset."],
+    ["KtweaK - NVG", COLOR_PRESETS],
     [0.96, 0.98, 0.45],
     0,
     {}
@@ -347,8 +347,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_4",
     "COLOR",
-    ["Black and White", "RGBA color for 'Black and White' preset."],
-    ["KtweaK - NVG Effects", COLOR_PRESETS],
+    ["Black and White", "Color for 'Black and White' preset."],
+    ["KtweaK - NVG", COLOR_PRESETS],
     [1, 1, 1],
     0,
     {}
@@ -357,8 +357,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_5",
     "COLOR",
-    ["Crimson", "RGBA color for 'Crimson' preset."],
-    ["KtweaK - NVG Effects", COLOR_PRESETS],
+    ["Crimson", "Color for 'Crimson' preset."],
+    ["KtweaK - NVG", COLOR_PRESETS],
     [1.0, 0.6, 0.6],
     0,
     {}
@@ -367,8 +367,8 @@ Parameters:
 [
     "KTWK_NVG_opt_color_6",
     "COLOR",
-    ["Custom", "RGBA color for 'Custom' preset."],
-    ["KtweaK - NVG Effects", COLOR_PRESETS],
+    ["Custom", "Color for 'Custom' preset. Use this if you want to keep the defaults but want a new one for particular devices."],
+    ["KtweaK - NVG", COLOR_PRESETS],
     [0.1, 0.9, 0.8],
     0,
     {}
