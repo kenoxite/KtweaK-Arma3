@@ -13,24 +13,26 @@ KTWK_NVG_pfh = [{
         call KTWK_NVG_fnc_disableSystem;
     };
 
-    private _player = KTWK_player;
+    private _unit = KTWK_player;
     private _cache = KTWK_NVG_cache;
     
     _cache params ["_active", "_modeCached", "_lightCached", "_zoomCached", "_lastSample", "_lastUpdate", "_handlesCreated", "_filmCached", "_blurCached", "_outOfRangeCached", "_testPosCached", "_itemClassCached", "_genIndexCached", "_colorPresetCached"];
     
     // Exit if paused, in splendid camera or NVG not active
-    if (!isNull (findDisplay 49) || {!isNil "BIS_fnc_camera_cam"} || {currentVisionMode _player != 1}) exitWith {   
+    if (!isNull (findDisplay 49) || {!isNil "BIS_fnc_camera_cam"} || {currentVisionMode _unit != 1}) exitWith {   
         if (_active) then {
+            if (!isNil "BIS_fnc_camera_cam") then {
+                call KTWK_NVG_fnc_disableEffects;
+            };
             KTWK_NVG_filmGrainHandle ppEffectEnable false;
             KTWK_NVG_cache set [0, false];
         };
-        call KTWK_NVG_fnc_disableEffects;
     };
     
-    private _mode = [_player] call KTWK_NVG_fnc_mode;
+    private _mode = [_unit] call KTWK_NVG_fnc_mode;
 
     // Skip if current device is excluded
-    if ([_mode, _player] call KTWK_NVG_fnc_isExcluded) exitWith {
+    if ([_mode, _unit] call KTWK_NVG_fnc_isExcluded) exitWith {
         call KTWK_NVG_fnc_disableEffects;
     };
     
