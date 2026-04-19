@@ -7,7 +7,7 @@
 #define CUSTOM_GEAR "4. Custom Gear"
 #define CUSTOM_COLORS "5. Custom Gear Colors"
 #define EXCLUSIONS "6. Exclusions"
-#define MAGICWORDS_DESC "\nMagic words automatically convert to the class name of the item you are currently using when you save the settings:\n- nvg = currently equipped NVG goggles\n- helmet = currently worn helmet with built-in NVG\n- binoc = currently held binocular/rangefinder/designator\n- scope = currently attached weapon optic\n- vehicle = current vehicle\n\nExample: nvg, helmet, myCustomGoggles\nAfter saving, magic words become permanent class names.\n"
+#define MAGICWORDS_DESC "\nMagic words automatically convert to the corresponding class names:\n- nvg = currently equipped NVG goggles\n- helmet = currently worn helmet with built-in NV\n- binoc = currently held binocular/rangefinder/designator with NV\n- scope = currently attached weapon optic with NV\n- vehicle = current vehicle with NV capabilities\n\nExample: nvg, helmet, <classNameOfThatCoolMod>\nAfter accepting the changes, Magic Words become permanent class names.\n"
 
 [
     "ktweak_nvg",
@@ -81,7 +81,7 @@ Parameters:
 [
     "KTWK_NVG_opt_enabled",
     "CHECKBOX",
-    ["Enable", "If enabled, some blur and noise will be applied when night vision of any type is active, the strength of which will depend on the device used (NVG, vehicle NV, NV optics, etc).\nThe same effect will be applied to all NVGs, independently of its generation and real-life equivalent visual quality.\n\nDisabled if ACE Nightvision is detected, regardless of this setting.\n"],
+    ["Enable", "If enabled, some blur and noise will be applied when night vision of any type is active.\nThe strength of the effect is calculated based on the device generation and lighting conditions.\n\nDisabled if ACE Nightvision is detected, regardless of this setting.\n"],
     ["KtweaK - NVG", MAIN],
     [true],
     0,
@@ -101,7 +101,7 @@ Parameters:
 [
     "KTWK_NVG_opt_autoGen",
     "CHECKBOX",
-    ["Auto-detect NV Generation", "If enabled, effect intensity is automatically set based on night vision (NV) quality (Gen 1-4) of known NV systems.\nOverrides the manual Intensity slider.\n"],
+    ["Auto-detect NV Generation", "If enabled, effect intensity is automatically set based on night vision (NV) quality (Generation 1-4) of known NV systems.\nOverrides the manual Intensity slider.\n"],
     ["KtweaK - NVG", MAIN],
     [true],
     0,
@@ -169,7 +169,7 @@ Parameters:
     "SLIDER",
     ["Out of Range Blur", "Additional blur multiplier when looking at distant objects beyond the device effective range.\n0 = no extra blur, 1 = maximum extra blur.\n"],
     ["KtweaK - NVG", ADVANCED],
-    [0, 1, 1, 2],
+    [0, 1, 0.75, 2],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -177,7 +177,7 @@ Parameters:
 [
     "KTWK_NVG_opt_filmGrainEnabled",
     "CHECKBOX",
-    ["Film Grain", "Applies film grain to the night vision effect.\nNote that disabling it will severely hinder the emulation of NV device generations.\n"],
+    ["Film Grain", "Applies film grain to the night vision effect.\nNote that disabling this will SEVERELY hinder the emulation of NV device generations.\n"],
     ["KtweaK - NVG", ADVANCED],
     [true],
     0,
@@ -199,7 +199,7 @@ Parameters:
 [
     "KTWK_NVG_opt_gen1",
     "EDITBOX",
-    ["Gen 1 Devices", format ["Comma-separated list of Generation 1 device class names, without quotes.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Gen 1 Devices", format ["List of Generation 1 device class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
@@ -209,7 +209,7 @@ Parameters:
 [
     "KTWK_NVG_opt_gen2",
     "EDITBOX",
-    ["Gen 2 Devices", format ["Comma-separated list of Generation 2 device class names, without quotes.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Gen 2 Devices", format ["List of Generation 2 device class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
@@ -219,7 +219,7 @@ Parameters:
 [
     "KTWK_NVG_opt_gen3",
     "EDITBOX",
-    ["Gen 3 Devices", format ["Comma-separated list of Generation 3 device class names, without quotes.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Gen 3 Devices", format ["List of Generation 3 device class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
@@ -229,7 +229,7 @@ Parameters:
 [
     "KTWK_NVG_opt_gen4",
     "EDITBOX",
-    ["Gen 4 Devices", format ["Comma-separated list of Generation 4 device class names, without quotes.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Gen 4 Devices", format ["List of Generation 4 device class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
@@ -241,7 +241,7 @@ Parameters:
 [
     "KTWK_NVG_opt_color_wp",
     "EDITBOX",
-    ["White Phosphor Devices", format ["Comma-separated list of device class names that use White Phosphor.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["White Phosphor Devices", format ["List of devices you want to use White Phosphor.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
@@ -251,7 +251,7 @@ Parameters:
 [
     "KTWK_NVG_opt_color_amber",
     "EDITBOX",
-    ["Amber Devices", format ["Comma-separated list of device class names that use Amber filter.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Amber Devices", format ["List of devices you want to use Amber filter.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
@@ -261,7 +261,7 @@ Parameters:
 [
     "KTWK_NVG_opt_color_bw",
     "EDITBOX",
-    ["Black and White Devices", format ["Comma-separated list of device class names that use Black and White filter.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Black and White Devices", format ["List of devices you want to use Black and White filter.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
@@ -271,7 +271,7 @@ Parameters:
 [
     "KTWK_NVG_opt_color_crimson",
     "EDITBOX",
-    ["Crimson Devices", format ["Comma-separated list of device class names that use Crimson filter.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Crimson Devices", format ["List of devices you want to use Crimson filter.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
@@ -280,7 +280,7 @@ Parameters:
 [
     "KTWK_NVG_opt_color_green",
     "EDITBOX",
-    ["Military Green Devices", format ["Comma-separated list of device class names that use Military Green.\nNote that auto-detected devices will default to this color, so adding something here is only needed if it defaults to another one (white phosphor, amber, etc) and want it green.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Military Green Devices", format ["List of devices you want to use Military Green.\nIt can be class names or Magic Words, without quotes and separated by commas.\n\nNote that auto-detected devices will default to this color, so adding something here is only needed if it defaults to another one (white phosphor, amber, etc) and want it green.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_COLORS],
     "",
     0,
@@ -293,7 +293,7 @@ Parameters:
 [
     "KTWK_NVG_opt_excludeGlobal",
     "EDITBOX",
-    ["Global Exclusion", format ["Comma-separated list of items to exclude from ALL night vision effects.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Global Exclusion", format ["List of items to exclude from ALL night vision effects.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", EXCLUSIONS],
     "",
     0,
@@ -303,7 +303,7 @@ Parameters:
 [
     "KTWK_NVG_opt_excludeAutoGen",
     "EDITBOX",
-    ["Auto Generation Detection Exclusion", format ["Comma-separated list of items to exclude only from Auto-Detect Generation, so you can apply manual intensity, color, etc.\nIt can be class names or magic words.\n%1", MAGICWORDS_DESC]],
+    ["Auto Generation Detection Exclusion", format ["List of items to exclude ONLY from Auto-Detect Generation, so you can apply manual intensity, color, etc.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", EXCLUSIONS],
     "",
     0,
@@ -367,7 +367,7 @@ Parameters:
 [
     "KTWK_NVG_opt_color_6",
     "COLOR",
-    ["Custom", "Color for 'Custom' preset. Use this if you want to keep the defaults but want a new one for particular devices."],
+    ["Custom", "Color for 'Custom' preset.\nUse this if you want to keep the default colors as is and want a new one for particular devices."],
     ["KtweaK - NVG", COLOR_PRESETS],
     [0.1, 0.9, 0.8],
     0,
