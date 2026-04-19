@@ -17,6 +17,7 @@ private _fnc_resolveWord = {
         if (_word == "helmet") exitWith { headgear _unit };
         if (_word == "binoc") exitWith { currentWeapon _unit };
         if (_word == "scope") exitWith { (_unit weaponAccessories currentWeapon _unit) # 2 };
+        if (_word == "vehicle") exitWith { if (!isNull objectParent _unit) then { typeOf vehicle _unit } else {""} };
         _word
     };
 };

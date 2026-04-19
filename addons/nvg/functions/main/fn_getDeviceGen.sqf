@@ -17,6 +17,7 @@ private _itemClass = call {
     if (_mode == "rangefinder") exitWith { currentWeapon _unit };
     if (_mode == "scoped") exitWith { (_unit weaponAccessories currentWeapon _unit) # 2 };
     if (_mode in ["standard","ADS"]) exitWith { hmd _unit };
+    if (_mode in ["MFD","vehicle"]) exitWith { typeOf vehicle _unit };
     ""
 };
 
