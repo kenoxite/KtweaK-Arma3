@@ -190,7 +190,7 @@ Parameters:
     "SLIDER",
     ["Update Interval", "Time in seconds between effect updates.\nLower values = smoother transitions but more CPU usage.\nHigher values = slower updates to the effects but better performance.\n"],
     ["KtweaK - NVG", ADVANCED],
-    [0, 0.5, 0.1, 2],
+    [0, 0.5, 0.15, 2],
     0,
     {}
 ] call CBA_fnc_addSetting;
