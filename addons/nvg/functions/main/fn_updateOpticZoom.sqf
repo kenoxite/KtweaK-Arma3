@@ -9,7 +9,7 @@
 
 params ["_unit", ["_weapon", currentWeapon KTWK_player]];
 
-if (_weapon == "") exitWith {};
+if (_weapon == "") exitWith { [-1, -1]};
 
 private _isOptic = true;
 private _weaponItems = (weaponsItems _unit) select {(_x # 0) == _weapon};
@@ -42,3 +42,5 @@ if (_knownIndex != -1) then {
 
 KTWK_NVG_opticZoomMin = _minRange;
 KTWK_NVG_opticZoomMax = _maxRange;
+
+[_minRange, _maxRange]
