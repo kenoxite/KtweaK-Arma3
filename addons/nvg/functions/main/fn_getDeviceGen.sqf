@@ -47,11 +47,30 @@ if (_genIndex > 0 && _colorPreset > 0) exitWith { [_genIndex, _colorPreset] };
 
 // Check ACE config if no generation or custom gear color found
 private _cfgWeapons = configFile >> "CfgWeapons";
-private _aceGen = getNumber (_cfgWeapons >> _itemClass >> "ace_nightvision_generation");
+private _aceGen = getNumber (configFile >> "CfgWeapons" >> (hmd player) >> "ace_nightvision_generation");
 if (_aceGen > 0) exitWith {
+    private _aceColor = _colorPreset;
     private _isWP = getNumber (_cfgWeapons >> _itemClass >> "ace_nightvision_whitePhosphor") == 1;
-    private _aceColor = [_colorPreset, 2] select _isWP;
+    if (_isWP) then { _aceColor = 2 };
+    private _isCustom = getArray (_cfgWeapons >> _itemClass >> "ace_nightvision_colorPreset");
+    if (count _isCustom > 0) then {
+        if ((_isCustom #2) isEqualTo [0.75, 0.4, 1.7, 0.9]) then {
+            _aceColor = 2
+        };
+    };
     [_aceGen, _aceColor]
+};
+
+// String pattern fallback for color
+if (_colorPreset == KTWK_NVG_opt_color) then {
+    if ("_wp" in _itemClassLower) then { _colorPreset = 2 };
+};
+
+// String pattern fallback for generation
+if (_genIndex == 0) then {
+    if ("pvs14" in _itemClassLower || "pvs31" in _itemClassLower || "pvs15" in _itemClassLower || "gpnvg" in _itemClassLower || "1pn138" in _itemClassLower) then { _genIndex = 4 };
+    if ("pvs7" in _itemClassLower) then { _genIndex = 3 };
+    if ("pvs5" in _itemClassLower) then { _genIndex = 2 };
 };
 
 [_genIndex, _colorPreset]
