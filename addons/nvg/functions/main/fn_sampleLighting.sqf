@@ -17,7 +17,7 @@ private _veh = vehicle _unit;
 
 // Get current generation for max range
 private _genIndex = 0;
-if (KTWK_NVG_opt_autoGen) then {
+if (KTWK_NVG_opt_nvMode < 2) then {
     _genIndex = ([_mode, _unit] call KTWK_NVG_fnc_getDeviceGen) # 0;
 };
 private _genMaxRange = KTWK_NVG_genMaxRange # _genIndex;

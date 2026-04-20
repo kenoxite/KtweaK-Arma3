@@ -16,7 +16,7 @@ if (_itemClass in KTWK_NVG_bw_custom) exitWith { 4 };
 if (_itemClass in KTWK_NVG_crimson_custom) exitWith { 5 };
 
 // Then generation color arrays
-if (KTWK_NVG_opt_autoGen) exitWith {
+if (KTWK_NVG_opt_nvMode < 2) exitWith {
     if (_itemClass in KTWK_NVG_green) exitWith { 1 };
     if (_itemClass in KTWK_NVG_wp) exitWith { 2 };
     if (_itemClass in KTWK_NVG_amber) exitWith { 3 };

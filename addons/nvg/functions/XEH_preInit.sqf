@@ -7,7 +7,7 @@
 #define CUSTOM_GEAR "4. Custom Gear"
 #define CUSTOM_COLORS "5. Custom Gear Colors"
 #define EXCLUSIONS "6. Exclusions"
-#define MANUAL_DESC "\nThe settings of this effect won't be used if Auto-detect NV Generation is enabled!\n"
+#define MANUAL_DESC "\nNV Mode must be set to manual if you want to use these settings!\n"
 #define MAGICWORDS_DESC "\nMagic words automatically convert to the corresponding class names:\n- nvg = currently equipped NVG\n- helmet = currently worn helmet with built-in NV\n- binoc = currently held rangefinder or laser designator with NV\n- scope = currently attached weapon optic with NV\n- vehicle = current vehicle with NV capabilities\n\nExample: nvg, vehicle, <classNameOfThatCoolMod>\n\nMagic Words become permanent class names after accepting the changes.\n"
 
 [
@@ -86,7 +86,7 @@ Parameters:
     ["KtweaK - NVG", MAIN],
     [true],
     0,
-    {}
+    {[!KTWK_NVG_isActive] call KTWK_NVG_fnc_toggleSystem}
 ] call CBA_fnc_addSetting;
 
 [
@@ -100,11 +100,11 @@ Parameters:
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_NVG_opt_autoGen",
-    "CHECKBOX",
-    ["Auto-detect NV Generation", "If enabled, effect intensity is automatically set based on night vision (NV) quality (Generation 1-4) of known NV systems.\n\nOverrides the manual settings!\n"],
+    "KTWK_NVG_opt_nvMode",
+    "LIST",
+    ["NV Mode", "Select night vision behavior.\n\n- Full: Full optical simulation with dynamic ambient darkening and film grain. Image will be significantly darker in low light.\n  Recommended to use with an IR illumination mod (ITN, BettIR, etc).\n- Basic: Generation based blur, color, and range limits. No dynamic darkening or film grain. Standard Arma lighting works normally.\n- Manual: Use manual settings only. Auto-detection disabled.\n"],
     ["KtweaK - NVG", MAIN],
-    [true],
+    [[0,1,2], ["Full", "Basic", "Manual"], 0],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -137,7 +137,7 @@ Parameters:
     "SLIDER",
     ["Ambient Brightness", format ["Darkens and brightens the night vision effect based on current lighting at the player position.\n0 = no effect, higher = stronger effect.\n%1", MANUAL_DESC]],
     ["KtweaK - NVG", MANUAL],
-    [0, 1.5, 1, 1],
+    [0, 1.5, 1.2, 1],
     0,
     {}
 ] call CBA_fnc_addSetting;

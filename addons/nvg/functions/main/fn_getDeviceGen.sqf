@@ -30,7 +30,7 @@ if (_itemClassLower in KTWK_NVG_excludeAutoGen) exitWith {
 };
 
 // Check Generation
-if (KTWK_NVG_opt_autoGen) then {
+if (KTWK_NVG_opt_nvMode < 2) then {
     _genIndex = call {
         if (_itemClassLower in KTWK_NVG_gen1) exitWith { 1 };
         if (_itemClassLower in KTWK_NVG_gen2) exitWith { 2 };
