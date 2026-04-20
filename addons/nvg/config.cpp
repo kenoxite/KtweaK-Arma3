@@ -37,36 +37,37 @@ class CfgFunctions {
                 postInit = 1;
             };
         };
-
+        
         class Main {
             file = "\z\ktweak\addons\nvg\functions\main";
-            class disableSystem {};
-            class resetCache {};
-            class mode {};
-            class sampleLighting {};
+            class applyEffects {};
             class calcEffects {};
             class createHandles {};
-            class applyEffects {};
-            class disableEffects {};
-            class initSystem {};
+            class createIRLight {};
             class createPfh {};
-            class initGlobals {};
-            class isExcluded {};
+            class deleteIRLight {};
+            class disableEffects {};
+            class disableSystem {};
             class getDeviceGen {};
+            class initGlobals {};
+            class initSystem {};
+            class isExcluded {};
+            class mode {};
+            class resetCache {};
+            class sampleLighting {};
+            class toggleIRLight {};
+            class toggleSystem {};
             class updateColorArrays {};
             class updateExclusions {};
             class updateGenArrays {};
-            class toggleIRLight {};
-            class createIRLight {};
-            class deleteIRLight {};
             class updateOpticZoom {};
         };
 
         class Helpers {
             file = "\z\ktweak\addons\nvg\functions\helpers";
+            class getColor {};
             class getZoom {};
             class resolveMagicWords {};
-            class getColor {};
         };
     };
 };
