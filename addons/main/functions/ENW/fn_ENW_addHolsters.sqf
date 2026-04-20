@@ -1,4 +1,4 @@
-// KTWK_fnc_addHolsters
+// KTWK_fnc_ENW_addHolsters
 // Creates needed holsters to display the extra weapons on the unit
 
 params [["_unit", player]];

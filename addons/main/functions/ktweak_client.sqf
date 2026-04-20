@@ -6,94 +6,77 @@
 if (!hasInterface) exitWith {false};
 
 // --------------------------------
-// Disable bright night effects
-// - SP
-addMissionEventHandler ["Ended", {
-    params ["_endType"];
-    true call KTWK_fnc_brighterNight_unSet_client;
-}];
-// - MP
-0 spawn
-{
-    waitUntil { !isNull findDisplay 46 };
-    findDisplay 46 displayAddEventHandler ["Unload",
-    {
-        true call KTWK_fnc_brighterNight_unSet_client;
-    }];
-};
-
-// --------------------------------
 // Safechecks for JiP
 KTWK_allInfantry = [];
-private _cftPatches = configFile >> "CfgPatches";
+private _cfgPatches = configFile >> "CfgPatches";
 
 if (isNil "KTWK_aceCommon") then
 {
-    KTWK_aceCommon = isClass(_cftPatches >> "ace_common");
+    KTWK_aceCommon = isClass(_cfgPatches >> "ace_common");
 };
 if (isNil "KTWK_aceMedical") then
 {
-    KTWK_aceMedical = isClass(_cftPatches >> "ace_medical_engine");
+    KTWK_aceMedical = isClass(_cfgPatches >> "ace_medical_engine");
 };
 if (isNil "KTWK_aceMovement") then
 {
-    KTWK_aceMovement = isClass(_cftPatches >> "ace_movement");
+    KTWK_aceMovement = isClass(_cfgPatches >> "ace_movement");
 };
 if (isNil "KTWK_aceFlashlights") then
 {
-    KTWK_aceFlashlights = isClass(_cftPatches >> "ace_flashlights");
+    KTWK_aceFlashlights = isClass(_cfgPatches >> "ace_flashlights");
 };
 if (isNil "KTWK_aceInteractMenu") then
 {
-    KTWK_aceInteractMenu = isClass(_cftPatches >> "ace_interact_menu");
+    KTWK_aceInteractMenu = isClass(_cfgPatches >> "ace_interact_menu");
 };
 if (isNil "KTWK_aceWeather") then
 {
-    KTWK_aceWeather = isClass(_cftPatches >> "ace_weather");
+    KTWK_aceWeather = isClass(_cfgPatches >> "ace_weather");
 };
 if (isNil "KTWK_aceFatigue") then
 {
-    KTWK_aceFatigue = isClass(_cftPatches >> "ace_advanced_fatigue");
+    KTWK_aceFatigue = isClass(_cfgPatches >> "ace_advanced_fatigue");
 };
 if (isNil "KTWK_aceInteraction") then
 {
-    KTWK_aceInteraction = isClass(_cftPatches >> "ace_interaction");
+    KTWK_aceInteraction = isClass(_cfgPatches >> "ace_interaction");
 };
 if (isNil "KTWK_aceNightvision") then
 {
-    KTWK_aceNightvision = isClass(_cftPatches >> "ace_nightvision");
+    KTWK_aceNightvision = isClass(_cfgPatches >> "ace_nightvision");
 };
 
 if (isNil "KTWK_WBKDeath") then
 {
-    KTWK_WBKDeath = isClass(_cftPatches >> "WBK_DyingAnimationsMod");
+    KTWK_WBKDeath = isClass(_cfgPatches >> "WBK_DyingAnimationsMod");
 };
 if (isNil "KTWK_WBKHeadlamps") then
 {
-    KTWK_WBKHeadlamps = isClass(_cftPatches >> "WBK_Headlamps");
+    KTWK_WBKHeadlamps = isClass(_cfgPatches >> "WBK_Headlamps");
 };
 
 if (isNil "KTWK_mgsr_poncho") then
 {
-    KTWK_mgsr_poncho = isClass(_cftPatches >> "mgsr_poncho");
+    KTWK_mgsr_poncho = isClass(_cfgPatches >> "mgsr_poncho");
 };
 
 if (isNil "KTWK_pir") then
 {
-    KTWK_pir = isClass(_cftPatches >> "PiR");
+    KTWK_pir = isClass(_cfgPatches >> "PiR");
 };
 
 if (isNil "KTWK_ravage") then
 {
-    KTWK_ravage = isClass(_cftPatches >> "ravage");
+    KTWK_ravage = isClass(_cfgPatches >> "ravage");
 };
 
 if (isNil "KTWK_lambsDanger") then
 {
-    KTWK_lambsDanger = isClass(_cftPatches >> "lambs_danger");
+    KTWK_lambsDanger = isClass(_cfgPatches >> "lambs_danger");
 };
 
-_cftPatches = nil;
+_cfgPatches = nil;
 
 // --------------------------------
 // Wait for player init
@@ -211,17 +194,6 @@ KTWK_EH_invOpened_SFB = [KTWK_player] call KTWK_fnc_SFB_addInvEH;
 addMissionEventHandler ["Loaded", {
     params ["_saveType"];
     diag_log format[ "KtweaK: Mission loaded from %1", _saveType ];
-
-    // HUD Health
-    _this spawn {
-        waitUntil {!isNull player};
-        sleep 1;
-        if (!isNil {KTWK_scr_HUD_health}) then {
-            terminate KTWK_scr_HUD_health;
-            waitUntil {scriptDone KTWK_scr_HUD_health};
-            KTWK_scr_HUD_health = [] execVM "z\ktweak\addons\main\scripts\HUD_health.sqf";
-        };
-    };
 }];
 
 // --------------------------------
@@ -319,10 +291,6 @@ if (!isNil {vn_sam_masteraudioarray}) then {
 // Init - Humidity Effects
 KTWK_scr_HFX = [] execVM "z\ktweak\addons\main\scripts\humidityFX.sqf";
 
-// --------------------------------
-// Init - Health HUD
-KTWK_scr_HUD_health = [] execVM "z\ktweak\addons\main\scripts\HUD_health.sqf";
-
 // Init - Ghost Recon Drone
 KTWK_scr_GRdrone = [] execVM "z\ktweak\addons\main\scripts\reconDrone.sqf";
 
@@ -331,9 +299,6 @@ KTWK_scr_coldBreath = [] execVM "z\ktweak\addons\main\scripts\coldBreath.sqf";
 
 // Init - Heat Haze
 KTWK_scr_heatHaze = [] execVM "z\ktweak\addons\main\scripts\heatHaze.sqf";
-
-// Init - NVG Effects
-KTWK_scr_NVG = [] execVM "z\ktweak\addons\main\scripts\NVG.sqf";
 
 // Init - Restrict Stance
 KTWK_scr_restrictStance = [] execVM "z\ktweak\addons\main\scripts\restrictStance.sqf";
