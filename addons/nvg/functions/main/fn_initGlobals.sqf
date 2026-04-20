@@ -19,6 +19,8 @@ if (!KTWK_NVG_ktweak) then {
     KTWK_player = call CBA_fnc_currentUnit;
 };
 
+KTWK_NVG_isActive = KTWK_NVG_opt_enabled;
+
 // Mode detection state
 KTWK_NVG_weaponZoom = 0;
 KTWK_NVG_vehicleMFD = false;

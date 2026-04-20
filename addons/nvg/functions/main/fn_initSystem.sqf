@@ -48,10 +48,10 @@ if (isNil "KTWK_NVG_EH_visibleMap") then {
     KTWK_NVG_EH_visibleMap = ["visibleMap", {
         params ["_unit", "_isMapShown"];
         if (_isMapShown) exitWith {
-            call KTWK_NVG_fnc_disableSystem;
+            call KTWK_NVG_fnc_toggleSystem;
         };
         if (isNil "KTWK_NVG_pfh") exitWith {
-            call KTWK_NVG_fnc_initSystem;
+            call KTWK_NVG_fnc_toggleSystem;
         };
     }] call CBA_fnc_addPlayerEventHandler;
 };
@@ -60,10 +60,10 @@ if (isNil "KTWK_NVG_EH_visionMode") then {
     KTWK_NVG_EH_visionMode = ["visionMode", {
         params ["_unit", "_mode", "_number"];
         if (_mode != 1) exitWith {
-            call KTWK_NVG_fnc_disableSystem;
+            call KTWK_NVG_fnc_toggleSystem;
         };
         if (isNil "KTWK_NVG_pfh") exitWith {
-            call KTWK_NVG_fnc_initSystem;
+            call KTWK_NVG_fnc_toggleSystem;
         };
     }] call CBA_fnc_addPlayerEventHandler;
 };
