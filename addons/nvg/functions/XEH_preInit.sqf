@@ -230,7 +230,7 @@ Parameters:
 [
     "KTWK_NVG_opt_gen4",
     "EDITBOX",
-    ["Gen 4 Devices", format ["List of Generation 4 device class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
+    ["Gen 3+ Devices", format ["List of Generation 3+ device class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", CUSTOM_GEAR],
     "",
     0,
@@ -304,7 +304,7 @@ Parameters:
 [
     "KTWK_NVG_opt_excludeAutoGen",
     "EDITBOX",
-    ["Auto-Detect Generation Exclusion", format ["List of devices to exclude ONLY from Auto-Detect Generation, so you can apply manual intensity, color, etc.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
+    ["Auto-Detect Generation Exclusion", format ["List of devices to exclude ONLY from Full or Basic NV mode, so you can apply manual intensity, color, etc.\nIt can be class names or Magic Words, without quotes and separated by commas.\n%1", MAGICWORDS_DESC]],
     ["KtweaK - NVG", EXCLUSIONS],
     "",
     0,
