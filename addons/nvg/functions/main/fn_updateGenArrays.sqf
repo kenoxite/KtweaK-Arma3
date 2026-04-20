@@ -18,9 +18,7 @@ private _knownGen1 = [
     "gm_feroz51_ris_oli",
     "gm_fero51_oli",
     // Prairie Fire
-    "vn_o_1pn138",
-    "vn_nvg_01",
-    "vn_nvg_02",
+    "vn_anpvs2_binoc",
     // RHS
     "rhs_pdu4",
     // CWR3
@@ -35,8 +33,6 @@ private _knownGen2 = [
     "TiGoggles_RF",
     "TiGoggles_grn_RF",
     "TiGoggles_tan_RF",
-    // Prairie Fire
-    "vn_nvg_03",
     // CUP
     "CUP_optic_AN_PVS_4",
     "CUP_optic_AN_PVS_4_M14",
