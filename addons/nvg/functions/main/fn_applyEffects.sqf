@@ -9,6 +9,8 @@
 // Returns:
 //   Nothing
 
+#include "\z\ktweak\addons\nvg\cacheIndices.hpp"
+
 params ["_mode", "_light", "_zoom", "_rangeFactor"];
 
 private _params = [_mode, _light, _zoom, _rangeFactor] call KTWK_NVG_fnc_calcEffects;
@@ -35,8 +37,8 @@ KTWK_NVG_colorHandle ppEffectCommit 0;
 KTWK_NVG_colorHandle ppEffectEnable true;
 
 // Update cache
-KTWK_NVG_cache set [0, true];
-KTWK_NVG_cache set [1, _mode];
-KTWK_NVG_cache set [2, _light];
-KTWK_NVG_cache set [3, _zoom];
-KTWK_NVG_cache set [9, _rangeFactor];
+KTWK_NVG_cache set [IDX_ACTIVE, true];
+KTWK_NVG_cache set [IDX_MODECACHED, _mode];
+KTWK_NVG_cache set [IDX_LIGHTCACHED, _light];
+KTWK_NVG_cache set [IDX_ZOOMCACHED, _zoom];
+KTWK_NVG_cache set [IDX_RANGEFACTORCACHED, _rangeFactor];

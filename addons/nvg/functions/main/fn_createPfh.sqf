@@ -6,6 +6,10 @@
 // Returns:
 //   Nothing
 
+if (!isNil "KTWK_NVG_pfh") exitWith {};
+
+#include "\z\ktweak\addons\nvg\cacheIndices.hpp"
+
 KTWK_NVG_pfh = [{
     params ["_args", "_handle"];
 
@@ -16,7 +20,7 @@ KTWK_NVG_pfh = [{
     private _unit = KTWK_player;
     private _cache = KTWK_NVG_cache;
     
-    _cache params ["_active", "_modeCached", "_lightCached", "_zoomCached", "_lastSample", "_lastUpdate", "_handlesCreated", "_filmCached", "_blurCached", "_rangeFactorCached", "_testPosCached", "_itemClassCached", "_genIndexCached", "_colorPresetCached"];
+    _cache params ["_active", "_modeCached", "_lightCached", "_zoomCached", "_lastSample", "_handlesCreated", "_rangeFactorCached"];
     
     // Exit if paused, in splendid camera or NVG not active
     if (!isNull (findDisplay 49) || {!isNil "BIS_fnc_camera_cam"} || {currentVisionMode _unit != 1}) exitWith {   
@@ -25,7 +29,7 @@ KTWK_NVG_pfh = [{
                 call KTWK_NVG_fnc_disableEffects;
             };
             KTWK_NVG_filmGrainHandle ppEffectEnable false;
-            KTWK_NVG_cache set [0, false];
+            KTWK_NVG_cache set [IDX_ACTIVE, false];
         };
     };
     
@@ -53,9 +57,9 @@ KTWK_NVG_pfh = [{
         private _result = [_mode] call KTWK_NVG_fnc_sampleLighting; 
         _light = _result # 0; 
         _rangeFactor = _result # 1; 
-        KTWK_NVG_cache set [2, _light];
-        KTWK_NVG_cache set [9, _rangeFactor];
-        KTWK_NVG_cache set [4, _time];
+        KTWK_NVG_cache set [IDX_LIGHTCACHED, _light];
+        KTWK_NVG_cache set [IDX_LASTSAMPLE, _time];
+        KTWK_NVG_cache set [IDX_RANGEFACTORCACHED, _rangeFactor];
     };
     
     private _changed = !_active ||   
@@ -70,8 +74,7 @@ KTWK_NVG_pfh = [{
     
     [_mode, _light, _zoom, _rangeFactor] call KTWK_NVG_fnc_applyEffects;
     
-    KTWK_NVG_cache set [1, _mode];
-    KTWK_NVG_cache set [3, _zoom];
-    KTWK_NVG_cache set [5, _time];
+    KTWK_NVG_cache set [IDX_MODECACHED, _mode];
+    KTWK_NVG_cache set [IDX_ZOOMCACHED, _zoom];
     
 }, KTWK_NVG_opt_pfhInterval, []] call CBA_fnc_addPerFrameHandler;

@@ -34,10 +34,10 @@ KTWK_NVG_irLightManager = [];
 
 // Internal constants
 KTWK_NVG_lightThreshold = 3;
-KTWK_NVG_posInterval = 0.25;
+KTWK_NVG_posInterval = 0.35;
 
-// Cache array: [_active, _modeCached, _lightCached, _zoomCached, _lastSample, _lastUpdate, _handlesCreated, _filmCached, _blurCached, _rangeFactorCached, _testPosCached, _itemClassCached, _genIndexCached, _colorPresetCached]
-KTWK_NVG_cache = [false, "", 0, 1, 0, 0, false, [], [], 0, false, "", 0, 0];
+// Cache array: [_active, _modeCached, _lightCached, _zoomCached, _lastSample, _handlesCreated, _rangeFactorCached, _testPosCached, _itemClassCached, _genIndexCached, _colorPresetCached, _maxRangeCached, _minZoomOffsetCached]
+KTWK_NVG_cache = [false, "", 0, 1, 0, false, 0, false, "", 0, 0, 0, 0];
 
 // Generation arrays
 KTWK_NVG_gen1 = [];
