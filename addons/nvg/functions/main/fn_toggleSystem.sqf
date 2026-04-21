@@ -9,7 +9,9 @@
 private _activate = !KTWK_NVG_isActive;
 
 if (_activate) then {
-    call KTWK_NVG_fnc_initSystem;
+    if (!KTWK_aceNightvision) then {
+        call KTWK_NVG_fnc_initSystem;
+    };
 } else {
     call KTWK_NVG_fnc_disableSystem;
 };
