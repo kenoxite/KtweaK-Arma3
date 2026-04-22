@@ -12,6 +12,11 @@ params ["_mode", "_unit"];
 private _genIndex = 0;
 private _colorPreset = KTWK_NVG_opt_color;
 
+// Manual mode overrides everything - return immediately
+if (KTWK_NVG_opt_nvMode == 2) exitWith { 
+    [_genIndex, _colorPreset] 
+};
+
 private _itemClass = call {
     if (_mode == "helmet") exitWith { headgear _unit };
     if (_mode == "rangefinder") exitWith { currentWeapon _unit };
@@ -40,10 +45,14 @@ if (KTWK_NVG_opt_nvMode < 2) then {
     };
 };
 
-// Gemeration or custom color
+// Custom gear color overrides EVERYTHING
 private _customColor = [_itemClassLower] call KTWK_NVG_fnc_getColor;
-if (_customColor > 0) then { _colorPreset = _customColor; };
-if (_genIndex > 0 && _colorPreset > 0) exitWith { [_genIndex, _colorPreset] };
+if (_customColor > 0) then { 
+    _colorPreset = _customColor; 
+};
+
+// If we have a custom color, use it regardless of generation source
+if (_genIndex > 0 && _customColor > 0) exitWith { [_genIndex, _customColor] };
 
 // Check ACE config if no generation or custom gear color found
 private _cfgWeapons = configFile >> "CfgWeapons";
