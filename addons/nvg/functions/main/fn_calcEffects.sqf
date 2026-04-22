@@ -35,6 +35,7 @@ if (_nvMode == 2) then {
     _int = KTWK_NVG_opt_intensity;
     _baseNoise = KTWK_NVG_opt_noise;
     _maxBright = KTWK_NVG_opt_brightness;
+    _colorPreset = KTWK_NVG_opt_color;
 };
 
 private _isHmd = KTWK_NVG_isHmd;
