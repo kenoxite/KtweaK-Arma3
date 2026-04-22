@@ -7,7 +7,6 @@ waitUntil {!isNull player};
 
 // Init NVG subsystem
 call KTWK_NVG_fnc_initGlobals;
-if (KTWK_aceNightvision) exitWith {};
 call KTWK_NVG_fnc_updateGenArrays;
 call KTWK_NVG_fnc_updateColorArrays;
 call KTWK_NVG_fnc_disableSystem;

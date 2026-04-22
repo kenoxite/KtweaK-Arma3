@@ -42,6 +42,14 @@ if (!isNil "KTWK_NVG_EH_killed") then {
     ["killed", KTWK_NVG_EH_killed] call CBA_fnc_removePlayerEventHandler; 
     KTWK_NVG_EH_killed = nil; 
 };
+if (!isNil "KTWK_NVG_EH_aceVisionMode") then {
+    ["visionMode", KTWK_NVG_EH_aceVisionMode] call CBA_fnc_removePlayerEventHandler;
+    KTWK_NVG_EH_aceVisionMode = nil;
+};
+if (!isNil "KTWK_NVG_EH_aceCameraView") then {
+    ["cameraView", KTWK_NVG_EH_aceCameraView] call CBA_fnc_removePlayerEventHandler;
+    KTWK_NVG_EH_aceCameraView = nil;
+};
 
 [false, false] call KTWK_NVG_fnc_toggleIRLight;
 
