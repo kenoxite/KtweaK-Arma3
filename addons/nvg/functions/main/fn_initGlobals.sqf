@@ -76,4 +76,3 @@ KTWK_NVG_opticZoomMin = 200;
 KTWK_NVG_opticZoomMax = 200;
 KTWK_NVG_knownOptics = [];
 KTWK_NVG_knownOpticZooms = [];
-
