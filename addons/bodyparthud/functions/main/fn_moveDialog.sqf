@@ -28,14 +28,14 @@ _ctrl ctrlCommit 0;
 // Reset HUD to default alpha
 if (isNull player || {time < 3}) exitWith {false};
 
-KTWK_BPH_alpha = 0.6;
+KTWK_BPH_targetAlpha = 0.6;
 call KTWK_BPH_fnc_update;
 
 // Reset alpha after pause menu closes
 if (canSuspend) then {
     [] spawn {
         waitUntil {isNull (findDisplay 49) || {!alive player}};
-        KTWK_BPH_alpha = KTWK_BPH_opt_alpha;
+        KTWK_BPH_targetAlpha = KTWK_BPH_opt_alpha;
         call KTWK_BPH_fnc_update;
     };
 };
