@@ -55,7 +55,7 @@ Returns:
     ["Toggle NVG IR Light", "Toggles an IR illuminator attached to the player when using NVGs"],
     { [!KTWK_NVG_irLightToggle] call KTWK_NVG_fnc_toggleIRLight },
     {},
-    [ DIK_I, [false, false, true] ], // [DIK, [shift, ctrl, alt]
+    [ DIK_J, [false, false, true] ], // [DIK, [shift, ctrl, alt]
     false
 ] call CBA_fnc_addKeybind;
 
@@ -137,7 +137,7 @@ Parameters:
     "SLIDER",
     ["Ambient Brightness", format ["Darkens and brightens the night vision effect based on current lighting at the player position.\n0 = no effect, higher = stronger effect.\n%1", MANUAL_DESC]],
     ["KtweaK - NVG", MANUAL],
-    [0, 1.5, 1.2, 1],
+    [0, 1.5, 1, 1],
     0,
     {}
 ] call CBA_fnc_addSetting;

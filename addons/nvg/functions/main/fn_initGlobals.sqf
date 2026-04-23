@@ -74,5 +74,6 @@ KTWK_NVG_excludeAutoGen = [];
 // Optics
 KTWK_NVG_opticZoomMin = 200;
 KTWK_NVG_opticZoomMax = 200;
+KTWK_NVG_opticHasNV = false;
 KTWK_NVG_knownOptics = [];
 KTWK_NVG_knownOpticZooms = [];
