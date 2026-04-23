@@ -7,6 +7,7 @@
 #define CUSTOM_GEAR "4. Custom Gear"
 #define CUSTOM_COLORS "5. Custom Gear Colors"
 #define EXCLUSIONS "6. Exclusions"
+#define EXPERIMENTAL "7. Experimental"
 #define MANUAL_DESC "\nNV Mode must be set to manual if you want to use these settings!\n"
 #define MAGICWORDS_DESC "\nMagic words automatically convert to the corresponding class names:\n- nvg = currently equipped NVG\n- helmet = currently worn helmet with built-in NV\n- binoc = currently held rangefinder or laser designator with NV\n- scope = currently attached weapon optic with NV\n- vehicle = current vehicle with NV capabilities\n\nExample: nvg, vehicle, <classNameOfThatCoolMod>\n\nMagic Words become permanent class names after accepting the changes.\n"
 
@@ -154,16 +155,6 @@ Parameters:
 
 // ------------------
 // ADVANCED EFFECTS
-
-[
-    "KTWK_NVG_opt_aceOverride",
-    "CHECKBOX",
-    ["Override ACE Nightvision (Experimental)", "When enabled, KtweaK NVG will attempt to take control of visual effects while ACE Nightvision is active.\nACE's overlay is preserved, but KtweaK handles dynamic lighting, blur, and film grain.\n\nThis is an experimental compatibility feature. Minor visual quirks may occur when toggling NVG on/off.\n\nDisabled by default. If you prefer the stable standalone experience, leave this off and disable ACE Nightvision instead.\n"],
-    ["KtweaK - NVG", ADVANCED],
-    [false],
-    0,
-    {[KTWK_NVG_opt_aceOverride] call KTWK_NVG_fnc_toggleSystem}
-] call CBA_fnc_addSetting;
 
 [
     "KTWK_NVG_opt_baseBlur",
@@ -383,4 +374,18 @@ Parameters:
     [0.1, 0.9, 0.8],
     0,
     {}
+] call CBA_fnc_addSetting;
+
+
+// ------------------
+// EXPERIMENTAL
+
+[
+    "KTWK_NVG_opt_aceOverride",
+    "CHECKBOX",
+    ["Override ACE Nightvision", "When enabled, KtweaK NVG will attempt to take control of visual effects while ACE Nightvision is active.\nACE's overlay is preserved, but KtweaK handles dynamic lighting, blur, and film grain.\n\nThis is an experimental compatibility feature. Minor visual quirks may occur when toggling NVG on/off.\n\nDisabled by default. If you prefer the stable standalone experience, leave this off and disable ACE Nightvision instead.\n"],
+    ["KtweaK - NVG", EXPERIMENTAL],
+    [false],
+    0,
+    {[KTWK_NVG_opt_aceOverride] call KTWK_NVG_fnc_toggleSystem}
 ] call CBA_fnc_addSetting;
