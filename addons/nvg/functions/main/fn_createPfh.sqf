@@ -13,7 +13,7 @@ if (!isNil "KTWK_NVG_pfh") exitWith {};
 KTWK_NVG_pfh = [{
     params ["_args", "_handle"];
 
-    if (!KTWK_NVG_opt_enabled) exitWith {
+    if (!KTWK_NVG_opt_enabled || (KTWK_aceNightvision && {!KTWK_NVG_opt_aceOverride})) exitWith {
         call KTWK_NVG_fnc_disableSystem;
     };
 
@@ -76,5 +76,15 @@ KTWK_NVG_pfh = [{
     
     KTWK_NVG_cache set [IDX_MODECACHED, _mode];
     KTWK_NVG_cache set [IDX_ZOOMCACHED, _zoom];
-    
+
+    // ACE Nightvision overrides
+    if (KTWK_aceNightvision && {KTWK_NVG_opt_aceOverride}) then {
+            missionNamespace setVariable ["ace_nightvision_nvgColorize", [1,1,1,1]];
+            missionNamespace setVariable ["ace_nightvision_effectScaling", 0.1];
+            missionNamespace setVariable ["ace_nightvision_noiseScaling", 0];
+            missionNamespace setVariable ["ace_nightvision_nvgOffset", 0]; 
+            missionNamespace setVariable ["ace_nightvision_nvgWeight", [0.45,0.45,0.45,0]];
+            missionNamespace setVariable ["ace_nightvision_nvgBlend", [1,1,1,0]];
+    };
+
 }, KTWK_NVG_opt_pfhInterval, []] call CBA_fnc_addPerFrameHandler;

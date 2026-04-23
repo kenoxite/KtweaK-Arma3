@@ -69,12 +69,13 @@ if (isNil "KTWK_NVG_EH_visionMode") then {
 };
 
 // ACE Nightvision EH overrides
-if (KTWK_aceNightvision) then {
+if (KTWK_aceNightvision && {KTWK_NVG_opt_aceOverride}) then {
     KTWK_NVG_EH_aceVisionMode = ["visionMode", {
+        params ["_unit", "_mode", "_number"];
         missionNamespace setVariable ["ace_nightvision_nvgColorize", [1,1,1,1]];
         missionNamespace setVariable ["ace_nightvision_effectScaling", 0.1];
         missionNamespace setVariable ["ace_nightvision_noiseScaling", 0];
-        missionNamespace setVariable ["ace_nightvision_nvgOffset", 0]; 
+        missionNamespace setVariable ["ace_nightvision_nvgOffset", 0.05]; 
         missionNamespace setVariable ["ace_nightvision_nvgWeight", [0.45,0.45,0.45,0]];
         missionNamespace setVariable ["ace_nightvision_nvgBlend", [1,1,1,0]];
     }] call CBA_fnc_addPlayerEventHandler;
@@ -83,7 +84,7 @@ if (KTWK_aceNightvision) then {
         missionNamespace setVariable ["ace_nightvision_nvgColorize", [1,1,1,1]];
         missionNamespace setVariable ["ace_nightvision_effectScaling", 0.1];
         missionNamespace setVariable ["ace_nightvision_noiseScaling", 0];
-        missionNamespace setVariable ["ace_nightvision_nvgOffset", 0]; 
+        missionNamespace setVariable ["ace_nightvision_nvgOffset", 0.05]; 
         missionNamespace setVariable ["ace_nightvision_nvgWeight", [0.45,0.45,0.45,0]];
         missionNamespace setVariable ["ace_nightvision_nvgBlend", [1,1,1,0]];
     }] call CBA_fnc_addPlayerEventHandler;

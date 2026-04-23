@@ -11,7 +11,7 @@ params [["_activate", true], ["_updateUnitVar", true]];
 private _unit = KTWK_player;
 
 // Delete the IR light
-if (!_activate) exitWith {
+if (!_activate || (KTWK_aceNightvision && {!KTWK_NVG_opt_aceOverride})) exitWith {
     [getPlayerUID player] remoteExec ["KTWK_NVG_fnc_deleteIRLight", 0, true];
     KTWK_NVG_irLightToggle = false;
     if (_updateUnitVar) then { _unit setVariable ["KTWK_NVG_irLightActive", false] };
