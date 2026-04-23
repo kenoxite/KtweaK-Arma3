@@ -1,13 +1,14 @@
 // KTWK_NVG_fnc_resolveMagicWords
-// Resolves magic words in a comma-separated string to class names
+// Resolves magic words in a comma-separated string to class names and sanitizes the input
 //
 // Parameters:
 //   _input - Comma-separated string of items
 // Returns:
-//   Array - [_resolvedArray, _updatedString] or [] if input empty
+//   Array - [_resolvedArray, _sanitizedString] or [] if input empty
 
 params ["_input"];
 
+_input = trim _input;
 if (_input == "") exitWith { [] };
 
 private _fnc_resolveWord = {
@@ -27,16 +28,15 @@ private _resolved = [];
 private _changed = false;
 
 {
-    private _item = toLowerANSI (_x trim [" ", 0]);
-    private _resolvedItem = [_item, KTWK_player] call _fnc_resolveWord;
+    private _item = trim _x;
+    if (_item == "") then { continue };
+    private _itemLower = toLowerANSI _item;
+    private _resolvedItem = [_itemLower, KTWK_player] call _fnc_resolveWord;
     if (_resolvedItem == "") then { continue };
     _resolved pushBack toLowerANSI _resolvedItem;
-    if (_resolvedItem != _item) then { _changed = true };
+    if (_resolvedItem != _itemLower) then { _changed = true };
 } forEach _items;
 
-if (_changed) then {
-    _input = _resolved joinString ", ";
-    [_resolved, _input]
-} else {
-    [_resolved, ""]
-};
+// Always return sanitized string without lone commas or extra spaces
+private _sanitizedInput = _resolved joinString ",";
+[_resolved, _sanitizedInput]

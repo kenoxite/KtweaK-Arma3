@@ -156,6 +156,16 @@ Parameters:
 // ADVANCED EFFECTS
 
 [
+    "KTWK_NVG_opt_aceOverride",
+    "CHECKBOX",
+    ["Override ACE Nightvision (Experimental)", "When enabled, KtweaK NVG will attempt to take control of visual effects while ACE Nightvision is active.\nACE's overlay is preserved, but KtweaK handles dynamic lighting, blur, and film grain.\n\nThis is an experimental compatibility feature. Minor visual quirks may occur when toggling NVG on/off.\n\nDisabled by default. If you prefer the stable standalone experience, leave this off and disable ACE Nightvision instead.\n"],
+    ["KtweaK - NVG", ADVANCED],
+    [false],
+    0,
+    {[KTWK_NVG_opt_aceOverride] call KTWK_NVG_fnc_toggleSystem}
+] call CBA_fnc_addSetting;
+
+[
     "KTWK_NVG_opt_baseBlur",
     "SLIDER",
     ["Base Blur", "Base amount of blur applied to the night vision effect.\nHigher values increase overall blur.\n"],

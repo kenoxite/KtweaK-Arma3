@@ -39,11 +39,17 @@ class CfgFunctions {
 
         class Main {
             file = "\z\ktweak\addons\bodyparthud\functions\main";
-            class initHUD {};
-            class invEH {};
+            class createPfh {};
+            class disableSystem {};
+            class drawHUD {};
+            class hideHUD {};
+            class initGlobals {};
+            class initSystem {};
             class moveDialog {};
             class reset {};
             class resetDmgTracker {};
+            class showHUD {};
+            class toggleSystem {};
             class update {};
         };
 

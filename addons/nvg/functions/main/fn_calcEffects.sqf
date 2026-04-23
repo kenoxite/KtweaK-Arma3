@@ -35,6 +35,7 @@ if (_nvMode == 2) then {
     _int = KTWK_NVG_opt_intensity;
     _baseNoise = KTWK_NVG_opt_noise;
     _maxBright = KTWK_NVG_opt_brightness;
+    _colorPreset = KTWK_NVG_opt_color;
 };
 
 private _isHmd = KTWK_NVG_isHmd;
@@ -104,8 +105,15 @@ if (_nvMode == 2) then {
         _colorArray set [3, 0];
     };
 } else {
-    if (_colorPreset > 0) then {
-        _colorArray = call compile format ["KTWK_NVG_opt_color_%1", _colorPreset];
+    private _colorPresetType = typeName _colorPreset;
+    if (_colorPresetType == "SCALAR") then {
+        if (_colorPreset > 0) then {
+            _colorArray = call compile format ["KTWK_NVG_opt_color_%1", _colorPreset];
+            _colorArray set [3, 0];
+        };
+    };
+    if (_colorPresetType == "ARRAY") then {
+        _colorArray = _colorPreset;
         _colorArray set [3, 0];
     };
 };

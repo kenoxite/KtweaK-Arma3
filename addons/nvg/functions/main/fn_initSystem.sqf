@@ -68,6 +68,28 @@ if (isNil "KTWK_NVG_EH_visionMode") then {
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
+// ACE Nightvision EH overrides
+if (KTWK_aceNightvision && {KTWK_NVG_opt_aceOverride}) then {
+    KTWK_NVG_EH_aceVisionMode = ["visionMode", {
+        params ["_unit", "_mode", "_number"];
+        missionNamespace setVariable ["ace_nightvision_nvgColorize", [1,1,1,1]];
+        missionNamespace setVariable ["ace_nightvision_effectScaling", 0.1];
+        missionNamespace setVariable ["ace_nightvision_noiseScaling", 0];
+        missionNamespace setVariable ["ace_nightvision_nvgOffset", 0.05]; 
+        missionNamespace setVariable ["ace_nightvision_nvgWeight", [0.45,0.45,0.45,0]];
+        missionNamespace setVariable ["ace_nightvision_nvgBlend", [1,1,1,0]];
+    }] call CBA_fnc_addPlayerEventHandler;
+    
+    KTWK_NVG_EH_aceCameraView = ["cameraView", {
+        missionNamespace setVariable ["ace_nightvision_nvgColorize", [1,1,1,1]];
+        missionNamespace setVariable ["ace_nightvision_effectScaling", 0.1];
+        missionNamespace setVariable ["ace_nightvision_noiseScaling", 0];
+        missionNamespace setVariable ["ace_nightvision_nvgOffset", 0.05]; 
+        missionNamespace setVariable ["ace_nightvision_nvgWeight", [0.45,0.45,0.45,0]];
+        missionNamespace setVariable ["ace_nightvision_nvgBlend", [1,1,1,0]];
+    }] call CBA_fnc_addPlayerEventHandler;
+};
+
 KTWK_NVG_lightingProbe = "camera" camCreate [0,0,0];
 
 private _irLightActive = KTWK_player getVariable ["KTWK_NVG_irLightActive", false];

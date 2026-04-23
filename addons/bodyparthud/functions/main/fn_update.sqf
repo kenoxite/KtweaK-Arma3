@@ -7,7 +7,7 @@
 //   Boolean - false if display not ready, true otherwise
 
 // Skip if mission isn't ready yet
-if (isNull findDisplay 46) exitWith {false};
+if (isNull findDisplay 46) exitWith { false };
 
 #include "\z\ktweak\addons\bodyparthud\ace.hpp"
 
@@ -20,11 +20,11 @@ if (isNull _display) exitWith {
 };
 
 // Initialize globals if needed
-if (isNil "KTWK_BPH_alpha") then {
-    KTWK_BPH_alpha = KTWK_BPH_opt_alpha;
+if (isNil "KTWK_BPH_targetAlpha") then {
+    KTWK_BPH_targetAlpha = KTWK_BPH_opt_alpha;
 };
-if (isNil "KTWK_BPH_currentAlpha") then {
-    KTWK_BPH_currentAlpha = 0;
+if (isNil "KTWK_BPH_displayAlpha") then {
+    KTWK_BPH_displayAlpha = 0;
 };
 if (isNil "KTWK_player") then {
     KTWK_player = call CBA_fnc_currentUnit;
@@ -127,27 +127,22 @@ private _inMelee = if (!KTWK_BPH_ktweak) then {
         _color = +([_damage, _healthColors] call _fnc_dmgColor);
     };
     
-    // Flash effect
+    // Flash effect - compare against stored damage to detect changes
     if (_damage isEqualTo _currentDamage) then {
-        KTWK_BPH_currentAlpha = (_damageAlpha - 0.005) max KTWK_BPH_alpha;
+        KTWK_BPH_displayAlpha = (_damageAlpha - 0.005) max KTWK_BPH_targetAlpha;
     } else {
-        KTWK_BPH_currentAlpha = 1;
-    };
-    
-    // Visibility in melee mode
-    if (_inMelee) then {
-        KTWK_BPH_currentAlpha = KTWK_BPH_currentAlpha max 0.5;
+        KTWK_BPH_displayAlpha = 1;
     };
     
     // Apply color with alpha
     if (KTWK_aceMedical) then {
-        _color set [3, KTWK_BPH_currentAlpha];
+        _color set [3, KTWK_BPH_displayAlpha];
     } else {
-        _color pushBack KTWK_BPH_currentAlpha;
+        _color pushBack KTWK_BPH_displayAlpha;
     };
     
     _ctrl ctrlSetTextColor _color;
-    KTWK_BPH_dmgTracker set [_forEachIndex, [_damage, KTWK_BPH_currentAlpha]];
+    KTWK_BPH_dmgTracker set [_forEachIndex, [_damage, KTWK_BPH_displayAlpha]];
     
 } forEach _ctrlIDCs;
 
@@ -165,26 +160,26 @@ if (!isNull _globalCtrl) then {
         _lastArr params ["_currentDamage", "_damageAlpha"];
         
         if (_damage isEqualTo _currentDamage) then {
-            KTWK_BPH_currentAlpha = (_damageAlpha - 0.005) max KTWK_BPH_alpha;
+            KTWK_BPH_displayAlpha = (_damageAlpha - 0.005) max KTWK_BPH_targetAlpha;
         } else {
-            KTWK_BPH_currentAlpha = 1;
+            KTWK_BPH_displayAlpha = 1;
         };
         
         if (_inMelee) then {
-            KTWK_BPH_currentAlpha = KTWK_BPH_currentAlpha max 0.5;
+            KTWK_BPH_displayAlpha = KTWK_BPH_displayAlpha max 0.5;
         };
         
-        _color pushBack KTWK_BPH_currentAlpha;
+        _color pushBack KTWK_BPH_displayAlpha;
         _globalCtrl ctrlSetTextColor _color;
         
-        KTWK_BPH_dmgTracker set [_lastIndex, [_damage, KTWK_BPH_currentAlpha]];
+        KTWK_BPH_dmgTracker set [_lastIndex, [_damage, KTWK_BPH_displayAlpha]];
     } else {
         // Hide with ACE Medical
         _globalCtrl ctrlSetTextColor [0, 0, 0, 0];
     };
 };
 
-// Update outline alpha
+// Update outline alpha and call showHUD for final display
 private _outlineAlpha = 0;
 {
     private _alpha = _x # 1;
@@ -196,5 +191,8 @@ private _outlineAlpha = 0;
 private _outlineIdc = (KTWK_BPH_idcs # 1) # 0;
 private _outlineCtrl = _display displayCtrl _outlineIdc;
 _outlineCtrl ctrlSetTextColor [0, 0, 0, _outlineAlpha];
+
+// Call showHUD to apply proper transparency and handle ACE/Vanilla differences
+[_display, KTWK_BPH_idcs, KTWK_BPH_dmgTracker, _inMelee, KTWK_aceMedical, _healthColors] call KTWK_BPH_fnc_showHUD;
 
 true

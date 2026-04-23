@@ -37,7 +37,7 @@ Parameters:
     ["KtweaK - Bodypart HUD", ""],
     [true],
     0,
-    {}
+    { call KTWK_BPH_fnc_toggleSystem; }
 ] call CBA_fnc_addSetting;
 
 [
