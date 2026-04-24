@@ -15,5 +15,3 @@ if (_activate) then {
 } else {
     call KTWK_NVG_fnc_disableSystem;
 };
-
-KTWK_NVG_isActive = _activate;
