@@ -29,6 +29,7 @@ KTWK_NVG_isHmdADS = true;
 KTWK_NVG_isHmdADSNoScope = true;
 KTWK_NVG_zoom = 0.93;
 KTWK_NVG_outOfRange = false;
+KTWK_NVG_mode = "";
 
 // IR Light
 KTWK_NVG_irLightToggle = false;
@@ -77,3 +78,10 @@ KTWK_NVG_opticZoomMax = 200;
 KTWK_NVG_opticHasNV = false;
 KTWK_NVG_knownOptics = [];
 KTWK_NVG_knownOpticZooms = [];
+
+// Optics - vehicle
+KTWK_NVG_knownVehicleOptics = [];
+KTWK_NVG_knownVehicleOpticRanges = [];
+KTWK_NVG_vehicleOpticHasNV = false;
+KTWK_NVG_vehicleOpticZoomMin = 200;
+KTWK_NVG_vehicleOpticZoomMax = 200;

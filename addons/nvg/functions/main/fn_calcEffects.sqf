@@ -18,7 +18,7 @@ private _nvMode = KTWK_NVG_opt_nvMode;
 
 // Global exclusion check
 if (_mode != "disabled" && {[_mode, _unit] call KTWK_NVG_fnc_isExcluded}) exitWith {
-    [[0, 0, 0, 0, 0, 0], [0], [1, 1, 1, 1]]
+    [[0, 0, 0, 0, 0, 0], [0], [1, 1, 0, [0, 0, 0, 0], [1, 1, 1, 1], [0.299, 0.587, 0.114, 0], [-1, -1, 0, 0, 0, 0, 0]]]
 };
 
 // Determine generation index and color preset
@@ -59,15 +59,18 @@ private _blur = call {
     
     private _zMod = switch _mode do {   
         case "disabled": {1};
-        case "rangefinder": {28};
-        case "vehicle": {56};
-        case "scoped": {16};
+        case "rangefinder": {(KTWK_NVG_opticZoomMax / 10) max 9};
+        case "vehicle": {(KTWK_NVG_vehicleOpticZoomMax / 10) max 9};
+        case "scoped": {(KTWK_NVG_opticZoomMax / 10) max 9};
         default {9};
     };
     
     private _effectiveZoom = _zoom;
     if (_mode == "scoped" || _mode == "rangefinder") then {
         _effectiveZoom = _zoom / KTWK_NVG_opticZoomMin;
+    };
+    if (_mode == "vehicle" && {KTWK_NVG_vehicleOpticHasNV}) then {
+        _effectiveZoom = _zoom / KTWK_NVG_vehicleOpticZoomMin;
     };
     
     private _zBlur = (_effectiveZoom / _zMod) * (_int * 2);
@@ -79,7 +82,7 @@ private _blur = call {
     [_totalBlur min 5]
 };
 
-// Film grain and lighting effects (only for realistic mode)
+// Film grain and lighting effects (only for Full mode)
 private _film = [0,0,0,0,0,0];
 private _bright = 1;
 private _noise = 0;
