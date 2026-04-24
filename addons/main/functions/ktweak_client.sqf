@@ -324,7 +324,7 @@ KWTK_wasUnconscious = false;
 // Loop
 [{
     if (!isNull (findDisplay 49)) exitWith {};    // Don't check while paused
-    KTWK_player = call CBA_fnc_currentUnit;
+    KTWK_player = call KTWK_fnc_getPlayer;
 
     // AI stop when healed
     if (!isServer) then {

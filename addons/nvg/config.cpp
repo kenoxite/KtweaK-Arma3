@@ -46,7 +46,7 @@ class CfgFunctions {
             class createIRLight {};
             class createPfh {};
             class deleteIRLight {};
-            class disableEffects {};
+            class toggleEffects {};
             class disableSystem {};
             class getDeviceGen {};
             class initGlobals {};
@@ -61,11 +61,13 @@ class CfgFunctions {
             class updateExclusions {};
             class updateGenArrays {};
             class updateOpticZoom {};
+            class updateVehicleOptic {};
         };
 
         class Helpers {
             file = "\z\ktweak\addons\nvg\functions\helpers";
             class getColor {};
+            class getPlayer {};
             class getZoom {};
             class resolveMagicWords {};
         };

@@ -50,7 +50,23 @@ if (!isNil "KTWK_NVG_EH_aceCameraView") then {
     ["cameraView", KTWK_NVG_EH_aceCameraView] call CBA_fnc_removePlayerEventHandler;
     KTWK_NVG_EH_aceCameraView = nil;
 };
+if (!isNil "KTWK_NVG_EH_turret") then {
+    ["turret", KTWK_NVG_EH_turret] call CBA_fnc_removePlayerEventHandler;
+    KTWK_NVG_EH_turret = nil;
+};
+if (!isNil "KTWK_NVG_EH_turretOpticsMode") then {
+    ["turretOpticsMode", KTWK_NVG_EH_turretOpticsMode] call CBA_fnc_removePlayerEventHandler;
+    KTWK_NVG_EH_turretOpticsMode = nil;
+};
+if (!isNil "KTWK_NVG_EH_playerViewChanged") then {
+    removeMissionEventHandler ["PlayerViewChanged", KTWK_NVG_EH_playerViewChanged];
+    KTWK_NVG_EH_playerViewChanged = nil;
+};
 
 [false, false] call KTWK_NVG_fnc_toggleIRLight;
 
+KTWK_NVG_mode = "disabled";
+
 call KTWK_NVG_fnc_resetCache;
+
+KTWK_NVG_isActive = false;

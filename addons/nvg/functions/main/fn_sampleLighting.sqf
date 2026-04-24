@@ -28,8 +28,16 @@ private _minZoomOffset = _cache # IDX_MINZOOMOFFSETCACHED;  // cached optic mini
 // Calculate and cache range values if not already cached
 if (_maxRange <= 0) then {
     _maxRange = _genMaxRange;
-    if (_mode == "MFD" || _mode == "vehicle") then { 
-        _maxRange = _maxRange * 2;  // vehicles have extended range
+    if (_mode == "MFD") then { 
+        _maxRange = _maxRange * 2;
+    };
+    if (_mode == "vehicle") then {
+        if (KTWK_NVG_vehicleOpticHasNV) then {
+            _minZoomOffset = KTWK_NVG_vehicleOpticZoomMin;
+            _maxRange = KTWK_NVG_vehicleOpticZoomMax;
+        } else {
+            _maxRange = _maxRange * 2;
+        };
     };
     if (_mode == "rangefinder" || {_mode == "scoped"}) then { 
         _minZoomOffset = KTWK_NVG_opticZoomMin;
@@ -71,9 +79,10 @@ private _distance = _eye vectorDistance _idealPos;
 private _effectiveDistance = _distance - _minZoomOffset;    // subtract optic min zoom for scoped modes
 private _rangeFactor = 0;
 
-// Quadratic progressive falloff: 0 at max range, 1 at 2x max range
-if (_maxRange > 0 && {_effectiveDistance > _genMaxRange}) then {
-    private _excess = (_effectiveDistance - _genMaxRange) / _genMaxRange;
+private _falloffThreshold = [_genMaxRange, _maxRange] select (_mode in ["vehicle", "scoped", "rangefinder"]);
+
+if (_maxRange > 0 && {_effectiveDistance > _falloffThreshold}) then {
+    private _excess = (_effectiveDistance - _falloffThreshold) / _falloffThreshold;
     _rangeFactor = (_excess min 1.0) ^ 2;
 };
 

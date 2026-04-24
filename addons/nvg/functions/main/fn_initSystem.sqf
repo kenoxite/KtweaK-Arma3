@@ -43,15 +43,42 @@ if (isNil "KTWK_NVG_EH_killed") then {
     }];
 };
 
+if (isNil "KTWK_NVG_EH_turret") then {
+    KTWK_NVG_EH_turret = ["turret", {
+        params ["_unit", "_turretPath", "_oldTurretPath"];
+        call KTWK_NVG_fnc_updateVehicleOptic;
+        private _mode = KTWK_NVG_mode;
+        private _nvOn = (((vehicle _unit) currentVisionMode _turretPath) # 0) == 1;
+        if (_mode == "disabled" && _nvOn && {KTWK_NVG_opt_enabled} && {isNil "KTWK_NVG_pfh"}) exitWith {
+            call KTWK_NVG_fnc_initSystem;
+        };
+        if (_mode != "disabled" && !_nvOn && {!isNil "KTWK_NVG_pfh"}) exitWith {
+            call KTWK_NVG_fnc_disableSystem;
+        };
+    }] call CBA_fnc_addPlayerEventHandler;
+};
+
+if (isNil "KTWK_NVG_EH_playerViewChanged") then {
+    KTWK_NVG_EH_playerViewChanged = addMissionEventHandler ["PlayerViewChanged", {
+        params ["_previousUnit", "_newUnit", "_vehicleIn","_oldCameraOn", "_newCameraOn", "_uav"];
+        // Force update
+        KTWK_NVG_cache set [IDX_ACTIVE, false];
+        if (!isNull _uav) exitWith {
+            call KTWK_NVG_fnc_updateVehicleOptic;
+        };
+        if (currentVisionMode _newUnit != 1 && {!isNil "KTWK_NVG_pfh"}) exitWith {
+            call KTWK_NVG_fnc_disableSystem;
+        };
+    }];
+};
+
+
 // System reactivation EHs - won't be removed
 if (isNil "KTWK_NVG_EH_visibleMap") then {
     KTWK_NVG_EH_visibleMap = ["visibleMap", {
         params ["_unit", "_isMapShown"];
         if (_isMapShown) exitWith {
-            call KTWK_NVG_fnc_toggleSystem;
-        };
-        if (isNil "KTWK_NVG_pfh") exitWith {
-            call KTWK_NVG_fnc_toggleSystem;
+            [!_isMapShown] call KTWK_NVG_fnc_toggleEffects;
         };
     }] call CBA_fnc_addPlayerEventHandler;
 };
@@ -59,11 +86,26 @@ if (isNil "KTWK_NVG_EH_visibleMap") then {
 if (isNil "KTWK_NVG_EH_visionMode") then {
     KTWK_NVG_EH_visionMode = ["visionMode", {
         params ["_unit", "_mode", "_number"];
-        if (_mode != 1) exitWith {
-            call KTWK_NVG_fnc_toggleSystem;
+        call KTWK_NVG_fnc_resetCache;
+        if (_mode != 1 && {!isNil "KTWK_NVG_pfh"}) exitWith {
+            call KTWK_NVG_fnc_disableSystem;
         };
-        if (isNil "KTWK_NVG_pfh") exitWith {
-            call KTWK_NVG_fnc_toggleSystem;
+        if (_mode == 1 && {KTWK_NVG_opt_enabled} && {isNil "KTWK_NVG_pfh"}) exitWith {
+            call KTWK_NVG_fnc_initSystem;
+        };
+    }] call CBA_fnc_addPlayerEventHandler;
+};
+
+if (isNil "KTWK_NVG_EH_featureCamera") then {
+    KTWK_NVG_EH_featureCamera = ["featureCamera", {
+        params ["_unit", "_cameraMode"];
+        // cameramode: "", "splendid", "arsenal", "nexus" (spectator)
+        // Disable effects when in any special camera
+        if (_cameraMode != "" && {!isNil "KTWK_NVG_pfh"}) exitWith {
+            call KTWK_NVG_fnc_disableSystem;
+        };
+        if (_cameraMode == "" && {KTWK_NVG_opt_enabled} && {isNil "KTWK_NVG_pfh"}) exitWith {
+            call KTWK_NVG_fnc_initSystem;
         };
     }] call CBA_fnc_addPlayerEventHandler;
 };
@@ -97,3 +139,5 @@ private _irLightActive = KTWK_player getVariable ["KTWK_NVG_irLightActive", fals
 
 call KTWK_NVG_fnc_createHandles;
 call KTWK_NVG_fnc_createPfh;
+
+KTWK_NVG_isActive = true;

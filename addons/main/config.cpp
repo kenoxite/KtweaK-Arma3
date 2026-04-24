@@ -58,7 +58,7 @@ class CfgFunctions
             preInit = 1;
 
             class BIR_checkUnits {};
-            class playerUnit {};
+            class getPlayer {};
             class disableVoice {};
             class disableVoiceCheck {};
             class enableVoice {};
