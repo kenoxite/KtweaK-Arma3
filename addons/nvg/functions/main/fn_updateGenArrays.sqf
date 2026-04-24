@@ -40,11 +40,6 @@ private _knownGen2 = [
 ] apply {toLowerANSI _x};
 
 private _knownGen3 = [
-    // Vanilla
-    "nvgoggles",
-    "nvgoggles_opfor",
-    "nvgoggles_indep",
-    "NVGoggles_tna_F",
     // CUP
     "cup_nvg_pvs7",
     "CUP_NVG_PVS7_Hide",
@@ -62,12 +57,15 @@ private _knownGen3 = [
     // RHS
     "rhsusf_acc_anpvs27",
     // ACE
-    "ACE_Vector",
-    // Optics
-    "optic_NVS"
+    "ACE_Vector"
 ] apply {toLowerANSI _x};
 
 private _knownGen4 = [
+    // Vanilla
+    "nvgoggles",
+    "nvgoggles_opfor",
+    "nvgoggles_indep",
+    "NVGoggles_tna_F",
     "o_nvgoggles_hex_f",
     "o_nvgoggles_urb_f",
     "o_nvgoggles_ghex_f",
@@ -110,7 +108,8 @@ private _knownGen4 = [
     "Laserdesignator_02_ghex_F",
     "Laserdesignator_03",
     // Optics
-    "optic_Nightstalker"
+    "optic_Nightstalker",
+    "optic_NVS"
 ] apply {toLowerANSI _x};
 
 // Parse user settings
