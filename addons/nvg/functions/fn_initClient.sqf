@@ -18,5 +18,5 @@ if (KTWK_NVG_ktweak) exitWith {};
 // Keep player reference updated
 [{
     if (!isNull (findDisplay 49)) exitWith {};
-    KTWK_player = call CBA_fnc_currentUnit;
+    KTWK_player = call KTWK_NVG_fnc_getPlayer;
 }, 1] call CBA_fnc_addPerFrameHandler;
