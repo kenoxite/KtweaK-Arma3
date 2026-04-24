@@ -52,7 +52,7 @@ if (KTWK_NVG_opt_nvMode < 2) then {
 };
 
 // If we have a custom color, use it regardless of generation source
-if (_genIndex > 0 && _customColor > 0) exitWith { [_genIndex, _customColor] };
+if (_genIndex > 0 && _colorPreset > 0) exitWith { [_genIndex, _colorPreset] };
 
 // Check ACE config if no generation or custom gear color found
 private _cfgWeapons = configFile >> "CfgWeapons";
@@ -64,7 +64,7 @@ if (_isWP) then {
     _aceColor = 2
 } else {
     private _isCustom = getArray (_cfgWeapons >> _itemClass >> "ace_nightvision_colorPreset");
-    if (count _isCustom > 0) then {
+    if (_isCustom isNotEqualTo []) then {
         private _aceColorArray = _isCustom # 2;
         call {
             // ACE
