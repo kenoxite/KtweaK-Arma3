@@ -130,8 +130,6 @@ private _color = call {
     [(1 * _bright) min 1.5, (0.5 * _maxBright) min 1, 0.05, [1,1,1,0], _colorArray, [0.45,0.45,0.45,0], [-1, -1, 0, 0, 0, 0, 0]]
 };
 
-diag_log format ["color: %1", _color];
-
 // Update cache
 KTWK_NVG_cache set [IDX_GENINDEXCACHED, _genIndex];
 KTWK_NVG_cache set [IDX_COLORPRESETCACHED, _colorPreset];
