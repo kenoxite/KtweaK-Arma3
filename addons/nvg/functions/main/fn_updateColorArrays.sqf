@@ -19,12 +19,27 @@ private _knownWP = [
     "Laserdesignator_02",
     "Laserdesignator_02_ghex_F",
     "Laserdesignator_03",
+    // Vehicles
+    "B_UAV_01_F",
+    "O_UAV_01_F",
+    "I_UAV_01_F",
     // CUP
     "cup_nvg_gpnvg_black",
     "CUP_NVG_GPNVG_Hide",
     "cup_nvg_gpnvg_tan",
     "cup_nvg_gpnvg_green",
-    "cup_nvg_gpnvg_winter"
+    "cup_nvg_gpnvg_winter",
+    // EUDF
+    "I_EUDF35_UAV_01_F",
+    "I_EUDF35_A_UAV_01_F",
+    "I_EUDF35_D_UAV_01_F",
+    "B_EUDF35_UAV_01_F",
+    "B_EUDF35_A_UAV_01_F",
+    "B_EUDF35_D_UAV_01_F",
+    "O_EUDF35_UAV_01_F",
+    "O_EUDF35_A_UAV_01_F",
+    "O_EUDF35_D_UAV_01_F",
+    "O_EUDF35_D_UAV_01_F"
 ] apply {toLowerANSI _x};
 
 private _knownAmber = [
