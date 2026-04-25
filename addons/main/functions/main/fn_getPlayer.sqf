@@ -2,7 +2,7 @@
 // Returns the actual unit controlled by the player, accounting for drones and Zeus remote control
 //
 // Parameters:
-//   None
+//   _unit - Object (optional) - Unit to check. Default: player
 // Returns:
 //   Object - The actual controlled unit
 
