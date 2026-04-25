@@ -1,9 +1,6 @@
 // Returns true if player is controlling the drone
-private _player = player;
-{
-    private _UAVrole = (UAVControl _x) select 1;
-    if ((player in UAVControl _x) && (_UAVrole != "")) then {
-        _player = [_x, gunner _x] select (_UAVrole == "GUNNER")
-    }
-} forEach allUnitsUAV;
-player != _player
+
+params ["_unit", "_uav"];
+
+private _remoteControlled = [] call KTWK_fnc_getPlayer;
+_remoteControlled == _uav

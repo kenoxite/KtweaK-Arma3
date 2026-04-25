@@ -7,7 +7,6 @@
 // All this can be copy/pasted in the console, in the init.sqf (if SP) or initplayerlocal.sqf (if MP)
 scriptName "Recon Drone";
 
-KTWK_player = call CBA_fnc_currentUnit;
 KTWK_GRdrone_lastUse = time-KTWK_GRdrone_opt_reuseTime; // Time since last used
 
 // Add player action to the menu
@@ -24,13 +23,12 @@ KTWK_GRdrone_PFH = [{
             KTWK_GRdrone_PFH = _this call CBA_fnc_addPerFrameHandler;
         }, _this] call CBA_fnc_waitUntilAndExecute;
     } else {
-        private _playerUnit = KTWK_player;
-        KTWK_player = [call CBA_fnc_currentUnit, player] select (call KTWK_fnc_GRdrone_playerInUAV);
-        if (KTWK_player != _playerUnit) then {
+        private _lastPlayerUnit = KTWK_lastPlayer;
+        if (KTWK_player != _lastPlayerUnit) then {
             [_handle] call CBA_fnc_removePerFrameHandler;
         } else {
             private _actionId = KTWK_player getVariable ["KTWK_GRdrone_actionId", -1];
-            private _droneInInv = "KTWK_GRdrone" in (itemsWithMagazines _playerUnit);
+            private _droneInInv = "KTWK_GRdrone" in (itemsWithMagazines _lastPlayerUnit);
             private _dronePrereqsMet = !KTWK_GRdrone_opt_itemRequired || {KTWK_GRdrone_opt_itemRequired && _droneInInv};
             if (KTWK_GRdrone_opt_enabled && _dronePrereqsMet) then {
                 if (KTWK_aceInteractMenu && isNil {KTWK_GRdrone_aceAdded}) then {

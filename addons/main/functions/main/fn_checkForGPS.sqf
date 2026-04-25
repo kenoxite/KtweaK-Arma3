@@ -1,4 +1,4 @@
-private _player = call CBA_fnc_currentUnit;
+private _player = KTWK_player;
 private _veh = vehicle _player;
 ((assignedItems _player) findIf {
     _x in [

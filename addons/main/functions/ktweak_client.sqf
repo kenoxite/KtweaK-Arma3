@@ -199,10 +199,9 @@ addMissionEventHandler ["Loaded", {
 // --------------------------------
 // EH - PlayerViewChanged
 addMissionEventHandler ["PlayerViewChanged", {
-    params [
-        "_previousUnit", "_newUnit", "_vehicleIn",
-        "_oldCameraOn", "_newCameraOn", "_uav"
-    ];
+    params ["_previousUnit", "_newUnit", "_vehicleIn", "_oldCameraOn", "_newCameraOn", "_uav"];
+    KTWK_player = [_newUnit] call KTWK_fnc_getPlayer;
+    KTWK_lastPlayer = KTWK_player;
     if (_previousUnit isEqualTo _newUnit) exitWith {false};
     // --------------------------------
     // Recon Drone
@@ -324,7 +323,6 @@ KWTK_wasUnconscious = false;
 // Loop
 [{
     if (!isNull (findDisplay 49)) exitWith {};    // Don't check while paused
-    KTWK_player = call KTWK_fnc_getPlayer;
 
     // AI stop when healed
     if (!isServer) then {
