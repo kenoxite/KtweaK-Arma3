@@ -59,6 +59,10 @@ if (isNil "KTWK_NVG_EH_playerViewChanged") then {
             KTWK_player = [_newUnit] call KTWK_NVG_fnc_getPlayer;
             KTWK_lastPlayer = KTWK_player;
         };
+        // Reset the IR toggle var
+        if (_newUnit != _previousUnit) then {
+            [false] call KTWK_NVG_fnc_toggleIRLight;
+        };
         // Force update
         KTWK_NVG_cache set [IDX_ACTIVE, false];
         // Get drone ranges
