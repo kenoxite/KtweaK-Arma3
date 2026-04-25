@@ -6,7 +6,7 @@
 
 [{
     params ["_args", "_handle"];
-    private _unit = KTWK_player;
+    private _unit = missionNamespace getVariable ["KTWK_player", player];
 
     // Check if the player is alive, local, and on foot
     if (
