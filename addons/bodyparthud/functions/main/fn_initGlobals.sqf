@@ -18,7 +18,7 @@ _cfgPatches = nil;
 
 // Player reference
 if (!KTWK_BPH_ktweak) then {
-    KTWK_player = [] call KTWK_fnc_getPlayer;
+    KTWK_player = [] call KTWK_BPH_fnc_getPlayer;
     KTWK_lastPlayer = KTWK_player;
 };
 
