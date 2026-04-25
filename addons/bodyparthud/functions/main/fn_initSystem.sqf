@@ -41,8 +41,15 @@ private _ctrlHeight = 8 * pixelGridNoUIScale * pixelH;
 _ctrl ctrlSetPosition [_ctrlX, _ctrlY, _ctrlWidth, _ctrlHeight];
 _ctrl ctrlCommit 0;
 
-// Ensure player reference is current
-KTWK_player = call CBA_fnc_currentUnit;
+if (isNil "KTWK_BPH_EH_playerViewChanged") then {
+    KTWK_BPH_EH_playerViewChanged = addMissionEventHandler ["PlayerViewChanged", {
+        params ["_previousUnit", "_newUnit", "_vehicleIn","_oldCameraOn", "_newCameraOn", "_uav"];
+        if (!KTWK_BPH_ktweak) then {
+            KTWK_player = [] call KTWK_BPH_fnc_getPlayer;
+            KTWK_lastPlayer = KTWK_player;
+        };
+    }];
+};
 
 // Define body parts based on medical system
 KTWK_BPH_bodyParts = call {

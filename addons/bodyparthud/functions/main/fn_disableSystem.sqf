@@ -23,6 +23,10 @@ if (!isNil "KTWK_BPH_EH_invOpened" && {KTWK_BPH_EH_invOpened != -1}) then {
     };
     KTWK_BPH_EH_invOpened = -1;
 };
+if (!isNil "KTWK_BPH_EH_playerViewChanged") then {
+    removeMissionEventHandler ["PlayerViewChanged", KTWK_BPH_EH_playerViewChanged];
+    KTWK_BPH_EH_playerViewChanged = nil;
+};
 
 // Hide and destroy the HUD display
 private _display = uiNamespace getVariable ["BPH_Display", displayNull];

@@ -26,10 +26,10 @@ KTWK_BPH_pfh = [{
         [_handle] call CBA_fnc_removePerFrameHandler;
     };
     
-    private _currentUnit = call CBA_fnc_currentUnit;
+    private _lastUnit = KTWK_lastPlayer;
     private _isAlive = alive KTWK_player;
     
-    if (KTWK_player isNotEqualTo _currentUnit || {!_isAlive}) then {
+    if (KTWK_player isNotEqualTo _lastUnit || {!_isAlive}) then {
         if (!_isAlive) then {
             // Death: keep HUD visible to show fatal damage
             KTWK_BPH_targetAlpha = 0.6;
@@ -40,8 +40,7 @@ KTWK_BPH_pfh = [{
                 [] call KTWK_BPH_fnc_initSystem;
             }] call CBA_fnc_waitUntilAndExecute;
         } else {
-            // Unit switch - update player reference and reset
-            KTWK_player = _currentUnit;
+            // Unit switch - reset
             KTWK_BPH_targetAlpha = 0;
             KTWK_BPH_displayAlpha = 0;
             KTWK_BPH_invOpened = false;
