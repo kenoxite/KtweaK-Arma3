@@ -6,7 +6,7 @@
 // Returns:
 //   Array - [_minRange, _maxRange, _hasNV] or [-1, -1, false] if not in vehicle turret or no NV
 
-private _unit = call KTWK_NVG_fnc_getPlayer;
+private _unit = [] call KTWK_NVG_fnc_getPlayer;
 private _isUAV = unitIsUAV _unit;
 
 private _veh = vehicle _unit;
@@ -15,14 +15,7 @@ if (!_isUAV && {_veh == _unit}) exitWith { [-1, -1, false] };
 private _turretPath = _veh unitTurret _unit;
 
 private _vehClass = typeOf _veh;
-private _knownIndex = -1;
-if (_turretPath isNotEqualTo []) then {
-    _knownIndex = KTWK_NVG_knownVehicleOptics findIf {_x # 0 == _vehClass && {_x # 1 isEqualTo _turretPath}};
-} else {
-    if (_isUAV) then {
-        _knownIndex = KTWK_NVG_knownVehicleOptics findIf {_x # 0 == _vehClass && {_x # 1 isEqualTo []}};
-    };
-};
+private _knownIndex = KTWK_NVG_knownVehicleOptics findIf {_x # 0 == _vehClass && {_x # 1 isEqualTo _turretPath}};
 
 private _minRange = 200;
 private _maxRange = 200;
@@ -37,7 +30,7 @@ if (_knownIndex != -1) then {
         _hasNV = _cachedModes # _modeIndex # 2;
     };
 } else {
-    private _turretCfg = if (_turretPath isNotEqualTo []) then {
+    private _turretCfg = if (_turretPath isNotEqualTo [-1]) then {
         private _cfg = configFile >> "CfgVehicles" >> _vehClass >> "Turrets";
         if (count _turretPath > 0) then {
             _cfg = _cfg select (_turretPath # 0);
