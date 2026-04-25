@@ -17,7 +17,7 @@ KTWK_NVG_pfh = [{
         call KTWK_NVG_fnc_disableSystem;
     };
 
-    private _unit = KTWK_player;
+    private _unit = missionNamespace getVariable ["KTWK_player", player];
     private _cache = KTWK_NVG_cache;
     
     _cache params ["_active", "_modeCached", "_lightCached", "_zoomCached", "_lastSample", "_handlesCreated", "_rangeFactorCached"];

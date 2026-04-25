@@ -13,7 +13,7 @@ params ["_mode", "_light", "_zoom", "_rangeFactor"];
 
 #include "\z\ktweak\addons\nvg\cacheIndices.hpp"
 
-private _unit = KTWK_player;
+private _unit = missionNamespace getVariable ["KTWK_player", player];
 private _nvMode = KTWK_NVG_opt_nvMode;
 
 // Global exclusion check

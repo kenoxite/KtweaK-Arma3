@@ -8,7 +8,7 @@
 
 params [["_activate", true], ["_updateUnitVar", true]];
 
-private _unit = KTWK_player;
+private _unit = missionNamespace getVariable ["KTWK_player", player];
 
 // Delete the IR light
 if (!_activate || (KTWK_aceNightvision && {!KTWK_NVG_opt_aceOverride})) exitWith {
