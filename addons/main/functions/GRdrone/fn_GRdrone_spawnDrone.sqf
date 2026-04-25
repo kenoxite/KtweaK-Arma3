@@ -1,8 +1,6 @@
 // Spawn the drone
-
-if (isNil {KTWK_player}) then { KTWK_player = [] call KTWK_fnc_getPlayer; };
     
-private _unit = KTWK_player;
+private _unit = missionNamespace getVariable ["KTWK_player", player];
 private _playerPos = getPos vehicle _unit;
 private _UAV = createVehicle ["B_UAV_01_F", vehicle _unit getRelPos [2, 0], [], 0, "NONE"];
 _UAV setObjectTextureGlobal [0, "z\ktweak\addons\main\drones\air\uav_01\data\uav_01_black_co.paa"];
@@ -36,6 +34,7 @@ if ([_unit, 10] call KTWK_fnc_underRoof) then {
 // Give control to the player
 _unit remoteControl driver _UAV;
 _UAV switchCamera "internal";
+
 // Check for manual disconnects and automatic ones caused by the drone being too far away or time running out
 [_UAV, _playerPos] spawn {
     params ["_UAV", "_playerPos"];
@@ -66,9 +65,9 @@ _UAV switchCamera "internal";
     // Keep an eye on the current drone status
     private _timer = 0;
     private _batteryLeft = 100;
-    while {alive _UAV && alive player && KTWK_player ==_UAV && KTWK_GRdrone_opt_enabled} do
+    while {alive _UAV && alive player && vehicle KTWK_player == _UAV && KTWK_GRdrone_opt_enabled} do
     {
-        private _unit = KTWK_player;
+        private _unit = missionNamespace getVariable ["KTWK_player", player];
         // AI won't attack if drone is at this altitude
         if (KTWK_GRdrone_opt_invisibleHeight >= 0) then {
             private _pos = getPosATL _UAV;
@@ -114,7 +113,7 @@ _UAV switchCamera "internal";
     hintSilent "";
     // Set battery left to 0 if the drone was destroyed
     if (!alive _UAV) then { _batteryLeft = 0 };
-    _unit = KTWK_player;
+    _unit = missionNamespace getVariable ["KTWK_player", player];
     // Return control to player
     objNull remoteControl driver _UAV;
     _unit switchCamera "internal";
