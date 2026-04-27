@@ -26,44 +26,12 @@ if (isNil "KTWK_CFM_EH_playerViewChanged") then {
     }];
 };
 
-// KTWK_CFM_fnc_keyDownHandler = {
-//     params ["_display", "_dik", "_shift", "_ctrl", "_alt"];
-    
-//     private _unit = KTWK_player;
-//     private _veh = vehicle _unit;
-//     private _canFirePrimary = (
-//         isNull objectParent _unit
-//         || (!isNull objectParent _unit && {driver _veh != _unit}  && {commander _veh != _unit} && {gunner _veh != _unit});
-//     private _handled = false;
-    
-//     // Get vanilla nextWeapon key
-//     private _nextWeaponKeys = actionKeys "nextWeapon";
-//     if (_dik in _nextWeaponKeys) then {
-//         if (_canFirePrimary) then {
-//             [_unit, 1] call KTWK_CFM_fnc_cycleFiremode;
-//             _handled = true;
-//         };
-//     };
-    
-//     // Get vanilla Switch to Primary Weapon key
-//     private _primaryKeys = actionKeys "SwitchPrimary";
-//     if (_dik in _primaryKeys) then {
-//         if (_canFirePrimary) then {
-//             [_unit, 1] call KTWK_CFM_fnc_nextWeapon;
-//             _handled = true;
-//         };
-//     };
-    
-//     _handled;
-// };
-
-// // Add handler
-// waitUntil {sleep 0.1; !isNull (findDisplay 46)};
-// KTWK_CFM_EH_keyDownHandler = (findDisplay 46) displayAddEventHandler ["KeyDown", {_this call KTWK_CFM_fnc_keyDownHandler}];
-
-// // Cleanup on mission end
-// addMissionEventHandler ["Ended", {
-//     if (!isNil "KTWK_CFM_EH_keyDownHandler") then {
-//         (findDisplay 46) displayRemoveEventHandler ["KeyDown", KTWK_CFM_EH_keyDownHandler];
-//     };
-// }];
+// Reset vars on death
+if (isNil "KTWK_CFM_EH_killed") then {
+    KTWK_CFM_EH_killed = ["Killed", { 
+        missionNamespace setVariable ["KTWK_CFM_lastMainFiremode", ""];
+        missionNamespace setVariable ["KTWK_CFM_lastMainMuzzle", ""];
+        missionNamespace setVariable ["KTWK_CFM_lastFiremode", ""];
+        missionNamespace setVariable ["KTWK_CFM_lastMuzzle", ""];
+    }] call CBA_fnc_addPlayerEventHandler;
+};
