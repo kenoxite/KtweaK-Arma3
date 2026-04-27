@@ -40,6 +40,7 @@ class CfgFunctions {
 
             class validateMuzzles {};
             class cycleFiremode {};
+            class getWeaponData {};
             class nextWeapon {};
             class switchToGL {};
         };

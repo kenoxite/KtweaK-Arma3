@@ -1,11 +1,13 @@
 // KTWK_CFM_fnc_cycleFiremode
-// Cycles through valid firemodes (Single, FullAuto, Burst) on current weapon, skipping AI optics modes and GL
+// Cycles through valid firemodes (Single, FullAuto, Burst) on current weapon, skipping AI optics and GL.
+// Direction: 1 = forward, -1 = backward, 0 = restore last firemode from saved variables.
 //
 // Parameters:
 //   _unit      - Unit to cycle firemode on (default: KTWK_player)
-//   _direction - Direction to cycle: 1 for forward, -1 for backward (default: 1)
+//   _direction - Direction to cycle: 1, -1, or 0 (default: 1)
+//
 // Returns:
-//   Boolean - False if operation fails (switching weapon, no weapon, no valid muzzles), otherwise cycles and returns nil
+//   Boolean
  
 params [["_unit", KTWK_player], ["_direction", 1]];
 
@@ -17,34 +19,32 @@ private _weapon = currentWeapon _unit;
 // Exit if no switching was requested and no weapon is held
 if (_weapon == "") exitWith {false};
 
-private _muzzleData = [_unit] call KTWK_CFM_fnc_validateMuzzles;
-if (_muzzleData isEqualTo []) exitWith {false};
-
-// Find current firemode using the isSelected flag (index 1)
-private _current = _muzzleData findIf { _x#1 };
-if (_current == -1) then { _current = 0 }; // Fallback to first if none selected
+private _lastMainFiremode = missionNamespace getVariable ["KTWK_CFM_lastMainFiremode", ""];
+private _lastMainMuzzle = missionNamespace getVariable ["KTWK_CFM_lastMainMuzzle", ""];
 
 // If direction is 0, return with the current main firemode
 if (_direction == 0) exitWith {
-    private _lastFiremode = missionNamespace getVariable ["KTWK_CFM_lastMainFiremode", ""];
-    private _lastMuzzle = missionNamespace getVariable ["KTWK_CFM_lastMainMuzzle", ""];
-    missionNamespace setVariable ["KTWK_CFM_lastFiremode", _lastFiremode];
-    missionNamespace setVariable ["KTWK_CFM_lastMuzzle", _lastMuzzle];
-
+    missionNamespace setVariable ["KTWK_CFM_lastMuzzle", _lastMainMuzzle];
     missionNamespace setVariable ["KTWK_CFM_selectingGL", false];
-    if (_lastMuzzle == "" || _lastFiremode == "") exitWith {
+    if (_lastMainMuzzle == "" || _lastMainFiremode == "") exitWith {
         _unit selectWeapon _weapon;
     };
-    _unit selectWeapon [_weapon, _lastMuzzle, _lastFiremode];
+    _unit selectWeapon [_weapon, _lastMainMuzzle, _lastMainFiremode];
 };
 
-private _nextIndex = (_current + _direction) % count _muzzleData;
-if (_nextIndex < 0) then { _nextIndex = _nextIndex + count _muzzleData };
+private _weaponData = [_unit] call KTWK_CFM_fnc_getWeaponData;
 
-private _next = _muzzleData # _nextIndex;
-_next params ["","", "_weapon", "_muzzle", "_firemode"];
-if (_firemode == missionNamespace getVariable ["KTWK_CFM_lastFiremode", ""]) exitWith {false};
+if (_weaponData isEqualTo []) exitWith {false};
 
+// Find current firemode
+private _currentFiremode = _weaponData findIf { (_x#1) == _lastMainFiremode };
+if (_currentFiremode == -1) then { _currentFiremode = 0 }; // Fallback to first if none selected
+
+private _nextIndex = (_currentFiremode + _direction) % count _weaponData;
+if (_nextIndex < 0) then { _nextIndex = _nextIndex + count _weaponData };
+
+private _selectedModeData = _weaponData # _nextIndex;
+_selectedModeData params ["_muzzle", "_firemode"];
 _unit selectWeapon [_weapon, _muzzle, _firemode];
 
 missionNamespace setVariable ["KTWK_CFM_lastMainFiremode", _firemode];

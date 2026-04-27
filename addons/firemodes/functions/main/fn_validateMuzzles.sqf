@@ -1,10 +1,11 @@
 // KTWK_CFM_fnc_validateMuzzles
-// Filters weaponsInfo array to return only valid player-usable firemodes for current weapon, excluding AI optics modes and GL muzzles
+// Returns main weapon firemodes (no AI optics). Caches GL muzzles to global array.
 //
 // Parameters:
 //   _unit - Unit to validate muzzles for (default: KTWK_player)
+//
 // Returns:
-//   Array - Filtered array of valid firemode entries in weaponsInfo format, or empty array if no weapon or no valid modes
+//   Array - [[_muzzle, _firemode], ...] or []
 
 params [["_unit", KTWK_player]];
 
@@ -12,7 +13,8 @@ private _weapon = currentWeapon _unit;
 if (_weapon == "") exitWith {[]};
 
 private _weaponsInfo = _unit weaponsInfo [_weapon, false];
-private _weaponsInfoCleaned = [];
+private _weaponsInfoMain = [];
+private _weaponsInfoAlt = [];
 
 // Patterns to exclude
 private _excludePatterns = ["optics", "_medium", "_far", "_close"];
@@ -30,9 +32,20 @@ private _excludePatterns = ["optics", "_medium", "_far", "_close"];
         } forEach _excludePatterns;
         
         if (!_exclude) then {
-            _weaponsInfoCleaned pushBack _x;
+            _weaponsInfoMain pushBack [_muzzleName, _firemode];
         };
+    } else {
+        _weaponsInfoAlt pushBack [_muzzleName, _firemode];
     };
 } forEach _weaponsInfo;
 
-_weaponsInfoCleaned
+// Cache alternative muzzles
+if (_weaponsInfoAlt isNotEqualTo []) then {
+    private _cachedAlt = missionNamespace getVariable ["KTWK_CFM_cachedWeaponsDataAlt", []];
+    private _entry = [_weapon];
+    _entry append _weaponsInfoAlt;
+    _cachedAlt pushBack _entry;
+    missionNamespace setVariable ["KTWK_CFM_cachedWeaponsDataAlt", _cachedAlt];
+};
+
+_weaponsInfoMain
