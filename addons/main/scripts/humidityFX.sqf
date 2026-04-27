@@ -9,7 +9,7 @@ if (count _fog > 0) then {
 
 waitUntil { !isNull player };
 
-private _player = call CBA_fnc_currentUnit;
+private _player = KTWK_player;
 _player setVariable ["KTWK_isUnderwater", false];
 _player setVariable ["KTWK_inBuilding", false];
 _player setVariable ["KTWK_inVehicle", false];
@@ -34,7 +34,7 @@ while {KTWK_HFX_opt_enabled} do {
 
     private _visualFXMod = [1, 0.5, 0.25] select KTWK_HFX_opt_intensity - 1;
     private _audioFXMod = [1.5, 1, 0.75] select KTWK_HFX_opt_intensity - 1;
-    private _player = call CBA_fnc_currentUnit;
+    private _player = KTWK_player;
     private _fogDensityLast = _player getVariable ["KTWK_fogDensity", 0];
     private _insideVehicleLast = _player getVariable ["KTWK_inVehicle", false];
     private _inBuildingLast = _player getVariable ["KTWK_inBuilding", false];

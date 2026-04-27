@@ -55,6 +55,7 @@ class CfgFunctions {
 
         class Helpers {
             file = "\z\ktweak\addons\bodyparthud\functions\helpers";
+            class getPlayer {};
             class isAnimal {};
             class isHuman {};
             class isZombie {};

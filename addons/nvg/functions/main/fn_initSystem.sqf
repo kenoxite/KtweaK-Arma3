@@ -4,9 +4,14 @@ if (!KTWK_NVG_opt_enabled) exitWith {
     };
 };
 
+KTWK_player = [] call KTWK_NVG_fnc_getPlayer;
+KTWK_lastPlayer = KTWK_player;
+
 #include "\z\ktweak\addons\nvg\cacheIndices.hpp"
 
 // Event handlers
+
+// Update optic zoom when switching weapons
 if (isNil "KTWK_NVG_EH_weapon") then {
     KTWK_NVG_EH_weapon = ["weapon", { 
         params ["_unit", "_newWeapon", "_oldWeapon"];
@@ -17,6 +22,7 @@ if (isNil "KTWK_NVG_EH_weapon") then {
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
+// Update optic zoom if switched optics in inventory
 if (isNil "KTWK_NVG_EH_loadout") then {
     KTWK_NVG_EH_loadout = ["loadout", {
         params ["_unit", "_newLoadout", "_oldLoadout"];
@@ -26,6 +32,7 @@ if (isNil "KTWK_NVG_EH_loadout") then {
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
+// MFD check
 if (isNil "KTWK_NVG_EH_vehicle") then {
     KTWK_NVG_EH_vehicle = ["vehicle", { 
         params ["_unit", "_newVehicle", "_oldVehicle"];
@@ -35,6 +42,7 @@ if (isNil "KTWK_NVG_EH_vehicle") then {
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
+// Toggle IR Light off on death
 if (isNil "KTWK_NVG_EH_killed") then {
     KTWK_NVG_EH_killed = player addEventHandler ["Killed", {
         params ["_unit", "_killer"];
@@ -43,35 +51,35 @@ if (isNil "KTWK_NVG_EH_killed") then {
     }];
 };
 
-if (isNil "KTWK_NVG_EH_turret") then {
-    KTWK_NVG_EH_turret = ["turret", {
-        params ["_unit", "_turretPath", "_oldTurretPath"];
-        call KTWK_NVG_fnc_updateVehicleOptic;
-        private _mode = KTWK_NVG_mode;
-        private _nvOn = (((vehicle _unit) currentVisionMode _turretPath) # 0) == 1;
-        if (_mode == "disabled" && _nvOn && {KTWK_NVG_opt_enabled} && {isNil "KTWK_NVG_pfh"}) exitWith {
-            call KTWK_NVG_fnc_initSystem;
-        };
-        if (_mode != "disabled" && !_nvOn && {!isNil "KTWK_NVG_pfh"}) exitWith {
-            call KTWK_NVG_fnc_disableSystem;
-        };
-    }] call CBA_fnc_addPlayerEventHandler;
-};
-
+// EH for drone optic ranges - never removed
 if (isNil "KTWK_NVG_EH_playerViewChanged") then {
     KTWK_NVG_EH_playerViewChanged = addMissionEventHandler ["PlayerViewChanged", {
         params ["_previousUnit", "_newUnit", "_vehicleIn","_oldCameraOn", "_newCameraOn", "_uav"];
+        if (!KTWK_NVG_ktweak) then {
+            KTWK_player = [_newUnit] call KTWK_NVG_fnc_getPlayer;
+            KTWK_lastPlayer = KTWK_player;
+        };
+        // Reset the IR toggle var
+        if (_newUnit != _previousUnit) then {
+            [false] call KTWK_NVG_fnc_toggleIRLight;
+        };
         // Force update
         KTWK_NVG_cache set [IDX_ACTIVE, false];
-        if (!isNull _uav) exitWith {
-            call KTWK_NVG_fnc_updateVehicleOptic;
-        };
-        if (currentVisionMode _newUnit != 1 && {!isNil "KTWK_NVG_pfh"}) exitWith {
-            call KTWK_NVG_fnc_disableSystem;
+        // Get drone ranges
+        private _isUAV = !isNull _uav;
+        if (_isUAV) exitWith {
+            [] call KTWK_NVG_fnc_updateVehicleOptic;
         };
     }];
 };
 
+// EH for normal vehicle ranges - never removed
+if (isNil "KTWK_NVG_EH_turret") then {
+    KTWK_NVG_EH_turret = ["turret", {
+        params ["_unit", "_turretPath", "_oldTurretPath"];
+        [] call KTWK_NVG_fnc_updateVehicleOptic;
+    }] call CBA_fnc_addPlayerEventHandler;
+};
 
 // System reactivation EHs - won't be removed
 if (isNil "KTWK_NVG_EH_visibleMap") then {
@@ -83,6 +91,7 @@ if (isNil "KTWK_NVG_EH_visibleMap") then {
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
+// Toggle effects activation based on NVGs on and off
 if (isNil "KTWK_NVG_EH_visionMode") then {
     KTWK_NVG_EH_visionMode = ["visionMode", {
         params ["_unit", "_mode", "_number"];
@@ -96,10 +105,11 @@ if (isNil "KTWK_NVG_EH_visionMode") then {
     }] call CBA_fnc_addPlayerEventHandler;
 };
 
+// Disable effects when in a special camera
 if (isNil "KTWK_NVG_EH_featureCamera") then {
     KTWK_NVG_EH_featureCamera = ["featureCamera", {
         params ["_unit", "_cameraMode"];
-        // cameramode: "", "splendid", "arsenal", "nexus" (spectator)
+        // cameramode: "", "splendid", "arsenal", "nexus" (spectator), "curator" (zeus)
         // Disable effects when in any special camera
         if (_cameraMode != "" && {!isNil "KTWK_NVG_pfh"}) exitWith {
             call KTWK_NVG_fnc_disableSystem;

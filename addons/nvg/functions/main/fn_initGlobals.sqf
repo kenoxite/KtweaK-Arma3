@@ -16,7 +16,8 @@ _cfgPatches = nil;
 
 // Player reference
 if (!KTWK_NVG_ktweak) then {
-    KTWK_player = call CBA_fnc_currentUnit;
+    KTWK_player = [] call KTWK_NVG_fnc_getPlayer;
+    KTWK_lastPlayer = KTWK_player;
 };
 
 KTWK_NVG_isActive = KTWK_NVG_opt_enabled;

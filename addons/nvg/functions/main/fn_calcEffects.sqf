@@ -13,7 +13,7 @@ params ["_mode", "_light", "_zoom", "_rangeFactor"];
 
 #include "\z\ktweak\addons\nvg\cacheIndices.hpp"
 
-private _unit = KTWK_player;
+private _unit = missionNamespace getVariable ["KTWK_player", player];
 private _nvMode = KTWK_NVG_opt_nvMode;
 
 // Global exclusion check
@@ -129,8 +129,6 @@ private _color = call {
     };
     [(1 * _bright) min 1.5, (0.5 * _maxBright) min 1, 0.05, [1,1,1,0], _colorArray, [0.45,0.45,0.45,0], [-1, -1, 0, 0, 0, 0, 0]]
 };
-
-diag_log format ["color: %1", _color];
 
 // Update cache
 KTWK_NVG_cache set [IDX_GENINDEXCACHED, _genIndex];

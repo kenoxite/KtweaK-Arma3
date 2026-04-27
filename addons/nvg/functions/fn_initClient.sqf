@@ -3,6 +3,8 @@
 
 if (!hasInterface) exitWith {};
 
+#include "\z\ktweak\addons\nvg\cacheIndices.hpp"
+
 waitUntil {!isNull player};
 
 // Init NVG subsystem
@@ -11,12 +13,3 @@ call KTWK_NVG_fnc_updateGenArrays;
 call KTWK_NVG_fnc_updateColorArrays;
 call KTWK_NVG_fnc_disableSystem;
 call KTWK_NVG_fnc_initSystem;
-
-// Let Ktweak deal with the recurring checks if present
-if (KTWK_NVG_ktweak) exitWith {};
-
-// Keep player reference updated
-[{
-    if (!isNull (findDisplay 49)) exitWith {};
-    KTWK_player = call KTWK_NVG_fnc_getPlayer;
-}, 1] call CBA_fnc_addPerFrameHandler;

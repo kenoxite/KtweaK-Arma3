@@ -3,4 +3,5 @@
 
 if (!isServer || !hasInterface) exitWith {};
 
-KTWK_player = call CBA_fnc_currentUnit;
+KTWK_player = [] call KTWK_NVG_fnc_getPlayer;
+KTWK_lastPlayer = KTWK_player;

@@ -27,7 +27,10 @@ if (isNil "KTWK_BPH_displayAlpha") then {
     KTWK_BPH_displayAlpha = 0;
 };
 if (isNil "KTWK_player") then {
-    KTWK_player = call CBA_fnc_currentUnit;
+    KTWK_player = [] call KTWK_BPH_fnc_getPlayer;
+};
+if (isNil "KTWK_lastPlayer") then {
+    KTWK_lastPlayer = KTWK_player;
 };
 if (isNil "KTWK_BPH_dmgTracker") then {
     KTWK_BPH_dmgTracker = [];

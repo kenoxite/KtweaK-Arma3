@@ -10,7 +10,7 @@
 
 params ["_mode"];
 
-private _unit = KTWK_player;
+private _unit = missionNamespace getVariable ["KTWK_player", player];
 private _probe = KTWK_NVG_lightingProbe;
 private _inVeh = !isNull objectParent _unit;
 private _veh = vehicle _unit;
