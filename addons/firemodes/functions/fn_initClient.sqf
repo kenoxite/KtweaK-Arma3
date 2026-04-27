@@ -23,6 +23,14 @@ if (isNil "KTWK_CFM_EH_playerViewChanged") then {
             KTWK_player = [_newUnit] call KTWK_CFM_fnc_getPlayer;
             KTWK_lastPlayer = KTWK_player;
         };
+        if (_newUnit != _previousUnit) then {
+            missionNamespace setVariable ["KTWK_CFM_lastMainFiremode", ""];
+            missionNamespace setVariable ["KTWK_CFM_lastMainMuzzle", ""];
+            missionNamespace setVariable ["KTWK_CFM_lastFiremode", ""];
+            missionNamespace setVariable ["KTWK_CFM_lastMuzzle", ""];
+            // Reset firemode to prevent starting with an AI-only one
+            [_newUnit, 1, 0] call KTWK_CFM_fnc_cycleFiremode;
+        };
     }];
 };
 
