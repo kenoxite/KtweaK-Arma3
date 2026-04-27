@@ -1,7 +1,7 @@
 #include "\z\ktweak\addons\firemodes\version.hpp"
 
-#define OVERRIDES "Default keybind overrides - Unbind first!"
-#define OVERRIDE_WARNING "\nUnbind the vanilla keybind for this action for this to work properly!"
+#define OVERRIDES "Default keybind overrides - Unbind vanilla first!"
+#define OVERRIDE_WARNING "\nUnbind the vanilla keybind for this action or this won't work properly!"
 #define GL "Grenade Launcher keybinds"
 
 [
@@ -43,7 +43,7 @@ Returns:
 [
     ["KtweaK - Clean Firemodes", OVERRIDES],
     "KTWK_key_switchToPrimary",
-    ["Switch to Primary Weapon [Override]", format ["Switches to primary weapon or cycles forward through firemodes if already holding it.\n%1", OVERRIDE_WARNING]],
+    ["Switch to Primary Weapon", format ["Switches to primary weapon or cycles forward through firemodes if already holding it.\n%1", OVERRIDE_WARNING]],
     {},
     { 
         [KTWK_player, 1] call KTWK_CFM_fnc_nextWeapon; 
@@ -56,7 +56,7 @@ Returns:
 [
     ["KtweaK - Clean Firemodes", OVERRIDES],
     "KTWK_key_cycleFiremode",
-    ["Cycle Firemode [Next Weapon override]", format ["Cycles through valid firemodes (Single, FullAuto, Burst) without switching weapons or GL.\n%1", OVERRIDE_WARNING]],
+    ["Cycle Firemode", format ["Cycles through valid firemodes (Single, FullAuto, Burst) without switching weapons or GL.\n%1", OVERRIDE_WARNING]],
     {},
     { 
         [KTWK_player, 1] call KTWK_CFM_fnc_cycleFiremode; 
@@ -69,7 +69,7 @@ Returns:
 [
     ["KtweaK - Clean Firemodes", OVERRIDES],
     "KTWK_key_cycleFiremodeBack",
-    ["Cycle Firemode (Backward) [Previous Weapon override]", format ["Cycles backward through valid firemodes.\n%1", OVERRIDE_WARNING]],
+    ["Cycle Firemode (Backward)", format ["Cycles backward through valid firemodes.\n%1", OVERRIDE_WARNING]],
     {},
     { 
         [KTWK_player, -1] call KTWK_CFM_fnc_cycleFiremode; 
@@ -83,7 +83,7 @@ Returns:
 [
     ["KtweaK - Clean Firemodes", GL],
     "KTWK_key_switchToGL",
-    ["Switch to Grenade Launcher", "Switches to the underbarrel grenade launcher if available.\nInstant switch version. Better use a separate key from the other ones.\nCycles to next normal firemode if already in GL mode.\n"],
+    ["Switch to Grenade Launcher", "Switches to the secondary fire mode of the weapon, usually an underbarrel grenade launcher, if available.\nInstant switch version. Better use a separate key from the other ones.\nCycles to next normal firemode if already in secondary fire mode.\n"],
     {},
     { 
         [KTWK_player, true] call KTWK_CFM_fnc_switchToGL; 
@@ -95,7 +95,7 @@ Returns:
 [
     ["KtweaK - Clean Firemodes", GL],
     "KTWK_key_switchToGLHold",
-    ["Switch to Grenade Launcher [Hold Key]", "Switches to the underbarrel grenade launcher if available.\nHold the key for this version of the keybind.\nUseful if you want to use the same keybind as Cycle Firemode and Switch to Primary.\n"],
+    ["Switch to Grenade Launcher [Hold Key]", "Switches to the secondary fire mode of the weapon, usually an underbarrel grenade launcher, if available.\nHold the key for this version of the keybind.\nUseful if you want to use the same keybind as Cycle Firemode and Switch to Primary.\n"],
     { 
         [KTWK_player] call KTWK_CFM_fnc_switchToGL; 
     },
@@ -103,10 +103,10 @@ Returns:
         0 spawn {
             sleep 0.1;
             missionNamespace setVariable ["KTWK_CFM_selectingGL", false];
-            [KTWK_player, 0] call KTWK_CFM_fnc_cycleFiremode; 
+            [KTWK_player, 0] call KTWK_CFM_fnc_cycleFiremode;
         };
     },
     [ -1, [false, false, false] ], // [DIK, [shift, ctrl, alt]
     true,
-    0.05
+    0.01
 ] call CBA_fnc_addKeybind;
