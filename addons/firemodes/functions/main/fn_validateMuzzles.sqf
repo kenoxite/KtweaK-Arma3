@@ -17,7 +17,7 @@ private _weaponsInfoMain = [];
 private _weaponsInfoAlt = [];
 
 // Patterns to exclude
-private _excludePatterns = ["optics", "_medium", "_far", "_close"];
+private _excludePatterns = ["optic", "medium", "far", "close", "short"];
 {
     private _muzzleName = _x#3;
     private _firemode = toLower (_x#4);
