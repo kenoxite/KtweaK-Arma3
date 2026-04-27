@@ -9,7 +9,7 @@
 // Returns:
 //   Boolean
  
-params [["_unit", KTWK_player], ["_direction", 1]];
+params [["_unit", KTWK_player], ["_direction", 1], ["_forcedFiremode", -1]];
 
 if (missionNamespace getVariable ["KTWK_CFM_selectingGL", false] && {_direction != 0}) exitWith {false};
 if (isSwitchingWeapon _unit) exitWith {false};
@@ -40,7 +40,10 @@ if (_weaponData isEqualTo []) exitWith {false};
 private _currentFiremode = _weaponData findIf { (_x#1) == _lastMainFiremode };
 if (_currentFiremode == -1) then { _currentFiremode = 0 }; // Fallback to first if none selected
 
-private _nextIndex = (_currentFiremode + _direction) % count _weaponData;
+private _nextIndex = call {
+    if (_forcedFiremode >= 0) exitWith {_forcedFiremode};
+    (_currentFiremode + _direction) % count _weaponData;
+};
 if (_nextIndex < 0) then { _nextIndex = _nextIndex + count _weaponData };
 
 private _selectedModeData = _weaponData # _nextIndex;
