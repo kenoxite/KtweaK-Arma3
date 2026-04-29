@@ -643,7 +643,7 @@ Parameters:
 [
     "KTWK_opt_noUnconADS", 
     "CHECKBOX",
-    ["Disable aiming when unconscious", "Disable aiming down sights (ADS) when unconscious, so you aren't still ADS or using a scope when awakening (which is unrealistic, disorienting and can kill you)."],
+    ["Disable aiming when unconscious", "Disable aiming down sights (ADS) when unconscious, so you aren't still ADS or using a scope when awakening (which is unrealistic, disorienting and can kill you).\n"],
     ["KtweaK - Client", ""],
     [true],
     1,
@@ -653,9 +653,19 @@ Parameters:
 [
     "KTWK_opt_crouchMoveIsTiring", 
     "CHECKBOX",
-    ["Moving crouched is tiring", "Moving while being crouched will drain stamina at a higher rate than normal."],
+    ["Moving crouched is tiring", "Moving while being crouched will drain stamina at a higher rate than normal.\n"],
     ["KtweaK - Client", ""],
     [false],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_opt_removeDeathBlur", 
+    "CHECKBOX",
+    ["Disable Death Blur", "Removes the heavy blur that appears on death.\nIt occassionally bugs and stays after respawning, creating a lot of false positives for a lot of mods, where user reports this as a bug of their system\nwhen it's just one of those Arma things.\n"],
+    ["KtweaK - Client", ""],
+    [true],
     1,
     {} 
 ] call CBA_fnc_addSetting;

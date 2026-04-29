@@ -255,7 +255,7 @@ addMissionEventHandler ["PlayerViewChanged", {
 
 // --------------------------------
 // EH - Respawn
-player addEventHandler ["Respawn", {
+KTWK_EH_respawn = player addEventHandler ["Respawn", {
     params ["_unit", "_corpse"];
 
     // --------------------------------
@@ -278,6 +278,21 @@ player addEventHandler ["Respawn", {
     // --------------------------------
     // Disable ADS if unconscious
     KWTK_wasUnconscious = false;
+}];
+
+// EH - Killed
+KTWK_EH_killed = player addEventHandler ["Killed", {
+	params ["_unit", "_killer", "_instigator", "_useEffects", "_shot", "_real"];
+    // Remove death blur
+    if (KTWK_opt_removeDeathBlur) then {
+        0 spawn {
+            private _maxTime = time + 10;
+            private _timer = time;
+            waitUntil {sleep 1; _timer = _timer + 1; _timer >= _maxTime || !isNil {BIS_DeathBlur}};
+            BIS_DeathBlur ppEffectAdjust [0];
+            BIS_DeathBlur ppEffectCommit 0;
+        };
+    };
 }];
 
 // --------------------------------
