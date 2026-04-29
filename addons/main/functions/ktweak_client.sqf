@@ -204,6 +204,17 @@ addMissionEventHandler ["PlayerViewChanged", {
     KTWK_lastPlayer = KTWK_player;
     if (_previousUnit isEqualTo _newUnit) exitWith {false};
     // --------------------------------
+    // Remove death blur
+    if (KTWK_opt_removeDeathBlur) then {
+        0 spawn {
+            private _maxTime = time + 10;
+            private _timer = time;
+            waitUntil {sleep 1; _timer = _timer + 1; _timer >= _maxTime || !isNil {BIS_DeathBlur}};
+            BIS_DeathBlur ppEffectAdjust [0];
+            BIS_DeathBlur ppEffectCommit 0;
+        };
+    };
+    // --------------------------------
     // Recon Drone
     private _actionId = _previousUnit getVariable ["KTWK_GRdrone_actionId", -1];
     if (_actionId >= 0) then {
