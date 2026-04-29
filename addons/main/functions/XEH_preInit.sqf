@@ -635,6 +635,16 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+[
+    "KTWK_AIlights_opt_excludeUnits",
+    "EDITBOX",
+    ["Exclude Units", "Comma-separated list of unit variable names or unit classes to skip, without quotation marks (e.g., 'dude1, mySpecialSniper, B_G_Soldier_LAT_F').\n\nAlternatively, you can add: <unit> setVariable ['KTWK_aiLights_exclude', true, true]; to any unit you want to exclude.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [""],
+    1,
+    {}
+] call CBA_fnc_addSetting;
+
 
 // -----------------------------------------------------------------------------------------------
 //  CLIENT

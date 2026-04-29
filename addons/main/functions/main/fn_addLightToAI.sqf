@@ -4,6 +4,12 @@
 if (!canSuspend) exitWith {_this spawn KTWK_fnc_addLightToAI};
 sleep 3;
 params ["_unit"];
+
+// Skip excluded units
+private _excludeListRaw = KTWK_AIlights_opt_excludeUnits splitString "," select {_x != ""};
+private _excludeList = _excludeListRaw apply {toLower (trim _x)};
+if (toLower (vehicleVarName _unit) in _excludeList || {toLower (typeOf _unit) in _excludeList} || {_unit getVariable ["KTWK_aiLights_exclude", false]}) exitWith {false};
+
 if (!alive _unit) exitWith {false};
 if (isPlayer _unit && !KTWK_AIlights_opt_players) exitWith {false};
 
