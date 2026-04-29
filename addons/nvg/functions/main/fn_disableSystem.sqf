@@ -39,7 +39,7 @@ if (!isNil "KTWK_NVG_EH_loadout") then {
     KTWK_NVG_EH_loadout = nil; 
 };
 if (!isNil "KTWK_NVG_EH_killed") then { 
-    ["killed", KTWK_NVG_EH_killed] call CBA_fnc_removePlayerEventHandler; 
+    player removeEventHandler ["Killed", KTWK_NVG_EH_killed];
     KTWK_NVG_EH_killed = nil; 
 };
 
