@@ -51,7 +51,7 @@ class CfgUserActions
 
 class CfgDefaultKeysPresets
 {
-	class Arma3Apex // Arma3Apex is inherited by all other presets.
+	class Arma2 // Arma2 is inherited by all other presets.
 	{
 		class Mappings
 		{
