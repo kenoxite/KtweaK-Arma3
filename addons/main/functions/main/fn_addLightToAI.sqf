@@ -39,14 +39,14 @@ private [
     "_WBKheadlamps",
     "_WBKshoulderFl",
     "_WBKlanterns",
-    "_WBKhandfl",
-    "_allWBKFlashlights"
+    "_WBKhandfl"
 ];
 private _fnc_hasWBKlamp = {
     params ["_unitItems", "_lamps"];
     _unitItems arrayIntersect _lamps isNotEqualTo []
 };
 
+private _allWBKFlashlights = [];
 if (_opt_headlamps > 0) then {
     _WBKheadlamps = [
         "WBK_HeadLampItem",
@@ -162,6 +162,9 @@ private _knownFlashlights_pistol = [
 
 private _fnc_chooseHeadlamp = {
     params ["_unit", "_currentWpn", "_opt_allowHandFL", "_opt_headlampType", "_WBKhandfl", "_allWBKFlashlights", "_WBKheadlamps", "_WBKshoulderFl", "_WBKlanterns"];
+
+    if (_allWBKFlashlights isEqualTo []) exitWith { "" };
+
     // Add hand held fl
     if (_opt_allowHandFL > 0 && {_currentWpn == "" || _currentWpn == handgunWeapon _unit}) exitWith {
         if (_opt_allowHandFL < 4) exitWith {
@@ -188,7 +191,12 @@ private _fnc_chooseHeadlamp = {
     "WBK_HeadLampItem"
 };
 
-private _chosenHeadlamp = [_unit, _currentWpn, _opt_allowHandFL, _opt_headlampType, _WBKhandfl, _allWBKFlashlights, _WBKheadlamps, _WBKshoulderFl, _WBKlanterns] call _fnc_chooseHeadlamp;
+private _chosenHeadlamp = call {
+    if (_opt_headlamps > 0) exitWith {
+        [_unit, _currentWpn, _opt_allowHandFL, _opt_headlampType, _WBKhandfl, _allWBKFlashlights, _WBKheadlamps, _WBKshoulderFl, _WBKlanterns] call _fnc_chooseHeadlamp;
+    };
+    ""
+};
 
 // Add WBK flashlight
 if (KTWK_WBKHeadlamps && _opt_headlamps == 1) then {
