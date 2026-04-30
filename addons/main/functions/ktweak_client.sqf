@@ -94,13 +94,13 @@ call KTWK_fnc_disableAutoMapCenter;
 // Add Put EH
 KTWK_ENW_EH_put = KTWK_player addEventHandler ["Put", {
 	params ["_unit", "_container", "_item"];
-    [_unit] call KTWK_fnc_ENW_addHolsters;
+    [_unit] call KTWK_fnc_ENW_toggleHolsterDisplay;
 }];
 
 // Add Take EH
 KTWK_ENW_EH_take = KTWK_player addEventHandler ["Take", {
 	params ["_unit", "_container", "_item"];
-    [_unit] call KTWK_fnc_ENW_addHolsters;
+    [_unit] call KTWK_fnc_ENW_toggleHolsterDisplay;
 }];
 // Add inventory EH
 KTWK_player call KTWK_fnc_ENW_addInvEH;
