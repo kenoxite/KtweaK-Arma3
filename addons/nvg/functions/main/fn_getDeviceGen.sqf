@@ -92,7 +92,7 @@ if (_colorPreset == KTWK_NVG_opt_color) then {
 
 // String pattern fallback for generation
 if (_genIndex == 0) then {
-    if ("pvs14" in _itemClassLower || "pvs31" in _itemClassLower || "pvs15" in _itemClassLower || "gpnvg" in _itemClassLower || "1pn138" in _itemClassLower) then { _genIndex = 4 };
+    if ("pvs14" in _itemClassLower || "pvs31" in _itemClassLower || "pvs15" in _itemClassLower || "gpnvg" in _itemClassLower || "1pn138" in _itemClassLower || "psq42" in _itemClassLower) then { _genIndex = 4 };
     if ("pvs7" in _itemClassLower) then { _genIndex = 3 };
     if ("pvs5" in _itemClassLower) then { _genIndex = 2 };
 };

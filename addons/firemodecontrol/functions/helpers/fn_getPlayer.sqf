@@ -1,4 +1,4 @@
-// KTWK_CFM_fnc_getPlayer
+// KTWK_FMC_fnc_getPlayer
 // Returns the actual unit controlled by the player, accounting for drones and Zeus remote control
 //
 // Parameters:

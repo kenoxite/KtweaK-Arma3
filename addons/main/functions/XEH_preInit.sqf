@@ -635,6 +635,16 @@ Parameters:
     {} 
 ] call CBA_fnc_addSetting;
 
+[
+    "KTWK_AIlights_opt_excludeUnits",
+    "EDITBOX",
+    ["Exclude Units", "Comma-separated list of unit variable names or unit classes to skip, without quotation marks (e.g., 'dude1, mySpecialSniper, B_G_Soldier_LAT_F').\n\nAlternatively, you can add: <unit> setVariable ['KTWK_aiLights_exclude', true, true]; to any unit you want to exclude.\n"],
+    ["KtweaK - Server", "Add Lights to AI"],
+    [""],
+    1,
+    {}
+] call CBA_fnc_addSetting;
+
 
 // -----------------------------------------------------------------------------------------------
 //  CLIENT
@@ -643,7 +653,7 @@ Parameters:
 [
     "KTWK_opt_noUnconADS", 
     "CHECKBOX",
-    ["Disable aiming when unconscious", "Disable aiming down sights (ADS) when unconscious, so you aren't still ADS or using a scope when awakening (which is unrealistic, disorienting and can kill you)."],
+    ["Disable aiming when unconscious", "Disable aiming down sights (ADS) when unconscious, so you aren't still ADS or using a scope when awakening (which is unrealistic, disorienting and can kill you).\n"],
     ["KtweaK - Client", ""],
     [true],
     1,
@@ -653,9 +663,19 @@ Parameters:
 [
     "KTWK_opt_crouchMoveIsTiring", 
     "CHECKBOX",
-    ["Moving crouched is tiring", "Moving while being crouched will drain stamina at a higher rate than normal."],
+    ["Moving crouched is tiring", "Moving while being crouched will drain stamina at a higher rate than normal.\n"],
     ["KtweaK - Client", ""],
     [false],
+    1,
+    {} 
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_opt_removeDeathBlur", 
+    "CHECKBOX",
+    ["Disable Death Blur", "Removes the heavy blur that appears on death.\nIt occassionally bugs and stays after respawning, creating a lot of false positives for a lot of mods, where user reports this as a bug of their system\nwhen it's just one of those Arma things.\n"],
+    ["KtweaK - Client", ""],
+    [true],
     1,
     {} 
 ] call CBA_fnc_addSetting;
