@@ -62,6 +62,7 @@ private _blur = call {
         case "rangefinder": {(KTWK_NVG_opticZoomMax / 10) max 9};
         case "vehicle": {(KTWK_NVG_vehicleOpticZoomMax / 10) max 9};
         case "scoped": {(KTWK_NVG_opticZoomMax / 10) max 9};
+        case "MFD": {30};
         default {9};
     };
     
