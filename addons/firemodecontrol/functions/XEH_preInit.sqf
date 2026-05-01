@@ -37,7 +37,7 @@ Parameters:
     "CHECKBOX",
     ["Restrict firemode cycling", "Limits cycling to primary muzzle firemodes only.\nExample: [single >> burst >> full auto] instead of [single >> burst >> full auto >> grenade launcher].\n\nTo access the grenade launcher, or any other alternate firemode, use the new keybind defined in Settings -> Controls, under Mods.\n"],
     ["KtweaK - Firemode Control", MAIN],
-    [true],
+    [false],
     0,
     {}
 ] call CBA_fnc_addSetting;
