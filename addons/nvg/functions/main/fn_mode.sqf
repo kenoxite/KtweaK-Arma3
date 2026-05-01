@@ -45,7 +45,7 @@ if (_inVeh && {_aiming}) exitWith {
 
 private _isScopeNVActive = ((_unit currentVisionMode (currentWeapon _unit)) # 0) == 1;
 // Rangefinder/designator
-if (_wpnZoom > 0 && _wpnZoom < 0.1 && {_isScopeNVActive} && {_aiming}) exitWith {"rangefinder"};
+if (_wpnZoom > 0 && _wpnZoom < 0.3 && {_isScopeNVActive} && {_aiming}) exitWith {"rangefinder"};
 
 // NV scope
 if (call KTWK_NVG_fnc_getZoom > 10 && {_isScopeNVActive} && {_aiming}) exitWith {"scoped"};

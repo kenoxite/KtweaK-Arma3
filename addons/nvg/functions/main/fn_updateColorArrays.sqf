@@ -39,7 +39,12 @@ private _knownWP = [
     "O_EUDF35_UAV_01_F",
     "O_EUDF35_A_UAV_01_F",
     "O_EUDF35_D_UAV_01_F",
-    "O_EUDF35_D_UAV_01_F"
+    "O_EUDF35_D_UAV_01_F",
+    // TPNVG
+    "JAS_GPNVG18_blk",
+    "JAS_GPNVG18_tan",
+    "JAS_GPNVG18_blk_ti",
+    "JAS_GPNVG18_tan_ti"
 ] apply {toLowerANSI _x};
 
 private _knownAmber = [
@@ -50,7 +55,12 @@ private _knownAmber = [
     "EF_LPNVG_Tan"
 ] apply {toLowerANSI _x};
 
-private _knownBW = [] apply {toLowerANSI _x};
+private _knownBW = [
+    "o_nvgoggles_hex_f",
+    "o_nvgoggles_urb_f",
+    "o_nvgoggles_ghex_f",
+    "O_NVGoggles_grn_F"
+] apply {toLowerANSI _x};
 
 private _knownCrimson = [
     "H_HelmetO_ViperSP_hex_F",

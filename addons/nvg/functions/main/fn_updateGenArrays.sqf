@@ -29,10 +29,6 @@ private _knownGen1 = [
 private _knownGen2 = [
     // CSLA
     "US85_ANPVS5_Goggles",
-    // Reaction Forces
-    "TiGoggles_RF",
-    "TiGoggles_grn_RF",
-    "TiGoggles_tan_RF",
     // CUP
     "CUP_optic_AN_PVS_4",
     "CUP_optic_AN_PVS_4_M14",
@@ -96,6 +92,14 @@ private _knownGen4 = [
     "EF_LPNVG_T",
     "EF_LPNVG_T_Tan",
     "EF_LPNVG_Tan",
+    "TiGoggles_RF",
+    "TiGoggles_grn_RF",
+    "TiGoggles_tan_RF",
+    // TPNVG
+    "JAS_GPNVG18_blk",
+    "JAS_GPNVG18_tan",
+    "JAS_GPNVG18_blk_ti",
+    "JAS_GPNVG18_tan_ti",
     // Headgear
     "H_HelmetO_ViperSP_hex_F",
     "H_HelmetO_ViperSP_ghex_F",

@@ -34,8 +34,9 @@ if (_knownIndex != -1) then {
         private _cfg = configFile >> "CfgVehicles" >> _vehClass >> "Turrets";
         if (count _turretPath > 0) then {
             _cfg = _cfg select (_turretPath # 0);
+            
             if (count _turretPath > 1) then {
-                _cfg = _cfg >> "Turrets" select (_turretPath # 1);
+                _cfg = (_cfg >> "Turrets") select (_turretPath # 1);
             };
         };
         _cfg
