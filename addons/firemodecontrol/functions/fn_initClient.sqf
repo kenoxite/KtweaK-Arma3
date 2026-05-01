@@ -48,6 +48,8 @@ if (isNil "KTWK_FMC_EH_playerViewChanged") then {
             missionNamespace setVariable ["KTWK_FMC_lastFiremode", ""];
             missionNamespace setVariable ["KTWK_FMC_lastMuzzle", ""];
             missionNamespace setVariable ["KTWK_FMC_lastPrimary", ""];
+            missionNamespace setVariable ["KTWK_FMC_lastMainFiremodeIdx", -1];
+            missionNamespace setVariable ["KTWK_FMC_switchedToAlt", false];
             // Reset firemode to prevent starting with an AI-only one
             [_newUnit, 1, 0] call KTWK_FMC_fnc_cycleFiremode;
         };
@@ -60,24 +62,9 @@ if (isNil "KTWK_FMC_EH_killed") then {
         missionNamespace setVariable ["KTWK_FMC_lastFiremode", ""];
         missionNamespace setVariable ["KTWK_FMC_lastMuzzle", ""];
         missionNamespace setVariable ["KTWK_FMC_lastPrimary", ""];
+        missionNamespace setVariable ["KTWK_FMC_lastMainFiremodeIdx", -1];
+        missionNamespace setVariable ["KTWK_FMC_switchedToAlt", false];
     }];
-};
-
-if (isNil "KTWK_FMC_EH_unit") then {
-    KTWK_FMC_EH_unit = ["unit", {
-        params ["_oldUnit", "_newUnit", "_vehicle"];
-        if (!KTWK_FMC_ktweak) then {
-            KTWK_player = [_newUnit] call KTWK_FMC_fnc_getPlayer;
-            KTWK_lastPlayer = KTWK_player;
-        };
-        if (_newUnit != _oldUnit) then {
-            missionNamespace setVariable ["KTWK_FMC_lastFiremode", ""];
-            missionNamespace setVariable ["KTWK_FMC_lastMuzzle", ""];
-            missionNamespace setVariable ["KTWK_FMC_lastPrimary", ""];
-            // Reset firemode to prevent starting with an AI-only one
-            [_newUnit, 1, 0] call KTWK_FMC_fnc_cycleFiremode;
-        };
-    }, true] call CBA_fnc_addPlayerEventHandler;
 };
 
 // Reset vars on weapon change
@@ -89,6 +76,8 @@ if (isNil "KTWK_FMC_EH_weapon") then {
             missionNamespace setVariable ["KTWK_FMC_lastFiremode", ""];
             missionNamespace setVariable ["KTWK_FMC_lastMuzzle", ""];
             missionNamespace setVariable ["KTWK_FMC_lastPrimary", _currentPrimary];
+            missionNamespace setVariable ["KTWK_FMC_lastMainFiremodeIdx", -1];
+            missionNamespace setVariable ["KTWK_FMC_switchedToAlt", false];
         };
     }] call CBA_fnc_addPlayerEventHandler;
 };

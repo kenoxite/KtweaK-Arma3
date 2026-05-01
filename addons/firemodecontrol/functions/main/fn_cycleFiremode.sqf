@@ -25,17 +25,41 @@ private _fullSequence = [];
     { _fullSequence pushBack [_muzzle, _x] } forEach _firemodes;
 } forEach _weaponData;
 
+// Handle forced firemode (direct call, no vanilla cycling happening)
+if (_forcedFiremode >= 0) exitWith {
+    private _cleanForcedFiremode = _forcedFiremode min ((count _fullSequence) - 1);
+    private _muzzleData = _fullSequence#_cleanForcedFiremode;
+    _muzzleData params ["_muzzle", "_firemode"];
+    _unit selectWeapon [_weapon, _muzzle, _firemode];
+    missionNamespace setVariable ["KTWK_FMC_lastMuzzle", _muzzle];
+    missionNamespace setVariable ["KTWK_FMC_lastFiremode", _firemode];
+};
+
 private _currentMuzzle = currentMuzzle _unit;
-private _currentFiremode = currentWeaponMode _unit;
+private _currentFiremode = toLower currentWeaponMode _unit;
 private _currentIndex = _fullSequence findIf { (_x#0 == _currentMuzzle) && {_x#1 == _currentFiremode} };
 
 if (_currentIndex == -1) exitWith {false};
 
 private _mainFiremodes = [];
 private _mainMuzzle = (_weaponData select { (_x#0) == _weapon })#0;
-if (!isNil "_mainMuzzle") then {
-    _mainMuzzle params ["_muzzle", "_firemodes"];
-    _mainFiremodes = _firemodes;
+if (isNil "_mainMuzzle") exitWith {false};
+
+_mainMuzzle params ["_muzzle", "_firemodes"];
+_mainFiremodes = _firemodes;
+
+// Back to last chosen main firemode if switching from alt muzzle
+private _switchedToAlt = missionNamespace getVariable ["KTWK_FMC_switchedToAlt", false];
+private _lastMainFiremodeIdx = missionNamespace getVariable ["KTWK_FMC_lastMainFiremodeIdx", -1];
+if (_switchedToAlt && _lastMainFiremodeIdx >= 0) exitWith {
+    private _targetFiremode = _mainFiremodes#_lastMainFiremodeIdx;
+    private _targetFullIdx = (_fullSequence findIf { (_x#0 == _weapon) && {_x#1 == _targetFiremode} }) max 0;
+    private _preIndex = (_targetFullIdx - _direction) % count _fullSequence;
+    if (_preIndex < 0) then { _preIndex = _preIndex + count _fullSequence };
+    private _preEntry = _fullSequence#_preIndex;
+    _preEntry params ["_preMuzzle", "_preFiremode"];
+    _unit selectWeapon [_weapon, _preMuzzle, _preFiremode];
+    missionNamespace setVariable ["KTWK_FMC_switchedToAlt", false];
 };
 
 // Calculate where Arma will land after native cycle
@@ -45,7 +69,10 @@ private _landingEntry = _fullSequence#_landingIndex;
 _landingEntry params ["_landingMuzzle", "_landingFiremode"];
 
 // If landing on main muzzle, do nothing
-if (_landingMuzzle == _weapon) exitWith {false};
+if (_landingMuzzle == _weapon) exitWith {
+    missionNamespace setVariable ["KTWK_FMC_lastMuzzle", _landingMuzzle];
+    missionNamespace setVariable ["KTWK_FMC_lastFiremode", _landingFiremode];
+};
 
 // Landing on alt muzzle (GL) - need to pre-position
 // Find what main firemode we want to end up with
@@ -59,5 +86,5 @@ _desiredEntry params ["_desiredMuzzle", "_desiredFiremode"];
 // Pre-position to the alt muzzle firemode
 _unit selectWeapon [_weapon, _landingMuzzle, _landingFiremode];
 
-missionNamespace setVariable ["KTWK_FMC_lastMuzzle", _weapon];
+missionNamespace setVariable ["KTWK_FMC_lastMuzzle", _desiredMuzzle];
 missionNamespace setVariable ["KTWK_FMC_lastFiremode", _desiredFiremode];
