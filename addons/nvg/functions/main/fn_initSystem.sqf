@@ -151,3 +151,9 @@ call KTWK_NVG_fnc_createHandles;
 call KTWK_NVG_fnc_createPfh;
 
 KTWK_NVG_isActive = true;
+
+// Get vehicle MFD and turret optics info if starts in vehicle
+if (!isNull objectParent KTWK_player) then {
+    KTWK_NVG_vehicleMFD = (count ([configOf (vehicle KTWK_player) >> "MFD", 0] call BIS_fnc_returnChildren)) > 0; 
+    [] call KTWK_NVG_fnc_updateVehicleOptic;
+};
