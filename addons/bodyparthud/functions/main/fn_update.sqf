@@ -121,7 +121,7 @@ private _inMelee = if (!KTWK_BPH_ktweak) then {
                 case (_forEachIndex isEqualTo 0): { _damageThreshold * 1.25 };
                 default { _damageThreshold * 1.5 };
             };
-            _damage = (_damage / _threshold) min 1;
+            _damage = (_damage / (0.01 max _threshold)) min 1;
             _color = [_damage] call ace_medical_gui_fnc_damageToRGBA;
         };
     } else {
