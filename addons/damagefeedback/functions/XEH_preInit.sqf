@@ -1,7 +1,7 @@
-#include "\z\ktweak\addons\bodyparthud\version.hpp"
+#include "\z\ktweak\addons\damagefeedback\version.hpp"
 
 [
-    "ktweak_bodyparthud",
+    "ktweak_damagefeedback",
     VERSION_STR,
     { /* mismatch handler */ }
 ] call CBA_fnc_registerVersion;
@@ -29,112 +29,112 @@ Parameters:
 //  CLIENT
 // -----------------------------------------------------------------------------------------------
 
-// BODYPART HUD
+// DAMAGE FEEDBACK
 [
-    "KTWK_BPH_opt_enabled",
+    "KTWK_DFB_opt_enabled",
     "CHECKBOX",
-    ["Enable", "If enabled, a HUD displaying the damage suffered by the player will briefly appear in the bottom right corner.\nIt will be displayed whenever the health status changes. The current overall health status will be displayed when the inventory is opened.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["Enable", "A visual representation of damaged body areas will briefly appear in the bottom right corner when you take damage.\nYour current overall health status will also appear when the inventory is opened.\n"],
+    ["KtweaK - Damage Feedback", ""],
     [true],
     0,
-    { call KTWK_BPH_fnc_toggleSystem; }
+    { call KTWK_DFB_fnc_toggleSystem; }
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_showInjured",
+    "KTWK_DFB_opt_showInjured",
     "CHECKBOX",
-    ["Display when health changes", "If enabled, the bodypart HUD will be briefly displayed whenever the health of any body part changes.\n"],
-    ["KtweaK - Bodypart HUD", ""],
-    [true],
-    0,
-    {}
-] call CBA_fnc_addSetting;
-
-[
-    "KTWK_BPH_opt_showInv",
-    "CHECKBOX",
-    ["Display when inventory is opened", "If enabled, the current overall health status will be displayed when the inventory is opened.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["Show on damage", "The damage representation will briefly appear whenever any body part takes damage.\n"],
+    ["KtweaK - Damage Feedback", ""],
     [true],
     0,
     {}
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_alpha",
+    "KTWK_DFB_opt_showInv",
+    "CHECKBOX",
+    ["Show when inventory is opened", "Your current overall health status will appear when the inventory is opened.\n"],
+    ["KtweaK - Damage Feedback", ""],
+    [true],
+    0,
+    {}
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_DFB_opt_alpha",
     "SLIDER",
-    ["Default HUD transparency", "Default transparency. If bigger than 0, the HUD will always be visible.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["Default display transparency", "Default transparency. Set higher than 0 to keep the display always visible.\n"],
+    ["KtweaK - Damage Feedback", ""],
     [0, 1, 0, 2],
     0,
     {}
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_xPos",
+    "KTWK_DFB_opt_xPos",
     "SLIDER",
-    ["Horizontal Position", "How close to the left of the screen you want the HUD to be, relative to the default position in the bottom right corner.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["Horizontal Position", "How close to the left of the screen the display sits, relative to the default bottom right corner position.\n"],
+    ["KtweaK - Damage Feedback", ""],
     [0, 117, 0, 2],
     0,
-    { call KTWK_BPH_fnc_moveDialog; }
+    { call KTWK_DFB_fnc_moveDialog; }
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_yPos",
+    "KTWK_DFB_opt_yPos",
     "SLIDER",
-    ["Vertical Position", "How close to the top of the screen you want the HUD to be, relative to the default position in the bottom right corner.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["Vertical Position", "How close to the top of the screen the display sits, relative to the default bottom right corner position.\n"],
+    ["KtweaK - Damage Feedback", ""],
     [0, 60.5, 0, 2],
     0,
-    { call KTWK_BPH_fnc_moveDialog; }
+    { call KTWK_DFB_fnc_moveDialog; }
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_ColorHealthy",
+    "KTWK_DFB_opt_ColorHealthy",
     "COLOR",
     ["Healthy color", "Color for undamaged body parts.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["KtweaK - Damage Feedback", ""],
     [0.8, 0.8, 0.8],
     0,
     {}
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_ColorScuffed",
+    "KTWK_DFB_opt_ColorScuffed",
     "COLOR",
     ["Scuffed color", "Color for slightly damaged body parts.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["KtweaK - Damage Feedback", ""],
     [0.75, 0.6, 0.75],
     0,
     {}
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_ColorLightWound",
+    "KTWK_DFB_opt_ColorLightWound",
     "COLOR",
     ["Light Wound color", "Color for lightly wounded body parts.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["KtweaK - Damage Feedback", ""],
     [1, 1, 0],
     0,
     {}
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_ColorModerateWound",
+    "KTWK_DFB_opt_ColorModerateWound",
     "COLOR",
     ["Moderate Wound color", "Color for moderately wounded body parts.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["KtweaK - Damage Feedback", ""],
     [1, 0.5, 0],
     0,
     {}
 ] call CBA_fnc_addSetting;
 
 [
-    "KTWK_BPH_opt_ColorSevereWound",
+    "KTWK_DFB_opt_ColorSevereWound",
     "COLOR",
     ["Severe Wound color", "Color for severely wounded body parts.\n"],
-    ["KtweaK - Bodypart HUD", ""],
+    ["KtweaK - Damage Feedback", ""],
     [0.6, 0, 0],
     0,
     {}

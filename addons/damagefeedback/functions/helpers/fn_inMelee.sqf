@@ -1,4 +1,4 @@
-// KTWK_BPH_fnc_inMelee
+// KTWK_DFB_fnc_inMelee
 // Returns true if unit is in melee mode (IMS compatibility)
 //
 // Parameters:

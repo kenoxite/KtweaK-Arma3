@@ -4,7 +4,7 @@
 class RscPicture;
 class RscControlsGroup;
 
-#include "\z\ktweak\addons\bodyparthud\idc.hpp"
+#include "\z\ktweak\addons\damagefeedback\idc.hpp"
 
 class RscTitles
 {

@@ -1,4 +1,4 @@
-// KTWK_BPH_fnc_initGlobals
+// KTWK_DFB_fnc_initGlobals
 // Initializes all global variables for the Bodypart HUD subsystem
 //
 // Parameters:
@@ -8,7 +8,7 @@
 
 // Mod detection
 private _cfgPatches = configFile >> "CfgPatches";
-KTWK_BPH_ktweak = isClass (_cfgPatches >> "ktweak");
+KTWK_DFB_ktweak = isClass (_cfgPatches >> "ktweak");
 
 if (isNil "KTWK_aceMedical") then {
     KTWK_aceMedical = isClass (_cfgPatches >> "ace_medical_engine");
@@ -17,22 +17,22 @@ if (isNil "KTWK_aceMedical") then {
 _cfgPatches = nil;
 
 // Player reference
-if (!KTWK_BPH_ktweak) then {
-    KTWK_player = [] call KTWK_BPH_fnc_getPlayer;
+if (!KTWK_DFB_ktweak) then {
+    KTWK_player = [] call KTWK_DFB_fnc_getPlayer;
     KTWK_lastPlayer = KTWK_player;
 };
 
 // System active state
-KTWK_BPH_isActive = KTWK_BPH_opt_enabled;
+KTWK_DFB_isActive = KTWK_DFB_opt_enabled;
 
 // HUD state
-KTWK_BPH_targetAlpha = KTWK_BPH_opt_alpha;
-KTWK_BPH_displayAlpha = 0;
-KTWK_BPH_invOpened = false;
-KTWK_BPH_EH_invOpened = -1;
-KTWK_BPH_pfh = nil;
+KTWK_DFB_targetAlpha = KTWK_DFB_opt_alpha;
+KTWK_DFB_displayAlpha = 0;
+KTWK_DFB_invOpened = false;
+KTWK_DFB_EH_invOpened = -1;
+KTWK_DFB_pfh = nil;
 
 // Damage tracking
-KTWK_BPH_dmgTracker = [];
-KTWK_BPH_bodyParts = [];
-KTWK_BPH_idcs = [];
+KTWK_DFB_dmgTracker = [];
+KTWK_DFB_bodyParts = [];
+KTWK_DFB_idcs = [];

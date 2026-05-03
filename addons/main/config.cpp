@@ -163,7 +163,7 @@ class CfgMagazines
         scopeArsenal = 1;
         scopeCurator = 1;
         author = "kenoxite";
-        picture ="z\ktweak\addons\main\weapons\data\ui\drone_icon.paa";
+        picture ="\z\ktweak\addons\main\weapons\data\ui\drone_icon.paa";
         model="\A3\Drones_F\Air_F_Gamma\UAV_01\UAV_01_F.p3d";
         icon = "iconObject_circle"; //Leave as is
         descriptionShort = "Dispenser of Recon Drones, allowing their automatic launch and control.";
@@ -214,7 +214,7 @@ class CfgWeapons
         scopeCurator = 2;
         displayName = "Recon Drone Dispenser";
         descriptionShort = "Dispenser of Recon Drones, allowing their automatic launch and control.";
-        picture = "z\ktweak\addons\main\weapons\data\ui\drone_icon.paa";
+        picture = "\z\ktweak\addons\main\weapons\data\ui\drone_icon.paa";
         model = "\A3\Drones_F\Air_F_Gamma\UAV_01\UAV_01_F.p3d";
         icon = "iconObject_circle";
         class ItemInfo: CBA_MiscItem_ItemInfo
