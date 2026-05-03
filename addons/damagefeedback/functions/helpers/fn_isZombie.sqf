@@ -1,4 +1,4 @@
-// KTWK_BPH_fnc_isZombie
+// KTWK_DFB_fnc_isZombie
 // Returns true if unit is a zombie or mutant type
 //
 // Parameters:

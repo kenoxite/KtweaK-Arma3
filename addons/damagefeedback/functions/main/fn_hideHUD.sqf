@@ -1,4 +1,4 @@
-// KTWK_BPH_fnc_hideHUD
+// KTWK_DFB_fnc_hideHUD
 // Quickly hides all body part HUD elements
 // Clears textures and resets alpha values to 0
 //
@@ -8,7 +8,7 @@
 // Returns:
 //   Boolean - false if display or controls invalid, true otherwise
 
-#include "\z\ktweak\addons\bodyparthud\idc.hpp"
+#include "\z\ktweak\addons\damagefeedback\idc.hpp"
 
 params ["_display", "_idcs"];
 

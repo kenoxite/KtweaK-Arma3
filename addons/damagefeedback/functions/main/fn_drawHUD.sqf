@@ -1,4 +1,4 @@
-// KTWK_BPH_fnc_drawHUD
+// KTWK_DFB_fnc_drawHUD
 // Draws or hides HUD elements by setting their texture paths
 //
 // Parameters:
@@ -16,7 +16,7 @@ if (_idcArr isEqualTo []) exitWith {false};
     _x params ["_idc", "_img"];
     private _ctrl = _display displayCtrl _idc;
     private _path = if (_on) then {
-        format ["\z\ktweak\addons\bodyparthud\img\bodyparts\bodyicon_%1.paa", _img]
+        format ["\z\ktweak\addons\damagefeedback\img\bodyparts\bodyicon_%1.paa", _img]
     } else {
         ""
     };
@@ -24,7 +24,7 @@ if (_idcArr isEqualTo []) exitWith {false};
     
     // Set alpha based on current display alpha
     if (_on) then {
-        _ctrl ctrlSetTextColor [1, 1, 1, KTWK_BPH_displayAlpha];
+        _ctrl ctrlSetTextColor [1, 1, 1, KTWK_DFB_displayAlpha];
     };
 } forEach _idcArr;
 

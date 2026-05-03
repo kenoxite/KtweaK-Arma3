@@ -1,4 +1,4 @@
-// KTWK_BPH_fnc_initSystem
+// KTWK_DFB_fnc_initSystem
 // Bodypart HUD - Initialization and main loop
 //
 // Parameters:
@@ -6,16 +6,16 @@
 // Returns:
 //   Nothing
 
-#include "\z\ktweak\addons\bodyparthud\idc.hpp"
-#include "\z\ktweak\addons\bodyparthud\ace.hpp"
+#include "\z\ktweak\addons\damagefeedback\idc.hpp"
+#include "\z\ktweak\addons\damagefeedback\ace.hpp"
 
 // Only run on clients with interface
 if (!hasInterface) exitWith {};
 
 // Check if system is enabled by setting
-if (!KTWK_BPH_opt_enabled) exitWith {
-    if (!isNil "KTWK_BPH_pfh") then {
-        call KTWK_BPH_fnc_disableSystem;
+if (!KTWK_DFB_opt_enabled) exitWith {
+    if (!isNil "KTWK_DFB_pfh") then {
+        call KTWK_DFB_fnc_disableSystem;
     };
 };
 
@@ -41,18 +41,20 @@ private _ctrlHeight = 8 * pixelGridNoUIScale * pixelH;
 _ctrl ctrlSetPosition [_ctrlX, _ctrlY, _ctrlWidth, _ctrlHeight];
 _ctrl ctrlCommit 0;
 
-if (isNil "KTWK_BPH_EH_playerViewChanged") then {
-    KTWK_BPH_EH_playerViewChanged = addMissionEventHandler ["PlayerViewChanged", {
+if (isNil "KTWK_DFB_EH_playerViewChanged") then {
+    KTWK_DFB_EH_playerViewChanged = addMissionEventHandler ["PlayerViewChanged", {
         params ["_previousUnit", "_newUnit", "_vehicleIn","_oldCameraOn", "_newCameraOn", "_uav"];
-        if (!KTWK_BPH_ktweak) then {
-            KTWK_player = [] call KTWK_BPH_fnc_getPlayer;
+        if (!KTWK_DFB_ktweak) then {
+            KTWK_player = [] call KTWK_DFB_fnc_getPlayer;
             KTWK_lastPlayer = KTWK_player;
         };
+        missionNamespace setVariable ["KTWK_DFB_invOpened", false];
+        call KTWK_DFB_fnc_resetDmgTracker;
     }];
 };
 
 // Define body parts based on medical system
-KTWK_BPH_bodyParts = call {
+KTWK_DFB_bodyParts = call {
     if (KTWK_aceMedical) exitWith {
         ALL_BODY_PARTS
     };
@@ -71,11 +73,11 @@ KTWK_BPH_bodyParts = call {
     ];
 };
 
-KTWK_BPH_dmgTracker = [];
-KTWK_BPH_EH_invOpened = -1;
+KTWK_DFB_dmgTracker = [];
+KTWK_DFB_EH_invOpened = -1;
 
 // Define IDC mappings
-KTWK_BPH_idcs = call {
+KTWK_DFB_idcs = call {
     if (KTWK_aceMedical) exitWith {
         [
             [IDC_BPH_GLOBAL, "health"],
@@ -113,10 +115,10 @@ KTWK_BPH_idcs = call {
     private _display = uiNamespace getVariable ["BPH_Display", displayNull];
     if (isNull _display) exitWith { diag_log "Bodypart HUD: Display disappeared before init"; };
 
-    [_display, KTWK_BPH_idcs, true] call KTWK_BPH_fnc_drawHUD;
-    call KTWK_BPH_fnc_resetDmgTracker;
-    call KTWK_BPH_fnc_moveDialog;
-    call KTWK_BPH_fnc_createPfh;
+    [_display, KTWK_DFB_idcs, true] call KTWK_DFB_fnc_drawHUD;
+    call KTWK_DFB_fnc_resetDmgTracker;
+    call KTWK_DFB_fnc_moveDialog;
+    call KTWK_DFB_fnc_createPfh;
     
-    KTWK_BPH_isActive = true;
+    KTWK_DFB_isActive = true;
 }] call CBA_fnc_waitUntilAndExecute;

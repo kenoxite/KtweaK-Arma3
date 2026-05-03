@@ -1,4 +1,4 @@
-// KTWK_BPH_fnc_showHUD
+// KTWK_DFB_fnc_showHUD
 // Shows the HUD with proper transparency for all body parts
 // Handles both ACE Medical and Vanilla color/transparency systems
 //

@@ -1,7 +1,7 @@
-#include "\z\ktweak\addons\bodyparthud\version.hpp"
+#include "\z\ktweak\addons\damagefeedback\version.hpp"
 
 class CfgPatches {
-    class ktweak_bodyparthud {
+    class ktweak_damagefeedback {
         units[] = {};
         weapons[] = {};
         requiredVersion = 2.20;
@@ -20,25 +20,25 @@ class CfgPatches {
     };
 };
 
-#include "\z\ktweak\addons\bodyparthud\gui.hpp"
+#include "\z\ktweak\addons\damagefeedback\gui.hpp"
 
 class Extended_PreInit_EventHandlers {
-    class KTWK_BPH_settings {
-        init = "call compile preprocessFileLineNumbers 'z\ktweak\addons\bodyparthud\functions\XEH_preInit.sqf'";
+    class KTWK_DFB_settings {
+        init = "call compile preprocessFileLineNumbers 'z\ktweak\addons\damagefeedback\functions\XEH_preInit.sqf'";
     };
 };
 
 class CfgFunctions {
-    class KTWK_BPH {
+    class KTWK_DFB {
         class Init {
-            file = "\z\ktweak\addons\bodyparthud\functions";
+            file = "\z\ktweak\addons\damagefeedback\functions";
             class postInit {
                 postInit = 1;
             };
         };
 
         class Main {
-            file = "\z\ktweak\addons\bodyparthud\functions\main";
+            file = "\z\ktweak\addons\damagefeedback\functions\main";
             class createPfh {};
             class disableSystem {};
             class drawHUD {};
@@ -54,7 +54,7 @@ class CfgFunctions {
         };
 
         class Helpers {
-            file = "\z\ktweak\addons\bodyparthud\functions\helpers";
+            file = "\z\ktweak\addons\damagefeedback\functions\helpers";
             class getPlayer {};
             class isAnimal {};
             class isHuman {};

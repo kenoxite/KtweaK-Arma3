@@ -1,4 +1,4 @@
-// KTWK_BPH_fnc_isAnimal
+// KTWK_DFB_fnc_isAnimal
 // Returns true if unit is an animal type
 //
 // Parameters:
