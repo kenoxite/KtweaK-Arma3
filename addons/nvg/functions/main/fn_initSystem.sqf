@@ -95,6 +95,8 @@ if (isNil "KTWK_NVG_EH_visibleMap") then {
 if (isNil "KTWK_NVG_EH_visionMode") then {
     KTWK_NVG_EH_visionMode = ["visionMode", {
         params ["_unit", "_mode", "_number"];
+        // Star Sphere display
+        PLP_SSP_brightness = [KTWK_NVG_opt_starSphere, 100] select (_mode == 1);
         call KTWK_NVG_fnc_resetCache;
         if (_mode != 1 && {!isNil "KTWK_NVG_pfh"}) exitWith {
             call KTWK_NVG_fnc_disableSystem;
