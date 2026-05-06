@@ -9,7 +9,9 @@
 #include "\z\ktweak\addons\nvg\cacheIndices.hpp"
 
 KTWK_NVG_filmGrainHandle = ppEffectCreate ["filmGrain", 2001];
+KTWK_NVG_filmGrainHandle ppEffectForceInNVG true; 
 KTWK_NVG_blurHandle = ppEffectCreate ["dynamicBlur", 775];
+KTWK_NVG_blurHandle ppEffectForceInNVG true; 
 KTWK_NVG_colorHandle = ppEffectCreate ["ColorCorrections", 1505];
 KTWK_NVG_colorHandle ppEffectForceInNVG true; 
 
