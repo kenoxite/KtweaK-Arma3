@@ -60,3 +60,6 @@ KTWK_NVG_mode = "disabled";
 call KTWK_NVG_fnc_resetCache;
 
 KTWK_NVG_isActive = false;
+
+// Enbale Expeditionary Forces ppEffects
+[true] call EF_fnc_NVGFilter;
