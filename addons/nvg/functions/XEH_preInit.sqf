@@ -342,7 +342,7 @@ Parameters:
     "COLOR",
     ["Amber", "Color for 'Amber' preset."],
     ["KtweaK - NVG", COLOR_PRESETS],
-    [0.96, 0.98, 0.45],
+    [0.9, 0.8, 0.5],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -386,6 +386,16 @@ Parameters:
     ["Star Sphere visibility without NV", "Visibility of POLPOX's Star Sphere when night vision is off.\nSet to -1 to use the mod's defaults. Set to 0 to make it invisible.\n"],
     ["KtweaK - NVG", MISC],
     [-1, 100, 0, 0],
+    0,
+    {}
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_NVG_opt_starSphereNV",
+    "SLIDER",
+    ["Star Sphere visibility with NV", "Visibility of POLPOX's Star Sphere when night vision is on.\nSet to -1 to use the mod's defaults. Set to 0 to make it invisible.\n"],
+    ["KtweaK - NVG", MISC],
+    [-1, 100, 10, 0],
     0,
     {}
 ] call CBA_fnc_addSetting;
