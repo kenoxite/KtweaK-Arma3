@@ -1,4 +1,4 @@
-// Bodypart HUD - ACE Medical Definitions
+// Damage Feedback - ACE Medical Definitions
 
 #define ALL_BODY_PARTS ["head", "body", "leftarm", "rightarm", "leftleg", "rightleg"]
 #define ALL_SELECTIONS ["head", "body", "hand_l", "hand_r", "leg_l", "leg_r"]

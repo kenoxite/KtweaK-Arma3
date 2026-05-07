@@ -7,8 +7,8 @@
 //   Nothing
 
 KTWK_DFB_invOpened = false;
-KTWK_DFB_targetAlpha = KTWK_DFB_opt_alpha;
-KTWK_DFB_displayAlpha = 0;
+KTWK_DFB_desiredAlpha = KTWK_DFB_opt_alpha;
+KTWK_DFB_currentAlpha = 0;
 
 call KTWK_DFB_fnc_resetDmgTracker;
 call KTWK_DFB_fnc_update;

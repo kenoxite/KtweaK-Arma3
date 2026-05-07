@@ -1,5 +1,5 @@
 // KTWK_DFB postInit
-// Bodypart HUD - Client initialization
+// Damage Feedback - Client initialization
 
 if (!hasInterface) exitWith {};
 

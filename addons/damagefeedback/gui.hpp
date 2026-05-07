@@ -1,4 +1,4 @@
-// Bodypart HUD - GUI Definitions
+// Damage Feedback - GUI Definitions
 
 // Base classes
 class RscPicture;
@@ -8,24 +8,24 @@ class RscControlsGroup;
 
 class RscTitles
 {
-    class BPH_Dialog
+    class DFB_Dialog
     {
-        idd = IDD_BPH_DIALOG;
-        name = "BPH_Dialog";
+        idd = IDD_DFB_DIALOG;
+        name = "DFB_Dialog";
         movingEnable = 1;
         enableSimulation = 1;
         enableDisplay = 1;
-        onLoad = "uiNamespace setVariable ['BPH_Display', _this #0];";
-        onUnLoad = "uiNamespace setVariable ['BPH_Display', nil];";
+        onLoad = "uiNamespace setVariable ['DFB_Display', _this #0];";
+        onUnLoad = "";
         duration = 9999999;
         fadeIn = 1;
         fadeOut = 1;
 
         class controls
         {
-            class BPH_ControlsGroup: RscControlsGroup
+            class DFB_ControlsGroup: RscControlsGroup
             {
-                idc = IDC_BPH_GROUP;
+                idc = IDC_DFB_GROUP;
                 x = "safeZoneX + (safeZoneW - (3.5 * pixelGridNoUIScale * pixelW))";
                 y = "safeZoneY + (safeZoneH - (7.4 * pixelGridNoUIScale * pixelH))";
                 w = "4 * pixelGridNoUIScale * pixelW";
@@ -34,9 +34,9 @@ class RscTitles
                 class controls
                 {
                     // Global health indicator
-                    class BPH_GlobalHealth: RscPicture
+                    class DFB_GlobalHealth: RscPicture
                     {
-                        idc = IDC_BPH_GLOBAL;
+                        idc = IDC_DFB_GLOBAL;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -45,9 +45,9 @@ class RscTitles
                     };
 
                     // Outline
-                    class BPH_Outline: RscPicture
+                    class DFB_Outline: RscPicture
                     {
-                        idc = IDC_BPH_OUTLINE;
+                        idc = IDC_DFB_OUTLINE;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -56,9 +56,9 @@ class RscTitles
                     };
 
                     // Head group
-                    class BPH_Head: RscPicture
+                    class DFB_Head: RscPicture
                     {
-                        idc = IDC_BPH_HEAD;
+                        idc = IDC_DFB_HEAD;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -67,9 +67,9 @@ class RscTitles
                     };
 
                     // Face
-                    class BPH_Face: RscPicture
+                    class DFB_Face: RscPicture
                     {
-                        idc = IDC_BPH_FACE;
+                        idc = IDC_DFB_FACE;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -78,9 +78,9 @@ class RscTitles
                     };
 
                     // Neck
-                    class BPH_Neck: RscPicture
+                    class DFB_Neck: RscPicture
                     {
-                        idc = IDC_BPH_NECK;
+                        idc = IDC_DFB_NECK;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -89,9 +89,9 @@ class RscTitles
                     };
 
                     // Torso group
-                    class BPH_Torso: RscPicture
+                    class DFB_Torso: RscPicture
                     {
-                        idc = IDC_BPH_TORSO;
+                        idc = IDC_DFB_TORSO;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -100,9 +100,9 @@ class RscTitles
                     };
 
                     // Chest
-                    class BPH_Chest: RscPicture
+                    class DFB_Chest: RscPicture
                     {
-                        idc = IDC_BPH_CHEST;
+                        idc = IDC_DFB_CHEST;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -111,9 +111,9 @@ class RscTitles
                     };
 
                     // Diaphragm
-                    class BPH_Diaphragm: RscPicture
+                    class DFB_Diaphragm: RscPicture
                     {
-                        idc = IDC_BPH_DIAPHRAGM;
+                        idc = IDC_DFB_DIAPHRAGM;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -122,9 +122,9 @@ class RscTitles
                     };
 
                     // Abdomen
-                    class BPH_Abdomen: RscPicture
+                    class DFB_Abdomen: RscPicture
                     {
-                        idc = IDC_BPH_ABDOMEN;
+                        idc = IDC_DFB_ABDOMEN;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -133,9 +133,9 @@ class RscTitles
                     };
 
                     // Pelvis
-                    class BPH_Pelvis: RscPicture
+                    class DFB_Pelvis: RscPicture
                     {
-                        idc = IDC_BPH_PELVIS;
+                        idc = IDC_DFB_PELVIS;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -144,9 +144,9 @@ class RscTitles
                     };
 
                     // Arms group
-                    class BPH_Arms: RscPicture
+                    class DFB_Arms: RscPicture
                     {
-                        idc = IDC_BPH_ARMS;
+                        idc = IDC_DFB_ARMS;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -155,9 +155,9 @@ class RscTitles
                     };
 
                     // Left arm
-                    class BPH_LeftArm: RscPicture
+                    class DFB_LeftArm: RscPicture
                     {
-                        idc = IDC_BPH_LEFTARM;
+                        idc = IDC_DFB_LEFTARM;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -166,9 +166,9 @@ class RscTitles
                     };
 
                     // Right arm
-                    class BPH_RightArm: RscPicture
+                    class DFB_RightArm: RscPicture
                     {
-                        idc = IDC_BPH_RIGHTARM;
+                        idc = IDC_DFB_RIGHTARM;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -177,9 +177,9 @@ class RscTitles
                     };
 
                     // Hands
-                    class BPH_Hands: RscPicture
+                    class DFB_Hands: RscPicture
                     {
-                        idc = IDC_BPH_HANDS;
+                        idc = IDC_DFB_HANDS;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -188,9 +188,9 @@ class RscTitles
                     };
 
                     // Legs group
-                    class BPH_Legs: RscPicture
+                    class DFB_Legs: RscPicture
                     {
-                        idc = IDC_BPH_LEGS;
+                        idc = IDC_DFB_LEGS;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -199,9 +199,9 @@ class RscTitles
                     };
 
                     // Left leg
-                    class BPH_LeftLeg: RscPicture
+                    class DFB_LeftLeg: RscPicture
                     {
-                        idc = IDC_BPH_LEFTLEG;
+                        idc = IDC_DFB_LEFTLEG;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -210,9 +210,9 @@ class RscTitles
                     };
 
                     // Right leg
-                    class BPH_RightLeg: RscPicture
+                    class DFB_RightLeg: RscPicture
                     {
-                        idc = IDC_BPH_RIGHTLEG;
+                        idc = IDC_DFB_RIGHTLEG;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
@@ -221,9 +221,9 @@ class RscTitles
                     };
 
                     // Body (full)
-                    class BPH_Body: RscPicture
+                    class DFB_Body: RscPicture
                     {
-                        idc = IDC_BPH_BODY;
+                        idc = IDC_DFB_BODY;
                         x = 0;
                         y = 0;
                         w = "4 * pixelGridNoUIScale * pixelW";
