@@ -6,14 +6,18 @@
 // Returns:
 //   Boolean - false if display doesn't exist, true otherwise
 
+if (!canSuspend) exitWith {
+    _this spawn KTWK_DFB_fnc_moveDialog;
+};
+
 #include "\z\ktweak\addons\damagefeedback\idc.hpp"
 
 disableSerialization;
 
-private _display = uiNamespace getVariable ["BPH_Display", displayNull];
+private _display = uiNamespace getVariable ["DFB_Display", displayNull];
 if (isNull _display) exitWith {false};
 
-private _ctrl = _display displayCtrl IDC_BPH_GROUP;
+private _ctrl = _display displayCtrl IDC_DFB_GROUP;
 if (isNull _ctrl) exitWith {false};
 
 // Calculate position based on settings
@@ -28,16 +32,13 @@ _ctrl ctrlCommit 0;
 // Reset HUD to default alpha
 if (isNull player || {time < 3}) exitWith {false};
 
-KTWK_DFB_targetAlpha = 0.6;
+KTWK_DFB_desiredAlpha = 0.6;
 call KTWK_DFB_fnc_update;
 
 // Reset alpha after pause menu closes
-if (canSuspend) then {
-    [] spawn {
-        waitUntil {isNull (findDisplay 49) || {!alive player}};
-        KTWK_DFB_targetAlpha = KTWK_DFB_opt_alpha;
-        call KTWK_DFB_fnc_update;
-    };
-};
+
+waitUntil {isNull (findDisplay 49) || {!alive player}};
+KTWK_DFB_desiredAlpha = KTWK_DFB_opt_alpha;
+call KTWK_DFB_fnc_update;
 
 true

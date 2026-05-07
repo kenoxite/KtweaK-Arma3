@@ -1,5 +1,5 @@
 // KTWK_DFB_fnc_toggleSystem
-// Toggles the Bodypart HUD system on or off
+// Toggles the Damage Feedback system on or off
 //
 // Parameters:
 //   None (toggles based on current state)

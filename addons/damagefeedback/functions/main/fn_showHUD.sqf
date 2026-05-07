@@ -25,7 +25,7 @@ private _outlineAlpha = 0;
     
     private _ctrl = _display displayCtrl _idc;
     if (isNull _ctrl) then {
-        diag_log format ["Bodypart HUD: Control %1 not found in showHUD", _idc];
+        diag_log format ["[DFB] Control %1 not found in showHUD", _idc];
         continue;
     };
     

@@ -26,7 +26,7 @@ if (isNull _display) exitWith { false };
 } forEach _idcs;
 
 // Also ensure the group control is hidden
-private _groupCtrl = _display displayCtrl IDC_BPH_GROUP;
+private _groupCtrl = _display displayCtrl IDC_DFB_GROUP;
 if (!isNull _groupCtrl) then {
     _groupCtrl ctrlShow false;
 };

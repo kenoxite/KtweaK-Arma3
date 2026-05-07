@@ -95,6 +95,8 @@ if (isNil "KTWK_NVG_EH_visibleMap") then {
 if (isNil "KTWK_NVG_EH_visionMode") then {
     KTWK_NVG_EH_visionMode = ["visionMode", {
         params ["_unit", "_mode", "_number"];
+        // Star Sphere display
+        PLP_SSP_brightness = [KTWK_NVG_opt_starSphere, KTWK_NVG_opt_starSphereNV] select (_mode == 1 && {KTWK_NVG_opt_enabled});
         call KTWK_NVG_fnc_resetCache;
         if (_mode != 1 && {!isNil "KTWK_NVG_pfh"}) exitWith {
             call KTWK_NVG_fnc_disableSystem;
@@ -157,3 +159,6 @@ if (!isNull objectParent KTWK_player) then {
     KTWK_NVG_vehicleMFD = (count ([configOf (vehicle KTWK_player) >> "MFD", 0] call BIS_fnc_returnChildren)) > 0; 
     [] call KTWK_NVG_fnc_updateVehicleOptic;
 };
+
+// Disable Expeditionary Forces ppEffects
+[false] call EF_fnc_NVGFilter;

@@ -1,5 +1,5 @@
 // KTWK_DFB_fnc_createPfh
-// Creates the per-frame handler for Bodypart HUD updates
+// Creates the per-frame handler for Damage Feedback updates
 //
 // Parameters:
 //   None
@@ -8,9 +8,13 @@
 
 #include "\z\ktweak\addons\damagefeedback\idc.hpp"
 
-private _display = uiNamespace getVariable ["BPH_Display", displayNull];
+private _display = uiNamespace getVariable ["DFB_Display", displayNull];
 if (isNull _display) exitWith {
-    diag_log "Bodypart HUD: Cannot create PFH - display not found";
+    diag_log "[DFB] Cannot create PFH - display not found";
+};
+
+if (!isNil "KTWK_DFB_pfh") exitWith {
+    diag_log "[DFB] PFH already exists!";
 };
 
 // Main PFH loop
@@ -21,23 +25,17 @@ KTWK_DFB_pfh = [{
     if (isNull findDisplay 46) exitWith {};
     
     private _ctrl = _display displayCtrl _groupIdc;
-    if (isNull _ctrl) then {
-        diag_log "Bodypart HUD: Control not found. Shutting down.";
-        [_handle] call CBA_fnc_removePerFrameHandler;
+    if (isNull _ctrl) exitWith {
+        diag_log "[DFB] Control not found. Restarting system.";
+        call KTWK_DFB_fnc_disableSystem;
+        call KTWK_DFB_fnc_initSystem;
     };
     
-    private _player = KTWK_player;
-    private _isAlive = alive _player;
+    private _player = [] call KTWK_DFB_fnc_getPlayer;
     
-    if (!_isAlive) then {
+    if (!alive _player) then {
         // Death: keep HUD visible to show fatal damage
-        KTWK_DFB_targetAlpha = 0.6;
-        [_handle] call CBA_fnc_removePerFrameHandler;
-        [{
-            alive player
-        }, {
-            [] call KTWK_DFB_fnc_initSystem;
-        }] call CBA_fnc_waitUntilAndExecute;
+        KTWK_DFB_desiredAlpha = 0.5;
     } else {
         private _isHuman = [_player] call ([KTWK_fnc_isHuman, KTWK_DFB_fnc_isHuman] select (!KTWK_DFB_ktweak));
         private _showHUD = KTWK_DFB_opt_enabled &&
@@ -54,13 +52,13 @@ KTWK_DFB_pfh = [{
         if (_inventoryUIShown) then {
             if (!_invOpened) then {
                 KTWK_DFB_invOpened = true;
-                KTWK_DFB_targetAlpha = 0.6;
+                KTWK_DFB_desiredAlpha = 0.6;
             };
         } else {
             if (_invOpened) then {
                 KTWK_DFB_invOpened = false;
-                KTWK_DFB_targetAlpha = KTWK_DFB_opt_alpha;
-                KTWK_DFB_displayAlpha = 0;
+                KTWK_DFB_desiredAlpha = KTWK_DFB_opt_alpha;
+                KTWK_DFB_currentAlpha = 0;
                 
                 // Reset damage tracker values to base levels
                 {
@@ -75,4 +73,4 @@ KTWK_DFB_pfh = [{
             call KTWK_DFB_fnc_update;
         };
     };
-}, 0.05, [_display, IDC_BPH_GROUP]] call CBA_fnc_addPerFrameHandler;
+}, 0.05, [_display, IDC_DFB_GROUP]] call CBA_fnc_addPerFrameHandler;

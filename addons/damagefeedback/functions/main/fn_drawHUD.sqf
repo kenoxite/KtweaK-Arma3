@@ -24,7 +24,7 @@ if (_idcArr isEqualTo []) exitWith {false};
     
     // Set alpha based on current display alpha
     if (_on) then {
-        _ctrl ctrlSetTextColor [1, 1, 1, KTWK_DFB_displayAlpha];
+        _ctrl ctrlSetTextColor [1, 1, 1, KTWK_DFB_currentAlpha];
     };
 } forEach _idcArr;
 

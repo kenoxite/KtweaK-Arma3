@@ -7,7 +7,8 @@
 #define CUSTOM_GEAR "4. Custom Gear"
 #define CUSTOM_COLORS "5. Custom Gear Colors"
 #define EXCLUSIONS "6. Exclusions"
-#define EXPERIMENTAL "7. Experimental"
+#define MISC "7. Miscellaneous"
+#define EXPERIMENTAL "8. Experimental"
 #define MANUAL_DESC "\nNV Mode must be set to manual if you want to use these settings!\n"
 #define MAGICWORDS_DESC "\nMagic words automatically convert to the corresponding class names:\n- nvg = currently equipped NVG\n- helmet = currently worn helmet with built-in NV\n- binoc = currently held rangefinder or laser designator with NV\n- scope = currently attached weapon optic with NV\n- vehicle = current vehicle with NV capabilities\n\nExample: nvg, vehicle, <classNameOfThatCoolMod>\n\nMagic Words become permanent class names after accepting the changes.\n"
 
@@ -341,7 +342,7 @@ Parameters:
     "COLOR",
     ["Amber", "Color for 'Amber' preset."],
     ["KtweaK - NVG", COLOR_PRESETS],
-    [0.96, 0.98, 0.45],
+    [0.9, 0.8, 0.5],
     0,
     {}
 ] call CBA_fnc_addSetting;
@@ -372,6 +373,29 @@ Parameters:
     ["Custom", "Color for 'Custom' preset.\nUse this if you want to keep the default colors as is and want a new one for particular devices."],
     ["KtweaK - NVG", COLOR_PRESETS],
     [0.1, 0.9, 0.8],
+    0,
+    {}
+] call CBA_fnc_addSetting;
+
+// ------------------
+// MISCELLANEOUS
+
+[
+    "KTWK_NVG_opt_starSphere",
+    "SLIDER",
+    ["Star Sphere visibility without NV", "Visibility of POLPOX's Star Sphere when night vision is off.\nSet to -1 to use the mod's defaults. Set to 0 to make it invisible.\n"],
+    ["KtweaK - NVG", MISC],
+    [-1, 100, 0, 0],
+    0,
+    {}
+] call CBA_fnc_addSetting;
+
+[
+    "KTWK_NVG_opt_starSphereNV",
+    "SLIDER",
+    ["Star Sphere visibility with NV", "Visibility of POLPOX's Star Sphere when night vision is on.\nSet to -1 to use the mod's defaults. Set to 0 to make it invisible.\n"],
+    ["KtweaK - NVG", MISC],
+    [-1, 100, 10, 0],
     0,
     {}
 ] call CBA_fnc_addSetting;
