@@ -144,9 +144,6 @@ class CfgFunctions
             class ENW_addHolsters {};
             class ENW_isWeaponLong {};
             class ENW_isWeaponShort {};
-
-            // Legacy
-            class toggleHolsterDisplay {};
         };
     };
 };
