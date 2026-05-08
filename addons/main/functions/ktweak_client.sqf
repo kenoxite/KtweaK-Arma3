@@ -91,17 +91,6 @@ call KTWK_fnc_disableAutoMapCenter;
 // --------------------------------
 // Equip Next Weapon
 
-// Add Put EH
-KTWK_ENW_EH_put = KTWK_player addEventHandler ["Put", {
-	params ["_unit", "_container", "_item"];
-    [_unit] call KTWK_fnc_ENW_toggleHolsterDisplay;
-}];
-
-// Add Take EH
-KTWK_ENW_EH_take = KTWK_player addEventHandler ["Take", {
-	params ["_unit", "_container", "_item"];
-    [_unit] call KTWK_fnc_ENW_toggleHolsterDisplay;
-}];
 // Add inventory EH
 KTWK_player call KTWK_fnc_ENW_addInvEH;
 
@@ -369,6 +358,11 @@ KWTK_wasUnconscious = false;
     // Slide in slopes
     if (KTWK_slideInSlopes_opt_enabled) then {
         [KTWK_player] call KTWK_fnc_slideInSlopes;
+    };
+
+    // Display holsters
+    if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
+        [KTWK_player] call KTWK_fnc_ENW_toggleHolsterDisplay;
     };
 
     // Disable ADS if unconscious
