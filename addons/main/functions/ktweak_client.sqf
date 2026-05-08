@@ -224,6 +224,9 @@ addMissionEventHandler ["PlayerViewChanged", {
     // --------------------------------
     // Equip Next Weapon
     [_newUnit] call KTWK_fnc_ENW_addHolsters;
+    // Remove holsters from old unit
+    [_previousUnit, 1, 2] call KTWK_fnc_ENW_displayHolster;
+    [_previousUnit, 3, 2] call KTWK_fnc_ENW_displayHolster;
     // Add and remove inventory EH
     _previousUnit removeEventHandler ["InventoryOpened", KTWK_ENW_EH_invOpened];
     // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
