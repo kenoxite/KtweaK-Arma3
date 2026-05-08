@@ -93,8 +93,6 @@ call KTWK_fnc_disableAutoMapCenter;
 
 // Add inventory EH
 KTWK_player call KTWK_fnc_ENW_addInvEH;
-
-[KTWK_player] call KTWK_fnc_ENW_addHolsters;
 KTWK_player setVariable ["KTWK_invOpened", false, true];
 
 // Arsenal EH
@@ -189,8 +187,22 @@ addMissionEventHandler ["Loaded", {
 // EH - PlayerViewChanged
 addMissionEventHandler ["PlayerViewChanged", {
     params ["_previousUnit", "_newUnit", "_vehicleIn", "_oldCameraOn", "_newCameraOn", "_uav"];
-    KTWK_player = [_newUnit] call KTWK_fnc_getPlayer;
     KTWK_lastPlayer = KTWK_player;
+    KTWK_player = [_newUnit] call KTWK_fnc_getPlayer;
+
+    // --------------------------------
+    // Equip Next Weapon
+    // Remove holsters from old unit
+    {
+        [_x, 1, 2] call KTWK_fnc_ENW_displayHolster;
+        [_x, 3, 2] call KTWK_fnc_ENW_displayHolster;
+        _x removeEventHandler ["InventoryOpened", KTWK_ENW_EH_invOpened];
+    } forEach [_previousUnit, _oldCameraOn];
+    // Add and remove inventory EH
+    // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
+    KTWK_player call KTWK_fnc_ENW_addInvEH;
+
+    // --------------------------------
     if (_previousUnit isEqualTo _newUnit) exitWith {false};
     // --------------------------------
     // Remove death blur
@@ -220,17 +232,6 @@ addMissionEventHandler ["PlayerViewChanged", {
         KTWK_scr_GRdrone = [] execVM "z\ktweak\addons\main\scripts\reconDrone.sqf";
         player remoteControl (_this#1); // Make double sure control is restored to the player
     };
-
-    // --------------------------------
-    // Equip Next Weapon
-    [_newUnit] call KTWK_fnc_ENW_addHolsters;
-    // Remove holsters from old unit
-    [_previousUnit, 1, 2] call KTWK_fnc_ENW_displayHolster;
-    [_previousUnit, 3, 2] call KTWK_fnc_ENW_displayHolster;
-    // Add and remove inventory EH
-    _previousUnit removeEventHandler ["InventoryOpened", KTWK_ENW_EH_invOpened];
-    // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
-    _newUnit call KTWK_fnc_ENW_addInvEH;
 
     // --------------------------------
     // Save inventory opened status so it can be retrieved remotely
