@@ -19,5 +19,6 @@ call {
     if ("submachine" in _primWepDes) exitWith {true};
     if ("smg" in _primWepDes) exitWith {true};
     if ("smg" in _primWep) exitWith {true};
+    if ("mxc" in _primWep) exitWith {true};
     false
 };
