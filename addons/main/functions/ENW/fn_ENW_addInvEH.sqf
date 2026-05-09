@@ -30,7 +30,8 @@ KTWK_ENW_EH_invOpened = _unit addEventHandler ["InventoryOpened", {
     private _rifleHolster = _unit getVariable ["KTWK_ENW_rifleHolster", objNull];
     private _launcherHolster = _unit getVariable ["KTWK_ENW_launcherHolster", objNull];
 
-    if (!isNull _rifleHolster || {!isNull _launcherHolster}) then {
+    // Only double open if not opened by key: checking a vehicle inventory through the action menu, etc.
+    if (!(_unit getVariable ["KTWK_invOpenedByKey", false]) && (!isNull _rifleHolster || {!isNull _launcherHolster})) then {
 
         _unit removeEventHandler [_thisEvent, _thisEventHandler];
 
