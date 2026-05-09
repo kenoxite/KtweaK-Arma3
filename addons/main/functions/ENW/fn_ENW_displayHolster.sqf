@@ -12,6 +12,8 @@
 
 params [["_unit", KTWK_player], ["_type", 1], ["_mode", 0], ["_style", 0], ["_displayItem", []]];
 
+if (!([_unit] call KTWK_fnc_isHuman)) exitWith {false};
+
 private _unitVar = call {
     if (_type == 1) exitWith {"KTWK_ENW_rifleHolster"};
     if (_type == 3) exitWith {"KTWK_ENW_launcherHolster"};

@@ -20,6 +20,7 @@ private _inVehicle = !isNull objectParent _unit;
 
 // Toggle rifle holster
 if (KTWK_ENW_opt_displayRifle) then {
+    // Disable while in a vehicle to not disrupt AI driving/flying
     if (_inVehicle) exitWith {
         [_unit, 1, 2] call KTWK_fnc_ENW_displayHolster;
     };
@@ -38,6 +39,7 @@ if (KTWK_ENW_opt_displayRifle) then {
 
 // Toggle launcher holster
 if (KTWK_ENW_opt_displayLauncher) then {
+    // Disable while in a vehicle to not disrupt AI driving/flying
     if (_inVehicle) exitWith {
         [_unit, 3, 2] call KTWK_fnc_ENW_displayHolster;
     };

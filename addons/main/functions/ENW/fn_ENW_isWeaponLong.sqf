@@ -10,7 +10,7 @@ params [["_wep", ""]];
 
 if (_wep == "") exitWith {false};
 
-// Cache lowercase weapon name (Wiki: toLowerANSI is faster than toLower)
+// Cache lowercase weapon name
 private _primWep = toLowerANSI _wep;
 private _primWepType = (_primWep call BIS_fnc_itemType) param [1, ""];
 private _primWepDes = toLowerANSI (getText (configFile >> "CfgWeapons" >> _primWep >> "descriptionShort"));
@@ -19,6 +19,7 @@ private _primWepDes = toLowerANSI (getText (configFile >> "CfgWeapons" >> _primW
 call {
     // Specific exceptions
     if ("vss" in _primWep) exitWith {false};
+    if ("mx_sw" in _primWep) exitWith {false};
     
     // Description checks
     if ("sniper" in _primWepDes) exitWith {true};

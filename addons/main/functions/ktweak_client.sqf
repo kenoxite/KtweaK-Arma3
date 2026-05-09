@@ -91,22 +91,33 @@ call KTWK_fnc_disableAutoMapCenter;
 // --------------------------------
 // Equip Next Weapon
 
-// Add Put EH
-KTWK_ENW_EH_put = KTWK_player addEventHandler ["Put", {
-	params ["_unit", "_container", "_item"];
-    [_unit] call KTWK_fnc_ENW_toggleHolsterDisplay;
-}];
-
-// Add Take EH
-KTWK_ENW_EH_take = KTWK_player addEventHandler ["Take", {
-	params ["_unit", "_container", "_item"];
-    [_unit] call KTWK_fnc_ENW_toggleHolsterDisplay;
-}];
 // Add inventory EH
 KTWK_player call KTWK_fnc_ENW_addInvEH;
-
-[KTWK_player] call KTWK_fnc_ENW_addHolsters;
 KTWK_player setVariable ["KTWK_invOpened", false, true];
+
+// Catch inventory opening by key and hide holsters just before inventory opens - This finally removes the annoying double opening!
+if (isNil "KTWK_EH_ENW_gear") then {
+    KTWK_EH_ENW_gear = addUserActionEventHandler ["gear", "Activate", {
+        private _unit = KTWK_player;
+        private _rifleHolster = _unit getVariable ["KTWK_ENW_rifleHolster", objNull];
+        private _launcherHolster = _unit getVariable ["KTWK_ENW_launcherHolster", objNull];
+
+        // Hide holsters if opening the inventory
+        if (!(_unit getVariable ["KTWK_invOpened", false]) && (!isNull _rifleHolster || {!isNull _launcherHolster})) then {
+            _unit setVariable ["KTWK_invOpenedByKey", true, true];
+            // Hide holsters
+            [_unit, 1, 3] call KTWK_fnc_ENW_displayHolster;
+            [_unit, 3, 3] call KTWK_fnc_ENW_displayHolster;
+            // Wait for the inventory UI to show up and display again
+            [_unit] spawn {
+                params ["_unit"];
+                // Display holsters
+                waitUntil {!isNull (findDisplay 602)};
+                _unit setVariable ["KTWK_swappingWeapon", false];
+            };
+        };
+    }];
+};
 
 // Arsenal EH
 [missionNamespace, "arsenalPreOpen", {
@@ -152,8 +163,15 @@ KTWK_fnc_restoreStoredWeapon =
 
 // --------------------------------
 // Save inventory opened status so it can be retrieved remotely
-KTWK_EH_invOpened = KTWK_player addEventHandler ["InventoryOpened", {(_this#0) setVariable ["KTWK_invOpened", true, true]}];
-KTWK_EH_invClosed = KTWK_player addEventHandler ["InventoryClosed", {(_this#0) setVariable ["KTWK_invOpened", false, true]}];
+KTWK_EH_invOpened = KTWK_player addEventHandler ["InventoryOpened", {
+    params ["_unit"];
+    _unit setVariable ["KTWK_invOpened", true, true]
+}];
+KTWK_EH_invClosed = KTWK_player addEventHandler ["InventoryClosed", {
+    params ["_unit"];
+    _unit setVariable ["KTWK_invOpened", false, true];
+    _unit setVariable ["KTWK_invOpenedByKey", false, true];
+}];
 
 // --------------------------------
 // - ACE arsenal
@@ -200,8 +218,21 @@ addMissionEventHandler ["Loaded", {
 // EH - PlayerViewChanged
 addMissionEventHandler ["PlayerViewChanged", {
     params ["_previousUnit", "_newUnit", "_vehicleIn", "_oldCameraOn", "_newCameraOn", "_uav"];
-    KTWK_player = [_newUnit] call KTWK_fnc_getPlayer;
     KTWK_lastPlayer = KTWK_player;
+    KTWK_player = [_newUnit] call KTWK_fnc_getPlayer;
+
+    // --------------------------------
+    // Equip Next Weapon
+    // Remove holsters from old unit
+    {
+        [_x, 1, 2] call KTWK_fnc_ENW_displayHolster;
+        [_x, 3, 2] call KTWK_fnc_ENW_displayHolster;
+        _x removeEventHandler ["InventoryOpened", KTWK_ENW_EH_invOpened];
+    } forEach [_previousUnit, _oldCameraOn];
+    // Add and remove inventory EH
+    KTWK_player call KTWK_fnc_ENW_addInvEH;
+
+    // --------------------------------
     if (_previousUnit isEqualTo _newUnit) exitWith {false};
     // --------------------------------
     // Remove death blur
@@ -233,21 +264,21 @@ addMissionEventHandler ["PlayerViewChanged", {
     };
 
     // --------------------------------
-    // Equip Next Weapon
-    [_newUnit] call KTWK_fnc_ENW_addHolsters;
-    // Add and remove inventory EH
-    _previousUnit removeEventHandler ["InventoryOpened", KTWK_ENW_EH_invOpened];
-    // _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed_ENW];
-    _newUnit call KTWK_fnc_ENW_addInvEH;
-
-    // --------------------------------
     // Save inventory opened status so it can be retrieved remotely
     _previousUnit removeEventHandler ["InventoryOpened", KTWK_EH_invOpened];
     _previousUnit removeEventHandler ["InventoryClosed", KTWK_EH_invClosed];
-    KTWK_EH_invOpened = _newUnit addEventHandler ["InventoryOpened", {(_this#0) setVariable ["KTWK_invOpened", true, true]}];
-    KTWK_EH_invClosed = _newUnit addEventHandler ["InventoryClosed", {(_this#0) setVariable ["KTWK_invOpened", false, true]}];
+    KTWK_EH_invOpened = _newUnit addEventHandler ["InventoryOpened", {
+        params ["_unit"];
+        _unit setVariable ["KTWK_invOpened", true, true]
+    }];
+    KTWK_EH_invClosed = _newUnit addEventHandler ["InventoryClosed", {
+        params ["_unit"];
+        _unit setVariable ["KTWK_invOpened", false, true];
+        _unit setVariable ["KTWK_invOpenedByKey", false, true];
+    }];
     _previousUnit setVariable ["KTWK_invOpened", false, true];
     _newUnit setVariable ["KTWK_invOpened", false, true];
+    _newUnit setVariable ["KTWK_invOpenedByKey", false, true];
     
     _previousUnit setVariable ["KTWK_arsenalOpened", false, true];
     _newUnit setVariable ["KTWK_arsenalOpened", false, true];
@@ -369,6 +400,11 @@ KWTK_wasUnconscious = false;
     // Slide in slopes
     if (KTWK_slideInSlopes_opt_enabled) then {
         [KTWK_player] call KTWK_fnc_slideInSlopes;
+    };
+
+    // Display holsters
+    if !(KTWK_player getVariable ["KTWK_swappingWeapon", false]) then {
+        [KTWK_player] call KTWK_fnc_ENW_toggleHolsterDisplay;
     };
 
     // Disable ADS if unconscious
